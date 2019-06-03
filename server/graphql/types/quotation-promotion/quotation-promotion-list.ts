@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server-koa'
 
 export const QuotationPromotionList = gql`
-  input QuotationPromotionList {
+  type QuotationPromotionList {
     items: [QuotationPromotion]
     total: Int
   }
