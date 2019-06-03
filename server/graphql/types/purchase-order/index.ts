@@ -1,5 +1,7 @@
-import { PurchaseOrder } from './purchase-order'
+import { Filter, Pagination, Sorting } from '@things-factory/shell'
 import { NewPurchaseOrder } from './new-purchase-order'
+import { PurchaseOrder } from './purchase-order'
+import { PurchaseOrderList } from './purchase-order-list'
 import { PurchaseOrderPatch } from './purchase-order-patch'
 
 export const Mutation = `
@@ -22,8 +24,16 @@ export const Mutation = `
 `
 
 export const Query = `
-  purchaseOrders: [PurchaseOrder]
+  purchaseOrders(filters: [Filter], pagination: Pagination, sortings: [Sorting]): PurchaseOrderList
   purchaseOrder(id: String!): PurchaseOrder
 `
 
-export const Types = [PurchaseOrder, NewPurchaseOrder, PurchaseOrderPatch]
+export const Types = [
+  Filter,
+  Pagination,
+  Sorting,
+  PurchaseOrder,
+  NewPurchaseOrder,
+  PurchaseOrderPatch,
+  PurchaseOrderList
+]

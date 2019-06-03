@@ -1,5 +1,7 @@
-import { QuotationPromotion } from './quotation-promotion'
+import { Filter, Pagination, Sorting } from '@things-factory/shell'
 import { NewQuotationPromotion } from './new-quotation-promotion'
+import { QuotationPromotion } from './quotation-promotion'
+import { QuotationPromotionList } from './quotation-promotion-list'
 import { QuotationPromotionPatch } from './quotation-promotion-patch'
 
 export const Mutation = `
@@ -22,8 +24,16 @@ export const Mutation = `
 `
 
 export const Query = `
-  quotationPromotions: [QuotationPromotion]
+  quotationPromotions(filters: [Filter], pagination: Pagination, sortings: [Sorting]): QuotationPromotionList
   quotationPromotion(id: String!): QuotationPromotion
 `
 
-export const Types = [QuotationPromotion, NewQuotationPromotion, QuotationPromotionPatch]
+export const Types = [
+  Filter,
+  Pagination,
+  Sorting,
+  QuotationPromotion,
+  NewQuotationPromotion,
+  QuotationPromotionPatch,
+  QuotationPromotionList
+]

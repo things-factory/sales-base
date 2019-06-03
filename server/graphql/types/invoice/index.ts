@@ -1,6 +1,8 @@
+import { Filter, Pagination, Sorting } from '@things-factory/shell'
 import { Invoice } from './invoice'
-import { NewInvoice } from './new-invoice'
+import { InvoiceList } from './invoice-list'
 import { InvoicePatch } from './invoice-patch'
+import { NewInvoice } from './new-invoice'
 
 export const Mutation = `
   createInvoice (
@@ -22,8 +24,8 @@ export const Mutation = `
 `
 
 export const Query = `
-  invoices: [Invoice]
+  invoices(filters: [Filter], pagination: Pagination, sortings: [Sorting]): InvoiceList
   invoice(id: String!): Invoice
 `
 
-export const Types = [Invoice, NewInvoice, InvoicePatch]
+export const Types = [Filter, Pagination, Sorting, Invoice, NewInvoice, InvoicePatch, InvoiceList]

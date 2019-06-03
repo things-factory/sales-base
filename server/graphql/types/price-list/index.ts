@@ -1,5 +1,7 @@
-import { PriceList } from './price-list'
+import { Filter, Pagination, Sorting } from '@things-factory/shell'
 import { NewPriceList } from './new-price-list'
+import { PriceList } from './price-list'
+import { PriceListList } from './price-list-list'
 import { PriceListPatch } from './price-list-patch'
 
 export const Mutation = `
@@ -22,8 +24,8 @@ export const Mutation = `
 `
 
 export const Query = `
-  priceLists: [PriceList]
+  priceLists(filters: [Filter], pagination: Pagination, sortings: [Sorting]): PriceListList
   priceList(id: String!): PriceList
 `
 
-export const Types = [PriceList, NewPriceList, PriceListPatch]
+export const Types = [Filter, Pagination, Sorting, PriceList, NewPriceList, PriceListPatch, PriceListList]

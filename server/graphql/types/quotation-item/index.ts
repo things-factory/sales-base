@@ -1,5 +1,7 @@
-import { QuotationItem } from './quotation-item'
+import { Filter, Pagination, Sorting } from '@things-factory/shell'
 import { NewQuotationItem } from './new-quotation-item'
+import { QuotationItem } from './quotation-item'
+import { QuotationItemList } from './quotation-item-list'
 import { QuotationItemPatch } from './quotation-item-patch'
 
 export const Mutation = `
@@ -22,8 +24,16 @@ export const Mutation = `
 `
 
 export const Query = `
-  quotationItems: [QuotationItem]
+  quotationItems(filters: [Filter], pagination: Pagination, sortings: [Sorting]): QuotationItemList
   quotationItem(id: String!): QuotationItem
 `
 
-export const Types = [QuotationItem, NewQuotationItem, QuotationItemPatch]
+export const Types = [
+  Filter,
+  Pagination,
+  Sorting,
+  QuotationItem,
+  NewQuotationItem,
+  QuotationItemPatch,
+  QuotationItemList
+]
