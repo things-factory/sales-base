@@ -1,12 +1,22 @@
-import { Entity, Index, Column, OneToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { Domain, DomainBaseEntity } from '@things-factory/shell'
-import { QuotationItem } from './quotation-item'
+import { User } from '@things-factory/auth-base'
 import { Customer } from '@things-factory/biz-base'
+import { Domain } from '@things-factory/shell'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm'
+import { QuotationItem } from './quotation-item'
 
 @Entity('quotations')
 @Index('ix_quotation_0', (quotation: Quotation) => [quotation.domain, quotation.name])
 @Index('ix_quotation_1', (quotation: Quotation) => [quotation.domain, quotation.customer, quotation.issuedOn])
-export class Quotation extends DomainBaseEntity {
+export class Quotation {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
@@ -53,4 +63,20 @@ export class Quotation extends DomainBaseEntity {
     nullable: true
   })
   description: string
+
+  @ManyToOne(type => User, {
+    nullable: true
+  })
+  creator: User
+
+  @ManyToOne(type => User, {
+    nullable: true
+  })
+  updater: User
+
+  @CreateDateColumn()
+  createdAt: Date
+
+  @UpdateDateColumn()
+  updatedAt: Date
 }

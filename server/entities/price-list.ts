@@ -1,10 +1,11 @@
+import { User } from '@things-factory/auth-base'
 import { Product } from '@things-factory/product-base'
-import { Domain, DomainBaseEntity } from '@things-factory/shell'
-import { Column, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Domain } from '@things-factory/shell'
+import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 @Entity('price-lists')
 @Index('ix_price-list_0', (priceList: PriceList) => [priceList.domain, priceList.name], { unique: true })
-export class PriceList extends DomainBaseEntity {
+export class PriceList {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
@@ -43,4 +44,20 @@ export class PriceList extends DomainBaseEntity {
     nullable: true
   })
   description: string
+
+  @ManyToOne(type => User, {
+    nullable: true
+  })
+  creator: User
+
+  @ManyToOne(type => User, {
+    nullable: true
+  })
+  updater: User
+
+  @CreateDateColumn()
+  createdAt: Date
+
+  @UpdateDateColumn()
+  updatedAt: Date
 }

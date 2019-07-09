@@ -1,5 +1,6 @@
-import { Domain, DomainBaseEntity } from '@things-factory/shell'
-import { Column, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { User } from '@things-factory/auth-base'
+import { Domain } from '@things-factory/shell'
+import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 @Entity('quotation-promotions')
 @Index(
@@ -7,7 +8,7 @@ import { Column, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeor
   (quotationPromotion: QuotationPromotion) => [quotationPromotion.domain, quotationPromotion.name],
   { unique: true }
 )
-export class QuotationPromotion extends DomainBaseEntity {
+export class QuotationPromotion {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
@@ -27,4 +28,20 @@ export class QuotationPromotion extends DomainBaseEntity {
     nullable: true
   })
   description: string
+
+  @ManyToOne(type => User, {
+    nullable: true
+  })
+  creator: User
+
+  @ManyToOne(type => User, {
+    nullable: true
+  })
+  updater: User
+
+  @CreateDateColumn()
+  createdAt: Date
+
+  @UpdateDateColumn()
+  updatedAt: Date
 }

@@ -1,6 +1,17 @@
-import { Entity, Index, Column, ManyToOne, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm'
-import { Domain, DomainBaseEntity } from '@things-factory/shell'
+import { User } from '@things-factory/auth-base'
 import { Customer } from '@things-factory/biz-base'
+import { Domain } from '@things-factory/shell'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm'
 import { Quotation } from './quotation'
 
 @Entity('purchase-orders')
@@ -9,7 +20,7 @@ import { Quotation } from './quotation'
   purchaseOrder.name,
   purchaseOrder.customer
 ])
-export class PurchaseOrder extends DomainBaseEntity {
+export class PurchaseOrder {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
@@ -36,4 +47,20 @@ export class PurchaseOrder extends DomainBaseEntity {
     nullable: true
   })
   description: string
+
+  @ManyToOne(type => User, {
+    nullable: true
+  })
+  creator: User
+
+  @ManyToOne(type => User, {
+    nullable: true
+  })
+  updater: User
+
+  @CreateDateColumn()
+  createdAt: Date
+
+  @UpdateDateColumn()
+  updatedAt: Date
 }

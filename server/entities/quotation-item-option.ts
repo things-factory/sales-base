@@ -1,5 +1,6 @@
-import { Entity, Index, Column, OneToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { Domain, DomainBaseEntity } from '@things-factory/shell'
+import { User } from '@things-factory/auth-base'
+import { Domain } from '@things-factory/shell'
+import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { QuotationItem } from './quotation-item'
 
 @Entity('quotation-item-options')
@@ -8,7 +9,7 @@ import { QuotationItem } from './quotation-item'
   (quotationItemOption: QuotationItemOption) => [quotationItemOption.domain, quotationItemOption.name],
   { unique: true }
 )
-export class QuotationItemOption extends DomainBaseEntity {
+export class QuotationItemOption {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
@@ -32,4 +33,20 @@ export class QuotationItemOption extends DomainBaseEntity {
     nullable: true
   })
   description: string
+
+  @ManyToOne(type => User, {
+    nullable: true
+  })
+  creator: User
+
+  @ManyToOne(type => User, {
+    nullable: true
+  })
+  updater: User
+
+  @CreateDateColumn()
+  createdAt: Date
+
+  @UpdateDateColumn()
+  updatedAt: Date
 }
