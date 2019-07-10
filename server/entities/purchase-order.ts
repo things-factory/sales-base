@@ -14,7 +14,7 @@ import {
 } from 'typeorm'
 import { Quotation } from './quotation'
 
-@Entity('purchase-orders')
+@Entity()
 @Index('ix_purchase-order_0', (purchaseOrder: PurchaseOrder) => [
   purchaseOrder.domain,
   purchaseOrder.name,

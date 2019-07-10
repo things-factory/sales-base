@@ -2,7 +2,7 @@ import { User } from '@things-factory/auth-base'
 import { Domain } from '@things-factory/shell'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
-@Entity('quotation-promotions')
+@Entity()
 @Index(
   'ix_quotation-promotion_0',
   (quotationPromotion: QuotationPromotion) => [quotationPromotion.domain, quotationPromotion.name],

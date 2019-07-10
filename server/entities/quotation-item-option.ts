@@ -3,7 +3,7 @@ import { Domain } from '@things-factory/shell'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { QuotationItem } from './quotation-item'
 
-@Entity('quotation-item-options')
+@Entity()
 @Index(
   'ix_quotation-item-option_0',
   (quotationItemOption: QuotationItemOption) => [quotationItemOption.domain, quotationItemOption.name],

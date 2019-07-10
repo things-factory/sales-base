@@ -14,7 +14,7 @@ import {
 import { Quotation } from './quotation'
 import { QuotationItemOption } from './quotation-item-option'
 
-@Entity('quotation-items')
+@Entity()
 @Index('ix_quotation-item_0', (quotationItem: QuotationItem) => [
   quotationItem.domain,
   quotationItem.quotation,
