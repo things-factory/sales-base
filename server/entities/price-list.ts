@@ -12,7 +12,7 @@ export class PriceList {
   @ManyToOne(type => Domain)
   domain: Domain
 
-  @Column('text')
+  @Column()
   name: string
 
   @Column({
@@ -24,12 +24,12 @@ export class PriceList {
   @ManyToOne(type => Product)
   product: Product
 
-  @Column('text', {
+  @Column({
     nullable: true
   })
   optionName: string
 
-  @Column('text', {
+  @Column({
     nullable: true
   })
   optionValue: string
@@ -40,7 +40,7 @@ export class PriceList {
   })
   price: number
 
-  @Column('text', {
+  @Column({
     nullable: true
   })
   description: string

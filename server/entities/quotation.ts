@@ -23,10 +23,10 @@ export class Quotation {
   @ManyToOne(type => Domain)
   domain: Domain
 
-  @Column('text')
+  @Column()
   name: string
 
-  @Column('text')
+  @Column()
   customer: Customer
 
   @Column('date')
@@ -35,13 +35,13 @@ export class Quotation {
   @Column('date')
   expiresOn: Date
 
-  @Column('text')
+  @Column()
   version: string
 
   @OneToMany(type => QuotationItem, quotationItem => quotationItem.quotation)
   items: QuotationItem[]
 
-  @Column('text')
+  @Column()
   currency: string
 
   @Column({
@@ -56,10 +56,10 @@ export class Quotation {
   })
   totalPrice: number
 
-  @Column('text')
+  @Column()
   state: string
 
-  @Column('text', {
+  @Column({
     nullable: true
   })
   description: string

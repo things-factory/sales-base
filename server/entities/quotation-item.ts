@@ -30,7 +30,7 @@ export class QuotationItem {
   @Column('float')
   qty: number
 
-  @Column('text')
+  @Column()
   unit: string
 
   @Column({
@@ -54,7 +54,7 @@ export class QuotationItem {
   @OneToMany(type => QuotationItemOption, quotationItemOption => quotationItemOption.quotationItem)
   options: QuotationItemOption[]
 
-  @Column('text', {
+  @Column({
     nullable: true
   })
   description: string

@@ -15,7 +15,7 @@ export class QuotationPromotion {
   @ManyToOne(type => Domain)
   domain: Domain
 
-  @Column('text')
+  @Column()
   name: string
 
   @Column('datetime')
@@ -24,7 +24,7 @@ export class QuotationPromotion {
   @Column('datetime')
   endAt: Date
 
-  @Column('text', {
+  @Column({
     nullable: true
   })
   description: string

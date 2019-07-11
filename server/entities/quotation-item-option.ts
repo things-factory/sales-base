@@ -16,12 +16,12 @@ export class QuotationItemOption {
   @ManyToOne(type => Domain)
   domain: Domain
 
-  @Column('text', {
+  @Column({
     nullable: true
   })
   name: string
 
-  @Column('text', {
+  @Column({
     nullable: true
   })
   value: string
@@ -29,7 +29,7 @@ export class QuotationItemOption {
   @ManyToOne(type => QuotationItem, quotationItem => quotationItem.options)
   quotationItem: QuotationItem
 
-  @Column('text', {
+  @Column({
     nullable: true
   })
   description: string

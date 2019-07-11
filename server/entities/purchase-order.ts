@@ -27,7 +27,7 @@ export class PurchaseOrder {
   @ManyToOne(type => Domain)
   domain: Domain
 
-  @Column('text')
+  @Column()
   name: string
 
   @Column('date')
@@ -37,13 +37,13 @@ export class PurchaseOrder {
   @JoinColumn()
   quotation: Quotation
 
-  @Column('text')
+  @Column()
   customer: Customer
 
-  @Column('text')
+  @Column()
   state: string
 
-  @Column('text', {
+  @Column({
     nullable: true
   })
   description: string

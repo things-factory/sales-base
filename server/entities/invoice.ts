@@ -23,10 +23,10 @@ export class Invoice {
   @ManyToOne(type => Domain)
   domain: Domain
 
-  @Column('text')
+  @Column()
   name: string
 
-  @Column('text')
+  @Column()
   customer: Customer
 
   @Column('date')
@@ -35,17 +35,17 @@ export class Invoice {
   @Column('date')
   paymentDue: Date
 
-  @Column('text')
+  @Column()
   version: string
 
   @OneToOne(type => PurchaseOrder)
   @JoinColumn()
   purchaseOrder: PurchaseOrder
 
-  @Column('text')
+  @Column()
   state: string
 
-  @Column('text', {
+  @Column({
     nullable: true
   })
   description: string
