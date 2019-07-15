@@ -26,7 +26,7 @@ export class Invoice {
   @Column()
   name: string
 
-  @Column()
+  @ManyToOne(type => Customer)
   customer: Customer
 
   @Column('date')
