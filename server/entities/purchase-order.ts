@@ -37,7 +37,7 @@ export class PurchaseOrder {
   @JoinColumn()
   quotation: Quotation
 
-  @Column()
+  @ManyToOne(type => Customer)
   customer: Customer
 
   @Column()
