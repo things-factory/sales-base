@@ -4,7 +4,7 @@ export const NewQuotationItemOption = gql`
   input NewQuotationItemOption {
     name: String!
     value: String
-    quotationItem: QuotationItem
+    quotationItem: String
     description: String
   }
 `

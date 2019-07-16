@@ -6,8 +6,8 @@ export const QuotationItemPatch = gql`
     unit: String
     price: Float
     amount: Float
-    product: Product
-    quotation: Quotation
-    options: [QuotationItemOption]
+    product: String
+    quotation: String
+    options: [String]
   }
 `
