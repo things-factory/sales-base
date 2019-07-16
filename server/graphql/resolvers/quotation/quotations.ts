@@ -1,12 +1,17 @@
+import { buildQuery, ListParam } from '@things-factory/shell'
 import { getRepository } from 'typeorm'
 import { Quotation } from '../../../entities'
-import { ListParam, buildQuery } from '@things-factory/shell'
 
 export const quotationsResolver = {
-  async quotations(_: any, params: ListParam, context: any) {
+  async quotations(_: any, params: ListParam) {
     const queryBuilder = getRepository(Quotation).createQueryBuilder()
     buildQuery(queryBuilder, params)
-    const [items, total] = await queryBuilder.getManyAndCount()
+    const [items, total] = await queryBuilder
+      .leftJoinAndSelect('Quotation.customer', 'Customer')
+      .leftJoinAndSelect('Quotation.items', 'Items')
+      .leftJoinAndSelect('Quotation.creator', 'Creator')
+      .leftJoinAndSelect('Quotation.updater', 'Updater')
+      .getManyAndCount()
 
     return { items, total }
   }

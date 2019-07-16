@@ -2,11 +2,10 @@ import { getRepository } from 'typeorm'
 import { Quotation } from '../../../entities'
 
 export const quotationResolver = {
-  async quotation(_, { id }, context, info) {
-    const repository = getRepository(Quotation)
-
-    return await repository.findOne(
-      { id }
-    )
+  async quotation(_: any, { name }, context: any) {
+    return await getRepository(Quotation).findOne({
+      where: { domain: context.domain, name },
+      relations: ['domain', 'customer', 'items', 'creator', 'updater']
+    })
   }
 }

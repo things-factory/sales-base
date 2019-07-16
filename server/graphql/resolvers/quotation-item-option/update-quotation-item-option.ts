@@ -2,14 +2,14 @@ import { getRepository } from 'typeorm'
 import { QuotationItemOption } from '../../../entities'
 
 export const updateQuotationItemOption = {
-  async updateQuotationItemOption(_, { id, patch }) {
+  async updateQuotationItemOption(_: any, { name, patch }, context: any) {
     const repository = getRepository(QuotationItemOption)
-
-    const quotationItemOption = await repository.findOne({ id })
+    const quotationItemOption = await repository.findOne({ domain: context.domain, name })
 
     return await repository.save({
       ...quotationItemOption,
-      ...patch
+      ...patch,
+      updaterId: context.state.user.id
     })
   }
 }

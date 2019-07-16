@@ -1,12 +1,17 @@
+import { buildQuery, ListParam } from '@things-factory/shell'
 import { getRepository } from 'typeorm'
 import { PriceList } from '../../../entities'
-import { ListParam, buildQuery } from '@things-factory/shell'
 
 export const priceListsResolver = {
-  async priceLists(_: any, params: ListParam, context: any) {
+  async priceLists(_: any, params: ListParam) {
     const queryBuilder = getRepository(PriceList).createQueryBuilder()
     buildQuery(queryBuilder, params)
-    const [items, total] = await queryBuilder.getManyAndCount()
+    const [items, total] = await queryBuilder
+      .leftJoinAndSelect('PriceList.domain', 'Domain')
+      .leftJoinAndSelect('PriceList.product', 'Product')
+      .leftJoinAndSelect('PriceList.creator', 'Creator')
+      .leftJoinAndSelect('PriceList.updater', 'Updater')
+      .getManyAndCount()
 
     return { items, total }
   }

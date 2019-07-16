@@ -3,10 +3,14 @@ import { getRepository } from 'typeorm'
 import { QuotationPromotion } from '../../../entities'
 
 export const quotationPromotionsResolver = {
-  async quotationPromotions(_: any, params: ListParam, context: any) {
+  async quotationPromotions(_: any, params: ListParam) {
     const queryBuilder = getRepository(QuotationPromotion).createQueryBuilder()
     buildQuery(queryBuilder, params)
-    const [items, total] = await queryBuilder.getManyAndCount()
+    const [items, total] = await queryBuilder
+      .leftJoinAndSelect('QuotationPromotion.domain', 'Domain')
+      .leftJoinAndSelect('QuotationPromotion.creator', 'Creator')
+      .leftJoinAndSelect('QuotationPromotion.updater', 'Updater')
+      .getManyAndCount()
     return { items, total }
   }
 }

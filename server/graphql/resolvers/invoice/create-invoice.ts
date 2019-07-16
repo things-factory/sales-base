@@ -4,13 +4,12 @@ import { getRepository } from 'typeorm'
 import { Invoice } from '../../../entities'
 
 export const createInvoice = {
-  async createInvoice(_, { invoice: attrs }) {
-    const repository = getRepository(Invoice)
-    const newInvoice = {
-      id: uuid(),
-      ...attrs
-    }
-
-    return await repository.save(newInvoice)
+  async createInvoice(_: any, { invoice }, context: any) {
+    return await getRepository(Invoice).save({
+      domain: context.domain,
+      ...invoice,
+      creatorId: context.state.user.id,
+      updaterId: context.state.user.id
+    })
   }
 }

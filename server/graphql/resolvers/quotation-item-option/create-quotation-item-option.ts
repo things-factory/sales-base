@@ -1,16 +1,13 @@
-import uuid from 'uuid/v4'
-
 import { getRepository } from 'typeorm'
 import { QuotationItemOption } from '../../../entities'
 
 export const createQuotationItemOption = {
-  async createQuotationItemOption(_, { quotationItemOption: attrs }) {
-    const repository = getRepository(QuotationItemOption)
-    const newQuotationItemOption = {
-      id: uuid(),
-      ...attrs
-    }
-
-    return await repository.save(newQuotationItemOption)
+  async createQuotationItemOption(_: any, { quotationItemOption }, context: any) {
+    return await getRepository(QuotationItemOption).save({
+      domain: context.domain,
+      ...quotationItemOption,
+      creatorId: context.state.user.id,
+      updaterId: context.state.user.id
+    })
   }
 }

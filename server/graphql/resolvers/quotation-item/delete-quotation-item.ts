@@ -2,9 +2,7 @@ import { getRepository } from 'typeorm'
 import { QuotationItem } from '../../../entities'
 
 export const deleteQuotationItem = {
-  async deleteQuotationItem(_, { id }) {
-    const repository = getRepository(QuotationItem)
-
-    return await repository.delete(id)
+  async deleteQuotationItem(_: any, { id }, context: any) {
+    return await getRepository(QuotationItem).delete({ domain: context.domain, id })
   }
 }

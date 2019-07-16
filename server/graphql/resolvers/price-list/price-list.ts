@@ -2,11 +2,10 @@ import { getRepository } from 'typeorm'
 import { PriceList } from '../../../entities'
 
 export const priceListResolver = {
-  async priceList(_, { id }, context, info) {
-    const repository = getRepository(PriceList)
-
-    return await repository.findOne(
-      { id }
-    )
+  async priceList(_: any, { name }, context: any) {
+    return await getRepository(PriceList).findOne({
+      where: { domain: context.domain, name },
+      relations: ['domain', 'product', 'creator', 'updater']
+    })
   }
 }

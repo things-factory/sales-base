@@ -2,14 +2,14 @@ import { getRepository } from 'typeorm'
 import { QuotationPromotion } from '../../../entities'
 
 export const updateQuotationPromotion = {
-  async updateQuotationPromotion(_, { id, patch }) {
+  async updateQuotationPromotion(_: any, { name, patch }, context: any) {
     const repository = getRepository(QuotationPromotion)
-
-    const quotationPromotion = await repository.findOne({ id })
+    const quotationPromotion = await repository.findOne({ domain: context.domain, name })
 
     return await repository.save({
       ...quotationPromotion,
-      ...patch
+      ...patch,
+      updaterId: context.state.user.id
     })
   }
 }

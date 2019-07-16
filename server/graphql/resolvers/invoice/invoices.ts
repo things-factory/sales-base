@@ -1,10 +1,19 @@
+import { buildQuery, ListParam } from '@things-factory/shell'
 import { getRepository } from 'typeorm'
 import { Invoice } from '../../../entities'
 
 export const invoicesResolver = {
-  async invoices() {
-    const repository = getRepository(Invoice)
+  async invoices(_: any, params: ListParam) {
+    const queryBuilder = getRepository(Invoice).createQueryBuilder()
+    buildQuery(queryBuilder, params)
+    const [items, total] = await queryBuilder
+      .leftJoinAndSelect('Invoice.domain', 'Domain')
+      .leftJoinAndSelect('Invoice.customer', 'Customer')
+      .leftJoinAndSelect('Invoice.purchaseOrder', 'PurchaseOrder')
+      .leftJoinAndSelect('Invoice.creator', 'Creator')
+      .leftJoinAndSelect('Invoice.updater', 'Updater')
+      .getManyAndCount()
 
-    return await repository.find()
+    return { items, total }
   }
 }
