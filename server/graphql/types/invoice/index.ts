@@ -10,22 +10,18 @@ export const Mutation = `
   ): Invoice
 
   updateInvoice (
-    id: String!
+    name: String!
     patch: InvoicePatch!
   ): Invoice
 
   deleteInvoice (
-    id: String!
-  ): Invoice
-
-  publishInvoice (
-    id: String!
+    name: String!
   ): Invoice
 `
 
 export const Query = `
   invoices(filters: [Filter], pagination: Pagination, sortings: [Sorting]): InvoiceList
-  invoice(id: String!): Invoice
+  invoice(name: String!): Invoice
 `
 
 export const Types = [Filter, Pagination, Sorting, Invoice, NewInvoice, InvoicePatch, InvoiceList]

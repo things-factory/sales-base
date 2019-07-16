@@ -10,22 +10,18 @@ export const Mutation = `
   ): PriceList
 
   updatePriceList (
-    id: String!
+    name: String!
     patch: PriceListPatch!
   ): PriceList
 
   deletePriceList (
-    id: String!
-  ): PriceList
-
-  publishPriceList (
-    id: String!
+    name: String!
   ): PriceList
 `
 
 export const Query = `
   priceLists(filters: [Filter], pagination: Pagination, sortings: [Sorting]): PriceListList
-  priceList(id: String!): PriceList
+  priceList(name: String!): PriceList
 `
 
 export const Types = [Filter, Pagination, Sorting, PriceList, NewPriceList, PriceListPatch, PriceListList]

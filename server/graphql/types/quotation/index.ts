@@ -10,22 +10,18 @@ export const Mutation = `
   ): Quotation
 
   updateQuotation (
-    id: String!
+    name: String!
     patch: QuotationPatch!
   ): Quotation
 
   deleteQuotation (
-    id: String!
-  ): Quotation
-
-  publishQuotation (
-    id: String!
+    name: String!
   ): Quotation
 `
 
 export const Query = `
   quotations(filters: [Filter], pagination: Pagination, sortings: [Sorting]): QuotationList
-  quotation(id: String!): Quotation
+  quotation(name: String!): Quotation
 `
 
 export const Types = [Filter, Pagination, Sorting, Quotation, NewQuotation, QuotationPatch, QuotationList]

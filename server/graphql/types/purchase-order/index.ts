@@ -10,22 +10,18 @@ export const Mutation = `
   ): PurchaseOrder
 
   updatePurchaseOrder (
-    id: String!
+    name: String!
     patch: PurchaseOrderPatch!
   ): PurchaseOrder
 
   deletePurchaseOrder (
-    id: String!
-  ): PurchaseOrder
-
-  publishPurchaseOrder (
-    id: String!
+    name: String!
   ): PurchaseOrder
 `
 
 export const Query = `
   purchaseOrders(filters: [Filter], pagination: Pagination, sortings: [Sorting]): PurchaseOrderList
-  purchaseOrder(id: String!): PurchaseOrder
+  purchaseOrder(name: String!): PurchaseOrder
 `
 
 export const Types = [

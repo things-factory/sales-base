@@ -10,22 +10,18 @@ export const Mutation = `
   ): QuotationPromotion
 
   updateQuotationPromotion (
-    id: String!
+    name: String!
     patch: QuotationPromotionPatch!
   ): QuotationPromotion
 
   deleteQuotationPromotion (
-    id: String!
-  ): QuotationPromotion
-
-  publishQuotationPromotion (
-    id: String!
+    name: String!
   ): QuotationPromotion
 `
 
 export const Query = `
   quotationPromotions(filters: [Filter], pagination: Pagination, sortings: [Sorting]): QuotationPromotionList
-  quotationPromotion(id: String!): QuotationPromotion
+  quotationPromotion(name: String!): QuotationPromotion
 `
 
 export const Types = [

@@ -17,10 +17,6 @@ export const Mutation = `
   deleteQuotationItem (
     id: String!
   ): QuotationItem
-
-  publishQuotationItem (
-    id: String!
-  ): QuotationItem
 `
 
 export const Query = `

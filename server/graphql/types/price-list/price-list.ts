@@ -3,8 +3,17 @@ import { gql } from 'apollo-server-koa'
 export const PriceList = gql`
   type PriceList {
     id: String
-    name: String
     domain: Domain
+    name: String
+    revisionPriceOn: String
+    product: Product
+    optionName: String
+    optionValue: String
+    price: Float
     description: String
+    creator: User
+    updater: User
+    createdAt: String
+    updatedAt: String
   }
 `

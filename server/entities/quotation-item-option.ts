@@ -16,9 +16,7 @@ export class QuotationItemOption {
   @ManyToOne(type => Domain)
   domain: Domain
 
-  @Column({
-    nullable: true
-  })
+  @Column()
   name: string
 
   @Column({
