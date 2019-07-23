@@ -1,0 +1,20 @@
+{
+  "field.customer": "pelanggan",
+  "field.issued_on": "dikeluarkan pada",
+  "field.payment_due": "bayaran perlu dibayar pada",
+  "field.version": "versi",
+  "field.purchase_order": "beli pesanan",
+  "field.revision_price_on": "harga disemak pada",
+  "field.option_name": "nama pilihan",
+  "field.option_value": "nilai pilihan",
+  "field.type": "jenis",
+  "field.price": "harga",
+  "field.quotation": "sebut harga",
+  "field.value": "nilai",
+  "field.quotation_item": "item sebut harga",
+  "field.amount": "jumlah",
+  "field.options": "pilihan-pilihan",
+  "field.unit": "unit",
+  "field.start_at": "bermula pada",
+  "field.end_at": "berakhir pada"
+}
