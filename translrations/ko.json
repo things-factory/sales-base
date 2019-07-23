@@ -1,0 +1,20 @@
+{
+  "field.customer": "고객",
+  "field.issued_on": "발행일",
+  "field.payment_due": "지불 기한",
+  "field.version": "버젼",
+  "field.purchase_order": "구매 주문",
+  "field.revision_price_on": "수정 가격",
+  "field.option_name": "옵션 이름",
+  "field.option_value": "옵션 값",
+  "field.type": "유형",
+  "field.price": "가격",
+  "field.quotation": "견적서",
+  "field.value": "가격",
+  "field.quotation_item": "견적 항목",
+  "field.amount": "총액",
+  "field.options": "옵션",
+  "field.unit": "단위",
+  "field.start_at": "시작 시간",
+  "field.end_at": "완료 시간"
+}

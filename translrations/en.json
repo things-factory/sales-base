@@ -1,0 +1,20 @@
+{
+  "field.customer": "customer",
+  "field.issued_on": "issued on",
+  "field.payment_due": "payment due",
+  "field.version": "version",
+  "field.purchase_order": "purchase order",
+  "field.revision_price_on": "revision_price_on",
+  "field.option_name": "option_name",
+  "field.option_value": "option_value",
+  "field.type": "type",
+  "field.price": "price",
+  "field.quotation": "quotation",
+  "field.value": "value",
+  "field.quotation_item": "quotation item",
+  "field.amount": "amount",
+  "field.options": "options",
+  "field.unit": "unit",
+  "field.start_at": "start at",
+  "field.end_at": "end at"
+}
