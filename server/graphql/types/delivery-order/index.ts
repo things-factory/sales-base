@@ -10,18 +10,26 @@ export const Mutation = `
   ): DeliveryOrder
 
   updateDeliveryOrder (
-    id: String!
+    name: String!
     patch: DeliveryOrderPatch!
   ): DeliveryOrder
 
   deleteDeliveryOrder (
-    id: String!
+    name: String!
   ): DeliveryOrder
 `
 
 export const Query = `
   deliveryOrders(filters: [Filter], pagination: Pagination, sortings: [Sorting]): DeliveryOrderList
-  deliveryOrder(id: String!): DeliveryOrder
+  deliveryOrder(name: String!): DeliveryOrder
 `
 
-export const Types = [Filter, Pagination, Sorting, DeliveryOrder, NewDeliveryOrder, DeliveryOrderPatch, DeliveryOrderList]
+export const Types = [
+  Filter,
+  Pagination,
+  Sorting,
+  DeliveryOrder,
+  NewDeliveryOrder,
+  DeliveryOrderPatch,
+  DeliveryOrderList
+]

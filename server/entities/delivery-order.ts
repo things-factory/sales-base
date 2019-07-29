@@ -1,18 +1,20 @@
-import {
-  CreateDateColumn,
-  UpdateDateColumn,
-  Entity,
-  Index,
-  Column,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  OneToOne
-} from 'typeorm'
+import { User } from '@things-factory/auth-base'
 import { Customer } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
-import { User } from '@things-factory/auth-base'
 import { TransportOrder } from '@things-factory/transport-base'
 import { Product } from '@things-factory/product-base'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  ManyToMany,
+  JoinTable
+} from 'typeorm'
 
 @Entity('delivery-orders')
 @Index('ix_delivery-order_0', (deliveryOrder: DeliveryOrder) => [deliveryOrder.domain, deliveryOrder.name], {
@@ -40,8 +42,9 @@ export class DeliveryOrder {
   @ManyToOne(type => Customer)
   customer: Customer
 
-  @ManyToOne(type => Product)
-  product: Product
+  @ManyToMany(type => Product)
+  @JoinTable({ name: 'delivery_orders_products' })
+  products: Product[]
 
   @Column()
   state: string

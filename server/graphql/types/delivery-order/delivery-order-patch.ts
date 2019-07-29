@@ -3,9 +3,12 @@ import { gql } from 'apollo-server-koa'
 export const DeliveryOrderPatch = gql`
   input DeliveryOrderPatch {
     name: String
+    type: String
     issuedOn: String
-    customer: String
     state: String
+    customer: String
+    product: String
+    transportOrder: String
     description: String
   }
 `
