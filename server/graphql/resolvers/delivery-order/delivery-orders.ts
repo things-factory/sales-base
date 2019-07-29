@@ -3,13 +3,16 @@ import { getRepository } from 'typeorm'
 import { DeliveryOrder } from '../../../entities'
 
 export const deliveryOrdersResolver = {
-  async purchaseOrders(_: any, params: ListParam) {
+  async deliveryOrders(_: any, params: ListParam) {
     const queryBuilder = getRepository(DeliveryOrder).createQueryBuilder()
     buildQuery(queryBuilder, params)
     const [items, total] = await queryBuilder
-      .leftJoinAndSelect('PurchaseOrder.domain', 'Domain')
-      .leftJoinAndSelect('PurchaseOrder.creator', 'Creator')
-      .leftJoinAndSelect('PurchaseOrder.updater', 'Updater')
+      .leftJoinAndSelect('DeliveryOrder.domain', 'Domain')
+      .leftJoinAndSelect('DeliveryOrder.customer', 'Customer')
+      .leftJoinAndSelect('DeliveryOrder.transportOrder', 'TransportOrder')
+      .leftJoinAndSelect('DeliveryOrder.product', 'Product')
+      .leftJoinAndSelect('DeliveryOrder.creator', 'Creator')
+      .leftJoinAndSelect('DeliveryOrder.updater', 'Updater')
       .getManyAndCount()
 
     return { items, total }
