@@ -5,6 +5,7 @@ import * as QuotationPromotion from './quotation-promotion'
 import * as Invoice from './invoice'
 import * as PriceList from './price-list'
 import * as PurchaseOrder from './purchase-order'
+import * as DeliveryOrder from './delivery-order'
 
 export const queries = [
   Quotation.Query,
@@ -13,7 +14,8 @@ export const queries = [
   QuotationPromotion.Query,
   Invoice.Query,
   PriceList.Query,
-  PurchaseOrder.Query
+  PurchaseOrder.Query,
+  DeliveryOrder.Query
 ]
 
 export const mutations = [
@@ -23,7 +25,8 @@ export const mutations = [
   QuotationPromotion.Mutation,
   Invoice.Mutation,
   PriceList.Mutation,
-  PurchaseOrder.Mutation
+  PurchaseOrder.Mutation,
+  DeliveryOrder.Mutation
 ]
 
 export const types = [
@@ -33,5 +36,6 @@ export const types = [
   ...QuotationPromotion.Types,
   ...Invoice.Types,
   ...PriceList.Types,
-  ...PurchaseOrder.Types
+  ...PurchaseOrder.Types,
+  ...DeliveryOrder.Types
 ]

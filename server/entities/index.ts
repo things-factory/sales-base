@@ -5,6 +5,7 @@ import { QuotationPromotion } from './quotation-promotion'
 import { Invoice } from './invoice'
 import { PriceList } from './price-list'
 import { PurchaseOrder } from './purchase-order'
+import { DeliveryOrder } from './delivery-order'
 
 export const entities = [
   Quotation,
@@ -13,7 +14,17 @@ export const entities = [
   QuotationPromotion,
   Invoice,
   PriceList,
-  PurchaseOrder
+  PurchaseOrder,
+  DeliveryOrder
 ]
 
-export { Quotation, QuotationItem, QuotationItemOption, QuotationPromotion, Invoice, PriceList, PurchaseOrder }
+export {
+  Quotation,
+  QuotationItem,
+  QuotationItemOption,
+  QuotationPromotion,
+  Invoice,
+  PriceList,
+  PurchaseOrder,
+  DeliveryOrder
+}
