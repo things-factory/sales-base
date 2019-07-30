@@ -16,7 +16,7 @@ import {
   JoinTable
 } from 'typeorm'
 
-@Entity('delivery-orders')
+@Entity()
 @Index('ix_delivery-order_0', (deliveryOrder: DeliveryOrder) => [deliveryOrder.domain, deliveryOrder.name], {
   unique: true
 })
