@@ -6,8 +6,8 @@ export const NewDeliveryOrder = gql`
     type: String!
     issuedOn: String!
     state: String
-    customer: String!
-    product: String!
+    customer: String
+    product: String
     transportOrder: String
     description: String
   }
