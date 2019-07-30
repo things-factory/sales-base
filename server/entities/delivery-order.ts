@@ -2,7 +2,7 @@ import { User } from '@things-factory/auth-base'
 import { Customer } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
 import { TransportOrder } from '@things-factory/transport-base'
-import { Product } from '@things-factory/product-base'
+// import { Product } from '@things-factory/product-base'
 import {
   Column,
   CreateDateColumn,
@@ -11,9 +11,7 @@ import {
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
-  ManyToMany,
-  JoinTable
+  UpdateDateColumn
 } from 'typeorm'
 
 @Entity()
@@ -42,9 +40,9 @@ export class DeliveryOrder {
   @ManyToOne(type => Customer)
   customer: Customer
 
-  @ManyToMany(type => Product)
-  @JoinTable({ name: 'delivery_orders_products' })
-  products: Product[]
+  // @ManyToMany(type => Product)
+  // @JoinTable({ name: 'delivery_orders_products' })
+  // products: Product[]
 
   @Column()
   state: string
