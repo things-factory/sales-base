@@ -2,7 +2,6 @@ import { User } from '@things-factory/auth-base'
 import { Customer } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
 import { TransportOrder } from '@things-factory/transport-base'
-// import { Product } from '@things-factory/product-base'
 import {
   Column,
   CreateDateColumn,
@@ -39,10 +38,6 @@ export class DeliveryOrder {
 
   @ManyToOne(type => Customer)
   customer: Customer
-
-  // @ManyToMany(type => Product)
-  // @JoinTable({ name: 'delivery_orders_products' })
-  // products: Product[]
 
   @Column()
   state: string

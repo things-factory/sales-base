@@ -9,7 +9,6 @@ export const DeliveryOrder = gql`
     issuedOn: String
     customer: Customer
     transportOrder: TransportOrder
-    product: Product
     state: String
     description: String
     creator: User

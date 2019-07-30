@@ -10,7 +10,6 @@ export const deliveryOrdersResolver = {
       .leftJoinAndSelect('DeliveryOrder.domain', 'Domain')
       .leftJoinAndSelect('DeliveryOrder.customer', 'Customer')
       .leftJoinAndSelect('DeliveryOrder.transportOrder', 'TransportOrder')
-      // .leftJoinAndSelect('DeliveryOrder.product', 'Product')
       .leftJoinAndSelect('DeliveryOrder.creator', 'Creator')
       .leftJoinAndSelect('DeliveryOrder.updater', 'Updater')
       .getManyAndCount()
