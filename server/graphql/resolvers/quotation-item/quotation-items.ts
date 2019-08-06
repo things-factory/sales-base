@@ -3,9 +3,9 @@ import { getRepository } from 'typeorm'
 import { QuotationItem } from '../../../entities'
 
 export const quotationItemsResolver = {
-  async quotationItems(_: any, params: ListParam) {
+  async quotationItems(_: any, params: ListParam, context: any) {
     const queryBuilder = getRepository(QuotationItem).createQueryBuilder()
-    buildQuery(queryBuilder, params)
+    buildQuery(queryBuilder, params, context)
     const [items, total] = await queryBuilder
       .leftJoinAndSelect('QuotationItem.domain', 'Domain')
       .leftJoinAndSelect('QuotationItem.product', 'Product')

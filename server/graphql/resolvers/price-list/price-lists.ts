@@ -3,9 +3,9 @@ import { getRepository } from 'typeorm'
 import { PriceList } from '../../../entities'
 
 export const priceListsResolver = {
-  async priceLists(_: any, params: ListParam) {
+  async priceLists(_: any, params: ListParam, context: any) {
     const queryBuilder = getRepository(PriceList).createQueryBuilder()
-    buildQuery(queryBuilder, params)
+    buildQuery(queryBuilder, params, context)
     const [items, total] = await queryBuilder
       .leftJoinAndSelect('PriceList.domain', 'Domain')
       .leftJoinAndSelect('PriceList.product', 'Product')

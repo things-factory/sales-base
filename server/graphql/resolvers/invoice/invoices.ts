@@ -3,9 +3,9 @@ import { getRepository } from 'typeorm'
 import { Invoice } from '../../../entities'
 
 export const invoicesResolver = {
-  async invoices(_: any, params: ListParam) {
+  async invoices(_: any, params: ListParam, context: any) {
     const queryBuilder = getRepository(Invoice).createQueryBuilder()
-    buildQuery(queryBuilder, params)
+    buildQuery(queryBuilder, params, context)
     const [items, total] = await queryBuilder
       .leftJoinAndSelect('Invoice.domain', 'Domain')
       .leftJoinAndSelect('Invoice.customer', 'Customer')

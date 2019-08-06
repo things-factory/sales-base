@@ -10,7 +10,8 @@ import {
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  JoinColumn
 } from 'typeorm'
 
 @Entity()
@@ -34,6 +35,7 @@ export class DeliveryOrder {
   issuedOn: Date
 
   @OneToOne(type => TransportOrder)
+  @JoinColumn()
   transportOrder: TransportOrder
 
   @ManyToOne(type => Customer)
