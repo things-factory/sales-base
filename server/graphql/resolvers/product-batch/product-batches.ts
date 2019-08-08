@@ -5,8 +5,14 @@ import { ProductBatch } from '../../../entities'
 export const productBatchesResolver = {
   async productBatches(_: any, params: ListParam, context: any) {
     const queryBuilder = getRepository(ProductBatch).createQueryBuilder()
-    buildQuery(queryBuilder, params)
-    const [items, total] = await queryBuilder.getManyAndCount()
+    buildQuery(queryBuilder, params, context)
+    const [items, total] = await queryBuilder
+      .leftJoinAndSelect('ProductBatch.domain', 'Domain')
+      .leftJoinAndSelect('ProductBatch.product', 'Product')
+      .leftJoinAndSelect('ProductBatch.lots', 'Lots')
+      .leftJoinAndSelect('ProductBatch.creator', 'Creator')
+      .leftJoinAndSelect('ProductBatch.updater', 'Updater')
+      .getManyAndCount()
 
     return { items, total }
   }

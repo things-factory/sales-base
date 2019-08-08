@@ -1,8 +1,8 @@
-import { ProductOptionDetail } from './product-option-detail'
-import { NewProductOptionDetail } from './new-product-option-detail'
-import { ProductOptionDetailPatch } from './product-option-detail-patch'
-import { ProductOptionDetailList } from './product-option-detail-list'
 import { Filter, Pagination, Sorting } from '@things-factory/shell'
+import { NewProductOptionDetail } from './new-product-option-detail'
+import { ProductOptionDetail } from './product-option-detail'
+import { ProductOptionDetailList } from './product-option-detail-list'
+import { ProductOptionDetailPatch } from './product-option-detail-patch'
 
 export const Mutation = `
   createProductOptionDetail (
@@ -10,18 +10,26 @@ export const Mutation = `
   ): ProductOptionDetail
 
   updateProductOptionDetail (
-    id: String!
+    name: String!
     patch: ProductOptionDetailPatch!
   ): ProductOptionDetail
 
   deleteProductOptionDetail (
-    id: String!
+    name: String!
   ): ProductOptionDetail
 `
 
 export const Query = `
   productOptionDetails(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ProductOptionDetailList
-  productOptionDetail(id: String!): ProductOptionDetail
+  productOptionDetail(name: String!): ProductOptionDetail
 `
 
-export const Types = [Filter, Pagination, Sorting, ProductOptionDetail, NewProductOptionDetail, ProductOptionDetailPatch, ProductOptionDetailList]
+export const Types = [
+  Filter,
+  Pagination,
+  Sorting,
+  ProductOptionDetail,
+  NewProductOptionDetail,
+  ProductOptionDetailPatch,
+  ProductOptionDetailList
+]

@@ -5,8 +5,14 @@ import { ProductOption } from '../../../entities'
 export const productOptionsResolver = {
   async productOptions(_: any, params: ListParam, context: any) {
     const queryBuilder = getRepository(ProductOption).createQueryBuilder()
-    buildQuery(queryBuilder, params)
-    const [items, total] = await queryBuilder.getManyAndCount()
+    buildQuery(queryBuilder, params, context)
+    const [items, total] = await queryBuilder
+      .leftJoinAndSelect('ProductOption.domain', 'Domain')
+      .leftJoinAndSelect('ProductOption.product', 'Product')
+      .leftJoinAndSelect('ProductOption.details', 'Details')
+      .leftJoinAndSelect('ProductOption.creator', 'Creator')
+      .leftJoinAndSelect('ProductOption.updater', 'Updater')
+      .getManyAndCount()
 
     return { items, total }
   }

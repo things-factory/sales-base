@@ -1,8 +1,8 @@
-import { ProductBatch } from './product-batch'
-import { NewProductBatch } from './new-product-batch'
-import { ProductBatchPatch } from './product-batch-patch'
-import { ProductBatchList } from './product-batch-list'
 import { Filter, Pagination, Sorting } from '@things-factory/shell'
+import { NewProductBatch } from './new-product-batch'
+import { ProductBatch } from './product-batch'
+import { ProductBatchList } from './product-batch-list'
+import { ProductBatchPatch } from './product-batch-patch'
 
 export const Mutation = `
   createProductBatch (
@@ -10,18 +10,18 @@ export const Mutation = `
   ): ProductBatch
 
   updateProductBatch (
-    id: String!
+    name: String!
     patch: ProductBatchPatch!
   ): ProductBatch
 
   deleteProductBatch (
-    id: String!
+    name: String!
   ): ProductBatch
 `
 
 export const Query = `
-  productBatches(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ProductBatchList
-  productBatch(id: String!): ProductBatch
+  productBatches(filters: [Filter], pagination: Pagination, sortings: [Sorting])  : ProductBatchList
+  productBatch(name: String!): ProductBatch
 `
 
 export const Types = [Filter, Pagination, Sorting, ProductBatch, NewProductBatch, ProductBatchPatch, ProductBatchList]
