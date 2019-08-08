@@ -41,9 +41,6 @@ export class Product {
   @ManyToOne(type => CollectionOrder, collectionOrder => collectionOrder.productList)
   collection: CollectionOrder
 
-  @Column()
-  collectionId: string
-
   @OneToMany(type => Product, product => product.refTo)
   aliases: Product[]
 
