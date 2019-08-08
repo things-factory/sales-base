@@ -5,7 +5,7 @@ export const DeliveryOrderPatch = gql`
     name: String
     type: String
     issuedOn: String
-    state: String
+    status: String
     customer: String
     transportOrder: String
     description: String

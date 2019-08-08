@@ -6,7 +6,6 @@ export const ProductBatch = gql`
     domain: Domain
     name: String
     yourName: String
-    lots: [Lot]
     qty: Float
     status: String
     product: Product

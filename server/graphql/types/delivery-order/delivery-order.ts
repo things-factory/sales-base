@@ -8,8 +8,7 @@ export const DeliveryOrder = gql`
     type: String
     issuedOn: String
     customer: Customer
-    transportOrder: TransportOrder
-    state: String
+    status: String
     description: String
     creator: User
     updater: User

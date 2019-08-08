@@ -9,7 +9,6 @@ export const deliveryOrdersResolver = {
     const [items, total] = await queryBuilder
       .leftJoinAndSelect('DeliveryOrder.domain', 'Domain')
       .leftJoinAndSelect('DeliveryOrder.customer', 'Customer')
-      .leftJoinAndSelect('DeliveryOrder.transportOrder', 'TransportOrder')
       .leftJoinAndSelect('DeliveryOrder.creator', 'Creator')
       .leftJoinAndSelect('DeliveryOrder.updater', 'Updater')
       .getManyAndCount()
