@@ -1,5 +1,5 @@
 import { User } from '@things-factory/auth-base'
-import { Product } from '@things-factory/product-base'
+import { Product } from './product'
 import { Domain } from '@things-factory/shell'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
