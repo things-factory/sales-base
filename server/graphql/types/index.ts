@@ -6,6 +6,12 @@ import * as Invoice from './invoice'
 import * as PriceList from './price-list'
 import * as PurchaseOrder from './purchase-order'
 import * as DeliveryOrder from './delivery-order'
+import * as ShippingOrder from './shipping-order'
+import * as CollectionOrder from './collection-order'
+import * as Product from './product'
+import * as ProductOption from './product-option'
+import * as ProductOptionDetail from './product-option-detail'
+import * as ProductBatch from './product-batch'
 
 export const queries = [
   Quotation.Query,
@@ -15,7 +21,13 @@ export const queries = [
   Invoice.Query,
   PriceList.Query,
   PurchaseOrder.Query,
-  DeliveryOrder.Query
+  DeliveryOrder.Query,
+  ShippingOrder.Query,
+  CollectionOrder.Query,
+  Product.Query,
+  ProductOption.Query,
+  ProductOptionDetail.Query,
+  ProductBatch.Query
 ]
 
 export const mutations = [
@@ -26,7 +38,13 @@ export const mutations = [
   Invoice.Mutation,
   PriceList.Mutation,
   PurchaseOrder.Mutation,
-  DeliveryOrder.Mutation
+  DeliveryOrder.Mutation,
+  ShippingOrder.Mutation,
+  CollectionOrder.Mutation,
+  Product.Mutation,
+  ProductOption.Mutation,
+  ProductOptionDetail.Mutation,
+  ProductBatch.Mutation
 ]
 
 export const types = [
@@ -37,5 +55,11 @@ export const types = [
   ...Invoice.Types,
   ...PriceList.Types,
   ...PurchaseOrder.Types,
-  ...DeliveryOrder.Types
+  ...DeliveryOrder.Types,
+  ...ShippingOrder.Types,
+  ...CollectionOrder.Types,
+  ...Product.Types,
+  ...ProductOption.Types,
+  ...ProductOptionDetail.Types,
+  ...ProductBatch.Types
 ]

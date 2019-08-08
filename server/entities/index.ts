@@ -6,6 +6,12 @@ import { Invoice } from './invoice'
 import { PriceList } from './price-list'
 import { PurchaseOrder } from './purchase-order'
 import { DeliveryOrder } from './delivery-order'
+import { CollectionOrder } from './collection-order'
+import { ShippingOrder } from './shipping-order'
+import { Product } from './product'
+import { ProductOption } from './product-option'
+import { ProductOptionDetail } from './product-option-detail'
+import { ProductBatch } from './product-batch'
 
 export const entities = [
   Quotation,
@@ -15,7 +21,13 @@ export const entities = [
   Invoice,
   PriceList,
   PurchaseOrder,
-  DeliveryOrder
+  DeliveryOrder,
+  CollectionOrder,
+  ShippingOrder,
+  Product,
+  ProductOption,
+  ProductOptionDetail,
+  ProductBatch
 ]
 
 export {
@@ -26,5 +38,11 @@ export {
   Invoice,
   PriceList,
   PurchaseOrder,
-  DeliveryOrder
+  DeliveryOrder,
+  CollectionOrder,
+  ShippingOrder,
+  Product,
+  ProductOption,
+  ProductOptionDetail,
+  ProductBatch
 }

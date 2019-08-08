@@ -1,13 +1,23 @@
 import { User } from '@things-factory/auth-base'
 import { Customer } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
-import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Product } from './product'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm'
 
-@Entity()
-@Index('ix_delivery-order_0', (deliveryOrder: DeliveryOrder) => [deliveryOrder.domain, deliveryOrder.name], {
+@Entity('collection-orders')
+@Index('ix_collection-order_0', (collectionOrder: CollectionOrder) => [collectionOrder.domain, collectionOrder.name], {
   unique: true
 })
-export class DeliveryOrder {
+export class CollectionOrder {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
@@ -17,32 +27,35 @@ export class DeliveryOrder {
   @Column()
   name: string
 
-  @Column({
-    nullable: true
-  })
+  @Column()
   from: string
 
-  @Column()
-  to: string
-
   @Column({
-    comment: 'delivery time'
+    comment: 'collection time'
   })
   time: string
 
   @Column({
-    comment: 'delivery date'
+    comment: 'FCL or LCL'
+  })
+  loadType: string
+
+  @OneToMany(type => Product, product => product.collection)
+  productList: Product[]
+
+  @Column({
+    comment: 'collection date'
   })
   date: string
+
+  @Column()
+  status: string
 
   @Column('date')
   issuedOn: Date
 
   @ManyToOne(type => Customer)
   customer: Customer
-
-  @Column()
-  status: string
 
   @Column({
     nullable: true

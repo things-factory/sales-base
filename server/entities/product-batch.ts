@@ -1,45 +1,28 @@
 import { User } from '@things-factory/auth-base'
-import { Customer } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Product } from './product'
 
-@Entity()
-@Index('ix_delivery-order_0', (deliveryOrder: DeliveryOrder) => [deliveryOrder.domain, deliveryOrder.name], {
-  unique: true
-})
-export class DeliveryOrder {
+@Entity('product-batches')
+@Index('ix_product-batch_0', (productBatch: ProductBatch) => [productBatch.domain, productBatch.name], { unique: true })
+export class ProductBatch {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
   @ManyToOne(type => Domain)
   domain: Domain
 
+  @ManyToOne(type => Product, product => product.batches)
+  product: Product
+
   @Column()
   name: string
 
-  @Column({
-    nullable: true
-  })
-  from: string
-
   @Column()
-  to: string
+  yourName: string
 
-  @Column({
-    comment: 'delivery time'
-  })
-  time: string
-
-  @Column({
-    comment: 'delivery date'
-  })
-  date: string
-
-  @Column('date')
-  issuedOn: Date
-
-  @ManyToOne(type => Customer)
-  customer: Customer
+  @Column('float')
+  qty: number
 
   @Column()
   status: string
@@ -48,12 +31,6 @@ export class DeliveryOrder {
     nullable: true
   })
   description: string
-
-  @CreateDateColumn()
-  createdAt: Date
-
-  @UpdateDateColumn()
-  updatedAt: Date
 
   @ManyToOne(type => User, {
     nullable: true
@@ -64,4 +41,10 @@ export class DeliveryOrder {
     nullable: true
   })
   updater: User
+
+  @CreateDateColumn()
+  createdAt: Date
+
+  @UpdateDateColumn()
+  updatedAt: Date
 }
