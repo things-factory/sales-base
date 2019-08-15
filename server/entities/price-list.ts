@@ -16,7 +16,6 @@ export class PriceList {
   name: string
 
   @Column({
-    type: 'datetime',
     comment: 'The date and time where price of item undergoes revision'
   })
   revisionPriceOn: Date
