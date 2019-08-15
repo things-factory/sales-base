@@ -18,10 +18,10 @@ export class QuotationPromotion {
   @Column()
   name: string
 
-  @Column('datetime')
+  @Column()
   startAt: Date
 
-  @Column('datetime')
+  @Column()
   endAt: Date
 
   @Column({
