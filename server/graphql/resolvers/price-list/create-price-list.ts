@@ -6,8 +6,8 @@ export const createPriceList = {
     return await getRepository(PriceList).save({
       domain: context.domain,
       ...priceList,
-      creatorId: context.state.user.id,
-      updaterId: context.state.user.id
+      creator: context.state.user,
+      updater: context.state.user
     })
   }
 }

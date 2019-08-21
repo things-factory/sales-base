@@ -6,8 +6,8 @@ export const createDeliveryOrder = {
     return await getRepository(DeliveryOrder).save({
       domain: context.domain,
       ...deliveryOrder,
-      creatorId: context.state.user.id,
-      updaterId: context.state.user.id
+      creator: context.state.user,
+      updater: context.state.user
     })
   }
 }

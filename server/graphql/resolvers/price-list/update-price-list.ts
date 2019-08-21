@@ -9,7 +9,7 @@ export const updatePriceList = {
     return await repository.save({
       ...priceList,
       ...patch,
-      updaterId: context.state.user.id
+      updater: context.state.user
     })
   }
 }

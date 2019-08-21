@@ -6,8 +6,8 @@ export const createProductOption = {
     return await getRepository(ProductOption).save({
       domain: context.domain,
       ...productOption,
-      creatorId: context.state.user.id,
-      updaterId: context.state.user.id
+      creator: context.state.user,
+      updater: context.state.user
     })
   }
 }

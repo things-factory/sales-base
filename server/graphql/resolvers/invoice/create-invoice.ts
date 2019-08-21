@@ -8,8 +8,8 @@ export const createInvoice = {
     return await getRepository(Invoice).save({
       domain: context.domain,
       ...invoice,
-      creatorId: context.state.user.id,
-      updaterId: context.state.user.id
+      creator: context.state.user,
+      updater: context.state.user
     })
   }
 }

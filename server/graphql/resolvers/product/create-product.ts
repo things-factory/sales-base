@@ -8,8 +8,8 @@ export const createProduct = {
       domain: context.domain,
       ...product,
       bizplace: await getRepository(Bizplace).findOne({ where: { name: product.bizplace } }),
-      creatorId: context.state.user.id,
-      updaterId: context.state.user.id
+      creator: context.state.user,
+      updater: context.state.user
     })
   }
 }

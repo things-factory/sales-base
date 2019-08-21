@@ -9,7 +9,7 @@ export const updateQuotationItemOption = {
     return await repository.save({
       ...quotationItemOption,
       ...patch,
-      updaterId: context.state.user.id
+      updater: context.state.user
     })
   }
 }

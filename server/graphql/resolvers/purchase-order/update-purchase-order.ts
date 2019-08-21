@@ -11,7 +11,7 @@ export const updatePurchaseOrder = {
     return await repository.save({
       ...purchaseOrder,
       ...patch,
-      updaterId: context.state.user.id
+      updater: context.state.user
     })
   }
 }

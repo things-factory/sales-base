@@ -6,8 +6,8 @@ export const createProductBatch = {
     return await getRepository(ProductBatch).save({
       domain: context.domain,
       ...productBatch,
-      creatorId: context.state.user.id,
-      updaterId: context.state.user.id
+      creator: context.state.user,
+      updater: context.state.user
     })
   }
 }

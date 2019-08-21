@@ -11,7 +11,7 @@ export const updateProductOptionDetail = {
     return await repository.save({
       ...productOptionDetail,
       ...patch,
-      updaterId: context.state.user.id
+      updater: context.state.user
     })
   }
 }

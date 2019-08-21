@@ -6,8 +6,8 @@ export const createQuotationItem = {
     return await getRepository(QuotationItem).save({
       domain: context.domain,
       ...quotationItem,
-      creatorId: context.state.user.id,
-      updaterId: context.state.user.id
+      creator: context.state.user,
+      updater: context.state.user
     })
   }
 }
