@@ -12,6 +12,7 @@ import * as Product from './product'
 import * as ProductOption from './product-option'
 import * as ProductOptionDetail from './product-option-detail'
 import * as ProductBatch from './product-batch'
+import { Filter, Pagination, Sorting, ObjectRef } from '@things-factory/shell'
 
 export const queries = [
   Quotation.Query,
@@ -48,6 +49,10 @@ export const mutations = [
 ]
 
 export const types = [
+  Filter,
+  Pagination,
+  Sorting,
+  ObjectRef,
   ...Quotation.Types,
   ...QuotationItem.Types,
   ...QuotationItemOption.Types,

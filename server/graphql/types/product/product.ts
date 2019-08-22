@@ -4,17 +4,21 @@ export const Product = gql`
   type Product {
     id: String
     domain: Domain
-    company: Company
+    bizplace: Bizplace
     name: String
     yourName: String
+    description: String
     refTo: Product
+    collectionOrders: [CollectionOrder]
+    deliveryOrders: [DeliveryOrder]
+    shippingOrders: [ShippingOrder]
     aliases: [Product]
     options: [ProductOption]
-    productBatch: ProductBatch
+    batches: [ProductBatch]
     type: String
+    packageType: String
+    weight: String
     unit: String
-    weight: Int
-    description: String
     creator: User
     updater: User
     createdAt: String

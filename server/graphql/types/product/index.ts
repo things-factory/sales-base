@@ -1,4 +1,3 @@
-import { Filter, Pagination, Sorting } from '@things-factory/shell'
 import { NewProduct } from './new-product'
 import { Product } from './product'
 import { ProductList } from './product-list'
@@ -16,15 +15,13 @@ export const Mutation = `
 
   deleteProduct (
     name: String!
-  ): Product
+  ): Boolean
 `
 
 export const Query = `
-  customerProducts(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ProductList
-  ownerProducts(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ProductList
   products(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ProductList
   product(name: String!): Product
-  productById(id: String!): Product
+
 `
 
-export const Types = [Filter, Pagination, Sorting, Product, NewProduct, ProductPatch, ProductList]
+export const Types = [Product, NewProduct, ProductPatch, ProductList]

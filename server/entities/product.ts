@@ -39,7 +39,9 @@ export class Product {
   })
   yourName: string
 
-  @ManyToOne(type => Product, product => product.aliases)
+  @ManyToOne(type => Product, product => product.aliases, {
+    nullable: true
+  })
   refTo: Product
 
   @ManyToMany(type => CollectionOrder, collectionOrder => collectionOrder.products)
@@ -61,7 +63,7 @@ export class Product {
   options: ProductOption[]
 
   @OneToMany(type => ProductBatch, productBatch => productBatch.product)
-  batches: ProductBatch
+  batches: ProductBatch[]
 
   @Column()
   type: string
