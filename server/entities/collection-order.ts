@@ -1,17 +1,18 @@
 import { User } from '@things-factory/auth-base'
 import { Customer } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
-import { Product } from './product'
 import {
   Column,
   CreateDateColumn,
   Entity,
   Index,
+  ManyToMany,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  JoinTable
 } from 'typeorm'
+import { Product } from './product'
 
 @Entity('collection-orders')
 @Index('ix_collection-order_0', (collectionOrder: CollectionOrder) => [collectionOrder.domain, collectionOrder.name], {
@@ -40,8 +41,8 @@ export class CollectionOrder {
   })
   loadType: string
 
-  @OneToMany(type => Product, product => product.collection)
-  productList: Product[]
+  @ManyToMany(type => Product, product => product.collectionOrders)
+  products: Product[]
 
   @Column({
     comment: 'collection date'
