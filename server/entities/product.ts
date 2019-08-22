@@ -17,7 +17,7 @@ import { CollectionOrder } from './collection-order'
 import { cpus } from 'os'
 
 @Entity('products')
-@Index('ix_product_0', (product: Product) => [product.domain, product.name, product.type], { unique: true })
+@Index('ix_product_0', (product: Product) => [product.domain, product.name, product.packageType], { unique: true })
 export class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string
