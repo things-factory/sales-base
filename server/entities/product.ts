@@ -14,9 +14,10 @@ import { ProductOption } from './product-option'
 import { Bizplace } from '@things-factory/biz-base'
 import { ProductBatch } from './product-batch'
 import { CollectionOrder } from './collection-order'
+import { cpus } from 'os'
 
 @Entity('products')
-@Index('ix_product_0', (product: Product) => [product.domain, product.name], { unique: true })
+@Index('ix_product_0', (product: Product) => [product.domain, product.name, product.type], { unique: true })
 export class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string
@@ -52,6 +53,9 @@ export class Product {
 
   @Column()
   type: string
+
+  @Column()
+  packageType: string
 
   @Column('float', {
     nullable: true
