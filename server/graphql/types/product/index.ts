@@ -22,7 +22,7 @@ export const Mutation = `
   ): Boolean
 
   deleteProducts (
-    name: [String]!
+    names: [String]!
   ): Boolean
 `
 
