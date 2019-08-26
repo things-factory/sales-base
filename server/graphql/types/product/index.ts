@@ -13,8 +13,16 @@ export const Mutation = `
     patch: ProductPatch!
   ): Product
 
+  updateMultipleProduct (
+    patch: [ProductPatch]!
+  ): [Product]
+
   deleteProduct (
     name: String!
+  ): Boolean
+
+  deleteProducts (
+    name: [String]!
   ): Boolean
 `
 
