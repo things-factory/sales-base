@@ -14,7 +14,7 @@ export const Mutation = `
   ): Product
 
   updateMultipleProduct (
-    patch: [ProductPatch]!
+    patches: [ProductPatch]!
   ): [Product]
 
   deleteProduct (
