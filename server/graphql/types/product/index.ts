@@ -2,33 +2,34 @@ import { NewProduct } from './new-product'
 import { Product } from './product'
 import { ProductList } from './product-list'
 import { ProductPatch } from './product-patch'
+import { directivePriviledge } from '@things-factory/auth-base'
 
 export const Mutation = `
   createProduct (
     product: NewProduct!
-  ): Product
+  ): Product @priviledge(category: "order", priviledge: "mutation")
 
   updateProduct (
     name: String!
     patch: ProductPatch!
-  ): Product
+  ): Product @priviledge(category: "order", priviledge: "mutation")
 
   updateMultipleProduct (
     patches: [ProductPatch]!
-  ): [Product]
+  ): [Product] @priviledge(category: "order", priviledge: "mutation")
 
   deleteProduct (
     name: String!
-  ): Boolean
+  ): Boolean @priviledge(category: "order", priviledge: "mutation")
 
   deleteProducts (
     names: [String]!
-  ): Boolean
+  ): Boolean @priviledge(category: "order", priviledge: "mutation")
 `
 
 export const Query = `
-  products(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ProductList
-  product(name: String!): Product
+  products(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ProductList @priviledge(category: "order", priviledge: "query")
+  product(name: String!): Product @priviledge(category: "order", priviledge: "query")
 
 `
 
