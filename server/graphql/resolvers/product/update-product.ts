@@ -10,6 +10,10 @@ export const updateProduct = {
       patch.bizplace = await getRepository(Bizplace).findOne(patch.bizplace.id)
     }
 
+    if (patch.refTo && patch.refTo.id) {
+      patch.refTo = await getRepository(Product).findOne(patch.refTo.id)
+    }
+
     return await getRepository(Product).save({
       ...product,
       ...patch,

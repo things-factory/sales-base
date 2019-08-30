@@ -8,14 +8,13 @@ export const updateMultipleProduct = {
     const _createRecords = patches.filter((patch: any) => patch.cuFlag.toUpperCase() === '+')
     const _updateRecords = patches.filter((patch: any) => patch.cuFlag.toUpperCase() === 'M')
     const productRepo = getRepository(Product)
-    const bizplaceRepo = getRepository(Bizplace)
 
     if (_createRecords.length > 0) {
       for (let i = 0; i < _createRecords.length; i++) {
         const newRecord = _createRecords[i]
 
-        if (newRecord.bizplace && newRecord.bizplace.id) {
-          newRecord.bizplace = await bizplaceRepo.findOne(newRecord.bizplace.id)
+        if (newRecord.refTo && newRecord.refTo.id) {
+          newRecord.refTo = await productRepo.findOne(newRecord.refTo.id)
         }
 
         const result = await productRepo.save({
@@ -34,8 +33,8 @@ export const updateMultipleProduct = {
         const newRecord = _updateRecords[i]
         const product = await productRepo.findOne(newRecord.id)
 
-        if (newRecord.bizplace && newRecord.bizplace.id) {
-          newRecord.bizplace = await bizplaceRepo.findOne(newRecord.bizplace.id)
+        if (newRecord.refTo && newRecord.refTo.id) {
+          newRecord.refTo = await productRepo.findOne(newRecord.refTo.id)
         }
 
         const result = await productRepo.save({
