@@ -6,7 +6,8 @@ import { getUserBizplaces } from '@things-factory/biz-base'
 export const productsResolver = {
   async products(_: any, params: ListParam, context: any) {
     const convertedParams = convertListParams(params)
-    convertedParams.bizplace_id = In(await getUserBizplaces(context).map((bizplace: any) => bizplace.id))
+    const userBizplaces = await getUserBizplaces(context)
+    convertedParams.bizplace_id = In(userBizplaces.map(userBizplace => userBizplace.id))
     const [items, total] = await getRepository(Product).findAndCount({
       ...convertedParams,
       relations: [
