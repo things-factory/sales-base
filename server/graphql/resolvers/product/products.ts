@@ -11,7 +11,7 @@ export const productsResolver = {
       bizplace: In((await getUserBizplaces(context)).map(bizplace => bizplace.id))
     }
     const [items, total] = await getRepository(Product).findAndCount({
-      ...convertListParams,
+      ...convertedParams,
       relations: [
         'domain',
         'bizplace',
