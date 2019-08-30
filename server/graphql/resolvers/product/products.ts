@@ -1,13 +1,20 @@
-import { buildQuery, ListParam, convertListParams } from '@things-factory/shell'
+import { getUserBizplaces } from '@things-factory/biz-base'
+import { convertListParams, ListParam } from '@things-factory/shell'
 import { getRepository, In } from 'typeorm'
 import { Product } from '../../../entities'
-import { getUserBizplaces } from '@things-factory/biz-base'
 
 export const productsResolver = {
   async products(_: any, params: ListParam, context: any) {
+    const productRepository = getRepository(Product)
+    const alias = productRepository.createQueryBuilder().alias
+
     const convertedParams = convertListParams(params)
     const userBizplaces = await getUserBizplaces(context)
-    convertedParams.bizplace_id = In(userBizplaces.map(userBizplace => userBizplace.id))
+    convertedParams.where = {
+      ...convertedParams.where,
+      [`"${alias}"."bizplace_id"`]: In(userBizplaces.map(userBizplace => userBizplace.id))
+    }
+
     const [items, total] = await getRepository(Product).findAndCount({
       ...convertedParams,
       relations: [
