@@ -5,18 +5,21 @@ import { getUserBizplaces } from '@things-factory/biz-base'
 
 export const productsResolver = {
   async products(_: any, params: ListParam, context: any) {
+    const convertedParams = convertListParams(params)
+    convertedParams.where = {
+      ...convertedParams.where,
+      bizplace: In((await getUserBizplaces(context)).map(bizplace => bizplace.id))
+    }
     const [items, total] = await getRepository(Product).findAndCount({
-      where: {
         ...convertListParams(params),
-        bizplace: In(await getUserBizplaces(context))
-      },
+      ...convertListParams,
       relations: [
         'domain',
         'bizplace',
         'refTo',
-        'collectionOrder',
-        'deliveryOrder',
-        'shippingOrder',
+        'collectionOrders',
+        'deliveryOrders',
+        'shippingOrders',
         'aliases',
         'options',
         'batches',
