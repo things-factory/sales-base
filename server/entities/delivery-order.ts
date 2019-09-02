@@ -11,7 +11,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
-import { Product } from './product'
+import { ProductBatch } from './product-batch'
 
 @Entity()
 @Index('ix_delivery-order_0', (deliveryOrder: DeliveryOrder) => [deliveryOrder.domain, deliveryOrder.name], {
@@ -27,8 +27,8 @@ export class DeliveryOrder {
   @Column()
   name: string
 
-  @ManyToMany(type => Product, product => product.deliveryOrders)
-  products: Product[]
+  @ManyToMany(type => ProductBatch, productBatch => productBatch.deliveryOrders)
+  productBatches: ProductBatch[]
 
   @Column({
     nullable: true

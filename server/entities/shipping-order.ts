@@ -10,7 +10,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
-import { Product } from './product'
+import { ProductBatch } from './product-batch'
 
 @Entity('shipping-orders')
 @Index('ix_shipping-order_0', (shippingOrder: ShippingOrder) => [shippingOrder.domain, shippingOrder.name], {
@@ -23,8 +23,8 @@ export class ShippingOrder {
   @ManyToOne(type => Domain)
   domain: Domain
 
-  @ManyToMany(type => Product, product => product.shippingOrders)
-  products: Product[]
+  @ManyToMany(type => ProductBatch, productBatch => productBatch.shippingOrders)
+  productBatches: ProductBatch[]
 
   @Column()
   name: string

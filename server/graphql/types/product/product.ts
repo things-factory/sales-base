@@ -9,14 +9,10 @@ export const Product = gql`
     yourName: String
     description: String
     refTo: Product
-    collectionOrders: [CollectionOrder]
-    deliveryOrders: [DeliveryOrder]
-    shippingOrders: [ShippingOrder]
     aliases: [Product]
     options: [ProductOption]
     batches: [ProductBatch]
     type: String
-    packageType: String
     weight: String
     unit: String
     creator: User

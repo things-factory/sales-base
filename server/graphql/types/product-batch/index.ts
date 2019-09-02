@@ -1,4 +1,3 @@
-import { Filter, Pagination, Sorting } from '@things-factory/shell'
 import { NewProductBatch } from './new-product-batch'
 import { ProductBatch } from './product-batch'
 import { ProductBatchList } from './product-batch-list'
@@ -24,4 +23,4 @@ export const Query = `
   productBatch(name: String!): ProductBatch
 `
 
-export const Types = [Filter, Pagination, Sorting, ProductBatch, NewProductBatch, ProductBatchPatch, ProductBatchList]
+export const Types = [ProductBatch, NewProductBatch, ProductBatchPatch, ProductBatchList]

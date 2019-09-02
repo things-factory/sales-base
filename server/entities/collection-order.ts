@@ -9,10 +9,10 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
-  JoinTable
+  UpdateDateColumn
 } from 'typeorm'
 import { Product } from './product'
+import { ProductBatch } from './product-batch'
 
 @Entity('collection-orders')
 @Index('ix_collection-order_0', (collectionOrder: CollectionOrder) => [collectionOrder.domain, collectionOrder.name], {
@@ -41,8 +41,8 @@ export class CollectionOrder {
   })
   loadType: string
 
-  @ManyToMany(type => Product, product => product.collectionOrders)
-  products: Product[]
+  @ManyToMany(type => ProductBatch, productBatch => productBatch.collectionOrders)
+  productBatches: ProductBatch[]
 
   @Column({
     comment: 'collection date'

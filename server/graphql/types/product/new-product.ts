@@ -7,14 +7,10 @@ export const NewProduct = gql`
     yourName: String
     description: String
     refTo: ObjectRef
-    collectionOrders: [ObjectRef]
-    deliveryOrders: [ObjectRef]
-    shippingOrders: [ObjectRef]
     aliases: [ObjectRef]
     options: [ObjectRef]
     batches: [ObjectRef]
     type: String
-    packageType: String
     weight: String
     unit: String
   }

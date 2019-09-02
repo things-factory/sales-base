@@ -4,9 +4,16 @@ export const NewProductBatch = gql`
   input NewProductBatch {
     name: String!
     yourName: String!
-    lots: [String]!
+    collectionOrders: [ObjectRef]
+    deliveryOrders: [ObjectRef]
+    shippingOrders: [ObjectRef]
+    expiredOn: String
     qty: Float!
-    product: String
+    palletQty: Float!
+    unit: String
+    weight: String
+    packageType: String
+    product: ObjectRef
     status: String!
     description: String
   }
