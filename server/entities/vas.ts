@@ -23,6 +23,9 @@ export class Vas {
   })
   description: string
 
+  @Column()
+  currency: string
+
   @Column('float')
   defaultPrice: number
 

@@ -6,6 +6,7 @@ export const VasPatch = gql`
     bizplace: ObjectRef
     name: String
     description: String
+    currency: String
     defaultPrice: Float
     cuFlag: String
   }

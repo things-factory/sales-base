@@ -7,6 +7,7 @@ export const Vas = gql`
     domain: Domain
     bizplace: Bizplace
     description: String
+    currency: String
     creator: User
     updater: User
     createdAt: String
