@@ -12,6 +12,7 @@ import * as Product from './product'
 import * as ProductOption from './product-option'
 import * as ProductOptionDetail from './product-option-detail'
 import * as ProductBatch from './product-batch'
+import * as Vas from './vas'
 import { Filter, Pagination, Sorting, ObjectRef } from '@things-factory/shell'
 
 export const queries = [
@@ -28,7 +29,8 @@ export const queries = [
   Product.Query,
   ProductOption.Query,
   ProductOptionDetail.Query,
-  ProductBatch.Query
+  ProductBatch.Query,
+  Vas.Query
 ]
 
 export const mutations = [
@@ -45,7 +47,8 @@ export const mutations = [
   Product.Mutation,
   ProductOption.Mutation,
   ProductOptionDetail.Mutation,
-  ProductBatch.Mutation
+  ProductBatch.Mutation,
+  Vas.Mutation
 ]
 
 export const types = [
@@ -66,5 +69,6 @@ export const types = [
   ...Product.Types,
   ...ProductOption.Types,
   ...ProductOptionDetail.Types,
-  ...ProductBatch.Types
+  ...ProductBatch.Types,
+  ...Vas.Types
 ]

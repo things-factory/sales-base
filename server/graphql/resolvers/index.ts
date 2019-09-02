@@ -12,6 +12,7 @@ import * as Product from './product'
 import * as ProductOption from './product-option'
 import * as ProductOptionDetail from './product-option-detail'
 import * as ProductBatch from './product-batch'
+import * as Vas from './vas'
 
 export const queries = [
   Quotation.Query,
@@ -27,7 +28,8 @@ export const queries = [
   Product.Query,
   ProductOption.Query,
   ProductOptionDetail.Query,
-  ProductBatch.Query
+  ProductBatch.Query,
+  Vas.Query
 ]
 
 export const mutations = [
@@ -44,5 +46,6 @@ export const mutations = [
   Product.Mutation,
   ProductOption.Mutation,
   ProductOptionDetail.Mutation,
-  ProductBatch.Mutation
+  ProductBatch.Mutation,
+  Vas.Mutation
 ]

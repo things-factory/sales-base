@@ -6,12 +6,22 @@ const SEEDS_PRIVILEDGES = [
   {
     name: 'query',
     category: 'order',
-    description: 'to read order data'
+    description: 'read order data'
   },
   {
     name: 'mutation',
     category: 'order',
-    description: 'to edit order data'
+    description: 'edit order data'
+  },
+  {
+    name: 'query',
+    category: 'vas',
+    description: 'read order data'
+  },
+  {
+    name: 'mutation',
+    category: 'vas',
+    description: 'edit order data'
   }
 ]
 

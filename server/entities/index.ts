@@ -12,6 +12,7 @@ import { Product } from './product'
 import { ProductOption } from './product-option'
 import { ProductOptionDetail } from './product-option-detail'
 import { ProductBatch } from './product-batch'
+import { Vas } from './vas'
 
 export const entities = [
   Quotation,
@@ -27,7 +28,8 @@ export const entities = [
   Product,
   ProductOption,
   ProductOptionDetail,
-  ProductBatch
+  ProductBatch,
+  Vas
 ]
 
 export {
@@ -44,5 +46,6 @@ export {
   Product,
   ProductOption,
   ProductOptionDetail,
-  ProductBatch
+  ProductBatch,
+  Vas
 }
