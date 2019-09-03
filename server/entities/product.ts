@@ -29,19 +29,19 @@ export class Product {
   @Column()
   name: string
 
-  @OneToMany(type => ProductOption, productOption => productOption.product)
-  options: ProductOption[]
-
-  @OneToMany(type => ProductBatch, productBatch => productBatch.product)
-  batches: ProductBatch[]
-
-  @Column()
-  type: string
-
   @Column({
     nullable: true
   })
   description: string
+
+  @OneToMany(type => ProductOption, productOption => productOption.product)
+  productOptions: ProductOption[]
+
+  @OneToMany(type => ProductBatch, productBatch => productBatch.product)
+  productBatches: ProductBatch[]
+
+  @Column()
+  type: string
 
   @ManyToOne(type => User, {
     nullable: true

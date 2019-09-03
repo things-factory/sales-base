@@ -10,7 +10,7 @@ export const productResolver = {
         name,
         bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id))
       },
-      relations: ['domain', 'bizplace', 'refTo', 'aliases', 'options', 'batches', 'creator', 'updater']
+      relations: ['domain', 'bizplace', 'productOptions', 'productBatches', 'creator', 'updater']
     })
   }
 }

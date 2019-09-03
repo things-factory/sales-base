@@ -26,7 +26,7 @@ export class ProductBatch {
   @ManyToOne(type => Domain)
   domain: Domain
 
-  @ManyToOne(type => Product, product => product.batches)
+  @ManyToOne(type => Product, product => product.productBatches)
   product: Product
 
   @ManyToMany(type => CollectionOrder, collectionOrder => collectionOrder.productBatches)
