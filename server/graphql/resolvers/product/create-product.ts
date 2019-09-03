@@ -1,15 +1,13 @@
+import { Bizplace } from '@things-factory/biz-base'
 import { getRepository } from 'typeorm'
 import { Product } from '../../../entities'
-import { Bizplace } from '@things-factory/biz-base'
-import { getUserBizplaces } from '@things-factory/biz-base'
 
 export const createProduct = {
   async createProduct(_: any, { product }, context: any) {
     if (product.bizplace && product.bizplace.id) {
       product.bizplace = await getRepository(Bizplace).findOne(product.bizplace.id)
     } else {
-      const userBizplaces = await getUserBizplaces(context)
-      product.bizplace = userBizplaces[0]
+      product.bizplace = context.state.bizplaces[0]
     }
 
     if (product.refTo && product.refTo.id) {
@@ -18,7 +16,7 @@ export const createProduct = {
 
     return await getRepository(Product).save({
       ...product,
-      domain: context.domain,
+      domain: context.state.domain,
       creator: context.state.user,
       updater: context.state.user
     })

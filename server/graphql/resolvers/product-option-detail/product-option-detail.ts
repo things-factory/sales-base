@@ -5,7 +5,7 @@ import { getUserBizplaces } from '@things-factory/biz-base'
 export const productOptionDetailResolver = {
   async productOptionDetail(_: any, { name }, context: any) {
     return await getRepository(ProductOptionDetail).findOne({
-      where: { domain: context.domain, name, bizplace: In(await getUserBizplaces(context)) },
+      where: { domain: context.state.domain, name, bizplace: In(await getUserBizplaces(context)) },
       relations: ['domain', 'productOption', 'creator', 'updater']
     })
   }

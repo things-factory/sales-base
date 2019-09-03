@@ -5,7 +5,7 @@ export const updateProductBatch = {
   async updateProductBatch(_: any, { name, patch }, context: any) {
     const repository = getRepository(ProductBatch)
     const productBatch = await repository.findOne({
-      where: { domain: context.domain, name }
+      where: { domain: context.state.domain, name }
     })
 
     return await repository.save({

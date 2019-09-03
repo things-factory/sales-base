@@ -5,7 +5,7 @@ export const updateDeliveryOrder = {
   async updateDeliveryOrder(_: any, { name, patch }, context: any) {
     const repository = getRepository(DeliveryOrder)
     const deliveryOrder = await repository.findOne({
-      where: { domain: context.domain, name }
+      where: { domain: context.state.domain, name }
     })
 
     return await repository.save({

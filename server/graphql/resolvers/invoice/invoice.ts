@@ -4,7 +4,7 @@ import { Invoice } from '../../../entities'
 export const invoiceResolver = {
   async invoice(_: any, { name }, context: any) {
     return await getRepository(Invoice).findOne({
-      where: { domain: context.domain, name },
+      where: { domain: context.state.domain, name },
       relations: ['domain', 'customer', 'purchaseOrder', 'creator', 'updater']
     })
   }

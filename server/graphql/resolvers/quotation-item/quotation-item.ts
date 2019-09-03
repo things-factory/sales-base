@@ -3,6 +3,6 @@ import { QuotationItem } from '../../../entities'
 
 export const quotationItemResolver = {
   async quotationItem(_: any, { id }, context: any) {
-    return await getRepository(QuotationItem).findOne({ domain: context.domain, id })
+    return await getRepository(QuotationItem).findOne({ domain: context.state.domain, id })
   }
 }

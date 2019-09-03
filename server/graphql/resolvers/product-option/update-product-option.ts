@@ -4,7 +4,7 @@ import { Bizplace } from '@things-factory/biz-base'
 
 export const updateProductOption = {
   async updateProductOption(_: any, { name, patch }, context: any) {
-    const productOption = await getRepository(ProductOption).findOne({ domain: context.domain, name })
+    const productOption = await getRepository(ProductOption).findOne({ domain: context.state.domain, name })
 
     if (patch.bizplace && patch.bizplace.id) {
       patch.bizplace = await getRepository(Bizplace).findOne(patch.bizplace.id)

@@ -3,6 +3,6 @@ import { PriceList } from '../../../entities'
 
 export const deletePriceList = {
   async deletePriceList(_: any, { name }, context: any) {
-    return await getRepository(PriceList).delete({ domain: context.domain, name })
+    return await getRepository(PriceList).delete({ domain: context.state.domain, name })
   }
 }

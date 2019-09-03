@@ -13,7 +13,7 @@ export const createProductOptionDetail = {
 
     return await getRepository(ProductOptionDetail).save({
       ...productOptionDetail,
-      domain: context.domain,
+      domain: context.state.domain,
       creator: context.state.user,
       updater: context.state.user
     })

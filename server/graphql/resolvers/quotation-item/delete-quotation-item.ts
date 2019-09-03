@@ -3,6 +3,6 @@ import { QuotationItem } from '../../../entities'
 
 export const deleteQuotationItem = {
   async deleteQuotationItem(_: any, { id }, context: any) {
-    return await getRepository(QuotationItem).delete({ domain: context.domain, id })
+    return await getRepository(QuotationItem).delete({ domain: context.state.domain, id })
   }
 }
