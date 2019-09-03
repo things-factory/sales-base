@@ -36,7 +36,7 @@ export class ProductOption {
   product: Product
 
   @OneToMany(type => ProductOptionDetail, productOptionDetail => productOptionDetail.productOption)
-  details: ProductOptionDetail[]
+  productOptionDetails: ProductOptionDetail[]
 
   @ManyToOne(type => User, {
     nullable: true

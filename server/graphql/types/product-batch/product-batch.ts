@@ -9,6 +9,8 @@ export const ProductBatch = gql`
     collectionOrders: [CollectionOrder]
     deliveryOrders: [DeliveryOrder]
     shippingOrders: [ShippingOrder]
+    refTo: Product
+    aliases: [Product]
     expiredOn: String
     palletQty: Float
     unit: String

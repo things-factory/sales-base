@@ -15,7 +15,7 @@ export const Mutation = `
 
   deleteProductBatch (
     name: String!
-  ): ProductBatch
+  ): Boolean
 `
 
 export const Query = `

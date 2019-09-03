@@ -29,19 +29,6 @@ export class Product {
   @Column()
   name: string
 
-  @Column({
-    nullable: true
-  })
-  yourName: string
-
-  @ManyToOne(type => Product, product => product.aliases, {
-    nullable: true
-  })
-  refTo: Product
-
-  @OneToMany(type => Product, product => product.refTo)
-  aliases: Product[]
-
   @OneToMany(type => ProductOption, productOption => productOption.product)
   options: ProductOption[]
 
@@ -50,16 +37,6 @@ export class Product {
 
   @Column()
   type: string
-
-  @Column('float', {
-    nullable: true
-  })
-  weight: string
-
-  @Column({
-    nullable: true
-  })
-  unit: string
 
   @Column({
     nullable: true

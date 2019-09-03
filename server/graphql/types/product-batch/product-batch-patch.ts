@@ -8,6 +8,8 @@ export const ProductBatchPatch = gql`
     collectionOrders: [ObjectRef]
     deliveryOrders: [ObjectRef]
     shippingOrders: [ObjectRef]
+    refTo: ObjectRef
+    aliases: [ObjectRef]
     palletQty: Float
     unit: String
     weight: String

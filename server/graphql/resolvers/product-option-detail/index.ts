@@ -2,8 +2,10 @@ import { productOptionDetailResolver } from './product-option-detail'
 import { productOptionDetailsResolver } from './product-option-details'
 
 import { updateProductOptionDetail } from './update-product-option-detail'
+import { updateMultipleProductOptionDetail } from './update-multiple-product-option-detail'
 import { createProductOptionDetail } from './create-product-option-detail'
 import { deleteProductOptionDetail } from './delete-product-option-detail'
+import { deleteProductOptionDetails } from './delete-product-option-details'
 
 export const Query = {
   ...productOptionDetailsResolver,
@@ -13,5 +15,7 @@ export const Query = {
 export const Mutation = {
   ...updateProductOptionDetail,
   ...createProductOptionDetail,
-  ...deleteProductOptionDetail
+  ...deleteProductOptionDetail,
+  ...deleteProductOptionDetails,
+  ...updateMultipleProductOptionDetail
 }

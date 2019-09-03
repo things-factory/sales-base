@@ -7,6 +7,8 @@ export const NewProductBatch = gql`
     collectionOrders: [ObjectRef]
     deliveryOrders: [ObjectRef]
     shippingOrders: [ObjectRef]
+    refTo: ObjectRef
+    aliases: [ObjectRef]
     expiredOn: String
     qty: Float!
     palletQty: Float!

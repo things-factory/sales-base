@@ -5,6 +5,12 @@ export const ProductOption = gql`
     id: String
     name: String
     domain: Domain
+    product: Product
+    productOptionDetails: [ProductOptionDetail]
     description: String
+    creator: String
+    updater: String
+    createdAt: String
+    updatedAt: String
   }
 `

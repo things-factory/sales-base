@@ -7,6 +7,7 @@ import {
   Index,
   ManyToOne,
   ManyToMany,
+  OneToMany,
   JoinTable,
   PrimaryGeneratedColumn,
   UpdateDateColumn
@@ -46,13 +47,21 @@ export class ProductBatch {
   @Column()
   yourName: string
 
+  @ManyToOne(type => ProductBatch, productBatch => productBatch.aliases, {
+    nullable: true
+  })
+  refTo: Product
+
+  @OneToMany(type => ProductBatch, productBatch => productBatch.refTo)
+  aliases: Product[]
+
   @Column('float')
   qty: number
 
   @Column('float')
   palletQty: number
 
-  @Column()
+  @Column({ comment: 'expired or not expired' })
   status: string
 
   @Column({

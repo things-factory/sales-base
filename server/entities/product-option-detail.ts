@@ -19,7 +19,7 @@ export class ProductOptionDetail {
   @Column()
   name: string
 
-  @ManyToOne(type => ProductOption, productOption => productOption.details)
+  @ManyToOne(type => ProductOption, productOption => productOption.productOptionDetails)
   productOption: ProductOption
 
   @Column({
