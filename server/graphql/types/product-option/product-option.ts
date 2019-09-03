@@ -8,8 +8,8 @@ export const ProductOption = gql`
     product: Product
     productOptionDetails: [ProductOptionDetail]
     description: String
-    creator: String
-    updater: String
+    creator: User
+    updater: User
     createdAt: String
     updatedAt: String
   }
