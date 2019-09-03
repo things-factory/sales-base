@@ -10,10 +10,6 @@ export const createProduct = {
       product.bizplace = context.state.bizplaces[0]
     }
 
-    if (product.refTo && product.refTo.id) {
-      product.refTo = await getRepository(Product).findOne(product.refTo.id)
-    }
-
     return await getRepository(Product).save({
       ...product,
       domain: context.state.domain,

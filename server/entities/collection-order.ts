@@ -11,7 +11,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
-import { Product } from './product'
 import { ProductBatch } from './product-batch'
 
 @Entity('collection-orders')

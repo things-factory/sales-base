@@ -1,3 +1,4 @@
+import { ArrivalNotice } from './arrival-notice'
 import { Quotation } from './quotation'
 import { QuotationItem } from './quotation-item'
 import { QuotationItemOption } from './quotation-item-option'
@@ -15,6 +16,7 @@ import { ProductBatch } from './product-batch'
 import { Vas } from './vas'
 
 export const entities = [
+  ArrivalNotice,
   Quotation,
   QuotationItem,
   QuotationItemOption,
@@ -33,6 +35,7 @@ export const entities = [
 ]
 
 export {
+  ArrivalNotice,
   Quotation,
   QuotationItem,
   QuotationItemOption,

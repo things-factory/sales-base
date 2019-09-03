@@ -5,9 +5,8 @@ export const ProductPatch = gql`
     id: String
     bizplace: ObjectRef
     name: String
-    yourName: String
     description: String
-    options: [ObjectRef]
+    productOptions: [ObjectRef]
     batches: [ObjectRef]
     type: String
     cuFlag: String

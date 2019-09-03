@@ -6,9 +6,8 @@ export const Product = gql`
     domain: Domain
     bizplace: Bizplace
     name: String
-    yourName: String
     description: String
-    options: [ProductOption]
+    productOptions: [ProductOption]
     batches: [ProductBatch]
     type: String
     creator: User

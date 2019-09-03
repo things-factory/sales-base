@@ -4,9 +4,8 @@ export const NewProduct = gql`
   input NewProduct {
     bizplace: ObjectRef!
     name: String!
-    yourName: String
     description: String
-    options: [ObjectRef]
+    productOptions: [ObjectRef]
     batches: [ObjectRef]
     type: String
   }
