@@ -5,7 +5,7 @@ export const updateProductOptionDetail = {
   async updateProductOptionDetail(_: any, { name, patch }, context: any) {
     const repository = getRepository(ProductOptionDetail)
     const productOptionDetail = await repository.findOne({
-      where: { domain: context.domain, name }
+      where: { domain: context.state.domain, name }
     })
 
     return await repository.save({

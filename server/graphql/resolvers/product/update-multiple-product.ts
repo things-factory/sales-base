@@ -25,7 +25,7 @@ export const updateMultipleProduct = {
         }
 
         const result = await productRepo.save({
-          domain: context.domain,
+          domain: context.state.domain,
           creator: context.state.user,
           updater: context.state.user,
           ...newRecord

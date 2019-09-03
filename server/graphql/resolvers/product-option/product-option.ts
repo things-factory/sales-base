@@ -4,7 +4,7 @@ import { ProductOption } from '../../../entities'
 export const productOptionResolver = {
   async productOption(_: any, { name }, context: any) {
     return await getRepository(ProductOption).findOne({
-      where: { domain: context.domain, name },
+      where: { domain: context.state.domain, name },
       relations: ['domain', 'product', 'details', 'creator', 'updater']
     })
   }

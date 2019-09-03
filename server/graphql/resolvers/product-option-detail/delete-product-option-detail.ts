@@ -3,6 +3,6 @@ import { ProductOptionDetail } from '../../../entities'
 
 export const deleteProductOptionDetail = {
   async deleteProductOptionDetail(_: any, { name }, context: any) {
-    return await getRepository(ProductOptionDetail).delete({ domain: context.domain, name })
+    return await getRepository(ProductOptionDetail).delete({ domain: context.state.domain, name })
   }
 }

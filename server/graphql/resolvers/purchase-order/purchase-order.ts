@@ -4,7 +4,7 @@ import { PurchaseOrder } from '../../../entities'
 export const purchaseOrderResolver = {
   async purchaseOrder(_: any, { name }, context: any) {
     return await getRepository(PurchaseOrder).findOne({
-      where: { domain: context.domain, name },
+      where: { domain: context.state.domain, name },
       relations: ['domain', 'quotation', 'creator', 'updater']
     })
   }

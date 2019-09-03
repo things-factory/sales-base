@@ -4,7 +4,7 @@ import { ProductBatch } from '../../../entities'
 export const productBatchResolver = {
   async productBatch(_: any, { name }, context: any) {
     const repository = getRepository(ProductBatch).findOne({
-      where: { domain: context.domain, name },
+      where: { domain: context.state.domain, name },
       relations: ['domain', 'product', 'lots', 'creator', 'updater']
     })
   }

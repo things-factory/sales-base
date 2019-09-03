@@ -4,7 +4,7 @@ import { QuotationItemOption } from '../../../entities'
 export const updateQuotationItemOption = {
   async updateQuotationItemOption(_: any, { name, patch }, context: any) {
     const repository = getRepository(QuotationItemOption)
-    const quotationItemOption = await repository.findOne({ domain: context.domain, name })
+    const quotationItemOption = await repository.findOne({ domain: context.state.domain, name })
 
     return await repository.save({
       ...quotationItemOption,

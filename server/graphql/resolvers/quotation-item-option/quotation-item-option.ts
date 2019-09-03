@@ -4,7 +4,7 @@ import { QuotationItemOption } from '../../../entities'
 export const quotationItemOptionResolver = {
   async quotationItemOption(_: any, { name }, context: any) {
     return await getRepository(QuotationItemOption).findOne({
-      where: { domain: context.domain, name },
+      where: { domain: context.state.domain, name },
       relations: ['domain', 'quotationItem', 'creator', 'updater']
     })
   }

@@ -3,6 +3,6 @@ import { QuotationItemOption } from '../../../entities'
 
 export const deleteQuotationItemOption = {
   async deleteQuotationItemOption(_: any, { name }, context: any) {
-    return await getRepository(QuotationItemOption).delete({ domain: context.domain, name })
+    return await getRepository(QuotationItemOption).delete({ domain: context.state.domain, name })
   }
 }
