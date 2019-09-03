@@ -1,6 +1,6 @@
 import { getRepository } from 'typeorm'
 import { Product } from '../../../entities'
-import { Bizplace, getUserBizplaces } from '@things-factory/biz-base'
+import { Bizplace } from '@things-factory/biz-base'
 
 export const updateMultipleProduct = {
   async updateMultipleProduct(_: any, { patches }, context: any) {
@@ -20,8 +20,7 @@ export const updateMultipleProduct = {
         if (newRecord.bizplace && newRecord.bizplace.id) {
           newRecord.bizplace = getRepository(Bizplace).findOne(newRecord.bizplace.id)
         } else {
-          const userBizplaces = await getUserBizplaces(context)
-          newRecord.bizplace = userBizplaces[0]
+          newRecord.bizplace = context.state.bizplaces[0]
         }
 
         const result = await productRepo.save({

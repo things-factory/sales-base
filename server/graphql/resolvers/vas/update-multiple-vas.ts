@@ -1,6 +1,6 @@
+import { Bizplace } from '@things-factory/biz-base'
 import { getRepository } from 'typeorm'
 import { Vas } from '../../../entities'
-import { Bizplace, getUserBizplaces } from '@things-factory/biz-base'
 
 export const updateMultipleVas = {
   async updateMultipleVas(_: any, { patches }, context: any) {
@@ -16,8 +16,7 @@ export const updateMultipleVas = {
         if (newRecord.bizplace && newRecord.bizplace.id) {
           newRecord.bizplace = getRepository(Bizplace).findOne(newRecord.bizplace.id)
         } else {
-          const userBizplaces = await getUserBizplaces(context)
-          newRecord.bizplace = userBizplaces[0]
+          newRecord.bizplace = context.stats.bizplaces[0]
         }
 
         const result = await vasRepo.save({
