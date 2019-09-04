@@ -13,11 +13,11 @@ export const updateMultipleProductOptionDetail = {
         const newRecord = _createRecords[i]
 
         const result = await productOptionDetailRepo.save({
+          ...newRecord,
           domain: context.state.domain,
           productOption: await getRepository(ProductOption).findOne(newRecord.productOption.id),
           creator: context.state.user,
-          updater: context.state.user,
-          ...newRecord
+          updater: context.state.user
         })
 
         results.push({ ...result, cuFlag: '+' })
