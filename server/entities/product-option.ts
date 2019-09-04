@@ -1,28 +1,39 @@
+import { User } from '@things-factory/auth-base'
+import { Domain } from '@things-factory/shell'
 import {
+  Column,
   CreateDateColumn,
-  UpdateDateColumn,
   Entity,
   Index,
-  Column,
-  OneToMany,
   ManyToOne,
-  PrimaryGeneratedColumn
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from 'typeorm'
-import { Domain } from '@things-factory/shell'
-import { User } from '@things-factory/auth-base'
 import { Product } from './product'
 import { ProductOptionDetail } from './product-option-detail'
 
 @Entity('product-options')
-@Index('ix_product-option_0', (productOption: ProductOption) => [productOption.domain, productOption.name], {
-  unique: true
-})
+@Index(
+  'ix_product-option_0',
+  (productOption: ProductOption) => [productOption.domain, productOption.product, productOption.name],
+  {
+    unique: true
+  }
+)
 export class ProductOption {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @ManyToOne(type => Domain)
+  @ManyToOne(type => Domain, {
+    nullable: false
+  })
   domain: Domain
+
+  @ManyToOne(type => Product, {
+    nullable: false
+  })
+  product: Product
 
   @Column()
   name: string
@@ -31,9 +42,6 @@ export class ProductOption {
     nullable: true
   })
   description: string
-
-  @ManyToOne(type => Product)
-  product: Product
 
   @OneToMany(type => ProductOptionDetail, productOptionDetail => productOptionDetail.productOption)
   productOptionDetails: ProductOptionDetail[]

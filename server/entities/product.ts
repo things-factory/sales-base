@@ -15,15 +15,19 @@ import { ProductBatch } from './product-batch'
 import { ProductOption } from './product-option'
 
 @Entity('products')
-@Index('ix_product_0', (product: Product) => [product.domain, product.name], { unique: true })
+@Index('ix_product_0', (product: Product) => [product.domain, product.bizplace, product.name], { unique: true })
 export class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @ManyToOne(type => Domain)
+  @ManyToOne(type => Domain, {
+    nullable: false
+  })
   domain: Domain
 
-  @ManyToOne(type => Bizplace)
+  @ManyToOne(type => Bizplace, {
+    nullable: false
+  })
   bizplace: Bizplace
 
   @Column()

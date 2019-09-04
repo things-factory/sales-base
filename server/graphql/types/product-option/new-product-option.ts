@@ -4,7 +4,7 @@ export const NewProductOption = gql`
   input NewProductOption {
     name: String!
     description: String
-    product: ObjectRef
+    product: ObjectRef!
     productOptionDetails: [ObjectRef]
   }
 `

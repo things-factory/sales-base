@@ -1,9 +1,12 @@
 import { getRepository } from 'typeorm'
-import { ProductOption } from '../../../entities'
+import { Product, ProductOption } from '../../../entities'
 
 export const deleteProductOption = {
-  async deleteProductOption(_: any, { name }) {
-    await getRepository(ProductOption).delete(name)
+  async deleteProductOption(_: any, { product, name }) {
+    await getRepository(ProductOption).delete({
+      product: await getRepository(Product).findOne(product.id),
+      name
+    })
     return true
   }
 }

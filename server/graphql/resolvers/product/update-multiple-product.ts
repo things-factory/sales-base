@@ -13,14 +13,9 @@ export const updateMultipleProduct = {
       for (let i = 0; i < _createRecords.length; i++) {
         const newRecord = _createRecords[i]
 
-        if (newRecord.bizplace && newRecord.bizplace.id) {
-          newRecord.bizplace = await getRepository(Bizplace).findOne(newRecord.bizplace.id)
-        } else {
-          newRecord.bizplace = context.state.bizplaces[0]
-        }
-
         const result = await productRepo.save({
           domain: context.state.domain,
+          bizplace: context.state.bizplaces[0],
           creator: context.state.user,
           updater: context.state.user,
           ...newRecord
@@ -34,10 +29,6 @@ export const updateMultipleProduct = {
       for (let i = 0; i < _updateRecords.length; i++) {
         const newRecord = _updateRecords[i]
         const product = await productRepo.findOne(newRecord.id)
-
-        if (newRecord.bizplace && newRecord.bizplace.id) {
-          newRecord.bizplace = await getRepository(Bizplace).findOne(newRecord.bizplace.id)
-        }
 
         const result = await productRepo.save({
           ...product,

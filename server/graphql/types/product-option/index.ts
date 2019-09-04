@@ -9,6 +9,7 @@ export const Mutation = `
   ): ProductOption
 
   updateProductOption (
+    product: ObjectRef!
     name: String!
     patch: ProductOptionPatch!
   ): ProductOption
@@ -18,17 +19,27 @@ export const Mutation = `
   ): [ProductOption]
 
   deleteProductOption (
+    product: ObjectRef!
     name: String!
   ): Boolean
 
   deleteProductOptions (
+    product: ObjectRef!
     names: [String]!
   ): Boolean
 `
 
 export const Query = `
-  productOptions(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ProductOptionList
-  productOption(name: String!): ProductOption
+  productOptions(
+    filters: [Filter]
+    pagination: Pagination
+    sortings: [Sorting]
+  ): ProductOptionList
+
+  productOption(
+    product: ObjectRef!
+    name: String!
+  ): ProductOption
 `
 
 export const Types = [ProductOption, NewProductOption, ProductOptionPatch, ProductOptionList]

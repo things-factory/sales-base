@@ -1,14 +1,13 @@
 import { getRepository } from 'typeorm'
-import { ProductOption } from '../../../entities'
-import { Bizplace } from '@things-factory/biz-base'
+import { Product, ProductOption } from '../../../entities'
 
 export const updateProductOption = {
-  async updateProductOption(_: any, { name, patch }, context: any) {
-    const productOption = await getRepository(ProductOption).findOne({ domain: context.state.domain, name })
-
-    if (patch.bizplace && patch.bizplace.id) {
-      patch.bizplace = await getRepository(Bizplace).findOne(patch.bizplace.id)
-    }
+  async updateProductOption(_: any, { product, name, patch }, context: any) {
+    const productOption = await getRepository(ProductOption).findOne({
+      domain: context.state.domain,
+      name,
+      product: await getRepository(Product).findOne(product.id)
+    })
 
     return await getRepository(ProductOption).save({
       ...productOption,
