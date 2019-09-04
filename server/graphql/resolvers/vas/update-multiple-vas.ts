@@ -1,4 +1,3 @@
-import { Bizplace } from '@things-factory/biz-base'
 import { getRepository } from 'typeorm'
 import { Vas } from '../../../entities'
 
@@ -13,17 +12,11 @@ export const updateMultipleVas = {
       for (let i = 0; i < _createRecords.length; i++) {
         const newRecord = _createRecords[i]
 
-        if (newRecord.bizplace && newRecord.bizplace.id) {
-          newRecord.bizplace = await getRepository(Bizplace).findOne(newRecord.bizplace.id)
-        } else {
-          newRecord.bizplace = context.stats.bizplaces[0]
-        }
-
         const result = await vasRepo.save({
+          ...newRecord,
           domain: context.state.domain,
           creator: context.state.user,
-          updater: context.state.user,
-          ...newRecord
+          updater: context.state.user
         })
 
         results.push({ ...result, cuFlag: '+' })
@@ -34,10 +27,6 @@ export const updateMultipleVas = {
       for (let i = 0; i < _updateRecords.length; i++) {
         const newRecord = _updateRecords[i]
         const vas = await vasRepo.findOne(newRecord.id)
-
-        if (newRecord.bizplace && newRecord.bizplace.id) {
-          newRecord.bizplace = await getRepository(Bizplace).findOne(newRecord.bizplace.id)
-        }
 
         const result = await vasRepo.save({
           ...vas,

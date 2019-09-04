@@ -1,4 +1,3 @@
-import { Bizplace } from '@things-factory/biz-base'
 import { getRepository } from 'typeorm'
 import { Product } from '../../../entities'
 
