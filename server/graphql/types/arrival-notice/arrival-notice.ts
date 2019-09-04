@@ -14,7 +14,7 @@ export const ArrivalNotice = gql`
     collectionOrder: CollectionOrder
     deliveryOrder: DeliveryOrder
     creator: User
-    updator: User
+    updater: User
     createdAt: String
     updatedAt: String
   }
