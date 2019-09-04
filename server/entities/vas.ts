@@ -3,7 +3,7 @@ import { Domain } from '@things-factory/shell'
 import { Bizplace } from '@things-factory/biz-base'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
-@Entity('vas')
+@Entity('vass')
 @Index('ix_vas_0', (vas: Vas) => [vas.domain, vas.name], { unique: true })
 export class Vas {
   @PrimaryGeneratedColumn('uuid')

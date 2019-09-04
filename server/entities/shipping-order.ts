@@ -12,7 +12,7 @@ import {
 } from 'typeorm'
 import { ProductBatch } from './product-batch'
 
-@Entity('shipping-orders')
+@Entity()
 @Index('ix_shipping-order_0', (shippingOrder: ShippingOrder) => [shippingOrder.domain, shippingOrder.name], {
   unique: true
 })

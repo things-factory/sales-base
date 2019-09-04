@@ -13,7 +13,7 @@ import {
 import { Product } from './product'
 import { ProductOptionDetail } from './product-option-detail'
 
-@Entity('product-options')
+@Entity()
 @Index(
   'ix_product-option_0',
   (productOption: ProductOption) => [productOption.domain, productOption.product, productOption.name],

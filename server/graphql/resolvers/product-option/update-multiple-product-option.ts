@@ -14,7 +14,7 @@ export const updateMultipleProductOption = {
 
         const result = await productOptionRepo.save({
           domain: context.state.domain,
-          product: await getRepository(Product).findOne(newRecord.product.id),
+          product: newRecord.product,
           creator: context.state.user,
           updater: context.state.user,
           ...newRecord

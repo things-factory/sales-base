@@ -3,7 +3,7 @@ import { Domain } from '@things-factory/shell'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { ProductOption } from './product-option'
 
-@Entity('product-option-details')
+@Entity()
 @Index(
   'ix_product-option-detail_0',
   (productOptionDetail: ProductOptionDetail) => [

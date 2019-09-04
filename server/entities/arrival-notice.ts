@@ -15,7 +15,7 @@ import { CollectionOrder } from './collection-order'
 import { DeliveryOrder } from './delivery-order'
 import { Bizplace } from '@things-factory/biz-base'
 
-@Entity('arrival-notices')
+@Entity()
 @Index('ix_arrival-notice_0', (arrivalNotice: ArrivalNotice) => [arrivalNotice.domain, arrivalNotice.name], {
   unique: true
 })

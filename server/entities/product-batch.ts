@@ -17,7 +17,7 @@ import { CollectionOrder } from './collection-order'
 import { DeliveryOrder } from './delivery-order'
 import { ShippingOrder } from './shipping-order'
 
-@Entity('product-batches')
+@Entity()
 @Index('ix_product-batch_0', (productBatch: ProductBatch) => [productBatch.domain, productBatch.name], { unique: true })
 export class ProductBatch {
   @PrimaryGeneratedColumn('uuid')
