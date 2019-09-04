@@ -9,11 +9,13 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   OneToOne,
+  OneToMany,
   JoinColumn
 } from 'typeorm'
 import { CollectionOrder } from './collection-order'
 import { DeliveryOrder } from './delivery-order'
 import { Bizplace } from '@things-factory/biz-base'
+import { ArrivalNoticeProduct } from './arrival-notice-product'
 
 @Entity()
 @Index('ix_arrival-notice_0', (arrivalNotice: ArrivalNotice) => [arrivalNotice.domain, arrivalNotice.name], {
@@ -38,7 +40,10 @@ export class ArrivalNotice {
   containerNo: string
 
   @Column()
-  transportFlag: boolean
+  ownTransport: boolean
+
+  @OneToMany(type => ArrivalNoticeProduct, arrivalNoticeProduct => arrivalNoticeProduct.arrivalNotice)
+  arrivalNoticeProducts: ArrivalNoticeProduct[]
 
   @Column({
     nullable: true

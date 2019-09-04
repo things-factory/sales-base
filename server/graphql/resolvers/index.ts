@@ -1,4 +1,6 @@
 import * as ArrivalNotice from './arrival-notice'
+import * as ArrivalNoticeProduct from './arrival-notice-product'
+import * as ArrivalNoticeVas from './arrival-notice-vas'
 import * as Quotation from './quotation'
 import * as QuotationItem from './quotation-item'
 import * as QuotationItemOption from './quotation-item-option'
@@ -31,7 +33,9 @@ export const queries = [
   ProductOptionDetail.Query,
   ProductBatch.Query,
   Vas.Query,
-  ArrivalNotice.Query
+  ArrivalNotice.Query,
+  ArrivalNoticeProduct.Query,
+  ArrivalNoticeVas.Query
 ]
 
 export const mutations = [
@@ -50,5 +54,7 @@ export const mutations = [
   ProductOptionDetail.Mutation,
   ProductBatch.Mutation,
   Vas.Mutation,
-  ArrivalNotice.Mutation
+  ArrivalNotice.Mutation,
+  ArrivalNoticeProduct.Mutation,
+  ArrivalNoticeVas.Mutation
 ]

@@ -15,6 +15,8 @@ import * as ProductBatch from './product-batch'
 import * as Vas from './vas'
 import { Filter, Pagination, Sorting, ObjectRef } from '@things-factory/shell'
 import * as ArrivalNotice from './arrival-notice'
+import * as ArrivalNoticeProduct from './arrival-notice-product'
+import * as ArrivalNoticeVas from './arrival-notice-vas'
 
 export const queries = [
   Quotation.Query,
@@ -32,7 +34,9 @@ export const queries = [
   ProductOptionDetail.Query,
   ProductBatch.Query,
   Vas.Query,
-  ArrivalNotice.Query
+  ArrivalNotice.Query,
+  ArrivalNoticeProduct.Query,
+  ArrivalNoticeVas.Query
 ]
 
 export const mutations = [
@@ -51,7 +55,9 @@ export const mutations = [
   ProductOptionDetail.Mutation,
   ProductBatch.Mutation,
   Vas.Mutation,
-  ArrivalNotice.Mutation
+  ArrivalNotice.Mutation,
+  ArrivalNoticeProduct.Mutation,
+  ArrivalNoticeVas.Mutation
 ]
 
 export const types = [
@@ -74,5 +80,7 @@ export const types = [
   ...ProductOptionDetail.Types,
   ...ProductBatch.Types,
   ...Vas.Types,
-  ...ArrivalNotice.Types
+  ...ArrivalNotice.Types,
+  ...ArrivalNoticeProduct.Types,
+  ...ArrivalNoticeVas.Types
 ]
