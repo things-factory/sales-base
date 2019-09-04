@@ -30,16 +30,8 @@ export const Mutation = `
 `
 
 export const Query = `
-  productOptions(
-    filters: [Filter]
-    pagination: Pagination
-    sortings: [Sorting]
-  ): ProductOptionList
-
-  productOption(
-    product: ObjectRef!
-    name: String!
-  ): ProductOption
+  productOptions(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ProductOptionList
+  productOption(product: ObjectRef!, name: String!): ProductOption
 `
 
 export const Types = [ProductOption, NewProductOption, ProductOptionPatch, ProductOptionList]

@@ -18,17 +18,19 @@ export const Mutation = `
   ): [ProductOptionDetail]
 
   deleteProductOptionDetail (
+    productOption: ObjectRef!
     name: String!
   ): Boolean
 
   deleteProductOptionDetails (
+    productOption: ObjectRef!
     names: [String]!
   ): Boolean
 `
 
 export const Query = `
   productOptionDetails(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ProductOptionDetailList
-  productOptionDetail(name: String!): ProductOptionDetail
+  productOptionDetail(productOption: ObjectRef!, name: String!): ProductOptionDetail
 `
 
 export const Types = [ProductOptionDetail, NewProductOptionDetail, ProductOptionDetailPatch, ProductOptionDetailList]
