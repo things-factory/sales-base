@@ -5,12 +5,15 @@ export const ArrivalNotice = gql`
     id: String
     name: String
     domain: Domain
+    bizplace: Bizplace
     description: String
     containerNo: String
-    transportFlag: Boolean
+    ownTransport: Boolean
     eta: String
     truckNo: String
     status: String
+    arrivalNoticeProducts: [ArrivalNoticeProduct]
+    arrivalNoticeVass: [ArrivalNoticeVas]
     collectionOrder: CollectionOrder
     deliveryOrder: DeliveryOrder
     creator: User

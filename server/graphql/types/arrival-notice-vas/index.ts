@@ -21,13 +21,13 @@ export const Mutation = `
     name: String!
   ): Boolean
 
-  deleteArrivalNoticeVas (
+  deleteArrivalNoticeVass (
     names: [String]!
   ): Boolean
 `
 
 export const Query = `
-  arrivalNoticeVas(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ArrivalNoticeVasList
+  arrivalNoticeVass(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ArrivalNoticeVasList
   arrivalNoticeVas(arrivalNotice: ObjectRef!, name: String!): ArrivalNoticeVas
 `
 

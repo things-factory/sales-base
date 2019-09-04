@@ -16,6 +16,7 @@ import { CollectionOrder } from './collection-order'
 import { DeliveryOrder } from './delivery-order'
 import { Bizplace } from '@things-factory/biz-base'
 import { ArrivalNoticeProduct } from './arrival-notice-product'
+import { ArrivalNoticeVas } from '.'
 
 @Entity()
 @Index('ix_arrival-notice_0', (arrivalNotice: ArrivalNotice) => [arrivalNotice.domain, arrivalNotice.name], {
@@ -44,6 +45,9 @@ export class ArrivalNotice {
 
   @OneToMany(type => ArrivalNoticeProduct, arrivalNoticeProduct => arrivalNoticeProduct.arrivalNotice)
   arrivalNoticeProducts: ArrivalNoticeProduct[]
+
+  @OneToMany(type => ArrivalNoticeVas, arrivalNoticeVas => arrivalNoticeVas.arrivalNotice)
+  arrivalNoticeVass: ArrivalNoticeVas[]
 
   @Column({
     nullable: true
