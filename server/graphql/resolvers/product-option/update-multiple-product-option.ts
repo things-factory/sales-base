@@ -1,6 +1,5 @@
-import { Bizplace, Product } from '@things-factory/biz-base'
 import { getRepository } from 'typeorm'
-import { ProductOption } from '../../../entities'
+import { Product, ProductOption } from '../../../entities'
 
 export const updateMultipleProductOption = {
   async updateMultipleProductOption(_: any, { patches }, context: any) {
