@@ -14,11 +14,11 @@ export const updateMultipleProduct = {
         const newRecord = _createRecords[i]
 
         const result = await productRepo.save({
+          ...newRecord,
           domain: context.state.domain,
           bizplace: context.state.bizplaces[0],
           creator: context.state.user,
-          updater: context.state.user,
-          ...newRecord
+          updater: context.state.user
         })
 
         results.push({ ...result, cuFlag: '+' })
