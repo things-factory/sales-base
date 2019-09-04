@@ -14,7 +14,7 @@ export const updateMultipleVas = {
         const newRecord = _createRecords[i]
 
         if (newRecord.bizplace && newRecord.bizplace.id) {
-          newRecord.bizplace = getRepository(Bizplace).findOne(newRecord.bizplace.id)
+          newRecord.bizplace = await getRepository(Bizplace).findOne(newRecord.bizplace.id)
         } else {
           newRecord.bizplace = context.stats.bizplaces[0]
         }
@@ -36,7 +36,7 @@ export const updateMultipleVas = {
         const vas = await vasRepo.findOne(newRecord.id)
 
         if (newRecord.bizplace && newRecord.bizplace.id) {
-          newRecord.bizplace = getRepository(Bizplace).findOne(newRecord.bizplace.id)
+          newRecord.bizplace = await getRepository(Bizplace).findOne(newRecord.bizplace.id)
         }
 
         const result = await vasRepo.save({

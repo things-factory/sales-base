@@ -1,6 +1,5 @@
 import { getRepository } from 'typeorm'
-import { ProductOptionDetail } from '../../../entities'
-import { Bizplace, getUserBizplaces } from '@things-factory/biz-base'
+import { ProductOption, ProductOptionDetail } from '../../../entities'
 
 export const updateMultipleProductOptionDetail = {
   async updateMultipleProductOptionDetail(_: any, { patches }, context: any) {
@@ -13,15 +12,9 @@ export const updateMultipleProductOptionDetail = {
       for (let i = 0; i < _createRecords.length; i++) {
         const newRecord = _createRecords[i]
 
-        if (newRecord.bizplace && newRecord.bizplace.id) {
-          newRecord.bizplace = getRepository(Bizplace).findOne(newRecord.bizplace.id)
-        } else {
-          const userBizplaces = await getUserBizplaces(context)
-          newRecord.bizplace = userBizplaces[0]
-        }
-
         const result = await productOptionDetailRepo.save({
-          domain: context.domain,
+          domain: context.state.domain,
+          productOption: await getRepository(ProductOption).findOne(newRecord.productOption.id),
           creator: context.state.user,
           updater: context.state.user,
           ...newRecord
@@ -36,8 +29,8 @@ export const updateMultipleProductOptionDetail = {
         const newRecord = _updateRecords[i]
         const productOptionDetail = await productOptionDetailRepo.findOne(newRecord.id)
 
-        if (newRecord.bizplace && newRecord.bizplace.id) {
-          newRecord.bizplace = getRepository(Bizplace).findOne(newRecord.bizplace.id)
+        if (newRecord.productOption && newRecord.productOption.id) {
+          newRecord.productOption = await getRepository(ProductOption).findOne(newRecord.productOption.id)
         }
 
         const result = await productOptionDetailRepo.save({
