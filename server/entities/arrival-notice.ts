@@ -57,6 +57,11 @@ export class ArrivalNotice {
   @Column({
     nullable: true
   })
+  pickingDateTime: Date
+
+  @Column({
+    nullable: true
+  })
   truckNo: string
 
   @Column()

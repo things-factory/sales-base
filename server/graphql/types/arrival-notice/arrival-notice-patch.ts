@@ -7,6 +7,7 @@ export const ArrivalNoticePatch = gql`
     containerNo: String
     ownTransport: Boolean
     eta: String
+    pickingDateTime: String
     truckNo: String
     status: String
     arrivalNoticeProducts: [ObjectRef]

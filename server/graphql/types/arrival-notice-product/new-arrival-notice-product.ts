@@ -6,12 +6,12 @@ export const NewArrivalNoticeProduct = gql`
     description: String
     product: ObjectRef
     arrivalNotice: ObjectRef
-    seq: String!
+    seq: Int!
     batchId: String
     packingType: String
     unit: String
-    weight: String
-    packQty: String
+    weight: Float
+    packQty: Int
     totalWeight: String
   }
 `
