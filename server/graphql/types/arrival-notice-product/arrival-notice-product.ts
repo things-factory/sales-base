@@ -8,12 +8,13 @@ export const ArrivalNoticeProduct = gql`
     description: String
     product: Product
     arrivalNotice: ArrivalNotice
-    seq: String
+    seq: Int
     batchId: String
     packingType: String
     unit: String
-    weight: String
-    packQty: String
+    weight: Float
+    packQty: Int
+    palletQty: Int
     totalWeight: String
     updater: User
     creator: User

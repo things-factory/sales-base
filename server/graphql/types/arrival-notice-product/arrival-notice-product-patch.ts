@@ -9,8 +9,9 @@ export const ArrivalNoticeProductPatch = gql`
     batchId: String
     packingType: String
     unit: String
-    weight: String
-    packQty: String
+    weight: Float
+    packQty: Int
+    palletQty: Int
     totalWeight: String
     description: String
     cuFlag: String

@@ -65,6 +65,11 @@ export class ArrivalNoticeProduct {
   @Column('float')
   packQty: number
 
+  @Column({
+    nullable: true
+  })
+  palletQty: number
+
   @Column('float')
   totalWeight: number
 

@@ -12,6 +12,7 @@ export const NewArrivalNoticeProduct = gql`
     unit: String
     weight: Float
     packQty: Int
+    palletQty: Int
     totalWeight: String
   }
 `
