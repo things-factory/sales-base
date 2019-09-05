@@ -2,22 +2,29 @@ import { getRepository, getManager } from 'typeorm'
 import { ArrivalNotice, ArrivalNoticeProduct, ArrivalNoticeVas, Product, Vas } from '../../../entities'
 
 export const generateArrivalNotice = {
-  async generateArrivalNotice(_: any, { arrivalNotice }, context: any) {
+  async generateArrivalNotice(_: any, { data }, context: any) {
     await getManager().transaction(async transactionalEntityManager => {
-      // create arrival notice proeucts
-      arrivalNotice.forEach(async (product: ArrivalNoticeProduct) => {
-        product.product = await getRepository(Product).findOne(product.product.id)
+      const { arrivalNotice, products, vass } = data
+      // create arrival notice product
+      products.forEach((product: ArrivalNoticeProduct) => {
+        product.name = `${product.batchId}-${product.seq}-${product.product.name}`
       })
-      await getRepository(ArrivalNoticeProduct).save(arrivalNotice.products)
+      const arrivalNoticeProducts: [ArrivalNoticeProduct] = await getRepository(ArrivalNoticeProduct).save(products)
 
-      // create arrival notice vass
-      arrivalNotice.vass.forEach(async (vas: ArrivalNoticeVas) => {
-        vas.vas = await getRepository(Vas).findOne(vas.vas.id)
+      // create arrival notice vas
+      vass.forEach((vas: ArrivalNoticeVas) => {
+        vas.name = `${vas.batchId}-${vas.vas.name}`
       })
-      await getRepository(ArrivalNoticeVas).save(arrivalNotice.vass)
+      const arrivalNoticeVass: [ArrivalNoticeVas] = await getRepository(ArrivalNoticeVas).save(vass)
 
       // create arrival notice
-      await getRepository(ArrivalNotice).save(arrivalNotice.arrivalNotice)
+      const createdArrivalNotice: ArrivalNotice = await getRepository(ArrivalNotice).save({
+        ...arrivalNotice,
+        arrivalNoticeProducts,
+        arrivalNoticeVass
+      })
+
+      return createdArrivalNotice
     })
   }
 }
