@@ -20,7 +20,7 @@ export const generateArrivalNotice = {
       })
 
       // 2. Create arrival notice product
-      products = Promise.all(
+      products = await Promise.all(
         products.map(async (product: ArrivalNoticeProduct) => {
           return {
             ...product,
@@ -36,7 +36,7 @@ export const generateArrivalNotice = {
       await transactionalEntityManager.getRepository(ArrivalNoticeProduct).save(products)
 
       // 3. Create arrival notice vas
-      vass = Promise.all(
+      vass = await Promise.all(
         vass.map(async (vas: ArrivalNoticeVas) => {
           return {
             ...vas,
