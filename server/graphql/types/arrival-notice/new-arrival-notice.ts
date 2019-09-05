@@ -10,7 +10,7 @@ export const NewArrivalNotice = gql`
     pickingDateTime: String
     truckNo: String
     status: String!
-    arrivalNoticeProducts: [NewArrivalNoticeProduct]!
+    arrivalNoticeProducts: [NewArrivalNoticeProduct]
     arrivalNoticeVass: [NewArrivalNoticeVas]
     collectionOrder: ObjectRef
     deliveryOrder: ObjectRef
