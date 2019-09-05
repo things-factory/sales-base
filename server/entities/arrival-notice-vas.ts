@@ -4,7 +4,7 @@ import { ArrivalNotice } from './arrival-notice'
 import { Vas } from './vas'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
-@Entity()
+@Entity('arrival_notice_vass')
 @Index(
   'ix_arrival-notice-vas_0',
   (arrivalNoticeVas: ArrivalNoticeVas) => [arrivalNoticeVas.domain, arrivalNoticeVas.name],
