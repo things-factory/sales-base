@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-koa'
 
 export const NewArrivalNoticeProduct = gql`
   input NewArrivalNoticeProduct {
-    name: String!
+    name: String
     description: String
     product: ObjectRef
     arrivalNotice: ObjectRef

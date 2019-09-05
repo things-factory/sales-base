@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-koa'
 
 export const NewArrivalNotice = gql`
   input NewArrivalNotice {
-    name: String!
+    name: String
     description: String
     containerNo: String
     ownTransport: Boolean!
