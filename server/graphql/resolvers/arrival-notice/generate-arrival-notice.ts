@@ -4,7 +4,7 @@ import { ArrivalNotice, ArrivalNoticeProduct, ArrivalNoticeVas, Product, Vas } f
 
 export const generateArrivalNotice = {
   async generateArrivalNotice(_: any, { arrivalNotice }, context: any) {
-    await getManager().transaction(async transactionalEntityManager => {
+    return await getManager().transaction(async transactionalEntityManager => {
       const newArrivalNotice = arrivalNotice.arrivalNotice
       let products = arrivalNotice.products
       let vass = arrivalNotice.vass
@@ -25,7 +25,7 @@ export const generateArrivalNotice = {
           return {
             ...product,
             domain: context.state.domain,
-            name: `${createdArrivalNotice.id}-${product.batchId}-${product.seq}`,
+            name: `${createdArrivalNotice.name}-${product.batchId}-${product.seq}`,
             product: await getRepository(Product).findOne(product.product.id),
             arrivalNotice: createdArrivalNotice,
             creator: context.state.user,
@@ -41,7 +41,7 @@ export const generateArrivalNotice = {
           return {
             ...vas,
             domain: context.state.domain,
-            name: `${createdArrivalNotice.id}-${vas.batchId}-${vas.vas.name}`,
+            name: `${createdArrivalNotice.name}-${vas.batchId}-${vas.vas.name}`,
             vas: await getRepository(Vas).findOne(vas.vas.id),
             arrivalNotice: createdArrivalNotice,
             creator: context.state.user,

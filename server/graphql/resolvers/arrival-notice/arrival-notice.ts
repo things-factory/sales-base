@@ -10,7 +10,17 @@ export const arrivalNoticeResolver = {
         name,
         bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id))
       },
-      relations: ['domain', 'bizplace', 'collectionOrder', 'creator', 'updater']
+      relations: [
+        'domain',
+        'bizplace',
+        'arrivalNoticeProducts',
+        'arrivalNoticeProducts.product',
+        'arrivalNoticeVass',
+        'arrivalNoticeVass.vas',
+        'collectionOrder',
+        'creator',
+        'updater'
+      ]
     })
   }
 }
