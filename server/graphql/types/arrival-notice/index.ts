@@ -11,7 +11,7 @@ export const Mutation = `
 
   updateArrivalNotice (
     name: String!
-    patch: GenerateArrivalNotice!
+    patch: ArrivalNoticePatch!
   ): ArrivalNotice
 
   deleteArrivalNotice (
@@ -21,6 +21,11 @@ export const Mutation = `
   generateArrivalNotice (
     arrivalNotice: GenerateArrivalNotice!
   ): ArrivalNotice
+
+  editArrivalNotice (
+    name: String!
+    arrivalNotice: GenerateArrivalNotice!
+  )
 `
 
 export const Query = `
