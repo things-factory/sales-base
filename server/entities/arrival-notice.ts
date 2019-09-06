@@ -16,7 +16,6 @@ import {
 import { ArrivalNoticeVas } from '.'
 import { ArrivalNoticeProduct } from './arrival-notice-product'
 import { CollectionOrder } from './collection-order'
-import { DeliveryOrder } from './delivery-order'
 
 @Entity()
 @Index('ix_arrival-notice_0', (arrivalNotice: ArrivalNotice) => [arrivalNotice.domain, arrivalNotice.name], {
@@ -85,7 +84,9 @@ export class ArrivalNotice {
   @JoinColumn()
   collectionOrder: CollectionOrder
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   deliveryOrderNo: string
 
   @Column({
