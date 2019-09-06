@@ -1,6 +1,6 @@
+import { Bizplace } from '@things-factory/biz-base'
 import { getRepository, In } from 'typeorm'
 import { ArrivalNotice } from '../../../entities'
-import { Bizplace } from '@things-factory/biz-base'
 
 export const arrivalNoticeResolver = {
   async arrivalNotice(_: any, { name }, context: any) {
@@ -10,7 +10,7 @@ export const arrivalNoticeResolver = {
         name,
         bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id))
       },
-      relations: ['domain', 'bizplace', 'collectionOrder', 'deliveryOrder', 'creator', 'updater']
+      relations: ['domain', 'bizplace', 'collectionOrder', 'creator', 'updater']
     })
   }
 }
