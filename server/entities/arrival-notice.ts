@@ -1,22 +1,22 @@
 import { User } from '@things-factory/auth-base'
+import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
 import {
   Column,
   CreateDateColumn,
   Entity,
   Index,
+  JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-  OneToOne,
   OneToMany,
-  JoinColumn
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from 'typeorm'
+import { ArrivalNoticeVas } from '.'
+import { ArrivalNoticeProduct } from './arrival-notice-product'
 import { CollectionOrder } from './collection-order'
 import { DeliveryOrder } from './delivery-order'
-import { Bizplace } from '@things-factory/biz-base'
-import { ArrivalNoticeProduct } from './arrival-notice-product'
-import { ArrivalNoticeVas } from '.'
 
 @Entity()
 @Index('ix_arrival-notice_0', (arrivalNotice: ArrivalNotice) => [arrivalNotice.domain, arrivalNotice.name], {
@@ -66,7 +66,17 @@ export class ArrivalNotice {
   @Column({
     nullable: true
   })
+  from: string
+
+  @Column({
+    nullable: true
+  })
   truckNo: string
+
+  @Column({
+    nullable: true
+  })
+  loadType: string
 
   @Column()
   status: string

@@ -8,7 +8,9 @@ export const NewArrivalNotice = gql`
     ownTransport: Boolean!
     eta: String
     pickingDateTime: String
+    from: String
     truckNo: String
+    loadType: String
     status: String!
     arrivalNoticeProducts: [NewArrivalNoticeProduct]
     arrivalNoticeVass: [NewArrivalNoticeVas]
