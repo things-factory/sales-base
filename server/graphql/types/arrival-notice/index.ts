@@ -25,7 +25,7 @@ export const Mutation = `
   editArrivalNotice (
     name: String!
     arrivalNotice: GenerateArrivalNotice!
-  )
+  ): ArrivalNotice
 `
 
 export const Query = `
