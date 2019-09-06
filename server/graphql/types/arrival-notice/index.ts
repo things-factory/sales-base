@@ -1,8 +1,8 @@
 import { ArrivalNotice } from './arrival-notice'
-import { NewArrivalNotice } from './new-arrival-notice'
-import { ArrivalNoticePatch } from './arrival-notice-patch'
 import { ArrivalNoticeList } from './arrival-notice-list'
+import { ArrivalNoticePatch } from './arrival-notice-patch'
 import { GenerateArrivalNotice } from './generate-arrival-notice'
+import { NewArrivalNotice } from './new-arrival-notice'
 
 export const Mutation = `
   createArrivalNotice (
@@ -11,7 +11,7 @@ export const Mutation = `
 
   updateArrivalNotice (
     name: String!
-    patch: ArrivalNoticePatch!
+    patch: GenerateArrivalNotice!
   ): ArrivalNotice
 
   deleteArrivalNotice (

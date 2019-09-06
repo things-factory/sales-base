@@ -14,8 +14,6 @@ export const updateArrivalNotice = {
       if (!arrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
 
       return await getManager().transaction(async transactionalEntityManager => {
-        // await transactionalEntityManager.getRepository
-
         // 1. delete arrival notice products
         const arrivalNoticeProductIds = arrivalNotice.arrivalNoticeProducts.map(product => product.id)
         await transactionalEntityManager.getRepository(ArrivalNoticeProduct).delete({ id: In(arrivalNoticeProductIds) })
