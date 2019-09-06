@@ -15,6 +15,6 @@ export const ArrivalNoticePatch = gql`
     arrivalNoticeProducts: [ObjectRef]
     arrivalNoticeVass: [ObjectRef]
     collectionOrder: ObjectRef
-    deliveryOrder: ObjectRef
+    deliveryOrderNo: String
   }
 `

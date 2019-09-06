@@ -85,9 +85,8 @@ export class ArrivalNotice {
   @JoinColumn()
   collectionOrder: CollectionOrder
 
-  @OneToOne(type => DeliveryOrder)
-  @JoinColumn()
-  deliveryOrder: DeliveryOrder
+  @Column()
+  deliveryOrderNo: string
 
   @Column({
     nullable: true
