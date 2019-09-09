@@ -25,7 +25,7 @@ export const editArrivalNotice = {
         // 3. update arrival notice
         const updatedArrivalNotice: ArrivalNotice = await transactionalEntityManager.getRepository(ArrivalNotice).save({
           ...foundArrivalNotice,
-          ...arrivalNotice,
+          ...arrivalNotice.arrivalNotice,
           updater: context.state.user
         })
 
