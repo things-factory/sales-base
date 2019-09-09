@@ -5,6 +5,7 @@ import { deleteArrivalNotice } from './delete-arrival-notice'
 import { editArrivalNotice } from './edit-arrival-notice'
 import { generateArrivalNotice } from './generate-arrival-notice'
 import { updateArrivalNotice } from './update-arrival-notice'
+import { confirmArrivalNotice } from './confirm-arrival-notice'
 
 export const Query = {
   ...arrivalNoticesResolver,
@@ -16,5 +17,6 @@ export const Mutation = {
   ...createArrivalNotice,
   ...deleteArrivalNotice,
   ...generateArrivalNotice,
-  ...editArrivalNotice
+  ...editArrivalNotice,
+  ...confirmArrivalNotice
 }

@@ -1,6 +1,6 @@
 import { getManager, getRepository, In } from 'typeorm'
 import { ArrivalNotice, OrderProduct, OrderVas, Product, Vas } from '../../../entities'
-import { ORDER_STATUS } from '../../../enum'
+import { ORDER_STATUS, ORDER_PRODUCT_STATUS, ORDER_VAS_STATUS } from '../../../enum'
 
 export const editArrivalNotice = {
   async editArrivalNotice(_: any, { name, arrivalNotice }, context: any) {
@@ -38,6 +38,7 @@ export const editArrivalNotice = {
               name: `${updatedArrivalNotice.name}-${product.batchId}-${product.seq}`,
               product: await getRepository(Product).findOne(product.product.id),
               arrivalNotice: updatedArrivalNotice,
+              status: ORDER_PRODUCT_STATUS.PENDING,
               creator: context.state.user,
               updater: context.state.user
             }
@@ -54,6 +55,7 @@ export const editArrivalNotice = {
               name: `${updatedArrivalNotice.name}-${vas.batchId}-${vas.vas.name}`,
               vas: await getRepository(Vas).findOne(vas.vas.id),
               arrivalNotice: updatedArrivalNotice,
+              status: ORDER_VAS_STATUS.PENDING,
               creator: context.state.user,
               updater: context.state.user
             }
