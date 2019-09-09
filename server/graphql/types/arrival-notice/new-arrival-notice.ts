@@ -7,7 +7,7 @@ export const NewArrivalNotice = gql`
     containerNo: String
     ownTransport: Boolean!
     eta: String
-    pickingDateTime: String
+    collectionDateTime: String
     from: String
     truckNo: String
     loadType: String
