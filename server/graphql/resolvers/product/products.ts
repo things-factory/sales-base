@@ -10,7 +10,7 @@ export const productsResolver = {
 
     const [items, total] = await getRepository(Product).findAndCount({
       ...convertedParams,
-      relations: ['domain', 'bizplace', 'productOptions', 'productBatches', 'creator', 'updater']
+      relations: ['domain', 'bizplace', 'productOptions', 'creator', 'updater']
     })
 
     return { items, total }
