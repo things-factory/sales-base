@@ -1,6 +1,6 @@
+import { Bizplace, getUserBizplaces } from '@things-factory/biz-base'
 import { getRepository } from 'typeorm'
 import { ProductOptionDetail } from '../../../entities'
-import { getUserBizplaces, Bizplace } from '@things-factory/biz-base'
 
 export const createProductOptionDetail = {
   async createProductOptionDetail(_: any, { productOptionDetail }, context: any) {

@@ -1,10 +1,10 @@
 import { createProduct } from './create-product'
 import { deleteProduct } from './delete-product'
+import { deleteProducts } from './delete-products'
 import { productResolver } from './product'
 import { productsResolver } from './products'
-import { updateProduct } from './update-product'
 import { updateMultipleProduct } from './update-multiple-product'
-import { deleteProducts } from './delete-products'
+import { updateProduct } from './update-product'
 
 export const Query = {
   ...productsResolver,

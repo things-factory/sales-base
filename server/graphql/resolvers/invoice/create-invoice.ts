@@ -1,5 +1,3 @@
-import uuid from 'uuid/v4'
-
 import { getRepository } from 'typeorm'
 import { Invoice } from '../../../entities'
 

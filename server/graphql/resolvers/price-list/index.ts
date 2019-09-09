@@ -1,9 +1,8 @@
-import { priceListResolver } from './price-list'
-import { priceListsResolver } from './price-lists'
-
-import { updatePriceList } from './update-price-list'
 import { createPriceList } from './create-price-list'
 import { deletePriceList } from './delete-price-list'
+import { priceListResolver } from './price-list'
+import { priceListsResolver } from './price-lists'
+import { updatePriceList } from './update-price-list'
 
 export const Query = {
   ...priceListsResolver,

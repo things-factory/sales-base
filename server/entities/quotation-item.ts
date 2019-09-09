@@ -1,5 +1,4 @@
 import { User } from '@things-factory/auth-base'
-import { Product } from './product'
 import { Domain } from '@things-factory/shell'
 import {
   Column,
@@ -11,6 +10,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
+import { Product } from './product'
 import { Quotation } from './quotation'
 import { QuotationItemOption } from './quotation-item-option'
 

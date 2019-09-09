@@ -1,6 +1,6 @@
+import { Bizplace } from '@things-factory/biz-base'
 import { getRepository, In } from 'typeorm'
 import { DeliveryOrder } from '../../../entities'
-import { Bizplace } from '@things-factory/biz-base'
 
 export const deliveryOrderResolver = {
   async deliveryOrder(_: any, { name }, context: any) {

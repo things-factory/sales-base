@@ -1,5 +1,5 @@
 import { getRepository, In } from 'typeorm'
-import { ProductOptionDetail, ProductOption } from '../../../entities'
+import { ProductOption, ProductOptionDetail } from '../../../entities'
 
 export const deleteProductOptionDetails = {
   async deleteProductOptionDetails(_: any, { productOption, names }) {

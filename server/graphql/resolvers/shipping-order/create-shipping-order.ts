@@ -1,6 +1,5 @@
-import uuid from 'uuid/v4'
-
 import { getRepository } from 'typeorm'
+import uuid from 'uuid/v4'
 import { ShippingOrder } from '../../../entities'
 
 export const createShippingOrder = {

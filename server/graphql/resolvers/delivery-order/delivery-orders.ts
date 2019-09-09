@@ -1,7 +1,7 @@
+import { Bizplace } from '@things-factory/biz-base'
 import { convertListParams, ListParam } from '@things-factory/shell'
 import { getRepository, In } from 'typeorm'
 import { DeliveryOrder } from '../../../entities'
-import { Bizplace } from '@things-factory/biz-base'
 
 export const deliveryOrdersResolver = {
   async deliveryOrders(_: any, params: ListParam, context: any) {

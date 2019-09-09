@@ -7,7 +7,6 @@ import * as OrderProduct from './order-product'
 import * as OrderVas from './order-vas'
 import * as PriceList from './price-list'
 import * as Product from './product'
-import * as ProductBatch from './product-batch'
 import * as ProductOption from './product-option'
 import * as ProductOptionDetail from './product-option-detail'
 import * as PurchaseOrder from './purchase-order'
@@ -32,7 +31,6 @@ export const queries = [
   Product.Query,
   ProductOption.Query,
   ProductOptionDetail.Query,
-  ProductBatch.Query,
   Vas.Query,
   ArrivalNotice.Query,
   OrderProduct.Query,
@@ -53,7 +51,6 @@ export const mutations = [
   Product.Mutation,
   ProductOption.Mutation,
   ProductOptionDetail.Mutation,
-  ProductBatch.Mutation,
   Vas.Mutation,
   ArrivalNotice.Mutation,
   OrderProduct.Mutation,
@@ -78,7 +75,6 @@ export const types = [
   ...Product.Types,
   ...ProductOption.Types,
   ...ProductOptionDetail.Types,
-  ...ProductBatch.Types,
   ...Vas.Types,
   ...ArrivalNotice.Types,
   ...OrderProduct.Types,

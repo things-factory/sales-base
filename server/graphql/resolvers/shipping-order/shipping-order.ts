@@ -5,8 +5,6 @@ export const shippingOrderResolver = {
   async shippingOrder(_, { id }, context, info) {
     const repository = getRepository(ShippingOrder)
 
-    return await repository.findOne(
-      { id }
-    )
+    return await repository.findOne({ id })
   }
 }

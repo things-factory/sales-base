@@ -1,6 +1,6 @@
+import { Bizplace } from '@things-factory/biz-base'
 import { convertListParams, ListParam } from '@things-factory/shell'
 import { getRepository, In } from 'typeorm'
-import { Bizplace } from '@things-factory/biz-base'
 import { CollectionOrder } from '../../../entities'
 
 export const collectionOrdersResolver = {

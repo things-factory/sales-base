@@ -1,16 +1,6 @@
 import { User } from '@things-factory/auth-base'
 import { Domain } from '@things-factory/shell'
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  ManyToMany,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from 'typeorm'
-import { ProductBatch } from './product-batch'
+import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 @Entity()
 @Index('ix_shipping-order_0', (shippingOrder: ShippingOrder) => [shippingOrder.domain, shippingOrder.name], {
@@ -22,9 +12,6 @@ export class ShippingOrder {
 
   @ManyToOne(type => Domain)
   domain: Domain
-
-  @ManyToMany(type => ProductBatch, productBatch => productBatch.shippingOrders)
-  productBatches: ProductBatch[]
 
   @Column()
   name: string

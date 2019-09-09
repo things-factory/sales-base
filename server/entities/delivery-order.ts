@@ -1,8 +1,6 @@
 import { User } from '@things-factory/auth-base'
 import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
-import { OrderProduct } from './order-product'
-import { OrderVas } from './order-vas'
 import {
   Column,
   CreateDateColumn,
@@ -13,6 +11,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
+import { OrderProduct } from './order-product'
+import { OrderVas } from './order-vas'
 
 @Entity()
 @Index('ix_delivery-order_0', (deliveryOrder: DeliveryOrder) => [deliveryOrder.domain, deliveryOrder.name], {
@@ -36,6 +36,7 @@ export class DeliveryOrder {
 
   @OneToMany(type => OrderVas, orderVas => orderVas.deliveryOrder)
   orderVass: OrderVas[]
+
   @Column({
     nullable: true
   })

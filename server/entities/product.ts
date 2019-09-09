@@ -11,7 +11,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
-import { ProductBatch } from './product-batch'
 import { ProductOption } from './product-option'
 
 @Entity('products')
@@ -40,9 +39,6 @@ export class Product {
 
   @OneToMany(type => ProductOption, productOption => productOption.product)
   productOptions: ProductOption[]
-
-  @OneToMany(type => ProductBatch, productBatch => productBatch.product)
-  productBatches: ProductBatch[]
 
   @Column()
   type: string

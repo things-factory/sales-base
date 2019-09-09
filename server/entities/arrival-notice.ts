@@ -60,7 +60,7 @@ export class ArrivalNotice {
   @Column({
     nullable: true
   })
-  pickingDateTime: Date
+  collectionDateTime: Date
 
   @Column({
     nullable: true

@@ -1,12 +1,12 @@
 import { getManager, getRepository, In } from 'typeorm'
-import { ArrivalNotice, ArrivalNoticeProduct, ArrivalNoticeVas, Product, Vas } from '../../../entities'
+import { ArrivalNotice, OrderProduct, OrderVas, Product, Vas } from '../../../entities'
 import { ORDER_STATUS } from '../../../enum'
 
 export const editArrivalNotice = {
   async editArrivalNotice(_: any, { name, arrivalNotice }, context: any) {
     const foundArrivalNotice: ArrivalNotice = await getRepository(ArrivalNotice).findOne({
       where: { domain: context.state.domain, name },
-      relations: ['arrivalNoticeProducts', 'arrivalNoticeVass', 'creator', 'updater']
+      relations: ['orderProducts', 'orderVass', 'creator', 'updater']
     })
 
     try {
@@ -14,13 +14,13 @@ export const editArrivalNotice = {
       if (foundArrivalNotice.status !== ORDER_STATUS.EDITING) throw new Error('Not editable status.')
 
       return await getManager().transaction(async transactionalEntityManager => {
-        // 1. delete arrival notice products
-        const arrivalNoticeProductIds = foundArrivalNotice.arrivalNoticeProducts.map(product => product.id)
-        await transactionalEntityManager.getRepository(ArrivalNoticeProduct).delete({ id: In(arrivalNoticeProductIds) })
+        // 1. delete order products
+        const orderProductIds = foundArrivalNotice.orderProducts.map(product => product.id)
+        await transactionalEntityManager.getRepository(OrderProduct).delete({ id: In(orderProductIds) })
 
-        // 2. delete arrival notice vass
-        const arrivalNoticeVasIds = foundArrivalNotice.arrivalNoticeVass.map(vas => vas.id)
-        await transactionalEntityManager.getRepository(ArrivalNoticeVas).delete({ id: In(arrivalNoticeVasIds) })
+        // 2. delete order vass
+        const orderVasIds = foundArrivalNotice.orderVass.map(vas => vas.id)
+        await transactionalEntityManager.getRepository(OrderVas).delete({ id: In(orderVasIds) })
 
         // 3. update arrival notice
         const updatedArrivalNotice: ArrivalNotice = await transactionalEntityManager.getRepository(ArrivalNotice).save({
@@ -29,9 +29,9 @@ export const editArrivalNotice = {
           updater: context.state.user
         })
 
-        // 4. create arrival notice products
+        // 4. create order products
         const products = await Promise.all(
-          arrivalNotice.products.map(async (product: ArrivalNoticeProduct) => {
+          arrivalNotice.products.map(async (product: OrderProduct) => {
             return {
               ...product,
               domain: context.state.domain,
@@ -43,11 +43,11 @@ export const editArrivalNotice = {
             }
           })
         )
-        await transactionalEntityManager.getRepository(ArrivalNoticeProduct).save(products)
+        await transactionalEntityManager.getRepository(OrderProduct).save(products)
 
-        // 5. create arrival notice products
+        // 5. create order vas
         const vass = await Promise.all(
-          arrivalNotice.vass.map(async (vas: ArrivalNoticeVas) => {
+          arrivalNotice.vass.map(async (vas: OrderVas) => {
             return {
               ...vas,
               domain: context.state.domain,
@@ -59,7 +59,7 @@ export const editArrivalNotice = {
             }
           })
         )
-        await transactionalEntityManager.getRepository(ArrivalNoticeVas).save(vass)
+        await transactionalEntityManager.getRepository(OrderVas).save(vass)
 
         return updatedArrivalNotice
       })
