@@ -10,6 +10,7 @@ export const OrderVas = gql`
     arrivalNotice: ArrivalNotice
     vas: Vas
     remark: String
+    status: String
     updater: User
     creator: User
     updatedAt: String

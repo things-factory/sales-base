@@ -14,6 +14,7 @@ export const OrderProductPatch = gql`
     palletQty: Int
     totalWeight: String
     description: String
+    status: String
     cuFlag: String
   }
 `

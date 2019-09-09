@@ -17,6 +17,7 @@ export const OrderProduct = gql`
     palletQty: Int
     totalWeight: String
     updater: User
+    status: String
     creator: User
     updatedAt: String
     createdAt: String

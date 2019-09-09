@@ -7,6 +7,7 @@ export const NewOrderVas = gql`
     arrivalNotice: ObjectRef
     vas: ObjectRef
     batchId: String
+    status: String
     remark: String
   }
 `

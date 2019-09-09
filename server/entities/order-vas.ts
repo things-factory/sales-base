@@ -46,6 +46,9 @@ export class OrderVas {
   })
   description: string
 
+  @Column()
+  status: string
+
   @CreateDateColumn()
   createdAt: Date
 

@@ -9,6 +9,7 @@ export const OrderVasPatch = gql`
     arrivalNotice: ObjectRef
     vas: ObjectRef
     remark: String
+    status: String
     cuFlag: String
   }
 `
