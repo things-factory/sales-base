@@ -13,9 +13,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
-import { OrderVas } from './order-vas'
-import { OrderProduct } from './order-product'
 import { CollectionOrder } from './collection-order'
+import { OrderProduct } from './order-product'
+import { OrderVas } from './order-vas'
 
 @Entity()
 @Index('ix_arrival-notice_0', (arrivalNotice: ArrivalNotice) => [arrivalNotice.domain, arrivalNotice.name], {
@@ -66,6 +66,11 @@ export class ArrivalNotice {
     nullable: true
   })
   from: string
+
+  @Column({
+    nullable: true
+  })
+  to: string
 
   @Column({
     nullable: true
