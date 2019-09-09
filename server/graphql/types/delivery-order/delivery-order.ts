@@ -4,10 +4,15 @@ export const DeliveryOrder = gql`
   type DeliveryOrder {
     id: String
     domain: Domain
+    bizplace: Bizplace
     name: String
-    type: String
-    issuedOn: String
-    customer: Customer
+    loadType: String
+    truckNo: String
+    from: String
+    to: String
+    deliveryDateTime: Date
+    orderProducts: [OrderProduct]
+    orderVass: [OrderVas]
     status: String
     description: String
     creator: User

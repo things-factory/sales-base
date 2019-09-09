@@ -1,17 +1,18 @@
 import { User } from '@things-factory/auth-base'
-import { Customer } from '@things-factory/biz-base'
+import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
+import { OrderProduct } from './order-product'
+import { OrderVas } from './order-vas'
 import {
   Column,
   CreateDateColumn,
   Entity,
   Index,
-  ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
-import { ProductBatch } from './product-batch'
 
 @Entity()
 @Index('ix_collection-order_0', (collectionOrder: CollectionOrder) => [collectionOrder.domain, collectionOrder.name], {
@@ -24,38 +25,39 @@ export class CollectionOrder {
   @ManyToOne(type => Domain)
   domain: Domain
 
+  @ManyToOne(type => Bizplace)
+  bizplace: Bizplace
+
   @Column()
   name: string
 
   @Column()
   from: string
 
+  @Column()
+  to: string
+
   @Column({
-    comment: 'collection time'
+    nullable: true
   })
-  time: string
+  collectionDateTime: Date
+
+  @OneToMany(type => OrderProduct, orderProduct => orderProduct.collectionOrder)
+  orderProducts: OrderProduct[]
+
+  @OneToMany(type => OrderVas, orderVas => orderVas.collectionOrder)
+  orderVass: OrderVas[]
 
   @Column({
     comment: 'FCL or LCL'
   })
   loadType: string
 
-  @ManyToMany(type => ProductBatch, productBatch => productBatch.collectionOrders)
-  productBatches: ProductBatch[]
-
-  @Column({
-    comment: 'collection date'
-  })
-  date: string
+  @Column()
+  truckNo: string
 
   @Column()
   status: string
-
-  @Column('date')
-  issuedOn: Date
-
-  @ManyToOne(type => Customer)
-  customer: Customer
 
   @Column({
     nullable: true

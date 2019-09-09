@@ -1,15 +1,21 @@
-import { getRepository } from 'typeorm'
+import { getRepository, In } from 'typeorm'
+import { Bizplace } from '@things-factory/biz-base'
 import { CollectionOrder } from '../../../entities'
 
 export const updateCollectionOrder = {
-  async updateCollectionOrder(_, { id, patch }) {
-    const repository = getRepository(CollectionOrder)
+  async updateCollectionOrder(_: any, { name, patch }, context: any) {
+    const collectionOrder = await getRepository(CollectionOrder).findOne({
+      where: {
+        domain: context.state.domain,
+        name,
+        bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id))
+      }
+    })
 
-    const collectionOrder = await repository.findOne({ id })
-
-    return await repository.save({
+    return await getRepository(CollectionOrder).save({
       ...collectionOrder,
-      ...patch
+      ...patch,
+      updater: context.state.user
     })
   }
 }

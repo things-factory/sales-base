@@ -1,8 +1,7 @@
 import { CollectionOrder } from './collection-order'
-import { NewCollectionOrder } from './new-collection-order'
-import { CollectionOrderPatch } from './collection-order-patch'
 import { CollectionOrderList } from './collection-order-list'
-import { Filter, Pagination, Sorting } from '@things-factory/shell'
+import { CollectionOrderPatch } from './collection-order-patch'
+import { NewCollectionOrder } from './new-collection-order'
 
 export const Mutation = `
   createCollectionOrder (
@@ -10,18 +9,18 @@ export const Mutation = `
   ): CollectionOrder
 
   updateCollectionOrder (
-    id: String!
+    name: String!
     patch: CollectionOrderPatch!
   ): CollectionOrder
 
   deleteCollectionOrder (
-    id: String!
-  ): CollectionOrder
+    name: String!
+  ): Boolean
 `
 
 export const Query = `
   collectionOrders(filters: [Filter], pagination: Pagination, sortings: [Sorting]): CollectionOrderList
-  collectionOrder(id: String!): CollectionOrder
+  collectionOrder(name: String!): CollectionOrder
 `
 
-export const Types = [Filter, Pagination, Sorting, CollectionOrder, NewCollectionOrder, CollectionOrderPatch, CollectionOrderList]
+export const Types = [CollectionOrder, NewCollectionOrder, CollectionOrderPatch, CollectionOrderList]

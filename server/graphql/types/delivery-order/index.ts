@@ -1,8 +1,7 @@
 import { DeliveryOrder } from './delivery-order'
-import { NewDeliveryOrder } from './new-delivery-order'
-import { DeliveryOrderPatch } from './delivery-order-patch'
 import { DeliveryOrderList } from './delivery-order-list'
-import { Filter, Pagination, Sorting } from '@things-factory/shell'
+import { DeliveryOrderPatch } from './delivery-order-patch'
+import { NewDeliveryOrder } from './new-delivery-order'
 
 export const Mutation = `
   createDeliveryOrder (
@@ -24,12 +23,4 @@ export const Query = `
   deliveryOrder(name: String!): DeliveryOrder
 `
 
-export const Types = [
-  Filter,
-  Pagination,
-  Sorting,
-  DeliveryOrder,
-  NewDeliveryOrder,
-  DeliveryOrderPatch,
-  DeliveryOrderList
-]
+export const Types = [DeliveryOrder, NewDeliveryOrder, DeliveryOrderPatch, DeliveryOrderList]

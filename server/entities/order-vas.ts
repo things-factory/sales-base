@@ -3,9 +3,10 @@ import { Domain } from '@things-factory/shell'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { ArrivalNotice } from './arrival-notice'
 import { CollectionOrder } from './collection-order'
+import { DeliveryOrder } from './delivery-order'
 import { Vas } from './vas'
 
-@Entity('arrival_notice_vass')
+@Entity('order_vass')
 @Index('ix_order-vas_0', (orderVas: OrderVas) => [orderVas.domain, orderVas.name], {
   unique: true
 })
@@ -32,6 +33,9 @@ export class OrderVas {
 
   @ManyToOne(type => CollectionOrder)
   collectionOrder: CollectionOrder
+
+  @ManyToOne(type => DeliveryOrder)
+  deliveryOrder: DeliveryOrder
 
   @ManyToOne(type => Vas, {
     nullable: false

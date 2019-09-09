@@ -1,17 +1,18 @@
 import { User } from '@things-factory/auth-base'
-import { Customer } from '@things-factory/biz-base'
+import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
+import { OrderProduct } from './order-product'
+import { OrderVas } from './order-vas'
 import {
   Column,
   CreateDateColumn,
   Entity,
   Index,
-  ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
-import { ProductBatch } from './product-batch'
 
 @Entity()
 @Index('ix_delivery-order_0', (deliveryOrder: DeliveryOrder) => [deliveryOrder.domain, deliveryOrder.name], {
@@ -24,12 +25,17 @@ export class DeliveryOrder {
   @ManyToOne(type => Domain)
   domain: Domain
 
+  @ManyToOne(type => Bizplace)
+  bizplace: Bizplace
+
   @Column()
   name: string
 
-  @ManyToMany(type => ProductBatch, productBatch => productBatch.deliveryOrders)
-  productBatches: ProductBatch[]
+  @OneToMany(type => OrderProduct, orderProduct => orderProduct.deliveryOrder)
+  orderProducts: OrderProduct[]
 
+  @OneToMany(type => OrderVas, orderVas => orderVas.deliveryOrder)
+  orderVass: OrderVas[]
   @Column({
     nullable: true
   })
@@ -38,21 +44,18 @@ export class DeliveryOrder {
   @Column()
   to: string
 
-  @Column({
-    comment: 'delivery time'
-  })
-  time: string
+  @Column()
+  truckNo: string
 
   @Column({
-    comment: 'delivery date'
+    nullable: true
   })
-  date: string
+  deliveryDateTime: Date
 
-  @Column('date')
-  issuedOn: Date
-
-  @ManyToOne(type => Customer)
-  customer: Customer
+  @Column({
+    comment: 'FCL or LCL'
+  })
+  loadType: string
 
   @Column()
   status: string

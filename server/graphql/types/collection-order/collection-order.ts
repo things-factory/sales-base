@@ -5,6 +5,19 @@ export const CollectionOrder = gql`
     id: String
     name: String
     domain: Domain
+    bizplace: Bizplace
+    from: String
+    to: String
+    truckNo: String
+    orderProducts: [OrderProduct]
+    orderVass: [OrderVas]
+    collectionDateTime: Date
+    loadType: String
+    status: String
     description: String
+    updater: User
+    creator: User
+    updatedAt: String
+    createdAt: String
   }
 `

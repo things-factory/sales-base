@@ -2,9 +2,8 @@ import { getRepository } from 'typeorm'
 import { CollectionOrder } from '../../../entities'
 
 export const deleteCollectionOrder = {
-  async deleteCollectionOrder(_, { id }) {
-    const repository = getRepository(CollectionOrder)
-
-    return await repository.delete(id)
+  async deleteCollectionOrder(_: any, { name }) {
+    await getRepository(CollectionOrder).delete(name)
+    return true
   }
 }
