@@ -8,7 +8,6 @@ export const Product = gql`
     name: String
     description: String
     productOptions: [ProductOption]
-    batches: [ProductBatch]
     type: String
     creator: User
     updater: User
