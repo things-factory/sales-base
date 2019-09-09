@@ -48,6 +48,9 @@ export class ArrivalNoticeVas {
   })
   description: string
 
+  @Column()
+  status: string
+
   @CreateDateColumn()
   createdAt: Date
 

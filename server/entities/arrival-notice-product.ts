@@ -73,6 +73,9 @@ export class ArrivalNoticeProduct {
   @Column('float')
   totalWeight: number
 
+  @Column()
+  status: string
+
   @CreateDateColumn()
   createdAt: Date
 
