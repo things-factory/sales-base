@@ -12,8 +12,8 @@ export const ArrivalNoticePatch = gql`
     truckNo: String
     loadType: String
     status: String
-    arrivalNoticeProducts: [ObjectRef]
-    arrivalNoticeVass: [ObjectRef]
+    orderProducts: [ObjectRef]
+    orderVass: [ObjectRef]
     collectionOrder: ObjectRef
     deliveryOrderNo: String
   }

@@ -13,10 +13,10 @@ export const arrivalNoticeResolver = {
       relations: [
         'domain',
         'bizplace',
-        'arrivalNoticeProducts',
-        'arrivalNoticeProducts.product',
-        'arrivalNoticeVass',
-        'arrivalNoticeVass.vas',
+        'orderProducts',
+        'orderProducts.product',
+        'orderVass',
+        'orderVass.vas',
         'collectionOrder',
         'creator',
         'updater'

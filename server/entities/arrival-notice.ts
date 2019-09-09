@@ -13,8 +13,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
-import { ArrivalNoticeVas } from '.'
-import { ArrivalNoticeProduct } from './arrival-notice-product'
+import { OrderVas } from '.'
+import { OrderProduct } from './order-product'
 import { CollectionOrder } from './collection-order'
 
 @Entity()
@@ -46,11 +46,11 @@ export class ArrivalNotice {
   @Column()
   ownTransport: boolean
 
-  @OneToMany(type => ArrivalNoticeProduct, arrivalNoticeProduct => arrivalNoticeProduct.arrivalNotice)
-  arrivalNoticeProducts: ArrivalNoticeProduct[]
+  @OneToMany(type => OrderProduct, orderProduct => orderProduct.arrivalNotice)
+  orderProducts: OrderProduct[]
 
-  @OneToMany(type => ArrivalNoticeVas, arrivalNoticeVas => arrivalNoticeVas.arrivalNotice)
-  arrivalNoticeVass: ArrivalNoticeVas[]
+  @OneToMany(type => OrderVas, orderVas => orderVas.arrivalNotice)
+  orderVass: OrderVas[]
 
   @Column({
     nullable: true

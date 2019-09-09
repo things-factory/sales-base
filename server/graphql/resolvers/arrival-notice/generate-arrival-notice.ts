@@ -1,6 +1,7 @@
 import { getManager, getRepository } from 'typeorm'
 import uuid from 'uuid/v4'
-import { ArrivalNotice, ArrivalNoticeProduct, ArrivalNoticeVas, Product, Vas } from '../../../entities'
+import { ArrivalNotice, OrderProduct, OrderVas, Product, Vas } from '../../../entities'
+import { ORDER_PRODUCT_STATUS, ORDER_VAS_STATUS } from '../../../enum'
 
 export const generateArrivalNotice = {
   async generateArrivalNotice(_: any, { arrivalNotice }, context: any) {
@@ -21,35 +22,37 @@ export const generateArrivalNotice = {
 
       // 2. Create arrival notice product
       products = await Promise.all(
-        products.map(async (product: ArrivalNoticeProduct) => {
+        products.map(async (product: OrderProduct) => {
           return {
             ...product,
             domain: context.state.domain,
             name: `${createdArrivalNotice.name}-${product.batchId}-${product.seq}`,
             product: await getRepository(Product).findOne(product.product.id),
             arrivalNotice: createdArrivalNotice,
+            status: ORDER_PRODUCT_STATUS.PENDING,
             creator: context.state.user,
             updater: context.state.user
           }
         })
       )
-      await transactionalEntityManager.getRepository(ArrivalNoticeProduct).save(products)
+      await transactionalEntityManager.getRepository(OrderProduct).save(products)
 
       // 3. Create arrival notice vas
       vass = await Promise.all(
-        vass.map(async (vas: ArrivalNoticeVas) => {
+        vass.map(async (vas: OrderVas) => {
           return {
             ...vas,
             domain: context.state.domain,
             name: `${createdArrivalNotice.name}-${vas.batchId}-${vas.vas.name}`,
             vas: await getRepository(Vas).findOne(vas.vas.id),
             arrivalNotice: createdArrivalNotice,
+            status: ORDER_VAS_STATUS.PENDING,
             creator: context.state.user,
             updater: context.state.user
           }
         })
       )
-      await transactionalEntityManager.getRepository(ArrivalNoticeVas).save(vass)
+      await transactionalEntityManager.getRepository(OrderVas).save(vass)
 
       return createdArrivalNotice
     })

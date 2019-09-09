@@ -1,22 +1,22 @@
+import { Filter, ObjectRef, Pagination, Sorting } from '@things-factory/shell'
+import * as ArrivalNotice from './arrival-notice'
+import * as CollectionOrder from './collection-order'
+import * as DeliveryOrder from './delivery-order'
+import * as Invoice from './invoice'
+import * as OrderProduct from './order-product'
+import * as OrderVas from './order-vas'
+import * as PriceList from './price-list'
+import * as Product from './product'
+import * as ProductBatch from './product-batch'
+import * as ProductOption from './product-option'
+import * as ProductOptionDetail from './product-option-detail'
+import * as PurchaseOrder from './purchase-order'
 import * as Quotation from './quotation'
 import * as QuotationItem from './quotation-item'
 import * as QuotationItemOption from './quotation-item-option'
 import * as QuotationPromotion from './quotation-promotion'
-import * as Invoice from './invoice'
-import * as PriceList from './price-list'
-import * as PurchaseOrder from './purchase-order'
-import * as DeliveryOrder from './delivery-order'
 import * as ShippingOrder from './shipping-order'
-import * as CollectionOrder from './collection-order'
-import * as Product from './product'
-import * as ProductOption from './product-option'
-import * as ProductOptionDetail from './product-option-detail'
-import * as ProductBatch from './product-batch'
 import * as Vas from './vas'
-import { Filter, Pagination, Sorting, ObjectRef } from '@things-factory/shell'
-import * as ArrivalNotice from './arrival-notice'
-import * as ArrivalNoticeProduct from './arrival-notice-product'
-import * as ArrivalNoticeVas from './arrival-notice-vas'
 
 export const queries = [
   Quotation.Query,
@@ -35,8 +35,8 @@ export const queries = [
   ProductBatch.Query,
   Vas.Query,
   ArrivalNotice.Query,
-  ArrivalNoticeProduct.Query,
-  ArrivalNoticeVas.Query
+  OrderProduct.Query,
+  OrderVas.Query
 ]
 
 export const mutations = [
@@ -56,8 +56,8 @@ export const mutations = [
   ProductBatch.Mutation,
   Vas.Mutation,
   ArrivalNotice.Mutation,
-  ArrivalNoticeProduct.Mutation,
-  ArrivalNoticeVas.Mutation
+  OrderProduct.Mutation,
+  OrderVas.Mutation
 ]
 
 export const types = [
@@ -81,6 +81,6 @@ export const types = [
   ...ProductBatch.Types,
   ...Vas.Types,
   ...ArrivalNotice.Types,
-  ...ArrivalNoticeProduct.Types,
-  ...ArrivalNoticeVas.Types
+  ...OrderProduct.Types,
+  ...OrderVas.Types
 ]

@@ -1,6 +1,6 @@
 import { ArrivalNotice } from './arrival-notice'
-import { ArrivalNoticeProduct } from './arrival-notice-product'
-import { ArrivalNoticeVas } from './arrival-notice-vas'
+import { OrderProduct } from './order-product'
+import { OrderVas } from './order-vas'
 import { Quotation } from './quotation'
 import { QuotationItem } from './quotation-item'
 import { QuotationItemOption } from './quotation-item-option'
@@ -19,8 +19,8 @@ import { Vas } from './vas'
 
 export const entities = [
   ArrivalNotice,
-  ArrivalNoticeProduct,
-  ArrivalNoticeVas,
+  OrderProduct,
+  OrderVas,
   Quotation,
   QuotationItem,
   QuotationItemOption,
@@ -40,8 +40,8 @@ export const entities = [
 
 export {
   ArrivalNotice,
-  ArrivalNoticeProduct,
-  ArrivalNoticeVas,
+  OrderProduct,
+  OrderVas,
   Quotation,
   QuotationItem,
   QuotationItemOption,

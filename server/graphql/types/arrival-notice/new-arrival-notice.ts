@@ -12,8 +12,8 @@ export const NewArrivalNotice = gql`
     truckNo: String
     loadType: String
     status: String!
-    arrivalNoticeProducts: [NewArrivalNoticeProduct]
-    arrivalNoticeVass: [NewArrivalNoticeVas]
+    orderProducts: [NewOrderProduct]
+    orderVass: [NewOrderVas]
     collectionOrder: ObjectRef
     deliveryOrderNo: String
   }
