@@ -31,6 +31,7 @@ export const confirmArrivalNotice = {
           bizplace: context.state.bizplaces[0],
           collectionDateTime: foundArrivalNotice.collectionDateTime,
           from: foundArrivalNotice.from,
+          to: foundArrivalNotice.to,
           loadType: foundArrivalNotice.loadType,
           status: ORDER_STATUS.PENDING_RECIEVE
         })

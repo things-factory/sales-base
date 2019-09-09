@@ -53,7 +53,9 @@ export class CollectionOrder {
   })
   loadType: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   truckNo: string
 
   @Column()
