@@ -7,7 +7,7 @@ export const DeliveryOrderPatch = gql`
     loadType: String
     from: String
     to: String
-    deliveryDateTime: Date
+    deliveryDateTime: String
     orderProducts: [ObjectRef]!
     orderVass: [ObjectRef]
     status: String

@@ -8,7 +8,7 @@ export const NewDeliveryOrder = gql`
     truckNo: String
     orderProducts: [ObjectRef]!
     orderVass: [ObjectRef]
-    deliveryDateTime: Date!
+    deliveryDateTime: String!
     loadType: String
     status: String!
     description: String

@@ -9,7 +9,7 @@ export const NewCollectionOrder = gql`
     truckNo: String
     orderProducts: [ObjectRef]!
     orderVass: [ObjectRef]
-    collectionDateTime: Date!
+    collectionDateTime: String!
     loadType: String
     status: String!
   }

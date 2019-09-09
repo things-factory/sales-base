@@ -13,7 +13,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
-import { OrderVas } from '.'
+import { OrderVas } from './order-vas'
 import { OrderProduct } from './order-product'
 import { CollectionOrder } from './collection-order'
 
