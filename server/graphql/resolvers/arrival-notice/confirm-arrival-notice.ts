@@ -15,7 +15,7 @@ export const confirmArrivalNotice = {
       if (!foundArrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
       if (foundArrivalNotice.status !== ORDER_STATUS.PENDING) throw new Error('Not confirmable status.')
 
-      // 1. GAN Status change (PENDING => PENDING_RECEIVE)
+      // 1. GAN Status change (PENDING => PENDING_RECIEVE)
       arrivalNotice = await transactionalEntityManager.getRepository(ArrivalNotice).save({
         ...foundArrivalNotice,
         status: ORDER_STATUS.PENDING_RECIEVE,
