@@ -35,7 +35,7 @@ export const Mutation = `
 export const Query = `
   arrivalNotices(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ArrivalNoticeList
   arrivalNotice(name: String!): ArrivalNotice
-  requestedArrivalNotices(filters: [Filter], pagination: Pagination, sorting: [Sorting]): ArrivalNoticeList
+  arrivalNoticeRequests(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ArrivalNoticeList
 `
 
 export const Types = [ArrivalNotice, NewArrivalNotice, ArrivalNoticePatch, ArrivalNoticeList, GenerateArrivalNotice]
