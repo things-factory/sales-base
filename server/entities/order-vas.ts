@@ -10,7 +10,13 @@ import { Vas } from './vas'
 @Index('ix_order-vas_0', (orderVas: OrderVas) => [orderVas.domain, orderVas.name], {
   unique: true
 })
-@Index('ix_order-vas_1', (orderVas: OrderVas) => [orderVas.vas, orderVas.batchId], {
+@Index('ix_order-vas_1', (orderVas: OrderVas) => [orderVas.arrivalNotice, orderVas.vas, orderVas.batchId], {
+  unique: true
+})
+@Index('ix_order-vas_2', (orderVas: OrderVas) => [orderVas.collectionOrder, orderVas.vas, orderVas.batchId], {
+  unique: true
+})
+@Index('ix_order-vas_3', (orderVas: OrderVas) => [orderVas.deliveryOrder, orderVas.vas, orderVas.batchId], {
   unique: true
 })
 export class OrderVas {

@@ -14,6 +14,18 @@ import { ArrivalNotice } from './arrival-notice'
 @Index('ix_order-product_2', (orderProduct: OrderProduct) => [orderProduct.arrivalNotice, orderProduct.seq], {
   unique: true
 })
+@Index('ix_order-product_3', (orderProduct: OrderProduct) => [orderProduct.collectionOrder, orderProduct.batchId], {
+  unique: true
+})
+@Index('ix_order-product_4', (orderProduct: OrderProduct) => [orderProduct.collectionOrder, orderProduct.seq], {
+  unique: true
+})
+@Index('ix_order-product_5', (orderProduct: OrderProduct) => [orderProduct.deliveryOrder, orderProduct.batchId], {
+  unique: true
+})
+@Index('ix_order-product_6', (orderProduct: OrderProduct) => [orderProduct.deliveryOrder, orderProduct.seq], {
+  unique: true
+})
 export class OrderProduct {
   @PrimaryGeneratedColumn('uuid')
   id: string
