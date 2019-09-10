@@ -73,11 +73,12 @@ export const confirmArrivalNotice = {
         await transactionalEntityManager.getRepository(OrderVas).save(vass)
 
         // 2. 4 Make relation between arrival notice & collection order
-
-        arrivalNotice = await transactionalEntityManager.getRepository(ArrivalNotice).save({
-          ...foundArrivalNotice,
-          collectionOrder
-        })
+        return await transactionalEntityManager.getRepository(ArrivalNotice).update(
+          { domain: context.state.domain, name },
+          {
+            collectionOrder
+          }
+        )
       }
 
       return arrivalNotice
