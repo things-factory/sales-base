@@ -13,7 +13,7 @@ export class OrderNoGenerator {
     return `${orderName}-${productBatchId}-${productSeq}`
   }
 
-  static orderVas(orderName: String, batchId: String) {
-    return `${orderName}-${batchId}`
+  static orderVas(orderName: String, batchId: String, vasName: String) {
+    return `${orderName}-${batchId}-${vasName}`
   }
 }

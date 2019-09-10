@@ -53,7 +53,7 @@ export const editArrivalNotice = {
             return {
               ...vas,
               domain: context.state.domain,
-              name: OrderNoGenerator.orderVas(foundArrivalNotice.name, vas.batchId),
+              name: OrderNoGenerator.orderVas(foundArrivalNotice.name, vas.batchId, vas.vas.name),
               vas: await getRepository(Vas).findOne(vas.vas.id),
               arrivalNotice: updatedArrivalNotice,
               status: ORDER_VAS_STATUS.PENDING,

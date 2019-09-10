@@ -62,7 +62,7 @@ export const confirmArrivalNotice = {
           return {
             ...vas,
             domain: context.state.domain,
-            name: OrderNoGenerator.orderVas(collectionOrder.name, vas.batchId),
+            name: OrderNoGenerator.orderVas(collectionOrder.name, vas.batchId, vas.vas.name),
             collectionOrder,
             status: ORDER_VAS_STATUS.PENDING,
             creator: context.state.user,
