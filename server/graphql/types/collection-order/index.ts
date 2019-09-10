@@ -2,6 +2,7 @@ import { CollectionOrder } from './collection-order'
 import { CollectionOrderList } from './collection-order-list'
 import { CollectionOrderPatch } from './collection-order-patch'
 import { NewCollectionOrder } from './new-collection-order'
+import { GenerateCollectionOrder } from './generate-collection-order'
 
 export const Mutation = `
   createCollectionOrder (
@@ -16,6 +17,20 @@ export const Mutation = `
   deleteCollectionOrder (
     name: String!
   ): Boolean
+
+  generateCollectionOrder (
+    collectionOrder: GenerateCollectionOrder!
+  ): CollectionOrder
+
+  editCollectionOrder (
+    name: String!
+    collectionOrder: GenerateCollectionOrder!
+  ): CollectionOrder
+
+  confirmCollectionOrder (
+    name: String!
+  ): CollectionOrder
+
 `
 
 export const Query = `
@@ -23,4 +38,10 @@ export const Query = `
   collectionOrder(name: String!): CollectionOrder
 `
 
-export const Types = [CollectionOrder, NewCollectionOrder, CollectionOrderPatch, CollectionOrderList]
+export const Types = [
+  CollectionOrder,
+  NewCollectionOrder,
+  CollectionOrderPatch,
+  CollectionOrderList,
+  GenerateCollectionOrder
+]

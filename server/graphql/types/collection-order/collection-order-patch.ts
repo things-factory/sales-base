@@ -13,6 +13,5 @@ export const CollectionOrderPatch = gql`
     truckNo: String
     loadType: String
     status: String
-    cuFlag: String
   }
 `
