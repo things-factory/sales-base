@@ -1,5 +1,5 @@
+import { OrderNoGenerator } from 'server/utils/order-no-generator'
 import { getManager, getRepository } from 'typeorm'
-import uuid from 'uuid/v4'
 import { ArrivalNotice, CollectionOrder, OrderProduct, OrderVas } from '../../../entities'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../enum'
 
@@ -11,7 +11,7 @@ export const confirmArrivalNotice = {
     })
 
     return await getManager().transaction(async transactionalEntityManager => {
-      let arrivalNotice
+      let arrivalNotice: ArrivalNotice
       if (!foundArrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
       if (foundArrivalNotice.status !== ORDER_STATUS.PENDING) throw new Error('Not confirmable status.')
 
@@ -26,7 +26,7 @@ export const confirmArrivalNotice = {
       if (!foundArrivalNotice.ownTransport) {
         // 2.1 If it's needed. Create Collection Order
         const collectionOrder: CollectionOrder = await transactionalEntityManager.getRepository(CollectionOrder).save({
-          name: uuid(),
+          name: OrderNoGenerator.collectionOrder(),
           domain: context.state.domain,
           bizplace: context.state.bizplaces[0],
           collectionDateTime: foundArrivalNotice.collectionDateTime,
@@ -44,7 +44,7 @@ export const confirmArrivalNotice = {
           return {
             ...product,
             domain: context.state.domain,
-            name: `${collectionOrder.name}-${product.batchId}-${product.seq}`,
+            name: OrderNoGenerator.orderProduct(collectionOrder.name, product.batchId, product.seq),
             collectionOrder,
             status: ORDER_PRODUCT_STATUS.PENDING,
             creator: context.state.user,
@@ -62,7 +62,7 @@ export const confirmArrivalNotice = {
           return {
             ...vas,
             domain: context.state.domain,
-            name: `${collectionOrder.name}-${vas.batchId}-${vas.vas.name}`,
+            name: OrderNoGenerator.orderVas(collectionOrder.name, vas.batchId),
             collectionOrder,
             status: ORDER_VAS_STATUS.PENDING,
             creator: context.state.user,

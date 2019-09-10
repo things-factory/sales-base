@@ -2,7 +2,6 @@ import { NewProduct } from './new-product'
 import { Product } from './product'
 import { ProductList } from './product-list'
 import { ProductPatch } from './product-patch'
-import { directivePriviledge } from '@things-factory/auth-base'
 
 export const Mutation = `
   createProduct (
@@ -30,7 +29,6 @@ export const Mutation = `
 export const Query = `
   products(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ProductList @priviledge(category: "order", priviledge: "query")
   product(name: String!): Product @priviledge(category: "order", priviledge: "query")
-
 `
 
 export const Types = [Product, NewProduct, ProductPatch, ProductList]

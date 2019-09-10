@@ -1,7 +1,7 @@
 import { getManager, getRepository } from 'typeorm'
-import uuid from 'uuid/v4'
 import { ArrivalNotice, OrderProduct, OrderVas, Product, Vas } from '../../../entities'
 import { ORDER_PRODUCT_STATUS, ORDER_VAS_STATUS } from '../../../enum'
+import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const generateArrivalNotice = {
   async generateArrivalNotice(_: any, { arrivalNotice }, context: any) {
@@ -12,7 +12,7 @@ export const generateArrivalNotice = {
 
       // 1. Create arrival notice
       const createdArrivalNotice: ArrivalNotice = await transactionalEntityManager.getRepository(ArrivalNotice).save({
-        name: uuid(),
+        name: OrderNoGenerator.arrivalNotice(),
         domain: context.state.domain,
         bizplace: context.state.bizplaces[0],
         ...newArrivalNotice,
@@ -26,7 +26,7 @@ export const generateArrivalNotice = {
           return {
             ...product,
             domain: context.state.domain,
-            name: `${createdArrivalNotice.name}-${product.batchId}-${product.seq}`,
+            name: OrderNoGenerator.orderProduct(createdArrivalNotice.name, product.batchId, product.seq),
             product: await getRepository(Product).findOne(product.product.id),
             arrivalNotice: createdArrivalNotice,
             status: ORDER_PRODUCT_STATUS.PENDING,
@@ -43,7 +43,7 @@ export const generateArrivalNotice = {
           return {
             ...vas,
             domain: context.state.domain,
-            name: `${createdArrivalNotice.name}-${vas.batchId}-${vas.vas.name}`,
+            name: OrderNoGenerator.orderVas(createdArrivalNotice.name, vas.batchId),
             vas: await getRepository(Vas).findOne(vas.vas.id),
             arrivalNotice: createdArrivalNotice,
             status: ORDER_VAS_STATUS.PENDING,
