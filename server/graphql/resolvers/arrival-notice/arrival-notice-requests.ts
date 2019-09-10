@@ -6,12 +6,15 @@ import { ArrivalNotice } from '../../../entities'
 export const arrivalNoticeRequestsResolver = {
   async arrivalNoticeRequests(_: any, params: ListParam, context: any) {
     const convertedParams = convertListParams(params)
-    convertedParams.where.status = In([
-      ORDER_STATUS.PENDING_RECIEVE,
-      ORDER_STATUS.INTRANSIT,
-      ORDER_STATUS.ARRIVED,
-      ORDER_STATUS.PROCESSING
-    ])
+
+    if (!convertListParams.where || !convertListParams.where.status) {
+      convertedParams.where.status = In([
+        ORDER_STATUS.PENDING_RECEIVE,
+        ORDER_STATUS.INTRANSIT,
+        ORDER_STATUS.ARRIVED,
+        ORDER_STATUS.PROCESSING
+      ])
+    }
 
     const [items, total] = await getRepository(ArrivalNotice).findAndCount({
       ...convertedParams,
