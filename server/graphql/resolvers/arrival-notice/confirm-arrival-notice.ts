@@ -1,7 +1,7 @@
-import { OrderNoGenerator } from 'server/utils/order-no-generator'
 import { getManager, getRepository } from 'typeorm'
 import { ArrivalNotice, CollectionOrder, OrderProduct, OrderVas } from '../../../entities'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../enum'
+import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const confirmArrivalNotice = {
   async confirmArrivalNotice(_: any, { name }, context: any) {
