@@ -6,10 +6,12 @@ import { editArrivalNotice } from './edit-arrival-notice'
 import { generateArrivalNotice } from './generate-arrival-notice'
 import { updateArrivalNotice } from './update-arrival-notice'
 import { confirmArrivalNotice } from './confirm-arrival-notice'
+import { requestedArrivalNoticesResolver } from './requested-arrival-notices'
 
 export const Query = {
   ...arrivalNoticesResolver,
-  ...arrivalNoticeResolver
+  ...arrivalNoticeResolver,
+  ...requestedArrivalNoticesResolver
 }
 
 export const Mutation = {
