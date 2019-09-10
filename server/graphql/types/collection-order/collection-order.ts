@@ -13,6 +13,7 @@ export const CollectionOrder = gql`
     orderVass: [OrderVas]
     collectionDateTime: String
     loadType: String
+    telNo: String
     status: String
     description: String
     updater: User

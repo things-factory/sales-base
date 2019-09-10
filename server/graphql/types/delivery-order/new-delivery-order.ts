@@ -6,9 +6,11 @@ export const NewDeliveryOrder = gql`
     from: String!
     to: String!
     truckNo: String
+    refNo: String
     orderProducts: [ObjectRef]!
     orderVass: [ObjectRef]
     deliveryDateTime: String!
+    telNo: String
     loadType: String
     status: String!
     description: String

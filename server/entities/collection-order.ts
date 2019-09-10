@@ -58,6 +58,11 @@ export class CollectionOrder {
   })
   truckNo: string
 
+  @Column({
+    nullable: true
+  })
+  telNo: string
+
   @Column()
   status: string
 

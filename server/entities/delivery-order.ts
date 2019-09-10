@@ -45,6 +45,11 @@ export class DeliveryOrder {
   @Column()
   to: string
 
+  @Column({
+    nullable: true
+  })
+  refNo: String
+
   @Column()
   truckNo: string
 
@@ -57,6 +62,11 @@ export class DeliveryOrder {
     comment: 'FCL or LCL'
   })
   loadType: string
+
+  @Column({
+    nullable: true
+  })
+  telNo: string
 
   @Column()
   status: string

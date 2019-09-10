@@ -9,6 +9,10 @@ export class OrderNoGenerator {
     return uuid()
   }
 
+  static deliveryOrder() {
+    return uuid()
+  }
+
   static orderProduct(orderName: String, productBatchId: String, productSeq: Number) {
     return `${orderName}-${productBatchId}-${productSeq}`
   }
