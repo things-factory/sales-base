@@ -14,9 +14,11 @@ export const receiveArrivalNotice = {
         if (!arrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
         if (arrivalNotice.status !== ORDER_STATUS.PENDING_RECEIVE) throw new Error(`Status is not receivable.`)
 
-        // 1. Update status of arrival notice & status of products (PENDING_RECEIVE => INTRANSIT)
-        arrivalNotice.orderProducts = arrivalNotice.orderProducts.map((orderProduct: OrderProduct) => {
-          return { ...orderProduct, status: ORDER_PRODUCT_STATUS.INTRANSIT }
+        // 1. Update status of order products & status of arrival notice  (PENDING_RECEIVE => INTRANSIT)
+        arrivalNotice.orderProducts.forEach(async (orderProduct: OrderProduct) => {
+          await transactionalEntityManager
+            .getRepository(OrderProduct)
+            .update({ id: orderProduct.id }, { ...orderProduct, status: ORDER_PRODUCT_STATUS.INTRANSIT })
         })
 
         await transactionalEntityManager.getRepository(ArrivalNotice).save({
@@ -27,14 +29,18 @@ export const receiveArrivalNotice = {
 
         // 2. Check whether collection order is invloved in.
         if (arrivalNotice.collectionOrder) {
+          // 2. 1) if it's yes update status of order product & status of collection order
           const collectionOrder: CollectionOrder = await transactionalEntityManager
             .getRepository(CollectionOrder)
             .findOne({
               where: { domain: context.state.domain, name: arrivalNotice.collectionOrder.name },
               relations: ['orderProducts']
             })
-          collectionOrder.orderProducts = collectionOrder.orderProducts.map((orderProduct: OrderProduct) => {
-            return { ...orderProduct, status: ORDER_PRODUCT_STATUS.INTRANSIT }
+
+          collectionOrder.orderProducts.forEach(async (orderProduct: OrderProduct) => {
+            await transactionalEntityManager
+              .getRepository(OrderProduct)
+              .update({ id: orderProduct.id }, { ...orderProduct, status: ORDER_PRODUCT_STATUS.INTRANSIT })
           })
 
           await transactionalEntityManager.getRepository(CollectionOrder).save({
