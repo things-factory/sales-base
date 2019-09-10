@@ -8,7 +8,7 @@ export const receiveArrivalNotice = {
       try {
         const arrivalNotice: ArrivalNotice = await transactionalEntityManager.getRepository(ArrivalNotice).findOne({
           where: { domain: context.state.domain, name },
-          relations: ['collectionOrder', 'collectionOrder.orderProduct', 'orderProducts']
+          relations: ['collectionOrder', 'orderProducts']
         })
 
         if (!arrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
@@ -27,7 +27,12 @@ export const receiveArrivalNotice = {
 
         // 2. Check whether collection order is invloved in.
         if (arrivalNotice.collectionOrder) {
-          const collectionOrder: CollectionOrder = arrivalNotice.collectionOrder
+          const collectionOrder: CollectionOrder = await transactionalEntityManager
+            .getRepository(CollectionOrder)
+            .findOne({
+              where: { domain: context.state.domain, name: arrivalNotice.collectionOrder.name },
+              relations: ['orderProducts']
+            })
           collectionOrder.orderProducts = collectionOrder.orderProducts.map((orderProduct: OrderProduct) => {
             return { ...orderProduct, status: ORDER_PRODUCT_STATUS.INTRANSIT }
           })
