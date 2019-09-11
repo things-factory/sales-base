@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-koa'
 
 export const NewCollectionOrder = gql`
   input NewCollectionOrder {
-    name: String!
+    name: String
     description: String
     from: String!
     to: String!
