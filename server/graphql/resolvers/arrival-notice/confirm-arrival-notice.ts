@@ -36,42 +36,6 @@ export const confirmArrivalNotice = {
           status: ORDER_STATUS.PENDING_RECEIVE
         })
 
-        // 2.2 Create order product
-        const products = foundArrivalNotice.orderProducts.map((product: OrderProduct) => {
-          delete product.id
-          delete product.arrivalNotice
-
-          return {
-            ...product,
-            domain: context.state.domain,
-            name: OrderNoGenerator.orderProduct(collectionOrder.name, product.batchId, product.seq),
-            collectionOrder,
-            status: ORDER_PRODUCT_STATUS.PENDING,
-            creator: context.state.user,
-            updater: context.state.user
-          }
-        })
-
-        await transactionalEntityManager.getRepository(OrderProduct).save(products)
-
-        // 2. 3 Create order vas
-        const vass = foundArrivalNotice.orderVass.map((vas: OrderVas) => {
-          delete vas.id
-          delete vas.arrivalNotice
-
-          return {
-            ...vas,
-            domain: context.state.domain,
-            name: OrderNoGenerator.orderVas(collectionOrder.name, vas.batchId, vas.vas.name),
-            collectionOrder,
-            status: ORDER_VAS_STATUS.PENDING,
-            creator: context.state.user,
-            updater: context.state.user
-          }
-        })
-
-        await transactionalEntityManager.getRepository(OrderVas).save(vass)
-
         // 2. 4 Make relation between arrival notice & collection order
         return await transactionalEntityManager.getRepository(ArrivalNotice).update(
           { domain: context.state.domain, name },

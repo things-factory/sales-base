@@ -32,22 +32,12 @@ export const receiveArrivalNotice = {
 
         // 2. Check whether collection order is invloved in.
         if (arrivalNotice.collectionOrder) {
-          // 2. 1) if it's yes update status of order product & status of collection order
+          // 2. 1) if it's yes update status of collection order
           const collectionOrder: CollectionOrder = await transactionalEntityManager
             .getRepository(CollectionOrder)
             .findOne({
-              where: { domain: context.state.domain, name: arrivalNotice.collectionOrder.name },
-              relations: ['orderProducts']
+              where: { domain: context.state.domain, name: arrivalNotice.collectionOrder.name }
             })
-
-          collectionOrder.orderProducts.forEach(async (orderProduct: OrderProduct) => {
-            await transactionalEntityManager
-              .getRepository(OrderProduct)
-              .update(
-                { id: orderProduct.id },
-                { ...orderProduct, status: ORDER_PRODUCT_STATUS.INTRANSIT, updater: context.state.user }
-              )
-          })
 
           await transactionalEntityManager.getRepository(CollectionOrder).save({
             ...collectionOrder,
