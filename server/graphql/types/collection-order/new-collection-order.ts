@@ -7,8 +7,8 @@ export const NewCollectionOrder = gql`
     from: String!
     to: String!
     truckNo: String
-    orderProducts: [ObjectRef]!
-    orderVass: [ObjectRef]
+    orderProducts: [NewOrderProduct]
+    orderVass: [NewOrderVas]
     telNo: String
     collectionDateTime: String!
     loadType: String
