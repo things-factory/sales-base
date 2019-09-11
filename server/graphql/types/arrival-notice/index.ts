@@ -34,6 +34,10 @@ export const Mutation = `
   receiveArrivalNotice (
     name: String!
   ): ArrivalNotice
+
+  checkArrivedNotice (
+    name: String!
+  ): ArrivalNotice
 `
 
 export const Query = `

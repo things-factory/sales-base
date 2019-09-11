@@ -2,8 +2,8 @@ import { getManager } from 'typeorm'
 import { ArrivalNotice, CollectionOrder, OrderProduct } from '../../../entities'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../enum'
 
-export const receiveArrivalNotice = {
-  async receiveArrivalNotice(_: any, { name }, context: any) {
+export const checkArrivedNotice = {
+  async checkArrivedNotice(_: any, { name }, context: any) {
     return await getManager().transaction(async transactionalEntityManager => {
       try {
         const arrivalNotice: ArrivalNotice = await transactionalEntityManager.getRepository(ArrivalNotice).findOne({
@@ -12,21 +12,21 @@ export const receiveArrivalNotice = {
         })
 
         if (!arrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
-        if (arrivalNotice.status !== ORDER_STATUS.PENDING_RECEIVE) throw new Error(`Status is not receivable.`)
+        if (arrivalNotice.status !== ORDER_STATUS.INTRANSIT) throw new Error(`Status is not receivable.`)
 
-        // 1. Update status of order products & status of arrival notice  (PENDING_RECEIVE => INTRANSIT)
+        // 1. Update status of order products & status of arrival notice  (INTRANSIT => ARRIVED)
         arrivalNotice.orderProducts.forEach(async (orderProduct: OrderProduct) => {
           await transactionalEntityManager
             .getRepository(OrderProduct)
             .update(
               { id: orderProduct.id },
-              { ...orderProduct, status: ORDER_PRODUCT_STATUS.INTRANSIT, updater: context.state.user }
+              { ...orderProduct, status: ORDER_PRODUCT_STATUS.ARRIVED, updater: context.state.user }
             )
         })
 
         await transactionalEntityManager.getRepository(ArrivalNotice).save({
           ...arrivalNotice,
-          status: ORDER_STATUS.INTRANSIT,
+          status: ORDER_STATUS.ARRIVED,
           updater: context.state.user
         })
 
@@ -45,13 +45,13 @@ export const receiveArrivalNotice = {
               .getRepository(OrderProduct)
               .update(
                 { id: orderProduct.id },
-                { ...orderProduct, status: ORDER_PRODUCT_STATUS.INTRANSIT, updater: context.state.user }
+                { ...orderProduct, status: ORDER_PRODUCT_STATUS.ARRIVED, updater: context.state.user }
               )
           })
 
           await transactionalEntityManager.getRepository(CollectionOrder).save({
             ...collectionOrder,
-            status: ORDER_STATUS.INTRANSIT,
+            status: ORDER_STATUS.ARRIVED,
             updater: context.state.user
           })
         }
