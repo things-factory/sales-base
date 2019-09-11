@@ -38,11 +38,6 @@ export const Mutation = `
   checkArrivedNotice (
     name: String!
   ): ArrivalNotice
-
-  assignBufferLocation (
-    name: String!
-    location: ObjectRef!
-  ): ArrivalNotice
 `
 
 export const Query = `
