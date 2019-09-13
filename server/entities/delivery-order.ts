@@ -48,9 +48,6 @@ export class DeliveryOrder {
   @Column({
     nullable: true
   })
-  refNo: String
-
-  @Column()
   truckNo: string
 
   @Column({

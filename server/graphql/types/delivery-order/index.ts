@@ -2,6 +2,7 @@ import { DeliveryOrder } from './delivery-order'
 import { DeliveryOrderList } from './delivery-order-list'
 import { DeliveryOrderPatch } from './delivery-order-patch'
 import { NewDeliveryOrder } from './new-delivery-order'
+import { GenerateDeliveryOrder } from './generate-delivery-order'
 
 export const Mutation = `
   createDeliveryOrder (
@@ -16,6 +17,20 @@ export const Mutation = `
   deleteDeliveryOrder (
     name: String!
   ): DeliveryOrder
+
+  generateDeliveryOrder (
+    deliveryOrder: GenerateDeliveryOrder!
+  ): DeliveryOrder
+
+  editDeliveryOrder (
+    name: String!
+    deliveryOrder: GenerateDeliveryOrder!
+  ): DeliveryOrder
+
+  confirmDeliveryOrder (
+    name: String!
+  ): DeliveryOrder
+
 `
 
 export const Query = `
@@ -23,4 +38,4 @@ export const Query = `
   deliveryOrder(name: String!): DeliveryOrder
 `
 
-export const Types = [DeliveryOrder, NewDeliveryOrder, DeliveryOrderPatch, DeliveryOrderList]
+export const Types = [DeliveryOrder, NewDeliveryOrder, DeliveryOrderPatch, DeliveryOrderList, GenerateDeliveryOrder]

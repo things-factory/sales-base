@@ -8,7 +8,6 @@ export const DeliveryOrder = gql`
     name: String
     loadType: String
     truckNo: String
-    refNo: String
     from: String
     to: String
     deliveryDateTime: String
