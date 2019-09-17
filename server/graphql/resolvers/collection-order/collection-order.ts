@@ -8,7 +8,7 @@ export const collectionOrderResolver = {
       where: {
         domain: context.state.domain,
         name,
-        bizplace: In(context.state.bizplace.map((bizplace: Bizplace) => bizplace.id))
+        bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id))
       },
       relations: [
         'domain',
