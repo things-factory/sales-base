@@ -35,7 +35,7 @@ export const Mutation = `
     name: String!
   ): DeliveryOrder
 
-  checkDeliveryOrder (
+  checkDeliveredOrder (
     name: String!
   ): DeliveryOrder
 
