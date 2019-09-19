@@ -31,11 +31,20 @@ export const Mutation = `
     name: String!
   ): CollectionOrder
 
+  receiveCollectionOrder (
+    name: String!
+  ): CollectionOrder
+
+  checkCollectionOrder (
+    name: String!
+  ): CollectionOrder
+
 `
 
 export const Query = `
   collectionOrders(filters: [Filter], pagination: Pagination, sortings: [Sorting]): CollectionOrderList
   collectionOrder(name: String!): CollectionOrder
+  collectionOrderRequests(filters: [Filter], pagination: Pagination, sortings: [Sorting]): CollectionOrderList
 `
 
 export const Types = [

@@ -13,6 +13,7 @@ import {
 } from 'typeorm'
 import { OrderProduct } from './order-product'
 import { OrderVas } from './order-vas'
+import { TransportVehicle, TransportDriver } from '@things-factory/transport-base'
 
 @Entity()
 @Index('ix_delivery-order_0', (deliveryOrder: DeliveryOrder) => [deliveryOrder.domain, deliveryOrder.name], {
@@ -49,6 +50,12 @@ export class DeliveryOrder {
     nullable: true
   })
   truckNo: string
+
+  @ManyToOne(type => TransportVehicle)
+  transportVehicle: TransportVehicle
+
+  @ManyToOne(type => TransportDriver)
+  transportDriver: TransportDriver
 
   @Column({
     nullable: true

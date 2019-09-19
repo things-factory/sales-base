@@ -11,6 +11,8 @@ export const CollectionOrder = gql`
     truckNo: String
     orderProducts: [OrderProduct]
     orderVass: [OrderVas]
+    transportVehicle: TransportVehicle
+    transportDriver: TransportDriver
     collectionDateTime: String
     loadType: String
     telNo: String

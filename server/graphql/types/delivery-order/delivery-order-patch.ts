@@ -9,6 +9,8 @@ export const DeliveryOrderPatch = gql`
     to: String
     deliveryDateTime: String
     orderProducts: [ObjectRef]
+    transportVehicle: ObjectRef
+    transportDriver: ObjectRef
     orderVass: [ObjectRef]
     telNo: String
     status: String

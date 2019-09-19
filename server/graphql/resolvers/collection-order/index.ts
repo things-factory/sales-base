@@ -1,15 +1,20 @@
 import { collectionOrderResolver } from './collection-order'
 import { collectionOrdersResolver } from './collection-orders'
+import { collectionOrderRequestsResolver } from './collection-order-requests'
 import { createCollectionOrder } from './create-collection-order'
 import { deleteCollectionOrder } from './delete-collection-order'
 import { updateCollectionOrder } from './update-collection-order'
 import { generateCollectionOrder } from './generate-collection-order'
 import { editCollectionOrder } from './edit-collection-order'
 import { confirmCollectionOrder } from './confirm-collection-order'
+import { receiveCollectionOrder } from './receive-collection-order'
+import { dispatchCollectionOrder } from './dispatch-collection-order'
+import { checkCollectedOrder } from './check-collected-order'
 
 export const Query = {
   ...collectionOrdersResolver,
-  ...collectionOrderResolver
+  ...collectionOrderResolver,
+  ...collectionOrderRequestsResolver
 }
 
 export const Mutation = {
@@ -18,5 +23,8 @@ export const Mutation = {
   ...deleteCollectionOrder,
   ...generateCollectionOrder,
   ...editCollectionOrder,
-  ...confirmCollectionOrder
+  ...confirmCollectionOrder,
+  ...receiveCollectionOrder,
+  ...dispatchCollectionOrder,
+  ...checkCollectedOrder
 }

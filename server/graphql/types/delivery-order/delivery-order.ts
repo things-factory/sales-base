@@ -13,6 +13,8 @@ export const DeliveryOrder = gql`
     deliveryDateTime: String
     orderProducts: [OrderProduct]
     orderVass: [OrderVas]
+    transportVehicle: TransportVehicle
+    transportDriver: TransportDriver
     telNo: String
     status: String
     description: String

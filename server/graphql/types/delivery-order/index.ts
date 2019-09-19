@@ -31,11 +31,21 @@ export const Mutation = `
     name: String!
   ): DeliveryOrder
 
+  receiveDeliveryOrder (
+    name: String!
+  ): DeliveryOrder
+
+  checkDeliveryOrder (
+    name: String!
+  ): DeliveryOrder
+
 `
 
 export const Query = `
   deliveryOrders(filters: [Filter], pagination: Pagination, sortings: [Sorting]): DeliveryOrderList
   deliveryOrder(name: String!): DeliveryOrder
+  deliveryOrderRequests(filters: [Filter], pagination: Pagination, sortings: [Sorting]): DeliveryOrderList
+
 `
 
 export const Types = [DeliveryOrder, NewDeliveryOrder, DeliveryOrderPatch, DeliveryOrderList, GenerateDeliveryOrder]
