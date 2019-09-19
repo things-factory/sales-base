@@ -72,8 +72,11 @@ export class OrderProduct {
   @Column('float')
   weight: number
 
-  @Column('float')
+  @Column()
   packQty: number
+
+  @Column()
+  actualQty: number
 
   @Column({
     nullable: true

@@ -12,6 +12,7 @@ export const NewOrderProduct = gql`
     unit: String
     weight: Float
     packQty: Int
+    actualQty: Int
     palletQty: Int
     status: String
     totalWeight: String

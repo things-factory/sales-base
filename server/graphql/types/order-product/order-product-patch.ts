@@ -11,6 +11,7 @@ export const OrderProductPatch = gql`
     unit: String
     weight: Float
     packQty: Int
+    actualQty: Int
     palletQty: Int
     totalWeight: String
     description: String
