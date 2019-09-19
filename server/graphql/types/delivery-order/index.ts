@@ -39,6 +39,10 @@ export const Mutation = `
     name: String!
   ): DeliveryOrder
 
+  dispatchDeliveryOrder (
+    name: String!
+  ): DeliveryOrder
+
 `
 
 export const Query = `

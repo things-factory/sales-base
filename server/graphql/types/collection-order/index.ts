@@ -39,6 +39,10 @@ export const Mutation = `
     name: String!
   ): CollectionOrder
 
+  dispatchCollectionOrder (
+    name: String!
+  ): CollectionOrder
+
 `
 
 export const Query = `
