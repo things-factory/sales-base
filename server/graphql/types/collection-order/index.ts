@@ -35,7 +35,7 @@ export const Mutation = `
     name: String!
   ): CollectionOrder
 
-  checkCollectionOrder (
+  checkCollectedOrder (
     name: String!
   ): CollectionOrder
 
