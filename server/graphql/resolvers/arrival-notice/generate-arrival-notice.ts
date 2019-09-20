@@ -14,7 +14,7 @@ export const generateArrivalNotice = {
       const createdArrivalNotice: ArrivalNotice = await transactionalEntityManager.getRepository(ArrivalNotice).save({
         name: OrderNoGenerator.arrivalNotice(),
         domain: context.state.domain,
-        bizplace: context.state.bizplaces[0],
+        bizplace: context.state.bizplaces[0], // TODO: set main bizplace
         ...newArrivalNotice,
         creator: context.state.user,
         updater: context.state.user

@@ -7,8 +7,7 @@ export const updateArrivalNotice = {
     const arrivalNotice = await getRepository(ArrivalNotice).findOne({
       where: {
         domain: context.state.domain,
-        name,
-        bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id))
+        name
       }
     })
 
