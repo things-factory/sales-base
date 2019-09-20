@@ -1,6 +1,7 @@
 import { getManager, getRepository } from 'typeorm'
 import { CollectionOrder, OrderProduct } from '../../../entities'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../enum'
+import { TransportVehicle, TransportDriver } from '@things-factory/transport-base'
 
 export const receiveCollectionOrder = {
   async receiveCollectionOrder(_: any, { name, patch }, context: any) {
@@ -25,7 +26,20 @@ export const receiveCollectionOrder = {
 
         await getRepository(CollectionOrder).save({
           ...collectionOrder,
-          ...patch,
+          transportVehicle: await getRepository(TransportVehicle).findOne({
+            where: {
+              domain: context.state.domain,
+              bizplace: context.state.bizplaces[0],
+              name: patch.transportVehicle.name
+            }
+          }),
+          transportDriver: await getRepository(TransportDriver).findOne({
+            where: {
+              domain: context.state.domain,
+              bizplace: context.state.bizplaces[0],
+              name: patch.transportDriver.name
+            }
+          }),
           status: ORDER_STATUS.READY_TO_DISPATCH,
           updater: context.state.user
         })
