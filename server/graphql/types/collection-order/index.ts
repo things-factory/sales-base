@@ -33,6 +33,7 @@ export const Mutation = `
 
   receiveCollectionOrder (
     name: String!
+    patch: CollectionOrderPatch!
   ): CollectionOrder
 
   checkCollectedOrder (

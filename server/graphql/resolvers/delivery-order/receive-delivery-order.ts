@@ -4,7 +4,7 @@ import { OrderProduct, DeliveryOrder } from '../../../entities'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, DRIVER_STATUS, TRUCK_STATUS } from '../../../enum'
 
 export const receiveDeliveryOrder = {
-  async receiveDeliveryOrder(_: any, { name }, context: any) {
+  async receiveDeliveryOrder(_: any, { name, patch }, context: any) {
     return await getManager().transaction(async transactionalEntityManager => {
       try {
         const deliveryOrder: DeliveryOrder = await transactionalEntityManager.getRepository(DeliveryOrder).findOne({
@@ -15,12 +15,12 @@ export const receiveDeliveryOrder = {
         if (!deliveryOrder) throw new Error(`Delivery order doesn't exists.`)
         if (deliveryOrder.status !== ORDER_STATUS.PENDING_RECEIVE) throw new Error(`Status is not receivable.`)
 
-        // 1. Update status of order products (PENDING_RECEIVE => READY_TO_DELIVER) & status of arrival notice (PENDING_RECEIVE => READY_TO_DISPATCH)
+        // 1. Update status of order products (PENDING_RECEIVE => READY_TO_DELIVER)
         deliveryOrder.orderProducts.forEach(async (orderProduct: OrderProduct) => {
           await transactionalEntityManager
             .getRepository(OrderProduct)
             .update(
-              { id: orderProduct.id },
+              { domain: context.state.domain, name: orderProduct.name },
               { ...orderProduct, status: ORDER_PRODUCT_STATUS.READY_TO_DELIVER, updater: context.state.user }
             )
         })
@@ -59,6 +59,7 @@ export const receiveDeliveryOrder = {
 
         await transactionalEntityManager.getRepository(DeliveryOrder).save({
           ...deliveryOrder,
+          ...patch,
           status: ORDER_STATUS.READY_TO_DISPATCH,
           updater: context.state.user
         })

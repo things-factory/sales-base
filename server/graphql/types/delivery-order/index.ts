@@ -33,6 +33,7 @@ export const Mutation = `
 
   receiveDeliveryOrder (
     name: String!
+    patch: DeliveryOrderPatch!
   ): DeliveryOrder
 
   checkDeliveredOrder (

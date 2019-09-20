@@ -4,7 +4,7 @@ import { TransportDriver, TransportVehicle } from '@things-factory/transport-bas
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, DRIVER_STATUS, TRUCK_STATUS } from '../../../enum'
 
 export const receiveCollectionOrder = {
-  async receiveCollectionOrder(_: any, { name }, context: any) {
+  async receiveCollectionOrder(_: any, { name, patch }, context: any) {
     return await getManager().transaction(async transactionalEntityManager => {
       try {
         const collectionOrder: CollectionOrder = await transactionalEntityManager
@@ -17,12 +17,12 @@ export const receiveCollectionOrder = {
         if (!collectionOrder) throw new Error(`Collection order doesn't exists.`)
         if (collectionOrder.status !== ORDER_STATUS.PENDING_RECEIVE) throw new Error(`Status is not receivable.`)
 
-        // 1. Update status of order products (PENDING_RECEIVE => READY_TO_COLLECT) & status of arrival notice (PENDING_RECEIVE => READY_TO_DISPATCH)
+        // 1. Update status of order products (PENDING_RECEIVE => READY_TO_COLLECT)
         collectionOrder.orderProducts.forEach(async (orderProduct: OrderProduct) => {
           await transactionalEntityManager
             .getRepository(OrderProduct)
             .update(
-              { id: orderProduct.id },
+              { domain: context.state.domain, name: orderProduct.name },
               { ...orderProduct, status: ORDER_PRODUCT_STATUS.READY_TO_COLLECT, updater: context.state.user }
             )
         })
@@ -61,6 +61,7 @@ export const receiveCollectionOrder = {
 
         await transactionalEntityManager.getRepository(CollectionOrder).save({
           ...collectionOrder,
+          ...patch,
           status: ORDER_STATUS.READY_TO_DISPATCH,
           updater: context.state.user
         })
