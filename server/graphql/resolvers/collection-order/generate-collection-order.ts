@@ -5,22 +5,20 @@ import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const generateCollectionOrder = {
   async generateCollectionOrder(_: any, { collectionOrder }, context: any) {
-    return await getManager().transaction(async transactionalEntityManager => {
+    return await getManager().transaction(async () => {
       const newCollectionOrder = collectionOrder.collectionOrder
       let products = collectionOrder.products
       let vass = collectionOrder.vass
 
       // 1. Create collection order
-      const createdCollectionOrder: CollectionOrder = await transactionalEntityManager
-        .getRepository(CollectionOrder)
-        .save({
-          name: OrderNoGenerator.collectionOrder(),
-          domain: context.state.domain,
-          bizplace: context.state.bizplaces[0],
-          ...newCollectionOrder,
-          creator: context.state.user,
-          updater: context.state.user
-        })
+      const createdCollectionOrder: CollectionOrder = await getRepository(CollectionOrder).save({
+        name: OrderNoGenerator.collectionOrder(),
+        domain: context.state.domain,
+        bizplace: context.state.bizplaces[0],
+        ...newCollectionOrder,
+        creator: context.state.user,
+        updater: context.state.user
+      })
 
       // 2. Create collection order product
       products = await Promise.all(
@@ -37,7 +35,7 @@ export const generateCollectionOrder = {
           }
         })
       )
-      await transactionalEntityManager.getRepository(OrderProduct).save(products)
+      await getRepository(OrderProduct).save(products)
 
       // 3. Create collection order vas
       vass = await Promise.all(
@@ -54,7 +52,7 @@ export const generateCollectionOrder = {
           }
         })
       )
-      await transactionalEntityManager.getRepository(OrderVas).save(vass)
+      await getRepository(OrderVas).save(vass)
 
       return createdCollectionOrder
     })

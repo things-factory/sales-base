@@ -14,17 +14,17 @@ export const editDeliveryOrder = {
       if (!foundDeliveryOrder) throw new Error(`Delivery order doesn't exists.`)
       if (foundDeliveryOrder.status !== ORDER_STATUS.EDITING) throw new Error('Not editable status.')
 
-      return await getManager().transaction(async transactionalEntityManager => {
+      return await getManager().transaction(async () => {
         // 1. delete order products
         const orderProductIds = foundDeliveryOrder.orderProducts.map(product => product.id)
-        await transactionalEntityManager.getRepository(OrderProduct).delete({ id: In(orderProductIds) })
+        await getRepository(OrderProduct).delete({ id: In(orderProductIds) })
 
         // 2. delete order vass
         const orderVasIds = foundDeliveryOrder.orderVass.map(vas => vas.id)
-        await transactionalEntityManager.getRepository(OrderVas).delete({ id: In(orderVasIds) })
+        await getRepository(OrderVas).delete({ id: In(orderVasIds) })
 
         // 3. update collection order
-        const updatedDeliveryOrder: DeliveryOrder = await transactionalEntityManager.getRepository(DeliveryOrder).save({
+        const updatedDeliveryOrder: DeliveryOrder = await getRepository(DeliveryOrder).save({
           ...foundDeliveryOrder,
           ...deliveryOrder.deliveryOrder,
           updater: context.state.user
@@ -45,7 +45,7 @@ export const editDeliveryOrder = {
             }
           })
         )
-        await transactionalEntityManager.getRepository(OrderProduct).save(products)
+        await getRepository(OrderProduct).save(products)
 
         // 5. create order vas
         const vass = await Promise.all(
@@ -62,7 +62,7 @@ export const editDeliveryOrder = {
             }
           })
         )
-        await transactionalEntityManager.getRepository(OrderVas).save(vass)
+        await getRepository(OrderVas).save(vass)
 
         return updatedDeliveryOrder
       })

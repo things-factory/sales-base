@@ -9,13 +9,13 @@ export const confirmCollectionOrder = {
       relations: ['orderProducts', 'orderProducts.product', 'orderVass', 'orderVass.vas', 'creator', 'updater']
     })
 
-    return await getManager().transaction(async transactionalEntityManager => {
+    return await getManager().transaction(async () => {
       let collectionOrder: CollectionOrder
       if (!foundCollectionOrder) throw new Error(`Collection Order doesn't exists.`)
       if (foundCollectionOrder.status !== ORDER_STATUS.PENDING) throw new Error('Not confirmable status.')
 
       // Collection Order Status change (PENDING => PENDING_RECEIVE)
-      collectionOrder = await transactionalEntityManager.getRepository(CollectionOrder).save({
+      collectionOrder = await getRepository(CollectionOrder).save({
         ...foundCollectionOrder,
         status: ORDER_STATUS.PENDING_RECEIVE,
         updater: context.state.user

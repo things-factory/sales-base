@@ -5,13 +5,13 @@ import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const generateDeliveryOrder = {
   async generateDeliveryOrder(_: any, { deliveryOrder }, context: any) {
-    return await getManager().transaction(async transactionalEntityManager => {
+    return await getManager().transaction(async () => {
       const newDeliveryOrder = deliveryOrder.deliveryOrder
       let products = deliveryOrder.products
       let vass = deliveryOrder.vass
 
       // 1. Create collection order
-      const createdDeliveryOrder: DeliveryOrder = await transactionalEntityManager.getRepository(DeliveryOrder).save({
+      const createdDeliveryOrder: DeliveryOrder = await getRepository(DeliveryOrder).save({
         name: OrderNoGenerator.deliveryOrder(),
         domain: context.state.domain,
         bizplace: context.state.bizplaces[0],
@@ -35,7 +35,7 @@ export const generateDeliveryOrder = {
           }
         })
       )
-      await transactionalEntityManager.getRepository(OrderProduct).save(products)
+      await getRepository(OrderProduct).save(products)
 
       // 3. Create collection order vas
       vass = await Promise.all(
@@ -52,7 +52,7 @@ export const generateDeliveryOrder = {
           }
         })
       )
-      await transactionalEntityManager.getRepository(OrderVas).save(vass)
+      await getRepository(OrderVas).save(vass)
 
       return createdDeliveryOrder
     })

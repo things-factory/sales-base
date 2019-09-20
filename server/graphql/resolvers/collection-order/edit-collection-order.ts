@@ -14,23 +14,21 @@ export const editCollectionOrder = {
       if (!foundCollectionOrder) throw new Error(`Collection order doesn't exists.`)
       if (foundCollectionOrder.status !== ORDER_STATUS.EDITING) throw new Error('Not editable status.')
 
-      return await getManager().transaction(async transactionalEntityManager => {
+      return await getManager().transaction(async () => {
         // 1. delete order products
         const orderProductIds = foundCollectionOrder.orderProducts.map(product => product.id)
-        await transactionalEntityManager.getRepository(OrderProduct).delete({ id: In(orderProductIds) })
+        await getRepository(OrderProduct).delete({ id: In(orderProductIds) })
 
         // 2. delete order vass
         const orderVasIds = foundCollectionOrder.orderVass.map(vas => vas.id)
-        await transactionalEntityManager.getRepository(OrderVas).delete({ id: In(orderVasIds) })
+        await getRepository(OrderVas).delete({ id: In(orderVasIds) })
 
         // 3. update collection order
-        const updatedCollectionOrder: CollectionOrder = await transactionalEntityManager
-          .getRepository(CollectionOrder)
-          .save({
-            ...foundCollectionOrder,
-            ...collectionOrder.collectionOrder,
-            updater: context.state.user
-          })
+        const updatedCollectionOrder: CollectionOrder = await getRepository(CollectionOrder).save({
+          ...foundCollectionOrder,
+          ...collectionOrder.collectionOrder,
+          updater: context.state.user
+        })
 
         // 4. create order products
         const products = await Promise.all(
@@ -47,7 +45,7 @@ export const editCollectionOrder = {
             }
           })
         )
-        await transactionalEntityManager.getRepository(OrderProduct).save(products)
+        await getRepository(OrderProduct).save(products)
 
         // 5. create order vas
         const vass = await Promise.all(
@@ -64,7 +62,7 @@ export const editCollectionOrder = {
             }
           })
         )
-        await transactionalEntityManager.getRepository(OrderVas).save(vass)
+        await getRepository(OrderVas).save(vass)
 
         return updatedCollectionOrder
       })
