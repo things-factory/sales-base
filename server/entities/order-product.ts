@@ -75,7 +75,9 @@ export class OrderProduct {
   @Column()
   packQty: number
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   actualQty: number
 
   @Column({
