@@ -13,6 +13,8 @@ export const deliveryOrderResolver = {
       relations: [
         'domain',
         'bizplace',
+        'transportDriver',
+        'transportVehicle',
         'orderProducts',
         'orderProducts.product',
         'orderVass',
