@@ -24,22 +24,28 @@ export const dispatchDeliveryOrder = {
           )
         })
 
-        await getRepository(DeliveryOrder).save({
-          ...deliveryOrder,
-          transportVehicle: await getRepository(TransportVehicle).findOne({
+        if (patch && patch.transportVehicle && patch.transportVehicle.name) {
+          deliveryOrder.transportVehicle = await getRepository(TransportVehicle).findOne({
             where: {
               domain: context.state.domain,
               bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id)),
               name: patch.transportVehicle.name
             }
-          }),
-          transportDriver: await getRepository(TransportDriver).findOne({
+          })
+        }
+
+        if (patch && patch.transportDriver && patch.transportDriver.name) {
+          deliveryOrder.transportDriver = await getRepository(TransportDriver).findOne({
             where: {
               domain: context.state.domain,
               bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id)),
               name: patch.transportDriver.name
             }
-          }),
+          })
+        }
+
+        await getRepository(DeliveryOrder).save({
+          ...deliveryOrder,
           status: ORDER_STATUS.DELIVERING,
           updater: context.state.user
         })

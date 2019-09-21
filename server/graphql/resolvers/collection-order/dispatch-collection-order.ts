@@ -24,23 +24,28 @@ export const dispatchCollectionOrder = {
           )
         })
 
-        await getRepository(CollectionOrder).save({
-          ...collectionOrder,
-          transportVehicle: await getRepository(TransportVehicle).findOne({
+        if (patch && patch.transportVehicle && patch.transportVehicle.name) {
+          collectionOrder.transportVehicle = await getRepository(TransportVehicle).findOne({
             where: {
               domain: context.state.domain,
               bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id)),
               name: patch.transportVehicle.name
             }
-          }),
-          transportDriver: await getRepository(TransportDriver).findOne({
+          })
+        }
+
+        if (patch && patch.transportDriver && patch.transportDriver.name) {
+          collectionOrder.transportDriver = await getRepository(TransportDriver).findOne({
             where: {
               domain: context.state.domain,
               bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id)),
               name: patch.transportDriver.name
             }
-          }),
+          })
+        }
 
+        await getRepository(CollectionOrder).save({
+          ...collectionOrder,
           status: ORDER_STATUS.COLLECTING,
           updater: context.state.user
         })
