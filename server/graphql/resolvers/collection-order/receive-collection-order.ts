@@ -1,7 +1,8 @@
-import { getManager, getRepository } from 'typeorm'
+import { getManager, getRepository, In } from 'typeorm'
 import { CollectionOrder, OrderProduct } from '../../../entities'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../enum'
 import { TransportVehicle, TransportDriver } from '@things-factory/transport-base'
+import { Bizplace } from '@things-factory/biz-base'
 
 export const receiveCollectionOrder = {
   async receiveCollectionOrder(_: any, { name, patch }, context: any) {
@@ -13,7 +14,8 @@ export const receiveCollectionOrder = {
         })
 
         if (!collectionOrder) throw new Error(`Collection order doesn't exists.`)
-        if (!patch) throw new Error('Driver and vehicle data not exist.')
+        if (!patch.transportVehicle.name && !patch.transportDriver.name)
+          throw new Error('Driver and vehicle data not exist.')
         if (collectionOrder.status !== ORDER_STATUS.PENDING_RECEIVE) throw new Error(`Status is not receivable.`)
 
         // 1. Update status of order products (PENDING_RECEIVE => READY_TO_COLLECT)
@@ -29,14 +31,14 @@ export const receiveCollectionOrder = {
           transportVehicle: await getRepository(TransportVehicle).findOne({
             where: {
               domain: context.state.domain,
-              bizplace: context.state.bizplaces[0],
+              bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id)),
               name: patch.transportVehicle.name
             }
           }),
           transportDriver: await getRepository(TransportDriver).findOne({
             where: {
               domain: context.state.domain,
-              bizplace: context.state.bizplaces[0],
+              bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id)),
               name: patch.transportDriver.name
             }
           }),

@@ -1,7 +1,8 @@
-import { getManager, getRepository } from 'typeorm'
+import { Bizplace } from '@things-factory/biz-base'
+import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
+import { getManager, getRepository, In } from 'typeorm'
 import { DeliveryOrder, OrderProduct } from '../../../entities'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../enum'
-import { TransportVehicle, TransportDriver } from '@things-factory/transport-base'
 
 export const receiveDeliveryOrder = {
   async receiveDeliveryOrder(_: any, { name, patch }, context: any) {
@@ -13,7 +14,8 @@ export const receiveDeliveryOrder = {
         })
 
         if (!deliveryOrder) throw new Error(`Delivery order doesn't exists.`)
-        if (!patch) throw new Error('No driver and vehicle data exist.')
+        if (!patch.transportVehicle.name && !patch.transportDriver.name)
+          throw new Error('Driver and vehicle data not exist.')
         if (deliveryOrder.status !== ORDER_STATUS.PENDING_RECEIVE) throw new Error(`Status is not receivable.`)
 
         // 1. Update status of order products (PENDING_RECEIVE => READY_TO_DELIVER)
@@ -29,14 +31,14 @@ export const receiveDeliveryOrder = {
           transportVehicle: await getRepository(TransportVehicle).findOne({
             where: {
               domain: context.state.domain,
-              bizplace: context.state.bizplaces[0],
+              bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id)),
               name: patch.transportVehicle.name
             }
           }),
           transportDriver: await getRepository(TransportDriver).findOne({
             where: {
               domain: context.state.domain,
-              bizplace: context.state.bizplaces[0],
+              bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id)),
               name: patch.transportDriver.name
             }
           }),

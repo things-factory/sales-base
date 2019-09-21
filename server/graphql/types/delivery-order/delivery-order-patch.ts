@@ -2,6 +2,7 @@ import { gql } from 'apollo-server-koa'
 
 export const DeliveryOrderPatch = gql`
   input DeliveryOrderPatch {
+    id: String
     name: String
     truckNo: String
     loadType: String
