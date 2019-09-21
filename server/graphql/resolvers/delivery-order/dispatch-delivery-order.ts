@@ -1,10 +1,11 @@
-import { getManager, getRepository } from 'typeorm'
-import { DeliveryOrder, OrderProduct } from '../../../entities'
-import { ORDER_PRODUCT_STATUS, ORDER_STATUS, DRIVER_STATUS, TRUCK_STATUS } from '../../../enum'
 import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
+import { getManager, getRepository, In } from 'typeorm'
+import { DeliveryOrder, OrderProduct } from '../../../entities'
+import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../enum'
+import { Bizplace } from '@things-factory/biz-base'
 
 export const dispatchDeliveryOrder = {
-  async dispatchDeliveryOrder(_: any, { name }, context: any) {
+  async dispatchDeliveryOrder(_: any, { name, patch }, context: any) {
     return await getManager().transaction(async () => {
       try {
         const deliveryOrder: DeliveryOrder = await getRepository(DeliveryOrder).findOne({
@@ -23,37 +24,23 @@ export const dispatchDeliveryOrder = {
           )
         })
 
-        // 2. Check whether transport driver is involved in.
-        if (deliveryOrder.transportDriver) {
-          // 2. 1) if it's yes update status of driver status
-          const transportDriver: TransportDriver = await getRepository(TransportDriver).findOne({
-            where: { domain: context.state.domain, name: deliveryOrder.transportDriver.name }
-          })
-
-          await getRepository(TransportDriver).save({
-            ...transportDriver,
-            status: DRIVER_STATUS.OCCUPIED,
-            updater: context.state.user
-          })
-        }
-
-        // 3. Check whether transport vehicle is involved in.
-        if (deliveryOrder.transportVehicle) {
-          // 3. 1) if it's yes update status of vehicle status
-          const transportVehicle: TransportVehicle = await getRepository(TransportDriver).findOne({
-            where: { domain: context.state.domain, name: deliveryOrder.transportVehicle.name }
-          })
-
-          await getRepository(TransportVehicle).save({
-            ...transportVehicle,
-            status: TRUCK_STATUS.IN_USE,
-            updater: context.state.user
-          })
-        }
-
         await getRepository(DeliveryOrder).save({
           ...deliveryOrder,
-          status: ORDER_STATUS.COLLECTING,
+          transportVehicle: await getRepository(TransportVehicle).findOne({
+            where: {
+              domain: context.state.domain,
+              bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id)),
+              name: patch.transportVehicle.name
+            }
+          }),
+          transportDriver: await getRepository(TransportDriver).findOne({
+            where: {
+              domain: context.state.domain,
+              bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id)),
+              name: patch.transportDriver.name
+            }
+          }),
+          status: ORDER_STATUS.DELIVERING,
           updater: context.state.user
         })
 

@@ -42,6 +42,7 @@ export const Mutation = `
 
   dispatchCollectionOrder (
     name: String!
+    patch: CollectionOrderPatch
   ): CollectionOrder
 
 `

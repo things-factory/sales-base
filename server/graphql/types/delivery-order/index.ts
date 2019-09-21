@@ -42,6 +42,7 @@ export const Mutation = `
 
   dispatchDeliveryOrder (
     name: String!
+    patch: DeliveryOrderPatch
   ): DeliveryOrder
 
 `
