@@ -15,6 +15,7 @@ export const CollectionOrder = gql`
     transportDriver: TransportDriver
     collectionDateTime: String
     loadType: String
+    remark: String
     telNo: String
     status: String
     description: String

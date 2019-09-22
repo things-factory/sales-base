@@ -45,6 +45,10 @@ export const Mutation = `
     patch: DeliveryOrderPatch
   ): DeliveryOrder
 
+  rejectDeliveryOrder (
+    name: String!
+    patch: DeliveryOrderPatch!
+  ): DeliveryOrder
 `
 
 export const Query = `

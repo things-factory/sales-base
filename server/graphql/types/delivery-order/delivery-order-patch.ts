@@ -13,6 +13,7 @@ export const DeliveryOrderPatch = gql`
     transportVehicle: ObjectRef
     transportDriver: ObjectRef
     orderVass: [ObjectRef]
+    remark: String
     telNo: String
     status: String
     description: String

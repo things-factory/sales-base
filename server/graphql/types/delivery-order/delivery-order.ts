@@ -16,6 +16,7 @@ export const DeliveryOrder = gql`
     transportVehicle: TransportVehicle
     transportDriver: TransportDriver
     telNo: String
+    remark: String
     status: String
     description: String
     creator: User

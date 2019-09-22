@@ -72,6 +72,11 @@ export class DeliveryOrder {
   })
   telNo: string
 
+  @Column({
+    nullable: true
+  })
+  remark: string
+
   @Column()
   status: string
 

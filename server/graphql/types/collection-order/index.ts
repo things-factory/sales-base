@@ -45,6 +45,10 @@ export const Mutation = `
     patch: CollectionOrderPatch
   ): CollectionOrder
 
+  rejectCollectionOrder (
+    name: String!
+    patch: CollectionOrderPatch!
+  ): CollectionOrder
 `
 
 export const Query = `

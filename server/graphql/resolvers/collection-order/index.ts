@@ -10,6 +10,7 @@ import { confirmCollectionOrder } from './confirm-collection-order'
 import { receiveCollectionOrder } from './receive-collection-order'
 import { dispatchCollectionOrder } from './dispatch-collection-order'
 import { checkCollectedOrder } from './check-collected-order'
+import { rejectCollectionOrder } from './reject-collection-order'
 
 export const Query = {
   ...collectionOrdersResolver,
@@ -26,5 +27,6 @@ export const Mutation = {
   ...confirmCollectionOrder,
   ...receiveCollectionOrder,
   ...dispatchCollectionOrder,
-  ...checkCollectedOrder
+  ...checkCollectedOrder,
+  ...rejectCollectionOrder
 }

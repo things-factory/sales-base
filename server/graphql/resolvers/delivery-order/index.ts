@@ -10,6 +10,7 @@ import { editDeliveryOrder } from './edit-delivery-order'
 import { receiveDeliveryOrder } from './receive-delivery-order'
 import { dispatchDeliveryOrder } from './dispatch-delivery-order'
 import { checkDeliveredOrder } from './check-delivered-order'
+import { rejectDeliveryOrder } from './reject-delivery-order'
 
 export const Query = {
   ...deliveryOrdersResolver,
@@ -26,5 +27,6 @@ export const Mutation = {
   ...editDeliveryOrder,
   ...receiveDeliveryOrder,
   ...dispatchDeliveryOrder,
-  ...checkDeliveredOrder
+  ...checkDeliveredOrder,
+  ...rejectDeliveryOrder
 }
