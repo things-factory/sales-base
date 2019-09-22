@@ -12,6 +12,7 @@ export const deliveryOrderRequestsResolver = {
         ORDER_STATUS.PENDING_RECEIVE,
         ORDER_STATUS.READY_TO_DISPATCH,
         ORDER_STATUS.DELIVERING,
+        ORDER_STATUS.REJECTED,
         ORDER_STATUS.DONE
       ])
     }

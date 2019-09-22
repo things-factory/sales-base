@@ -12,6 +12,7 @@ export const collectionOrderRequestsResolver = {
         ORDER_STATUS.PENDING_RECEIVE,
         ORDER_STATUS.READY_TO_DISPATCH,
         ORDER_STATUS.COLLECTING,
+        ORDER_STATUS.REJECTED,
         ORDER_STATUS.DONE
       ])
     }
