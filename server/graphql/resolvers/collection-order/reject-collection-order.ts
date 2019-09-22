@@ -25,6 +25,7 @@ export const rejectCollectionOrder = {
 
         await getRepository(CollectionOrder).save({
           ...collectionOrder,
+          ...patch,
           status: ORDER_STATUS.REJECTED,
           updater: context.state.user
         })
