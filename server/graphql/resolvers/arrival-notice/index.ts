@@ -9,6 +9,7 @@ import { generateArrivalNotice } from './generate-arrival-notice'
 import { receiveArrivalNotice } from './receive-arrival-notice'
 import { updateArrivalNotice } from './update-arrival-notice'
 import { checkArrivedNotice } from './check-arrived-notice'
+import { rejectArrivalNotice } from './reject-arrival-notice'
 
 export const Query = {
   ...arrivalNoticesResolver,
@@ -24,5 +25,6 @@ export const Mutation = {
   ...editArrivalNotice,
   ...confirmArrivalNotice,
   ...receiveArrivalNotice,
-  ...checkArrivedNotice
+  ...checkArrivedNotice,
+  ...rejectArrivalNotice
 }

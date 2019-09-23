@@ -38,6 +38,11 @@ export const Mutation = `
   checkArrivedNotice (
     name: String!
   ): ArrivalNotice
+
+  rejectArrivalNotice (
+    name: String!
+    patch: ArrivalNoticePatch!
+  ): ArrivalNotice
 `
 
 export const Query = `

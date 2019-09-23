@@ -12,6 +12,7 @@ export const NewArrivalNotice = gql`
     to: String
     truckNo: String
     loadType: String
+    remark: String
     status: String!
     orderProducts: [NewOrderProduct]
     orderVass: [NewOrderVas]

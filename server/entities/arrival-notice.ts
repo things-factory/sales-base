@@ -85,6 +85,11 @@ export class ArrivalNotice {
   @Column()
   status: string
 
+  @Column({
+    nullable: true
+  })
+  remark: string
+
   @OneToOne(type => CollectionOrder)
   @JoinColumn()
   collectionOrder: CollectionOrder
