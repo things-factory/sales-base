@@ -12,7 +12,8 @@ export const arrivalNoticeRequestsResolver = {
         ORDER_STATUS.PENDING_RECEIVE,
         ORDER_STATUS.INTRANSIT,
         ORDER_STATUS.ARRIVED,
-        ORDER_STATUS.PROCESSING
+        ORDER_STATUS.PROCESSING,
+        ORDER_STATUS.REJECTED
       ])
     }
 
