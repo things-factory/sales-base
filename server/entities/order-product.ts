@@ -1,31 +1,52 @@
 import { User } from '@things-factory/auth-base'
+import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { CollectionOrder, DeliveryOrder, Product } from '.'
+import { CollectionOrder, DeliveryOrder, Product, ShippingOrder } from '.'
 import { ArrivalNotice } from './arrival-notice'
+import { Inventory } from '@things-factory/warehouse-base'
 
 @Entity()
 @Index('ix_order-product_0', (orderProduct: OrderProduct) => [orderProduct.domain, orderProduct.name], {
   unique: true
 })
-@Index('ix_order-product_1', (orderProduct: OrderProduct) => [orderProduct.arrivalNotice, orderProduct.batchId], {
-  unique: true
-})
-@Index('ix_order-product_2', (orderProduct: OrderProduct) => [orderProduct.arrivalNotice, orderProduct.seq], {
-  unique: true
-})
-@Index('ix_order-product_3', (orderProduct: OrderProduct) => [orderProduct.collectionOrder, orderProduct.batchId], {
-  unique: true
-})
-@Index('ix_order-product_4', (orderProduct: OrderProduct) => [orderProduct.collectionOrder, orderProduct.seq], {
-  unique: true
-})
-@Index('ix_order-product_5', (orderProduct: OrderProduct) => [orderProduct.deliveryOrder, orderProduct.batchId], {
-  unique: true
-})
-@Index('ix_order-product_6', (orderProduct: OrderProduct) => [orderProduct.deliveryOrder, orderProduct.seq], {
-  unique: true
-})
+@Index(
+  'ix_order-product_1',
+  (orderProduct: OrderProduct) => [orderProduct.bizplace, orderProduct.arrivalNotice, orderProduct.batchId],
+  { unique: true }
+)
+@Index(
+  'ix_order-product_2',
+  (orderProduct: OrderProduct) => [orderProduct.bizplace, orderProduct.arrivalNotice, orderProduct.seq],
+  { unique: true }
+)
+@Index(
+  'ix_order-product_3',
+  (orderProduct: OrderProduct) => [orderProduct.bizplace, orderProduct.collectionOrder, orderProduct.batchId],
+  { unique: true }
+)
+@Index(
+  'ix_order-product_4',
+  (orderProduct: OrderProduct) => [orderProduct.bizplace, orderProduct.collectionOrder, orderProduct.seq],
+  { unique: true }
+)
+@Index(
+  'ix_order-product_5',
+  (orderProduct: OrderProduct) => [orderProduct.bizplace, orderProduct.deliveryOrder, orderProduct.batchId],
+  { unique: true }
+)
+@Index(
+  'ix_order-product_6',
+  (orderProduct: OrderProduct) => [orderProduct.bizplace, orderProduct.deliveryOrder, orderProduct.seq],
+  { unique: true }
+)
+@Index(
+  'ix_order-product_7',
+  (orderProduct: OrderProduct) => [orderProduct.bizplace, orderProduct.shippingOrder, orderProduct.seq],
+  {
+    unique: true
+  }
+)
 export class OrderProduct {
   @PrimaryGeneratedColumn('uuid')
   id: string
@@ -35,6 +56,11 @@ export class OrderProduct {
   })
   domain: Domain
 
+  @ManyToOne(type => Bizplace, {
+    nullable: false
+  })
+  bizplace: Bizplace
+
   @Column()
   name: string
 
@@ -42,6 +68,9 @@ export class OrderProduct {
     nullable: true
   })
   description: string
+
+  @Column()
+  type: string
 
   @ManyToOne(type => ArrivalNotice)
   arrivalNotice: ArrivalNotice
@@ -51,6 +80,18 @@ export class OrderProduct {
 
   @ManyToOne(type => DeliveryOrder)
   deliveryOrder: DeliveryOrder
+
+  @ManyToOne(type => ShippingOrder)
+  shippingOrder: ShippingOrder
+
+  @ManyToOne(type => Inventory)
+  fromInventory: Inventory
+
+  @ManyToOne(type => Inventory)
+  currentInventory: Inventory
+
+  @ManyToOne(type => Inventory)
+  toInventory: Inventory
 
   @ManyToOne(type => Product, {
     nullable: false
@@ -78,15 +119,30 @@ export class OrderProduct {
   @Column({
     nullable: true
   })
-  actualQty: number
+  actualPackQty: number
 
   @Column({
     nullable: true
   })
   palletQty: number
 
+  @Column({
+    nullable: true
+  })
+  actualPalletQty: number
+
   @Column('float')
   totalWeight: number
+
+  @Column({
+    nullable: true
+  })
+  remark: string
+
+  @Column({
+    nullable: true
+  })
+  issue: string
 
   @Column()
   status: string

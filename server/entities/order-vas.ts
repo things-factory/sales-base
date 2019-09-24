@@ -1,24 +1,30 @@
 import { User } from '@things-factory/auth-base'
+import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { ShippingOrder } from '.'
 import { ArrivalNotice } from './arrival-notice'
 import { CollectionOrder } from './collection-order'
 import { DeliveryOrder } from './delivery-order'
 import { Vas } from './vas'
 
 @Entity('order_vass')
-@Index('ix_order-vas_0', (orderVas: OrderVas) => [orderVas.domain, orderVas.name], {
-  unique: true
-})
-@Index('ix_order-vas_1', (orderVas: OrderVas) => [orderVas.arrivalNotice, orderVas.vas, orderVas.batchId], {
-  unique: true
-})
-@Index('ix_order-vas_2', (orderVas: OrderVas) => [orderVas.collectionOrder, orderVas.vas, orderVas.batchId], {
-  unique: true
-})
-@Index('ix_order-vas_3', (orderVas: OrderVas) => [orderVas.deliveryOrder, orderVas.vas, orderVas.batchId], {
-  unique: true
-})
+@Index('ix_order-vas_0', (orderVas: OrderVas) => [orderVas.bizplace, orderVas.domain, orderVas.name], { unique: true })
+@Index(
+  'ix_order-vas_1',
+  (orderVas: OrderVas) => [orderVas.bizplace, orderVas.arrivalNotice, orderVas.vas, orderVas.batchId],
+  { unique: true }
+)
+@Index(
+  'ix_order-vas_2',
+  (orderVas: OrderVas) => [orderVas.bizplace, orderVas.collectionOrder, orderVas.vas, orderVas.batchId],
+  { unique: true }
+)
+@Index(
+  'ix_order-vas_3',
+  (orderVas: OrderVas) => [orderVas.bizplace, orderVas.deliveryOrder, orderVas.vas, orderVas.batchId],
+  { unique: true }
+)
 export class OrderVas {
   @PrimaryGeneratedColumn('uuid')
   id: string
@@ -27,6 +33,11 @@ export class OrderVas {
     nullable: false
   })
   domain: Domain
+
+  @ManyToOne(type => Bizplace, {
+    nullable: false
+  })
+  bizplace: Bizplace
 
   @Column()
   name: string
@@ -42,6 +53,9 @@ export class OrderVas {
 
   @ManyToOne(type => DeliveryOrder)
   deliveryOrder: DeliveryOrder
+
+  @ManyToOne(type => ShippingOrder)
+  shippingOrder: ShippingOrder
 
   @ManyToOne(type => Vas, {
     nullable: false
