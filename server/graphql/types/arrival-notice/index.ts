@@ -43,6 +43,10 @@ export const Mutation = `
     name: String!
     patch: ArrivalNoticePatch!
   ): ArrivalNotice
+
+  assignBufferLocation (
+    arrivalNotice: ArrivalNoticePatch!
+  ): ArrivalNotice
 `
 
 export const Query = `

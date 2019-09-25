@@ -18,5 +18,6 @@ export const NewArrivalNotice = gql`
     orderVass: [NewOrderVas]
     collectionOrder: ObjectRef
     deliveryOrderNo: String
+    bufferLocation: ObjectRef
   }
 `
