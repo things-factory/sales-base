@@ -13,6 +13,7 @@ export const OrderProductPatch = gql`
     packQty: Int
     actualQty: Int
     palletQty: Int
+    actualPalletQty: Int
     totalWeight: String
     description: String
     status: String

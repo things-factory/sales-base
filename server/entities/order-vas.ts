@@ -1,6 +1,8 @@
 import { User } from '@things-factory/auth-base'
+import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { ShippingOrder } from '.'
 import { ArrivalNotice } from './arrival-notice'
 import { CollectionOrder } from './collection-order'
 import { DeliveryOrder } from './delivery-order'
@@ -32,6 +34,11 @@ export class OrderVas {
   })
   domain: Domain
 
+  @ManyToOne(type => Bizplace, {
+    nullable: false
+  })
+  bizplace: Bizplace
+
   @Column()
   name: string
 
@@ -49,6 +56,9 @@ export class OrderVas {
 
   @ManyToOne(type => ReleaseGood)
   releaseGood: ReleaseGood
+
+  @ManyToOne(type => ShippingOrder)
+  shippingOrder: ShippingOrder
 
   @ManyToOne(type => Vas, {
     nullable: false
