@@ -4,18 +4,29 @@ export const OrderProductPatch = gql`
   input OrderProductPatch {
     id: String
     name: String
-    product: ObjectRef
+    description: String
+    type: String
     arrivalNotice: ObjectRef
+    collectionOrder: ObjectRef
+    deliveryOrder: ObjectRef
+    releaseGood: ObjectRef
+    shippingOrder: ObjectRef
+    fromInventory: ObjectRef
+    currentInventory: ObjectRef
+    toInventory: ObjectRef
+    product: ObjectRef
+    seq: Int
     batchId: String
     packingType: String
     unit: String
-    weight: Float
+    weight: Int
     packQty: Int
-    actualQty: Int
+    actualPackQty: Int
     palletQty: Int
     actualPalletQty: Int
-    totalWeight: String
-    description: String
+    totalWeight: Int
+    remark: String
+    issue: String
     status: String
     cuFlag: String
   }

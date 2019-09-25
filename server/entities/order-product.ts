@@ -5,6 +5,7 @@ import { Domain } from '@things-factory/shell'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { CollectionOrder, DeliveryOrder, ReleaseGood, ShippingOrder } from '.'
 import { ArrivalNotice } from './arrival-notice'
+import { Inventory } from '@things-factory/warehouse-base'
 
 @Entity()
 @Index('ix_order-product_0', (orderProduct: OrderProduct) => [orderProduct.domain, orderProduct.name], {
@@ -87,14 +88,14 @@ export class OrderProduct {
   @ManyToOne(type => ShippingOrder)
   shippingOrder: ShippingOrder
 
-  // @ManyToOne(type => Inventory)
-  // fromInventory: Inventory
+  @ManyToOne(type => Inventory)
+  fromInventory: Inventory
 
-  // @ManyToOne(type => Inventory)
-  // currentInventory: Inventory
+  @ManyToOne(type => Inventory)
+  currentInventory: Inventory
 
-  // @ManyToOne(type => Inventory)
-  // toInventory: Inventory
+  @ManyToOne(type => Inventory)
+  toInventory: Inventory
 
   @ManyToOne(type => Product, {
     nullable: false

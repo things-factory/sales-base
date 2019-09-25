@@ -3,25 +3,36 @@ import { gql } from 'apollo-server-koa'
 export const OrderProduct = gql`
   type OrderProduct {
     id: String
-    name: String
     domain: Domain
+    bizplace: Bizplace
+    name: String
     description: String
-    product: Product
+    type: String
     arrivalNotice: ArrivalNotice
+    collectionOrder: CollectionOrder
+    deliveryOrder: DeliveryOrder
+    releaseGood: ReleaseGood
+    shippingOrder: ShippingOrder
+    fromInventory: Inventory
+    currentInventory: Inventory
+    toInventory: Inventory
+    product: Product
     seq: Int
     batchId: String
     packingType: String
     unit: String
-    weight: Float
+    weight: Int
     packQty: Int
-    actualQty: Int
+    actualPackQty: Int
     palletQty: Int
     actualPalletQty: Int
-    totalWeight: String
-    updater: User
+    totalWeight: Int
+    remark: String
+    issue: String
     status: String
-    creator: User
-    updatedAt: String
     createdAt: String
+    updatedAt: String
+    creator: User
+    updater: User
   }
 `
