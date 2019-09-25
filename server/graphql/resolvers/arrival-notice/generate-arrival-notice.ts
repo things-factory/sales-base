@@ -15,7 +15,7 @@ export const generateArrivalNotice = {
       const createdArrivalNotice: ArrivalNotice = await getRepository(ArrivalNotice).save({
         name: OrderNoGenerator.arrivalNotice(),
         domain: context.state.domain,
-        bizplace: context.state.bizplaces[0], // TODO: set main bizplace
+        bizplace: context.state.mainBizplace,
         ...newArrivalNotice,
         creator: context.state.user,
         updater: context.state.user
@@ -30,6 +30,7 @@ export const generateArrivalNotice = {
             name: OrderNoGenerator.orderProduct(createdArrivalNotice.name, product.batchId, product.seq),
             product: await getRepository(Product).findOne(product.product.id),
             arrivalNotice: createdArrivalNotice,
+            bizplace: context.state.mainBizplace,
             status: ORDER_PRODUCT_STATUS.PENDING,
             creator: context.state.user,
             updater: context.state.user
@@ -47,6 +48,7 @@ export const generateArrivalNotice = {
             name: OrderNoGenerator.orderVas(createdArrivalNotice.name, vas.batchId, vas.vas.name),
             vas: await getRepository(Vas).findOne(vas.vas.id),
             arrivalNotice: createdArrivalNotice,
+            bizplace: context.state.mainBizplace,
             status: ORDER_VAS_STATUS.PENDING,
             creator: context.state.user,
             updater: context.state.user

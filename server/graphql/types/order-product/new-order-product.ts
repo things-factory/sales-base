@@ -23,7 +23,7 @@ export const NewOrderProduct = gql`
     actualPackQty: Int
     palletQty: Int
     actualPalletQty: Int
-    totalWeight: Int
+    totalWeight: String
     remark: String
     issue: String
     status: String
