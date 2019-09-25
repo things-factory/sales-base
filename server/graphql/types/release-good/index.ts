@@ -14,10 +14,6 @@ export const Mutation = `
     patch: ReleaseGoodPatch!
   ): ReleaseGood
 
-  updateMultipleReleaseGood (
-    patches: [ReleaseGoodPatch]!
-  ): [ReleaseGood]
-
   deleteReleaseGood (
     name: String!
   ): Boolean
@@ -50,6 +46,10 @@ export const Mutation = `
   rejectReleaseGood (
     name: String!
     patch: ReleaseGoodPatch!
+  ): ReleaseGood
+
+  executeReleaseGood (
+    name: String!
   ): ReleaseGood
 `
 

@@ -5,9 +5,6 @@ import * as Invoice from './invoice'
 import * as OrderProduct from './order-product'
 import * as OrderVas from './order-vas'
 import * as PriceList from './price-list'
-import * as Product from './product'
-import * as ProductOption from './product-option'
-import * as ProductOptionDetail from './product-option-detail'
 import * as PurchaseOrder from './purchase-order'
 import * as Quotation from './quotation'
 import * as QuotationItem from './quotation-item'
@@ -28,9 +25,6 @@ export const queries = [
   DeliveryOrder.Query,
   ShippingOrder.Query,
   CollectionOrder.Query,
-  Product.Query,
-  ProductOption.Query,
-  ProductOptionDetail.Query,
   Vas.Query,
   ArrivalNotice.Query,
   OrderProduct.Query,
@@ -49,9 +43,6 @@ export const mutations = [
   DeliveryOrder.Mutation,
   ShippingOrder.Mutation,
   CollectionOrder.Mutation,
-  Product.Mutation,
-  ProductOption.Mutation,
-  ProductOptionDetail.Mutation,
   Vas.Mutation,
   ArrivalNotice.Mutation,
   OrderProduct.Mutation,

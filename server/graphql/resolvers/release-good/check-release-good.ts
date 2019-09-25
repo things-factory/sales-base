@@ -2,8 +2,8 @@ import { getManager, getRepository } from 'typeorm'
 import { ReleaseGood, DeliveryOrder, OrderProduct, ShippingOrder } from '../../../entities'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../enum'
 
-export const checkReleasedGood = {
-  async checkReleasedGood(_: any, { name }, context: any) {
+export const checkReleaseGood = {
+  async checkReleaseGood(_: any, { name }, context: any) {
     return await getManager().transaction(async () => {
       try {
         const releaseGood: ReleaseGood = await getRepository(ReleaseGood).findOne({

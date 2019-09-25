@@ -14,7 +14,6 @@ export const ReleaseGoodPatch = gql`
     inventoryId: String
     productId: String
     from: String
-    to: String
     truckNo: String
     loadType: String
     remark: String

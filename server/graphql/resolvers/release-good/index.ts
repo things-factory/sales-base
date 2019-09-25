@@ -1,18 +1,16 @@
-import { releaseGoodResolver } from './release-good'
-import { releaseGoodsResolver } from './release-goods'
-import { releaseGoodRequestsResolver } from './release-good-requests'
-
-import { updateReleaseGood } from './update-release-good'
-import { updateMultipleReleaseGood } from './update-multiple-release-good'
+import { checkReleaseGood } from './check-release-good'
+import { confirmReleaseGood } from './confirm-release-good'
 import { createReleaseGood } from './create-release-good'
 import { deleteReleaseGood } from './delete-release-good'
 import { deleteReleaseGoods } from './delete-release-goods'
 import { editReleaseGood } from './edit-release-good'
-import { confirmReleaseGood } from './confirm-release-good'
-import { receiveReleaseGood } from './receive-release-good'
-import { generateReleaseGood } from './generate-release-good'
-import { checkReleasedGood } from './check-released-good'
 import { executeReleaseGood } from './execute-release-good'
+import { generateReleaseGood } from './generate-release-good'
+import { receiveReleaseGood } from './receive-release-good'
+import { releaseGoodResolver } from './release-good'
+import { releaseGoodRequestsResolver } from './release-good-requests'
+import { releaseGoodsResolver } from './release-goods'
+import { updateReleaseGood } from './update-release-good'
 
 export const Query = {
   ...releaseGoodsResolver,
@@ -22,7 +20,6 @@ export const Query = {
 
 export const Mutation = {
   ...updateReleaseGood,
-  ...updateMultipleReleaseGood,
   ...createReleaseGood,
   ...deleteReleaseGood,
   ...deleteReleaseGoods,
@@ -30,6 +27,6 @@ export const Mutation = {
   ...confirmReleaseGood,
   ...receiveReleaseGood,
   ...generateReleaseGood,
-  ...checkReleasedGood,
+  ...checkReleaseGood,
   ...executeReleaseGood
 }

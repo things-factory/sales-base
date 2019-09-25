@@ -5,9 +5,6 @@ import { Invoice } from './invoice'
 import { OrderProduct } from './order-product'
 import { OrderVas } from './order-vas'
 import { PriceList } from './price-list'
-import { Product } from './product'
-import { ProductOption } from './product-option'
-import { ProductOptionDetail } from './product-option-detail'
 import { PurchaseOrder } from './purchase-order'
 import { Quotation } from './quotation'
 import { QuotationItem } from './quotation-item'
@@ -31,9 +28,6 @@ export const entities = [
   DeliveryOrder,
   CollectionOrder,
   ShippingOrder,
-  Product,
-  ProductOption,
-  ProductOptionDetail,
   ReleaseGood,
   Vas
 ]
@@ -52,9 +46,6 @@ export {
   DeliveryOrder,
   CollectionOrder,
   ShippingOrder,
-  Product,
-  ProductOption,
-  ProductOptionDetail,
   ReleaseGood,
   Vas
 }

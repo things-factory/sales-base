@@ -1,5 +1,6 @@
+import { Product } from '@things-factory/product-base'
 import { getManager, getRepository } from 'typeorm'
-import { OrderProduct, OrderVas, Product, Vas, DeliveryOrder } from '../../../entities'
+import { DeliveryOrder, OrderProduct, OrderVas, Vas } from '../../../entities'
 import { ORDER_PRODUCT_STATUS, ORDER_VAS_STATUS } from '../../../enum'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 

@@ -1,8 +1,9 @@
 import { User } from '@things-factory/auth-base'
 import { Bizplace } from '@things-factory/biz-base'
+import { Product } from '@things-factory/product-base'
 import { Domain } from '@things-factory/shell'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { CollectionOrder, DeliveryOrder, Product, ShippingOrder, ReleaseGood } from '.'
+import { CollectionOrder, DeliveryOrder, ReleaseGood, ShippingOrder } from '.'
 import { ArrivalNotice } from './arrival-notice'
 
 @Entity()
