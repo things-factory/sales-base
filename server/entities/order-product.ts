@@ -1,7 +1,7 @@
 import { User } from '@things-factory/auth-base'
 import { Domain } from '@things-factory/shell'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { CollectionOrder, DeliveryOrder, Product } from '.'
+import { CollectionOrder, DeliveryOrder, Product, ReleaseGood } from '.'
 import { ArrivalNotice } from './arrival-notice'
 
 @Entity()
@@ -51,6 +51,9 @@ export class OrderProduct {
 
   @ManyToOne(type => DeliveryOrder)
   deliveryOrder: DeliveryOrder
+
+  @ManyToOne(type => ReleaseGood)
+  releaseGood: ReleaseGood
 
   @ManyToOne(type => Product, {
     nullable: false

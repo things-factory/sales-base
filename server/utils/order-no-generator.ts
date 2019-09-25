@@ -17,6 +17,18 @@ export class OrderNoGenerator {
       1}${currentDate.getDate()}${currentDate.getHours()}${currentDate.getMinutes()}${currentDate.getSeconds()}${currentDate.getMilliseconds()}`
   }
 
+  static shippingOrder() {
+    const currentDate = new Date()
+    return `SO-${currentDate.getFullYear()}${currentDate.getMonth() +
+      1}${currentDate.getDate()}${currentDate.getHours()}${currentDate.getMinutes()}${currentDate.getSeconds()}${currentDate.getMilliseconds()}`
+  }
+
+  static releaseGood() {
+    const currentDate = new Date()
+    return `RO-${currentDate.getFullYear()}${currentDate.getMonth() +
+      1}${currentDate.getDate()}${currentDate.getHours()}${currentDate.getMinutes()}${currentDate.getSeconds()}${currentDate.getMilliseconds()}`
+  }
+
   static orderProduct(orderName: String, productBatchId: String, productSeq: Number) {
     return `${orderName}-${productBatchId}-${productSeq}`
   }

@@ -13,6 +13,7 @@ import { Quotation } from './quotation'
 import { QuotationItem } from './quotation-item'
 import { QuotationItemOption } from './quotation-item-option'
 import { QuotationPromotion } from './quotation-promotion'
+import { ReleaseGood } from './release-good'
 import { ShippingOrder } from './shipping-order'
 import { Vas } from './vas'
 
@@ -33,6 +34,7 @@ export const entities = [
   Product,
   ProductOption,
   ProductOptionDetail,
+  ReleaseGood,
   Vas
 ]
 
@@ -53,5 +55,6 @@ export {
   Product,
   ProductOption,
   ProductOptionDetail,
+  ReleaseGood,
   Vas
 }

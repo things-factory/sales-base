@@ -1,5 +1,6 @@
 import { User } from '@things-factory/auth-base'
 import { Domain } from '@things-factory/shell'
+import { Bizplace } from '@things-factory/biz-base'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 @Entity()
@@ -12,6 +13,9 @@ export class ShippingOrder {
 
   @ManyToOne(type => Domain)
   domain: Domain
+
+  @ManyToOne(type => Bizplace)
+  bizplace: Bizplace
 
   @Column()
   name: string
@@ -27,6 +31,9 @@ export class ShippingOrder {
 
   @Column()
   to: string
+
+  @Column()
+  status: string
 
   @Column({
     nullable: true

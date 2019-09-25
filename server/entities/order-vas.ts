@@ -4,6 +4,7 @@ import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedCol
 import { ArrivalNotice } from './arrival-notice'
 import { CollectionOrder } from './collection-order'
 import { DeliveryOrder } from './delivery-order'
+import { ReleaseGood } from './release-good'
 import { Vas } from './vas'
 
 @Entity('order_vass')
@@ -17,6 +18,9 @@ import { Vas } from './vas'
   unique: true
 })
 @Index('ix_order-vas_3', (orderVas: OrderVas) => [orderVas.deliveryOrder, orderVas.vas, orderVas.batchId], {
+  unique: true
+})
+@Index('ix_order-vas_4', (orderVas: OrderVas) => [orderVas.releaseGood, orderVas.vas, orderVas.batchId], {
   unique: true
 })
 export class OrderVas {
@@ -42,6 +46,9 @@ export class OrderVas {
 
   @ManyToOne(type => DeliveryOrder)
   deliveryOrder: DeliveryOrder
+
+  @ManyToOne(type => ReleaseGood)
+  releaseGood: ReleaseGood
 
   @ManyToOne(type => Vas, {
     nullable: false

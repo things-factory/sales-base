@@ -14,6 +14,7 @@ import * as QuotationItem from './quotation-item'
 import * as QuotationItemOption from './quotation-item-option'
 import * as QuotationPromotion from './quotation-promotion'
 import * as ShippingOrder from './shipping-order'
+import * as ReleaseGood from './release-good'
 import * as Vas from './vas'
 
 export const queries = [
@@ -33,7 +34,8 @@ export const queries = [
   Vas.Query,
   ArrivalNotice.Query,
   OrderProduct.Query,
-  OrderVas.Query
+  OrderVas.Query,
+  ReleaseGood.Query
 ]
 
 export const mutations = [
@@ -53,5 +55,6 @@ export const mutations = [
   Vas.Mutation,
   ArrivalNotice.Mutation,
   OrderProduct.Mutation,
-  OrderVas.Mutation
+  OrderVas.Mutation,
+  ReleaseGood.Mutation
 ]

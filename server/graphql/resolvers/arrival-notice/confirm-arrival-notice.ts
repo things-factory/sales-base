@@ -10,13 +10,13 @@ export const confirmArrivalNotice = {
       relations: ['orderProducts', 'orderProducts.product', 'orderVass', 'orderVass.vas', 'creator', 'updater']
     })
 
-    return await getManager().transaction(async transactionalEntityManager => {
+    return await getManager().transaction(async () => {
       let arrivalNotice: ArrivalNotice
       if (!foundArrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
       if (foundArrivalNotice.status !== ORDER_STATUS.PENDING) throw new Error('Not confirmable status.')
 
       // 1. GAN Status change (PENDING => PENDING_RECEIVE)
-      arrivalNotice = await transactionalEntityManager.getRepository(ArrivalNotice).save({
+      arrivalNotice = await getRepository(ArrivalNotice).save({
         ...foundArrivalNotice,
         status: ORDER_STATUS.PENDING_RECEIVE,
         updater: context.state.user
@@ -25,7 +25,7 @@ export const confirmArrivalNotice = {
       // 2. Check wheter generating collection order is needed.
       if (!foundArrivalNotice.ownTransport) {
         // 2.1 If it's needed. Create Collection Order
-        const collectionOrder: CollectionOrder = await transactionalEntityManager.getRepository(CollectionOrder).save({
+        const collectionOrder: CollectionOrder = await getRepository(CollectionOrder).save({
           name: OrderNoGenerator.collectionOrder(),
           domain: context.state.domain,
           bizplace: context.state.bizplaces[0],
@@ -37,7 +37,7 @@ export const confirmArrivalNotice = {
         })
 
         // 2. 4 Make relation between arrival notice & collection order
-        return await transactionalEntityManager.getRepository(ArrivalNotice).update(
+        return await getRepository(ArrivalNotice).update(
           { domain: context.state.domain, name },
           {
             collectionOrder
