@@ -13,6 +13,8 @@ import { QuotationPromotion } from './quotation-promotion'
 import { ReleaseGood } from './release-good'
 import { ShippingOrder } from './shipping-order'
 import { Vas } from './vas'
+import { Claim } from './claim'
+import { ClaimDetail } from './claim-detail'
 
 export const entities = [
   ArrivalNotice,
@@ -29,7 +31,9 @@ export const entities = [
   CollectionOrder,
   ShippingOrder,
   ReleaseGood,
-  Vas
+  Vas,
+  Claim,
+  ClaimDetail
 ]
 
 export {
@@ -47,5 +51,7 @@ export {
   CollectionOrder,
   ShippingOrder,
   ReleaseGood,
-  Vas
+  Vas,
+  Claim,
+  ClaimDetail
 }
