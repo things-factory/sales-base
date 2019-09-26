@@ -3,13 +3,14 @@ import { Equal, getRepository, In, IsNull } from 'typeorm'
 
 export const claimOrderListResolver = {
   async claimOrderList(_: any, params: any, context: any) {
+    let domainId = context.state.domain.id
     var arrOrders = await getRepository(Claim).query(`
       SELECT name AS name, delivery_date_time AS date_time from delivery_orders 
         WHERE name NOT IN (SELECT name FROM claims) AND 
         transport_vehicle_id IS NOT NULL AND 
         transport_driver_id IS NOT NULL AND
         truck_no IS NULL AND
-        domain_id = '${context.state.domain}'
+        domain_id = '${domainId}'
 
       UNION
       SELECT name AS name, collection_date_time AS date_time FROM collection_orders 
@@ -17,7 +18,7 @@ export const claimOrderListResolver = {
         transport_vehicle_id IS NOT NULL AND 
         transport_driver_id IS NOT NULL AND
         truck_no IS NULL AND
-        domain_id = '${context.state.domain}'
+        domain_id = '${domainId}'
     `)
 
     //Combining order date with order number.
