@@ -1,7 +1,6 @@
 import { User } from '@things-factory/auth-base'
 import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
-import { Location } from '@things-factory/warehouse-base'
 import {
   Column,
   CreateDateColumn,
@@ -99,9 +98,6 @@ export class ArrivalNotice {
     nullable: true
   })
   deliveryOrderNo: string
-
-  @ManyToOne(type => Location)
-  bufferLocation: Location
 
   @Column({
     nullable: true
