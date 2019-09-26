@@ -6,7 +6,7 @@ import { ClaimList } from './claim-list'
 export const Mutation = `
   createClaim (
     claim: NewClaim!
-  ): Claim
+  ): Claim @priviledge(category: "claim", priviledge: "mutation" )
 
   updateClaim (
     name: String!

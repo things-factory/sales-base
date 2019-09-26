@@ -27,7 +27,6 @@ export const createClaim = {
         }
       })
 
-      //// TODO: Add validation to check User privilege
       //// Simple validation to check
       // 1. Must have claim details
       // 2. Must have either delivery order data or collection order data but not both.
