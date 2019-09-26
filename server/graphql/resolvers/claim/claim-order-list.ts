@@ -8,14 +8,16 @@ export const claimOrderListResolver = {
         WHERE name NOT IN (SELECT name FROM claims) AND 
         transport_vehicle_id IS NOT NULL AND 
         transport_driver_id IS NOT NULL AND
-        truck_no IS NULL
+        truck_no IS NULL AND
+        domain_id = '${context.state.domain}'
 
       UNION
       SELECT name AS name, collection_date_time AS date_time FROM collection_orders 
         WHERE name NOT IN (SELECT name FROM claims) AND
         transport_vehicle_id IS NOT NULL AND 
         transport_driver_id IS NOT NULL AND
-        truck_no IS NULL
+        truck_no IS NULL AND
+        domain_id = '${context.state.domain}'
     `)
 
     //Combining order date with order number.
