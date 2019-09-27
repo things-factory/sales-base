@@ -8,8 +8,6 @@ export const NewOrderProduct = gql`
     arrivalNotice: ObjectRef
     collectionOrder: ObjectRef
     deliveryOrder: ObjectRef
-    releaseGood: ObjectRef
-    shippingOrder: ObjectRef
     fromInventory: ObjectRef
     currentInventory: ObjectRef
     toInventory: ObjectRef

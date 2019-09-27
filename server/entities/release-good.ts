@@ -4,7 +4,6 @@ import { Bizplace } from '@things-factory/biz-base'
 import { OrderVas } from './order-vas'
 import { DeliveryOrder } from './delivery-order'
 import { ShippingOrder } from './shipping-order'
-import { OrderProduct } from './order-product'
 import {
   Column,
   CreateDateColumn,
@@ -17,6 +16,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
+import { OrderInventory } from './order-inventory'
 
 @Entity()
 @Index('ix_release-good_0', (releaseGood: ReleaseGood) => [releaseGood.domain, releaseGood.name], { unique: true })
@@ -30,19 +30,20 @@ export class ReleaseGood {
   @ManyToOne(type => Bizplace)
   bizplace: Bizplace
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   name: string
 
   @Column({
     nullable: true
   })
+  collectionOrderNo: string
+
+  @Column({
+    nullable: true
+  })
   description: string
-
-  @Column()
-  from: string
-
-  @Column()
-  to: string
 
   @Column()
   ownTransport: Boolean
@@ -52,39 +53,22 @@ export class ReleaseGood {
   })
   truckNo: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   inventoryId: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   productId: string
-
-  @Column({
-    nullable: true
-  })
-  deliveryDateTime: Date
-
-  @Column({
-    nullable: true
-  })
-  loadType: string
-
-  @Column({
-    nullable: true
-  })
-  deliveryOrderNo: string
-
-  @OneToOne(type => DeliveryOrder)
-  @JoinColumn()
-  deliveryOrder: DeliveryOrder
 
   @Column()
   shippingOption: Boolean
 
-  @Column()
-  shipName: string
-
-  @Column()
-  containerNo: string
+  @OneToOne(type => DeliveryOrder)
+  @JoinColumn()
+  deliveryOrder: DeliveryOrder
 
   @OneToOne(type => ShippingOrder)
   @JoinColumn()
@@ -93,8 +77,8 @@ export class ReleaseGood {
   @OneToMany(type => OrderVas, orderVas => orderVas.releaseGood)
   orderVass: OrderVas[]
 
-  @OneToMany(type => OrderProduct, orderProduct => orderProduct.releaseGood)
-  orderProducts: OrderProduct[]
+  @OneToMany(type => OrderInventory, orderInventory => orderInventory.releaseGood)
+  orderInventories: OrderInventory[]
 
   @Column()
   status: string
@@ -102,7 +86,9 @@ export class ReleaseGood {
   @Column()
   releaseDateTime: Date
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   remark: string
 
   @CreateDateColumn()

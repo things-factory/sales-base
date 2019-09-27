@@ -27,10 +27,21 @@ export class ShippingOrder {
   containerNo: string
 
   @Column()
+  containerArrivalDate: string
+
+  @Column()
+  containerLeavingDate: string
+
+  @Column()
   from: string
 
   @Column()
   to: string
+
+  @Column({
+    nullable: true
+  })
+  remark: string
 
   @Column()
   status: string

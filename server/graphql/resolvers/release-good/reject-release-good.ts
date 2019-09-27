@@ -1,5 +1,5 @@
 import { getManager, getRepository } from 'typeorm'
-import { ReleaseGood, OrderProduct, DeliveryOrder, ShippingOrder } from '../../../entities'
+import { DeliveryOrder, OrderInventory, ReleaseGood, ShippingOrder } from '../../../entities'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../enum'
 
 export const rejectReleaseGood = {
@@ -8,7 +8,7 @@ export const rejectReleaseGood = {
       try {
         const releaseGood: ReleaseGood = await getRepository(ReleaseGood).findOne({
           where: { domain: context.state.domain, name },
-          relations: ['orderProducts', 'deliveryOrder', 'shippingOrder']
+          relations: ['orderInventories', 'deliveryOrder', 'shippingOrder']
         })
 
         if (!releaseGood) throw new Error(`Release good doesn't exists.`)
@@ -16,10 +16,10 @@ export const rejectReleaseGood = {
         if (releaseGood.status !== ORDER_STATUS.PENDING_RECEIVE) throw new Error(`Status is not receivable.`)
 
         // 1. Update status of order products (PENDING_RECEIVE => READY_TO_COLLECT)
-        releaseGood.orderProducts.forEach(async (orderProduct: OrderProduct) => {
-          await getRepository(OrderProduct).update(
-            { domain: context.state.domain, name: orderProduct.name },
-            { ...orderProduct, status: ORDER_PRODUCT_STATUS.REJECTED, updater: context.state.user }
+        releaseGood.orderInventories.forEach(async (orderInventory: OrderInventory) => {
+          await getRepository(OrderInventory).update(
+            { domain: context.state.domain, name: orderInventory.name },
+            { ...orderInventory, status: ORDER_PRODUCT_STATUS.REJECTED, updater: context.state.user }
           )
         })
 

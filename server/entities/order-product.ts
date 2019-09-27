@@ -41,13 +41,6 @@ import { Inventory } from '@things-factory/warehouse-base'
   (orderProduct: OrderProduct) => [orderProduct.bizplace, orderProduct.deliveryOrder, orderProduct.seq],
   { unique: true }
 )
-@Index(
-  'ix_order-product_7',
-  (orderProduct: OrderProduct) => [orderProduct.bizplace, orderProduct.shippingOrder, orderProduct.seq],
-  {
-    unique: true
-  }
-)
 export class OrderProduct {
   @PrimaryGeneratedColumn('uuid')
   id: string
@@ -81,12 +74,6 @@ export class OrderProduct {
 
   @ManyToOne(type => DeliveryOrder)
   deliveryOrder: DeliveryOrder
-
-  @ManyToOne(type => ReleaseGood)
-  releaseGood: ReleaseGood
-
-  @ManyToOne(type => ShippingOrder)
-  shippingOrder: ShippingOrder
 
   @ManyToOne(type => Inventory)
   fromInventory: Inventory

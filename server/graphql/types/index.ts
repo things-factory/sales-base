@@ -5,6 +5,7 @@ import * as DeliveryOrder from './delivery-order'
 import * as Invoice from './invoice'
 import * as OrderProduct from './order-product'
 import * as OrderVas from './order-vas'
+import * as OrderInventory from './order-inventory'
 import * as PriceList from './price-list'
 import * as PurchaseOrder from './purchase-order'
 import * as Quotation from './quotation'
@@ -34,7 +35,8 @@ export const queries = [
   OrderVas.Query,
   ReleaseGood.Query,
   Claim.Query,
-  ClaimDetail.Query
+  ClaimDetail.Query,
+  OrderInventory.Query
 ]
 
 export const mutations = [
@@ -54,7 +56,8 @@ export const mutations = [
   OrderVas.Mutation,
   ReleaseGood.Mutation,
   Claim.Mutation,
-  ClaimDetail.Mutation
+  ClaimDetail.Mutation,
+  OrderInventory.Mutation
 ]
 
 export const types = [
@@ -78,5 +81,6 @@ export const types = [
   ...OrderVas.Types,
   ...ReleaseGood.Types,
   ...Claim.Types,
-  ...ClaimDetail.Types
+  ...ClaimDetail.Types,
+  ...OrderInventory.Types
 ]

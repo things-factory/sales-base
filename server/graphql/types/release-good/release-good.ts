@@ -6,23 +6,17 @@ export const ReleaseGood = gql`
     name: String
     domain: Domain
     bizplace: Bizplace
-    releaseDate: String
-    to: String
-    remark: String
+    releaseDateTime: String
+    collectionOrderNo: String
     ownTransport: Boolean
     truckNo: String
     inventoryId: String
     productId: String
-    deliveryDateTime: String
-    loadType: String
-    deliveryOrderNo: String
     deliveryOrder: DeliveryOrder
     shippingOption: Boolean
-    shipName: String
-    containerNo: String
-    shippingOrder: String
+    shippingOrder: ShippingOrder
+    orderInventories: [OrderInventory]
     orderVass: [OrderVas]
-    orderProducts: [OrderProduct]
     status: String
     description: String
     updater: User

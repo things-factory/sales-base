@@ -23,7 +23,7 @@ export const releaseGoodRequestsResolver = {
       relations: [
         'domain',
         'bizplace',
-        'orderProducts',
+        'orderInventories',
         'orderVass',
         'deliveryOrder',
         'shippingOrder',

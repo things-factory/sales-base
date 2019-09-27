@@ -3,6 +3,7 @@ import * as CollectionOrder from './collection-order'
 import * as DeliveryOrder from './delivery-order'
 import * as Invoice from './invoice'
 import * as OrderProduct from './order-product'
+import * as OrderInventory from './order-inventory'
 import * as OrderVas from './order-vas'
 import * as PriceList from './price-list'
 import * as PurchaseOrder from './purchase-order'
@@ -30,6 +31,7 @@ export const queries = [
   Vas.Query,
   ArrivalNotice.Query,
   OrderProduct.Query,
+  OrderInventory.Query,
   OrderVas.Query,
   ReleaseGood.Query,
   Claim.Query,
@@ -50,6 +52,7 @@ export const mutations = [
   Vas.Mutation,
   ArrivalNotice.Mutation,
   OrderProduct.Mutation,
+  OrderInventory.Mutation,
   OrderVas.Mutation,
   ReleaseGood.Mutation,
   Claim.Mutation,

@@ -1,3 +1,5 @@
+import uuid from 'uuid/v4'
+
 export class OrderNoGenerator {
   static arrivalNotice() {
     const currentDate = new Date()
@@ -31,6 +33,14 @@ export class OrderNoGenerator {
 
   static orderProduct(orderName: String, productBatchId: String, productSeq: Number) {
     return `${orderName}-${productBatchId}-${productSeq}`
+  }
+
+  static orderInventory() {
+    return uuid()
+  }
+
+  static releaseVas() {
+    return uuid()
   }
 
   static orderVas(orderName: String, batchId: String, vasName: String) {

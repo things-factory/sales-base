@@ -40,6 +40,7 @@ export const editArrivalNotice = {
               name: OrderNoGenerator.orderProduct(foundArrivalNotice.name, product.batchId, product.seq),
               product: await getRepository(Product).findOne(product.product.id),
               arrivalNotice: updatedArrivalNotice,
+              bizplace: context.state.mainBizplace,
               status: ORDER_PRODUCT_STATUS.PENDING,
               creator: context.state.user,
               updater: context.state.user
@@ -57,6 +58,7 @@ export const editArrivalNotice = {
               name: OrderNoGenerator.orderVas(foundArrivalNotice.name, vas.batchId, vas.vas.name),
               vas: await getRepository(Vas).findOne(vas.vas.id),
               arrivalNotice: updatedArrivalNotice,
+              bizplace: context.state.mainBizplace,
               status: ORDER_VAS_STATUS.PENDING,
               creator: context.state.user,
               updater: context.state.user

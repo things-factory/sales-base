@@ -3,6 +3,7 @@ import { CollectionOrder } from './collection-order'
 import { DeliveryOrder } from './delivery-order'
 import { Invoice } from './invoice'
 import { OrderProduct } from './order-product'
+import { OrderInventory } from './order-inventory'
 import { OrderVas } from './order-vas'
 import { PriceList } from './price-list'
 import { PurchaseOrder } from './purchase-order'
@@ -20,6 +21,7 @@ export const entities = [
   ArrivalNotice,
   OrderProduct,
   OrderVas,
+  OrderInventory,
   Quotation,
   QuotationItem,
   QuotationItemOption,
@@ -40,6 +42,7 @@ export {
   ArrivalNotice,
   OrderProduct,
   OrderVas,
+  OrderInventory,
   Quotation,
   QuotationItem,
   QuotationItemOption,

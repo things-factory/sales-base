@@ -1,5 +1,5 @@
 import { getManager, getRepository } from 'typeorm'
-import { DeliveryOrder, OrderProduct, ReleaseGood, ShippingOrder } from '../../../entities'
+import { DeliveryOrder, OrderInventory, ReleaseGood, ShippingOrder } from '../../../entities'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../enum'
 
 export const receiveReleaseGood = {
@@ -8,17 +8,17 @@ export const receiveReleaseGood = {
       try {
         const releaseGood: ReleaseGood = await getRepository(ReleaseGood).findOne({
           where: { domain: context.state.domain, name },
-          relations: ['deliveryOrder', 'shippingOrder', 'orderProducts']
+          relations: ['deliveryOrder', 'shippingOrder', 'orderInventories']
         })
 
         if (!releaseGood) throw new Error(`Release good doesn't exists.`)
         if (releaseGood.status !== ORDER_STATUS.PENDING_RECEIVE) throw new Error(`Status is not receivable.`)
 
         // 1. Update status of order products  (PENDING_RECEIVE => INTRANSIT)
-        releaseGood.orderProducts.forEach(async (orderProduct: OrderProduct) => {
-          await getRepository(OrderProduct).update(
-            { id: orderProduct.id },
-            { ...orderProduct, status: ORDER_PRODUCT_STATUS.READY_TO_PICK, updater: context.state.user }
+        releaseGood.orderInventories.forEach(async (orderInventory: OrderInventory) => {
+          await getRepository(OrderInventory).update(
+            { id: orderInventory.id },
+            { ...orderInventory, status: ORDER_PRODUCT_STATUS.READY_TO_PICK, updater: context.state.user }
           )
         })
 
