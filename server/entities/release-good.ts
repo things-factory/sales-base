@@ -100,7 +100,7 @@ export class ReleaseGood {
   status: string
 
   @Column()
-  releaseDate: Date
+  releaseDateTime: Date
 
   @Column()
   remark: string

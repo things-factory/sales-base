@@ -15,7 +15,7 @@ export const generateCollectionOrder = {
       const createdCollectionOrder: CollectionOrder = await getRepository(CollectionOrder).save({
         name: OrderNoGenerator.collectionOrder(),
         domain: context.state.domain,
-        bizplace: context.state.bizplaces[0],
+        bizplace: context.state.mainBizplace,
         ...newCollectionOrder,
         creator: context.state.user,
         updater: context.state.user
@@ -30,6 +30,7 @@ export const generateCollectionOrder = {
             name: OrderNoGenerator.orderProduct(createdCollectionOrder.name, product.batchId, product.seq),
             product: await getRepository(Product).findOne(product.product.id),
             collectionOrder: createdCollectionOrder,
+            bizplace: context.state.mainBizplace,
             status: ORDER_PRODUCT_STATUS.PENDING,
             creator: context.state.user,
             updater: context.state.user
@@ -47,6 +48,7 @@ export const generateCollectionOrder = {
             name: OrderNoGenerator.orderVas(createdCollectionOrder.name, vas.batchId, vas.vas.name),
             vas: await getRepository(Vas).findOne(vas.vas.id),
             collectionOrder: createdCollectionOrder,
+            bizplace: context.state.mainBizplace,
             status: ORDER_VAS_STATUS.PENDING,
             creator: context.state.user,
             updater: context.state.user

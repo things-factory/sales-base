@@ -15,7 +15,7 @@ export const generateDeliveryOrder = {
       const createdDeliveryOrder: DeliveryOrder = await getRepository(DeliveryOrder).save({
         name: OrderNoGenerator.deliveryOrder(),
         domain: context.state.domain,
-        bizplace: context.state.bizplaces[0],
+        bizplace: context.state.mainBizplace,
         ...newDeliveryOrder,
         creator: context.state.user,
         updater: context.state.user
@@ -30,6 +30,7 @@ export const generateDeliveryOrder = {
             name: OrderNoGenerator.orderProduct(createdDeliveryOrder.name, product.batchId, product.seq),
             product: await getRepository(Product).findOne(product.product.id),
             deliveryOrder: createdDeliveryOrder,
+            bizplace: context.state.mainBizplace,
             status: ORDER_PRODUCT_STATUS.PENDING,
             creator: context.state.user,
             updater: context.state.user
@@ -47,6 +48,7 @@ export const generateDeliveryOrder = {
             name: OrderNoGenerator.orderVas(createdDeliveryOrder.name, vas.batchId, vas.vas.name),
             vas: await getRepository(Vas).findOne(vas.vas.id),
             deliveryOrder: createdDeliveryOrder,
+            bizplace: context.state.mainBizplace,
             status: ORDER_VAS_STATUS.PENDING,
             creator: context.state.user,
             updater: context.state.user

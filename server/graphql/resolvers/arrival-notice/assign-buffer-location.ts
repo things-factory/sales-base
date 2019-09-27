@@ -1,7 +1,7 @@
-import { getManager, getRepository, In } from 'typeorm'
-import { ArrivalNotice, CollectionOrder, OrderProduct, OrderVas } from '../../../entities'
-import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../enum'
 import { Location } from '@things-factory/warehouse-base'
+import { getManager, getRepository, In } from 'typeorm'
+import { ArrivalNotice, OrderProduct, OrderVas } from '../../../entities'
+import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../enum'
 
 export const assignBufferLocation = {
   async assignBufferLocation(_: any, { arrivalNotice }, context: any) {
