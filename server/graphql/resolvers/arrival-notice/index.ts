@@ -10,7 +10,6 @@ import { receiveArrivalNotice } from './receive-arrival-notice'
 import { updateArrivalNotice } from './update-arrival-notice'
 import { checkArrivedNotice } from './check-arrived-notice'
 import { rejectArrivalNotice } from './reject-arrival-notice'
-import { assignBufferLocation } from './assign-buffer-location'
 
 export const Query = {
   ...arrivalNoticesResolver,
@@ -27,6 +26,5 @@ export const Mutation = {
   ...confirmArrivalNotice,
   ...receiveArrivalNotice,
   ...checkArrivedNotice,
-  ...rejectArrivalNotice,
-  ...assignBufferLocation
+  ...rejectArrivalNotice
 }

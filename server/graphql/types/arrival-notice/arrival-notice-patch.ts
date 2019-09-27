@@ -18,6 +18,5 @@ export const ArrivalNoticePatch = gql`
     orderVass: [ObjectRef]
     collectionOrder: ObjectRef
     deliveryOrderNo: String
-    bufferLocation: ObjectRef
   }
 `

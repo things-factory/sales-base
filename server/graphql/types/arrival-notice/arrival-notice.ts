@@ -21,7 +21,6 @@ export const ArrivalNotice = gql`
     orderVass: [OrderVas]
     collectionOrder: CollectionOrder
     deliveryOrderNo: String
-    bufferLocation: Location
     creator: User
     updater: User
     createdAt: String
