@@ -76,10 +76,10 @@ export class OrderInventory {
   deliveryOrder: DeliveryOrder
 
   @Column()
-  releaseQty: string
+  releaseQty: number
 
   @Column()
-  seq: string
+  seq: number
 
   @Column()
   status: string

@@ -44,6 +44,9 @@ export class ShippingOrder {
   remark: string
 
   @Column()
+  loadType: string
+
+  @Column()
   status: string
 
   @Column({

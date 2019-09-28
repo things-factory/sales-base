@@ -2,7 +2,6 @@ import { ReleaseGood } from './release-good'
 import { NewReleaseGood } from './new-release-good'
 import { ReleaseGoodPatch } from './release-good-patch'
 import { ReleaseGoodList } from './release-good-list'
-import { GenerateReleaseGood } from './generate-release-good'
 
 export const Mutation = `
   createReleaseGood (
@@ -23,12 +22,14 @@ export const Mutation = `
   ): Boolean
 
   generateReleaseGood (
-    releaseGood: GenerateReleaseGood!
+    releaseGood: NewReleaseGood
+    shippingOrder: ShippingOrderPatch
+    deliveryOrder: DeliveryOrderPatch
   ): ReleaseGood
 
   editReleaseGood (
     name: String!
-    releaseGood: GenerateReleaseGood!
+    releaseGood: NewReleaseGood!
   ): ReleaseGood
 
   confirmReleaseGood (
@@ -59,4 +60,4 @@ export const Query = `
   releaseGoodRequests(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ReleaseGoodList
 `
 
-export const Types = [ReleaseGood, NewReleaseGood, ReleaseGoodPatch, ReleaseGoodList, GenerateReleaseGood]
+export const Types = [ReleaseGood, NewReleaseGood, ReleaseGoodPatch, ReleaseGoodList]

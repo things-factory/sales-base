@@ -2,19 +2,19 @@ import { gql } from 'apollo-server-koa'
 
 export const NewReleaseGood = gql`
   input NewReleaseGood {
-    name: String!
+    name: String
     releaseDateTime: String
     collectionOrderNo: String
-    ownTransport: Boolean
+    ownTransport: Boolean!
     truckNo: String
     inventoryId: String
     productId: String
     deliveryOrder: ObjectRef
-    shippingOption: Boolean
+    shippingOption: Boolean!
     shippingOrder: ObjectRef
     orderInventories: [NewOrderInventory]
     orderVass: [NewOrderVas]
-    status: String
+    status: String!
     description: String
   }
 `

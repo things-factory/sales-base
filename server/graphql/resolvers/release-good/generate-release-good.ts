@@ -5,58 +5,69 @@ import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../e
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const generateReleaseGood = {
-  async generateReleaseGood(_: any, { releaseGood }, context: any) {
+  async generateReleaseGood(_: any, { releaseGood, shippingOrder, deliveryOrder }, context: any) {
     return await getManager().transaction(async () => {
-      const newReleaseGood = releaseGood.releaseGood
-      let inventories = releaseGood.inventories
-      let vass = releaseGood.vass
+      const newReleaseGood = releaseGood
+      const newShippingOrder = shippingOrder
+      const newDeliveryOrder = deliveryOrder
+      let orderInventories = releaseGood.orderInventories
+      let orderVass = releaseGood.orderVass
+      let createdDO
+      let createdSO
 
-      // 1. Create release good
+      if (!newReleaseGood.ownTransport) {
+        createdDO = await getRepository(DeliveryOrder).save({
+          name: OrderNoGenerator.deliveryOrder(),
+          domain: context.state.domain,
+          bizplace: context.state.mainBizplace,
+          deliveryDateTime: newDeliveryOrder.deliveryDateTime,
+          from: newDeliveryOrder.from,
+          to: newDeliveryOrder.to,
+          loadType: newDeliveryOrder.loadType,
+          status: ORDER_STATUS.PENDING
+        })
+      }
+
+      if (newReleaseGood.shippingOption) {
+        createdSO = await getRepository(ShippingOrder).save({
+          name: OrderNoGenerator.shippingOrder(),
+          domain: context.state.domain,
+          bizplace: context.state.mainBizplace,
+          shipName: newShippingOrder.shipName,
+          containerNo: newShippingOrder.containerNo,
+          containerArrivalDate: newShippingOrder.containerArrivalDate,
+          containerLeavingDate: newShippingOrder.containerLeavingDate,
+          from: newShippingOrder.from,
+          to: newShippingOrder.to,
+          status: ORDER_STATUS.PENDING
+        })
+      }
+
       const createdReleaseGood: ReleaseGood = await getRepository(ReleaseGood).save({
         name: OrderNoGenerator.releaseGood(),
         domain: context.state.domain,
         bizplace: context.state.mainBizplace,
         ...newReleaseGood,
+        deliveryOrder: createdDO ? createdDO : null,
+        shippingOrder: createdSO ? createdSO : null,
         creator: context.state.user,
         updater: context.state.user
       })
 
-      if (!newReleaseGood.ownTransport) {
-        await getRepository(DeliveryOrder).save({
-          name: OrderNoGenerator.deliveryOrder(),
-          domain: context.state.domain,
-          bizplace: context.state.mainBizplace,
-          deliveryDateTime: newReleaseGood.deliveryDateTime,
-          from: newReleaseGood.from,
-          to: newReleaseGood.to,
-          loadType: newReleaseGood.loadType,
-          status: ORDER_STATUS.PENDING
-        })
-      }
-
-      if (!newReleaseGood.shippingOption) {
-        await getRepository(ShippingOrder).save({
-          name: OrderNoGenerator.shippingOrder(),
-          domain: context.state.domain,
-          bizplace: context.state.mainBizplace,
-          shipName: newReleaseGood.shipName,
-          containerNo: newReleaseGood.containerNo,
-          containerArrivalDate: newReleaseGood.containerArrivalDate,
-          containerLeavingDate: newReleaseGood.containerLeavingDate,
-          from: newReleaseGood.from,
-          to: newReleaseGood.to,
-          status: ORDER_STATUS.PENDING
-        })
-      }
-
       // 2. Create release good inventory
-      inventories = await Promise.all(
-        inventories.map(async (inventory: OrderInventory) => {
+      orderInventories = await Promise.all(
+        orderInventories.map(async (inventory: OrderInventory) => {
           return {
             ...inventory,
             domain: context.state.domain,
             name: OrderNoGenerator.orderInventory(),
-            inventory: await getRepository(Inventory).findOne(inventory.inventory.id),
+            inventory: await getRepository(Inventory).findOne({
+              where: {
+                domain: context.state.domain,
+                bizplace: context.state.mainBizplace,
+                name: inventory.name
+              }
+            }),
             releaseGood: createdReleaseGood,
             status: ORDER_PRODUCT_STATUS.PENDING,
             creator: context.state.user,
@@ -64,11 +75,11 @@ export const generateReleaseGood = {
           }
         })
       )
-      await getRepository(OrderInventory).save(inventories)
+      await getRepository(OrderInventory).save(orderInventories)
 
       // 3. Create arrival notice vas
-      vass = await Promise.all(
-        vass.map(async (vas: OrderVas) => {
+      orderVass = await Promise.all(
+        orderVass.map(async (vas: OrderVas) => {
           return {
             ...vas,
             domain: context.state.domain,
@@ -81,7 +92,7 @@ export const generateReleaseGood = {
           }
         })
       )
-      await getRepository(OrderVas).save(vass)
+      await getRepository(OrderVas).save(orderVass)
 
       return createdReleaseGood
     })

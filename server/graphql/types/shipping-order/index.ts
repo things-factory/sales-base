@@ -2,7 +2,6 @@ import { ShippingOrder } from './shipping-order'
 import { NewShippingOrder } from './new-shipping-order'
 import { ShippingOrderPatch } from './shipping-order-patch'
 import { ShippingOrderList } from './shipping-order-list'
-import { Filter, Pagination, Sorting } from '@things-factory/shell'
 
 export const Mutation = `
   createShippingOrder (
@@ -10,18 +9,18 @@ export const Mutation = `
   ): ShippingOrder
 
   updateShippingOrder (
-    id: String!
+    name: String!
     patch: ShippingOrderPatch!
   ): ShippingOrder
 
   deleteShippingOrder (
-    id: String!
-  ): ShippingOrder
+    name: String!
+  ): Boolean
 `
 
 export const Query = `
   shippingOrders(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ShippingOrderList
-  shippingOrder(id: String!): ShippingOrder
+  shippingOrder(name: String!): ShippingOrder
 `
 
-export const Types = [Filter, Pagination, Sorting, ShippingOrder, NewShippingOrder, ShippingOrderPatch, ShippingOrderList]
+export const Types = [ShippingOrder, NewShippingOrder, ShippingOrderPatch, ShippingOrderList]
