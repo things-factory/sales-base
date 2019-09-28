@@ -12,6 +12,7 @@ export const ReleaseGoodPatch = gql`
     productId: String
     from: String
     to: String
+    loadType: String
     deliveryOrder: ObjectRef
     shippingOption: Boolean
     shippingOrder: ObjectRef

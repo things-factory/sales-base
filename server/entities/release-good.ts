@@ -86,6 +86,11 @@ export class ReleaseGood {
   @Column()
   to: string
 
+  @Column({
+    nullable: true
+  })
+  loadType: string
+
   @Column()
   status: string
 

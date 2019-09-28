@@ -14,6 +14,7 @@ export const ReleaseGood = gql`
     productId: String
     from: String
     to: String
+    loadType: String
     deliveryOrder: DeliveryOrder
     shippingOption: Boolean
     shippingOrder: ShippingOrder
