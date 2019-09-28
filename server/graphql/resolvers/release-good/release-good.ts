@@ -15,6 +15,7 @@ export const releaseGoodResolver = {
         'bizplace',
         'orderInventories',
         'orderInventories.inventory',
+        'orderInventories.inventory.product',
         'orderVass',
         'orderVass.vas',
         'deliveryOrder',
