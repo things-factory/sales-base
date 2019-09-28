@@ -20,11 +20,12 @@ export const generateReleaseGood = {
           name: OrderNoGenerator.deliveryOrder(),
           domain: context.state.domain,
           bizplace: context.state.mainBizplace,
-          deliveryDateTime: newDeliveryOrder.deliveryDateTime,
-          from: newDeliveryOrder.from,
-          to: newDeliveryOrder.to,
-          loadType: newDeliveryOrder.loadType,
-          status: ORDER_STATUS.PENDING
+          from: newReleaseGood.from,
+          to: newReleaseGood.to,
+          loadType: newReleaseGood.loadType,
+          ...newDeliveryOrder,
+          creator: context.state.user,
+          updater: context.state.user
         })
       }
 
@@ -33,13 +34,12 @@ export const generateReleaseGood = {
           name: OrderNoGenerator.shippingOrder(),
           domain: context.state.domain,
           bizplace: context.state.mainBizplace,
-          shipName: newShippingOrder.shipName,
-          containerNo: newShippingOrder.containerNo,
-          containerArrivalDate: newShippingOrder.containerArrivalDate,
-          containerLeavingDate: newShippingOrder.containerLeavingDate,
-          from: newShippingOrder.from,
-          to: newShippingOrder.to,
-          status: ORDER_STATUS.PENDING
+          from: newReleaseGood.from,
+          to: newReleaseGood.to,
+          loadType: newReleaseGood.loadType,
+          ...newShippingOrder,
+          creator: context.state.user,
+          updater: context.state.user
         })
       }
 
@@ -60,6 +60,7 @@ export const generateReleaseGood = {
           return {
             ...inventory,
             domain: context.state.domain,
+            bizplace: context.state.mainBizplace,
             name: OrderNoGenerator.orderInventory(),
             inventory: await getRepository(Inventory).findOne({
               where: {
@@ -83,6 +84,7 @@ export const generateReleaseGood = {
           return {
             ...vas,
             domain: context.state.domain,
+            bizplace: context.state.mainBizplace,
             name: OrderNoGenerator.releaseVas(),
             vas: await getRepository(Vas).findOne(vas.vas.id),
             releaseGood: createdReleaseGood,

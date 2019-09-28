@@ -12,6 +12,8 @@ export const ReleaseGood = gql`
     truckNo: String
     inventoryId: String
     productId: String
+    from: String
+    to: String
     deliveryOrder: DeliveryOrder
     shippingOption: Boolean
     shippingOrder: ShippingOrder

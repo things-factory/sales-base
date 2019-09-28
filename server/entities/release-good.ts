@@ -81,6 +81,12 @@ export class ReleaseGood {
   orderInventories: OrderInventory[]
 
   @Column()
+  from: string
+
+  @Column()
+  to: string
+
+  @Column()
   status: string
 
   @Column()
