@@ -8,5 +8,6 @@ export const InventoryInfos = gql`
     packingType: String
     qty: Int
     releaseQty: Int
+    inventoryName: String
   }
 `

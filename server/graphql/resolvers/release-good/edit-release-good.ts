@@ -24,7 +24,7 @@ export const editReleaseGood = {
 
         const foundDeliveryOrder: DeliveryOrder = foundReleaseGood.deliveryOrder
         const foundShippingOrder: ShippingOrder = foundReleaseGood.shippingOrder
-        const orderInventories: OrderInventory[] = await getRepository(OrderInventory).find({
+        const foundOrderInventories: OrderInventory[] = await getRepository(OrderInventory).find({
           where: {
             domain: context.state.domain,
             bizplace: context.state.mainBizplace,
@@ -32,7 +32,7 @@ export const editReleaseGood = {
             releaseGood: foundReleaseGood
           }
         })
-        const orderVass: OrderVas[] = await getRepository(OrderVas).find({
+        const foundOrderVass: OrderVas[] = await getRepository(OrderVas).find({
           where: {
             domain: context.state.domain,
             bizplace: context.state.mainBizplace,
@@ -43,9 +43,9 @@ export const editReleaseGood = {
 
         // delete related records
         // 1. delete order inventory
-        await getRepository(OrderInventory).delete({ id: In(orderInventories.map((oi: OrderInventory) => oi.id)) })
+        await getRepository(OrderInventory).delete({ id: In(foundOrderInventories.map((oi: OrderInventory) => oi.id)) })
         // 2. delete order vas
-        await getRepository(OrderVas).delete({ id: In(orderVass.map((ov: OrderVas) => ov.id)) })
+        await getRepository(OrderVas).delete({ id: In(foundOrderVass.map((ov: OrderVas) => ov.id)) })
         // 3. delete release goods
         await getRepository(ReleaseGood).delete({ ...foundReleaseGood })
         // 4. delete do if it's exist
@@ -56,8 +56,8 @@ export const editReleaseGood = {
         const newReleaseGood: ReleaseGood = releaseGood
         const newShippingOrder: ShippingOrder = shippingOrder
         const newDeliveryOrder: DeliveryOrder = deliveryOrder
-        let newOrderInventories: OrderInventory[] = releaseGood.orderInventories
-        let newOrderVass: OrderVas[] = releaseGood.orderVass
+        const newOrderInventories: OrderInventory[] = releaseGood.orderInventories
+        const newOrderVass: OrderVas[] = releaseGood.orderVass
         let createdDO: DeliveryOrder = null
         let createdSO: ShippingOrder = null
 
@@ -104,8 +104,8 @@ export const editReleaseGood = {
         })
 
         // 2. Create release good inventory
-        newOrderInventories = await Promise.all(
-          orderInventories.map(async (inventory: OrderInventory) => {
+        await Promise.all(
+          newOrderInventories.map(async (inventory: OrderInventory) => {
             return {
               ...inventory,
               domain: context.state.domain,
@@ -128,8 +128,8 @@ export const editReleaseGood = {
         await getRepository(OrderInventory).save(newOrderInventories)
 
         // 3. Create arrival notice vas
-        newOrderVass = await Promise.all(
-          orderVass.map(async (vas: OrderVas) => {
+        await Promise.all(
+          newOrderVass.map(async (vas: OrderVas) => {
             return {
               ...vas,
               domain: context.state.domain,

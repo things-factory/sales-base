@@ -43,6 +43,7 @@ export const releaseGoodResolver = {
             batchId: inventory.batchId,
             product: inventory.product,
             packingType: inventory.packingType,
+            inventoryName: inventory.name,
             qty: inventory.qty
           }
         })
@@ -64,6 +65,7 @@ export const releaseGoodResolver = {
             batchId: inventory.batchId,
             product: inventory.product,
             packingType: inventory.packingType,
+            inventoryName: inventory.name,
             qty: inventory.qty
           }
         })
@@ -81,6 +83,7 @@ export const releaseGoodResolver = {
             batchId: inventory.batchId,
             product: inventory.product,
             packingType: inventory.packingType,
+            inventoryName: inventory.name,
             qty: inventory.qty
           }
         })
@@ -94,6 +97,7 @@ export const releaseGoodResolver = {
             batchId: inventory.batchId,
             product: inventory.product,
             packingType: inventory.packingType,
+            inventoryName: inventory.name,
             qty: inventory.qty
           }
         })
