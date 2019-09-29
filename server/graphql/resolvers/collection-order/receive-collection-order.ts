@@ -1,6 +1,6 @@
 import { getManager, getRepository, In } from 'typeorm'
 import { CollectionOrder, OrderProduct } from '../../../entities'
-import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../enum'
+import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../constants'
 import { TransportVehicle, TransportDriver } from '@things-factory/transport-base'
 import { Bizplace } from '@things-factory/biz-base'
 

@@ -1,6 +1,6 @@
 import { getManager, getRepository } from 'typeorm'
+import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../constants'
 import { DeliveryOrder, OrderInventory, ReleaseGood, ShippingOrder } from '../../../entities'
-import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../enum'
 
 export const rejectReleaseGood = {
   async rejectReleaseGood(_: any, { name, patch }, context: any) {

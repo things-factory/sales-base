@@ -1,6 +1,6 @@
 import { getManager, getRepository } from 'typeorm'
 import { ArrivalNotice, OrderProduct, CollectionOrder } from '../../../entities'
-import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../enum'
+import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../constants'
 
 export const rejectArrivalNotice = {
   async rejectArrivalNotice(_: any, { name, patch }, context: any) {

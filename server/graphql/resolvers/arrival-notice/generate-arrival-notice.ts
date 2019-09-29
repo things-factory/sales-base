@@ -1,7 +1,7 @@
 import { Product } from '@things-factory/product-base'
 import { getManager, getRepository } from 'typeorm'
 import { ArrivalNotice, OrderProduct, OrderVas, Vas } from '../../../entities'
-import { ORDER_PRODUCT_STATUS, ORDER_VAS_STATUS } from '../../../enum'
+import { ORDER_PRODUCT_STATUS, ORDER_VAS_STATUS } from '../../../constants'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const generateArrivalNotice = {

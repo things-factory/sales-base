@@ -1,7 +1,7 @@
 import { Inventory } from '@things-factory/warehouse-base'
 import { getManager, getRepository } from 'typeorm'
+import { ORDER_PRODUCT_STATUS, ORDER_VAS_STATUS } from '../../../constants'
 import { DeliveryOrder, OrderInventory, OrderVas, ReleaseGood, ShippingOrder, Vas } from '../../../entities'
-import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../enum'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const generateReleaseGood = {
