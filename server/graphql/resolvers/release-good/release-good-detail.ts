@@ -1,9 +1,10 @@
 import { Bizplace } from '@things-factory/biz-base'
 import { getRepository, In } from 'typeorm'
-import { DeliveryOrder, ReleaseGood, ShippingOrder } from '../../../entities'
+import { DeliveryOrder, ReleaseGood, ShippingOrder, OrderInventory } from '../../../entities'
+import { Inventory } from '@things-factory/warehouse-base'
 
-export const releaseGoodResolver = {
-  async releaseGood(_: any, { name }, context: any) {
+export const releaseGoodDetailResolver = {
+  async releaseGoodDetail(_: any, { name }, context: any) {
     const releaseGood: ReleaseGood = await getRepository(ReleaseGood).findOne({
       where: {
         domain: context.state.domain,
@@ -30,25 +31,28 @@ export const releaseGoodResolver = {
 
     if (shippingOrder && !deliveryOrder) {
       return {
+        ...releaseGood,
         releaseGoodInfo: {
           containerNo: shippingOrder.containerNo,
           containerLeavingDate: shippingOrder.containerLeavingDate,
           containerArrivalDate: shippingOrder.containerArrivalDate,
           shipName: shippingOrder.shipName
         },
-        inventoryInfos: releaseGood.orderInventories.map(productINV => {
-          const inventory = productINV.inventory
+        inventoryInfos: releaseGood.orderInventories.map((productINV: OrderInventory) => {
+          const inventory: Inventory = productINV.inventory
           return {
             name: productINV.name,
             batchId: inventory.batchId,
             product: inventory.product,
             packingType: inventory.packingType,
-            qty: inventory.qty
+            qty: inventory.qty,
+            releaseQty: productINV.releaseQty
           }
         })
       }
     } else if (shippingOrder && deliveryOrder) {
       return {
+        ...releaseGood,
         releaseGoodInfo: {
           containerNo: shippingOrder.containerNo,
           containerLeavingDate: shippingOrder.containerLeavingDate,
@@ -64,12 +68,14 @@ export const releaseGoodResolver = {
             batchId: inventory.batchId,
             product: inventory.product,
             packingType: inventory.packingType,
-            qty: inventory.qty
+            qty: inventory.qty,
+            releaseQty: productINV.releaseQty
           }
         })
       }
     } else if (!shippingOrder && deliveryOrder) {
       return {
+        ...releaseGood,
         releaseGoodInfo: {
           deliveryDateTime: deliveryOrder.deliveryDateTime,
           telNo: deliveryOrder.telNo
@@ -81,12 +87,14 @@ export const releaseGoodResolver = {
             batchId: inventory.batchId,
             product: inventory.product,
             packingType: inventory.packingType,
-            qty: inventory.qty
+            qty: inventory.qty,
+            releaseQty: productINV.releaseQty
           }
         })
       }
-    } else {
+    } else if (!shippingOrder && !deliveryOrder) {
       return {
+        ...releaseGood,
         inventoryInfos: releaseGood.orderInventories.map(productINV => {
           const inventory = productINV.inventory
           return {
@@ -94,7 +102,8 @@ export const releaseGoodResolver = {
             batchId: inventory.batchId,
             product: inventory.product,
             packingType: inventory.packingType,
-            qty: inventory.qty
+            qty: inventory.qty,
+            releaseQty: productINV.releaseQty
           }
         })
       }

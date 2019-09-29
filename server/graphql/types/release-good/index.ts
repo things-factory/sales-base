@@ -2,6 +2,9 @@ import { ReleaseGood } from './release-good'
 import { NewReleaseGood } from './new-release-good'
 import { ReleaseGoodPatch } from './release-good-patch'
 import { ReleaseGoodList } from './release-good-list'
+import { ReleaseGoodDetail } from './release-good-detail'
+import { ReleaseGoodInfo } from './release-good-info'
+import { InventoryInfos } from './inventory-infos'
 
 export const Mutation = `
   createReleaseGood (
@@ -57,7 +60,16 @@ export const Mutation = `
 export const Query = `
   releaseGoods(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ReleaseGoodList
   releaseGood(name: String!): ReleaseGood
+  releaseGoodDetail(name: String!): ReleaseGoodDetail
   releaseGoodRequests(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ReleaseGoodList
 `
 
-export const Types = [ReleaseGood, NewReleaseGood, ReleaseGoodPatch, ReleaseGoodList]
+export const Types = [
+  ReleaseGood,
+  NewReleaseGood,
+  ReleaseGoodPatch,
+  ReleaseGoodList,
+  ReleaseGoodDetail,
+  ReleaseGoodInfo,
+  InventoryInfos
+]

@@ -27,10 +27,10 @@ export class ShippingOrder {
   containerNo: string
 
   @Column()
-  containerArrivalDate: string
+  containerArrivalDate: Date
 
   @Column()
-  containerLeavingDate: string
+  containerLeavingDate: Date
 
   @Column()
   from: string

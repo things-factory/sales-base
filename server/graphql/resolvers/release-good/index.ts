@@ -10,12 +10,14 @@ import { receiveReleaseGood } from './receive-release-good'
 import { releaseGoodResolver } from './release-good'
 import { releaseGoodRequestsResolver } from './release-good-requests'
 import { releaseGoodsResolver } from './release-goods'
+import { releaseGoodDetailResolver } from './release-good-detail'
 import { updateReleaseGood } from './update-release-good'
 
 export const Query = {
   ...releaseGoodsResolver,
   ...releaseGoodResolver,
-  ...releaseGoodRequestsResolver
+  ...releaseGoodRequestsResolver,
+  ...releaseGoodDetailResolver
 }
 
 export const Mutation = {
