@@ -56,6 +56,7 @@ export const Mutation = `
 
   executeReleaseGood (
     name: String!
+    deliveryOrderPatch: DeliveryOrderPatch
   ): ReleaseGood
 `
 

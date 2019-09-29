@@ -1,14 +1,14 @@
 import { getManager, getRepository } from 'typeorm'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../constants'
-import { OrderInventory, ReleaseGood, ShippingOrder } from '../../../entities'
+import { OrderInventory, ReleaseGood, ShippingOrder, DeliveryOrder } from '../../../entities'
 
 export const executeReleaseGood = {
-  async executeReleaseGood(_: any, { name }, context: any) {
+  async executeReleaseGood(_: any, { name, deliveryOrderPatch }, context: any) {
     return await getManager().transaction(async () => {
       try {
         const releaseGood: ReleaseGood = await getRepository(ReleaseGood).findOne({
           where: { domain: context.state.domain, name },
-          relations: ['orderProducts', 'shippingOrder']
+          relations: ['orderInventories', 'shippingOrder', 'deliveryOrder']
         })
 
         if (!releaseGood) throw new Error(`Release good doesn't exists.`)
@@ -31,14 +31,26 @@ export const executeReleaseGood = {
 
           await getRepository(ShippingOrder).save({
             ...shippingOrder,
-            status: ORDER_STATUS.PICKING,
+            status: ORDER_STATUS.INPROCESS,
+            updater: context.state.user
+          })
+        }
+
+        if (releaseGood.deliveryOrder) {
+          const deliveryOrder: DeliveryOrder = await getRepository(DeliveryOrder).findOne({
+            where: { domain: context.state.domain, name: releaseGood.deliveryOrder.name }
+          })
+
+          await getRepository(DeliveryOrder).save({
+            ...deliveryOrder,
+            ...deliveryOrderPatch,
             updater: context.state.user
           })
         }
 
         await getRepository(ReleaseGood).save({
           ...releaseGood,
-          status: ORDER_STATUS.PICKING,
+          status: ORDER_STATUS.INPROCESS,
           updater: context.state.user
         })
 

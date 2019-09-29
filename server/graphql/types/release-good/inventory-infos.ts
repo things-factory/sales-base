@@ -9,5 +9,6 @@ export const InventoryInfos = gql`
     qty: Int
     releaseQty: Int
     inventoryName: String
+    location: Location
   }
 `

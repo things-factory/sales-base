@@ -18,6 +18,7 @@ export const releaseGoodDetailResolver = {
         'orderInventories',
         'orderInventories.inventory',
         'orderInventories.inventory.product',
+        'orderInventories.inventory.location',
         'orderVass',
         'orderVass.vas',
         'deliveryOrder',
@@ -46,6 +47,7 @@ export const releaseGoodDetailResolver = {
             product: inventory.product,
             packingType: inventory.packingType,
             inventoryName: inventory.name,
+            location: inventory.location,
             qty: inventory.qty,
             releaseQty: productINV.releaseQty
           }
@@ -70,6 +72,7 @@ export const releaseGoodDetailResolver = {
             product: inventory.product,
             packingType: inventory.packingType,
             inventoryName: inventory.name,
+            location: inventory.location,
             qty: inventory.qty,
             releaseQty: productINV.releaseQty
           }
@@ -90,6 +93,7 @@ export const releaseGoodDetailResolver = {
             product: inventory.product,
             packingType: inventory.packingType,
             inventoryName: inventory.name,
+            location: inventory.location,
             qty: inventory.qty,
             releaseQty: productINV.releaseQty
           }
@@ -106,6 +110,7 @@ export const releaseGoodDetailResolver = {
             product: inventory.product,
             packingType: inventory.packingType,
             inventoryName: inventory.name,
+            location: inventory.location,
             qty: inventory.qty,
             releaseQty: productINV.releaseQty
           }

@@ -12,7 +12,7 @@ export const checkReleaseGood = {
         })
 
         if (!releaseGood) throw new Error(`Release good doesn't exists.`)
-        if (releaseGood.status !== ORDER_STATUS.PICKING) throw new Error(`Status is not receivable.`)
+        if (releaseGood.status !== ORDER_STATUS.INPROCESS) throw new Error(`Status is not receivable.`)
 
         // 1. Update status of order products
         releaseGood.orderInventories.forEach(async (orderInventory: OrderInventory) => {
