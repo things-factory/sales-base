@@ -106,7 +106,7 @@ export const editReleaseGood = {
         // 2. Create release good inventory
         await Promise.all(
           newOrderInventories.map(async (inventory: OrderInventory) => {
-            return {
+            await getRepository(OrderInventory).save({
               ...inventory,
               domain: context.state.domain,
               bizplace: context.state.mainBizplace,
@@ -119,18 +119,16 @@ export const editReleaseGood = {
                 }
               }),
               releaseGood: createdReleaseGood,
-              status: ORDER_PRODUCT_STATUS.PENDING,
               creator: context.state.user,
               updater: context.state.user
-            }
+            })
           })
         )
-        await getRepository(OrderInventory).save(newOrderInventories)
 
         // 3. Create arrival notice vas
         await Promise.all(
           newOrderVass.map(async (vas: OrderVas) => {
-            return {
+            await getRepository(OrderVas).save({
               ...vas,
               domain: context.state.domain,
               bizplace: context.state.mainBizplace,
@@ -140,10 +138,9 @@ export const editReleaseGood = {
               status: ORDER_VAS_STATUS.PENDING,
               creator: context.state.user,
               updater: context.state.user
-            }
+            })
           })
         )
-        await getRepository(OrderVas).save(newOrderVass)
 
         return createdReleaseGood
       } catch (e) {
