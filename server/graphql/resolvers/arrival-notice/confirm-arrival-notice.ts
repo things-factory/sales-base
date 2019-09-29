@@ -1,6 +1,6 @@
 import { getManager, getRepository } from 'typeorm'
 import { ArrivalNotice, CollectionOrder } from '../../../entities'
-import { ORDER_STATUS } from '../../../enum'
+import { ORDER_STATUS } from '../../../constants'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const confirmArrivalNotice = {

@@ -1,7 +1,7 @@
 import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
 import { getManager, getRepository, In } from 'typeorm'
 import { DeliveryOrder, OrderProduct } from '../../../entities'
-import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../enum'
+import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../constants'
 import { Bizplace } from '@things-factory/biz-base'
 
 export const dispatchDeliveryOrder = {

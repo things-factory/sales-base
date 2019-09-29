@@ -1,5 +1,5 @@
 import { convertListParams, ListParam } from '@things-factory/shell'
-import { ORDER_STATUS } from 'server/enum'
+import { ORDER_STATUS } from '../../../constants'
 import { getRepository, In } from 'typeorm'
 import { ReleaseGood } from '../../../entities'
 

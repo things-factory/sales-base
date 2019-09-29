@@ -1,6 +1,6 @@
 import { getManager, getRepository } from 'typeorm'
-import { OrderProduct, ReleaseGood, ShippingOrder, OrderInventory } from '../../../entities'
-import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../enum'
+import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../constants'
+import { OrderInventory, ReleaseGood, ShippingOrder } from '../../../entities'
 
 export const executeReleaseGood = {
   async executeReleaseGood(_: any, { name }, context: any) {

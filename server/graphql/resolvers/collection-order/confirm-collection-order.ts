@@ -1,6 +1,6 @@
 import { getManager, getRepository } from 'typeorm'
 import { CollectionOrder } from '../../../entities'
-import { ORDER_STATUS } from '../../../enum'
+import { ORDER_STATUS } from '../../../constants'
 
 export const confirmCollectionOrder = {
   async confirmCollectionOrder(_: any, { name }, context: any) {

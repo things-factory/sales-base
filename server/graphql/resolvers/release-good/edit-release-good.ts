@@ -1,9 +1,8 @@
-import { getManager, getRepository, In } from 'typeorm'
 import { Inventory } from '@things-factory/warehouse-base'
-import { OrderVas, ReleaseGood, Vas, OrderInventory, ShippingOrder, DeliveryOrder } from '../../../entities'
-import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../enum'
+import { getManager, getRepository, In } from 'typeorm'
+import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
+import { DeliveryOrder, OrderInventory, OrderVas, ReleaseGood, ShippingOrder, Vas } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
-import { create } from 'domain'
 
 export const editReleaseGood = {
   async editReleaseGood(_: any, { name, releaseGood, shippingOrder, deliveryOrder }, context: any) {

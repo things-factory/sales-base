@@ -1,6 +1,6 @@
 import { getManager, getRepository } from 'typeorm'
 import { DeliveryOrder } from '../../../entities'
-import { ORDER_STATUS } from '../../../enum'
+import { ORDER_STATUS } from '../../../constants'
 
 export const confirmDeliveryOrder = {
   async confirmDeliveryOrder(_: any, { name }, context: any) {
