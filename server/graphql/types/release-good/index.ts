@@ -32,7 +32,9 @@ export const Mutation = `
 
   editReleaseGood (
     name: String!
-    releaseGood: NewReleaseGood!
+    releaseGood: NewReleaseGood
+    shippingOrder: ShippingOrderPatch
+    deliveryOrder: DeliveryOrderPatch
   ): ReleaseGood
 
   confirmReleaseGood (

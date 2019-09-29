@@ -5,7 +5,12 @@ import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../e
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const editReleaseGood = {
-  async editReleaseGood(_: any, { name, releaseGood }, context: any) {
+  async editReleaseGood(_: any, { name, releaseGood, shippingOrder, deliveryOrder }, context: any) {
+    let orderInventories = releaseGood.orderInventories
+    let orderVass = releaseGood.orderVass
+    const updatedShippingOrder = shippingOrder
+    const updatedDeliveryOrder = deliveryOrder
+
     const foundReleaseGood: ReleaseGood = await getRepository(ReleaseGood).findOne({
       where: { domain: context.state.domain, name },
       relations: ['orderInventories', 'orderVass', 'deliveryOrder', 'shippingOrder', 'creator', 'updater']
@@ -16,6 +21,96 @@ export const editReleaseGood = {
       if (foundReleaseGood.status !== ORDER_STATUS.EDITING) throw new Error('Not editable status.')
 
       return await getManager().transaction(async () => {
+        if (releaseGood.ownTransport && !releaseGood.shippingOption) {
+          await getRepository(ReleaseGood).save({
+            ...foundReleaseGood,
+            domain: context.state.domain,
+            bizplace: context.state.mainBizplace,
+            deliveryOrder: null,
+            shippingOrder: null,
+            updater: context.state.user
+          })
+
+          const shippingOrderId = foundReleaseGood.shippingOrder.id
+          await getRepository(ShippingOrder).delete({
+            domain: context.state.domain,
+            bizplace: context.state.mainBizplace,
+            id: shippingOrderId
+          })
+
+          const deliveryOrderId = foundReleaseGood.deliveryOrder.id
+          await getRepository(DeliveryOrder).delete({
+            domain: context.state.domain,
+            bizplace: context.state.mainBizplace,
+            id: deliveryOrderId
+          })
+        } else if (releaseGood.ownTransport && releaseGood.shippingOption) {
+          await getRepository(ReleaseGood).save({
+            ...foundReleaseGood,
+            domain: context.state.domain,
+            bizplace: context.state.mainBizplace,
+            deliveryOrder: null,
+            updater: context.state.user
+          })
+
+          const deliveryOrderId = foundReleaseGood.deliveryOrder.id
+          await getRepository(DeliveryOrder).delete({
+            domain: context.state.domain,
+            bizplace: context.state.mainBizplace,
+            id: deliveryOrderId
+          })
+
+          await getRepository(ShippingOrder).save({
+            ...foundReleaseGood.shippingOrder,
+            from: releaseGood.from,
+            to: releaseGood.to,
+            loadType: releaseGood.loadType,
+            ...updatedShippingOrder,
+            updater: context.state.user
+          })
+        } else if (!releaseGood.ownTransport && !releaseGood.shippingOption) {
+          await getRepository(ReleaseGood).save({
+            ...foundReleaseGood,
+            domain: context.state.domain,
+            bizplace: context.state.mainBizplace,
+            shippingOrder: null,
+            updater: context.state.user
+          })
+
+          const shippingOrderId = foundReleaseGood.shippingOrder.id
+          await getRepository(ShippingOrder).delete({
+            domain: context.state.domain,
+            bizplace: context.state.mainBizplace,
+            id: shippingOrderId
+          })
+
+          await getRepository(DeliveryOrder).save({
+            ...foundReleaseGood.deliveryOrder,
+            from: releaseGood.from,
+            to: releaseGood.to,
+            loadType: releaseGood.loadType,
+            ...updatedDeliveryOrder,
+            updater: context.state.user
+          })
+        } else if (!releaseGood.ownTransport && releaseGood.shippingOption) {
+          await getRepository(DeliveryOrder).save({
+            ...foundReleaseGood.deliveryOrder,
+            from: releaseGood.from,
+            to: releaseGood.to,
+            loadType: releaseGood.loadType,
+            ...updatedDeliveryOrder,
+            updater: context.state.user
+          })
+
+          await getRepository(ShippingOrder).save({
+            ...foundReleaseGood.shippingOrder,
+            from: releaseGood.from,
+            to: releaseGood.to,
+            loadType: releaseGood.loadType,
+            ...updatedShippingOrder,
+            updater: context.state.user
+          })
+        }
         // 1. delete order products
         const orderInventoryIds = foundReleaseGood.orderInventories.map(inventory => inventory.id)
         await getRepository(OrderInventory).delete({ id: In(orderInventoryIds) })
@@ -24,63 +119,30 @@ export const editReleaseGood = {
         const orderVasIds = foundReleaseGood.orderVass.map(vas => vas.id)
         await getRepository(OrderVas).delete({ id: In(orderVasIds) })
 
-        // 3. delete shipping order
-        const shippingOrderId = foundReleaseGood.shippingOrder.id
-        await getRepository(ShippingOrder).delete({
-          domain: context.state.domain,
-          bizplace: context.state.bizplaces[0],
-          id: shippingOrderId
-        })
-
-        // 4. delete delivery order
-        const deliveryOrderId = foundReleaseGood.deliveryOrder.id
-        await getRepository(DeliveryOrder).delete({
-          domain: context.state.domain,
-          bizplace: context.state.bizplaces[0],
-          id: deliveryOrderId
-        })
-
         // 5. update arrival notice
         const updatedReleaseGood: ReleaseGood = await getRepository(ReleaseGood).save({
           ...foundReleaseGood,
-          ...releaseGood.releaseGood,
+          ...releaseGood,
+          domain: context.state.domain,
+          bizplace: context.state.mainBizplace,
           updater: context.state.user
         })
 
-        if (!releaseGood.ownTransport) {
-          await getRepository(DeliveryOrder).save({
-            name: OrderNoGenerator.deliveryOrder(),
-            domain: context.state.domain,
-            bizplace: context.state.bizplaces[0],
-            deliveryDateTime: releaseGood.deliveryDateTime,
-            from: releaseGood.from,
-            to: releaseGood.to,
-            loadType: releaseGood.loadType,
-            status: ORDER_STATUS.PENDING
-          })
-        }
-
-        if (!releaseGood.shippingOption) {
-          await getRepository(ShippingOrder).save({
-            name: OrderNoGenerator.shippingOrder(),
-            domain: context.state.domain,
-            bizplace: context.state.bizplaces[0],
-            shipName: releaseGood.shipName,
-            containerNo: releaseGood.containerNo,
-            from: releaseGood.from,
-            to: releaseGood.to,
-            status: ORDER_STATUS.PENDING
-          })
-        }
-
-        // 4. create order inventories
-        const inventories = await Promise.all(
-          releaseGood.inventories.map(async (inventory: OrderInventory) => {
+        // 2. Create release good inventory
+        orderInventories = await Promise.all(
+          orderInventories.map(async (inventory: OrderInventory) => {
             return {
               ...inventory,
               domain: context.state.domain,
+              bizplace: context.state.mainBizplace,
               name: OrderNoGenerator.orderInventory(),
-              inventory: await getRepository(Inventory).findOne(inventory.inventory.id),
+              inventory: await getRepository(Inventory).findOne({
+                where: {
+                  domain: context.state.domain,
+                  bizplace: context.state.mainBizplace,
+                  name: releaseGood.name
+                }
+              }),
               releaseGood: updatedReleaseGood,
               status: ORDER_PRODUCT_STATUS.PENDING,
               creator: context.state.user,
@@ -88,14 +150,15 @@ export const editReleaseGood = {
             }
           })
         )
-        await getRepository(OrderInventory).save(inventories)
+        await getRepository(OrderInventory).save(orderInventories)
 
-        // 5. create order vas
-        const vass = await Promise.all(
-          releaseGood.vass.map(async (vas: OrderVas) => {
+        // 3. Create arrival notice vas
+        orderVass = await Promise.all(
+          orderVass.map(async (vas: OrderVas) => {
             return {
               ...vas,
               domain: context.state.domain,
+              bizplace: context.state.mainBizplace,
               name: OrderNoGenerator.releaseVas(),
               vas: await getRepository(Vas).findOne(vas.vas.id),
               releaseGood: updatedReleaseGood,
@@ -105,7 +168,7 @@ export const editReleaseGood = {
             }
           })
         )
-        await getRepository(OrderVas).save(vass)
+        await getRepository(OrderVas).save(orderVass)
 
         return updatedReleaseGood
       })
