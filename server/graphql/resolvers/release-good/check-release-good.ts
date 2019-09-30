@@ -37,7 +37,7 @@ export const checkReleaseGood = {
 
           await getRepository(DeliveryOrder).save({
             ...deliveryOrder,
-            status: ORDER_STATUS.DELIVERING,
+            status: ORDER_STATUS.DONE,
             updater: context.state.user
           })
         }
@@ -51,7 +51,7 @@ export const checkReleaseGood = {
 
           await getRepository(ShippingOrder).save({
             ...shippingOrder,
-            status: ORDER_STATUS.SHIPPING,
+            status: ORDER_STATUS.DONE,
             updater: context.state.user
           })
         }

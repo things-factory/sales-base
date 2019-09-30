@@ -28,7 +28,7 @@ export const dispatchCollectionOrder = {
           collectionOrder.transportVehicle = await getRepository(TransportVehicle).findOne({
             where: {
               domain: context.state.domain,
-              bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id)),
+              bizplace: context.state.mainBizplace,
               name: patch.transportVehicle.name
             }
           })
@@ -38,7 +38,7 @@ export const dispatchCollectionOrder = {
           collectionOrder.transportDriver = await getRepository(TransportDriver).findOne({
             where: {
               domain: context.state.domain,
-              bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id)),
+              bizplace: context.state.mainBizplace,
               name: patch.transportDriver.name
             }
           })

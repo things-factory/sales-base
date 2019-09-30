@@ -22,6 +22,8 @@ export const releaseGoodDetailResolver = {
         'orderVass',
         'orderVass.vas',
         'deliveryOrder',
+        'deliveryOrder.transportVehicle',
+        'deliveryOrder.transportDriver',
         'creator',
         'updater'
       ]
@@ -62,6 +64,8 @@ export const releaseGoodDetailResolver = {
           containerArrivalDate: shippingOrder.containerArrivalDate,
           shipName: shippingOrder.shipName,
           deliveryDateTime: deliveryOrder.deliveryDateTime,
+          transportDriver: deliveryOrder.transportDriver.name,
+          transportVehicle: deliveryOrder.transportVehicle.name,
           telNo: deliveryOrder.telNo
         },
         inventoryInfos: releaseGood.orderInventories.map(productINV => {
@@ -83,7 +87,9 @@ export const releaseGoodDetailResolver = {
         ...releaseGood,
         releaseGoodInfo: {
           deliveryDateTime: deliveryOrder.deliveryDateTime,
-          telNo: deliveryOrder.telNo
+          telNo: deliveryOrder.telNo,
+          transportDriver: deliveryOrder.transportDriver.name,
+          transportVehicle: deliveryOrder.transportVehicle.name
         },
         inventoryInfos: releaseGood.orderInventories.map(productINV => {
           const inventory = productINV.inventory

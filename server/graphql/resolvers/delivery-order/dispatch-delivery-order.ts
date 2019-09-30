@@ -1,8 +1,7 @@
 import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
-import { getManager, getRepository, In } from 'typeorm'
-import { DeliveryOrder, OrderProduct } from '../../../entities'
+import { getManager, getRepository } from 'typeorm'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../constants'
-import { Bizplace } from '@things-factory/biz-base'
+import { DeliveryOrder, OrderProduct } from '../../../entities'
 
 export const dispatchDeliveryOrder = {
   async dispatchDeliveryOrder(_: any, { name, patch }, context: any) {
@@ -28,7 +27,7 @@ export const dispatchDeliveryOrder = {
           deliveryOrder.transportVehicle = await getRepository(TransportVehicle).findOne({
             where: {
               domain: context.state.domain,
-              bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id)),
+              bizplace: context.state.mainBizplace,
               name: patch.transportVehicle.name
             }
           })
@@ -38,7 +37,7 @@ export const dispatchDeliveryOrder = {
           deliveryOrder.transportDriver = await getRepository(TransportDriver).findOne({
             where: {
               domain: context.state.domain,
-              bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id)),
+              bizplace: context.state.mainBizplace,
               name: patch.transportDriver.name
             }
           })

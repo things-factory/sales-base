@@ -58,6 +58,10 @@ export const Mutation = `
     name: String!
     deliveryOrderPatch: DeliveryOrderPatch
   ): ReleaseGood
+
+  deliverReleaseGood (
+    name: String!
+  ): ReleaseGood
 `
 
 export const Query = `
