@@ -27,7 +27,7 @@ export class QuotationItem {
   @ManyToOne(type => Domain)
   domain: Domain
 
-  @Column()
+  @Column('decimal')
   qty: number
 
   @Column()

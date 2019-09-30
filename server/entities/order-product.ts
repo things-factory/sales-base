@@ -101,7 +101,7 @@ export class OrderProduct {
   @Column()
   unit: string
 
-  @Column()
+  @Column('decimal')
   weight: number
 
   @Column()
@@ -122,7 +122,7 @@ export class OrderProduct {
   })
   actualPalletQty: number
 
-  @Column()
+  @Column('decimal')
   totalWeight: number
 
   @Column({
