@@ -39,7 +39,9 @@ export const releaseGoodDetailResolver = {
           containerNo: shippingOrder.containerNo,
           containerLeavingDate: shippingOrder.containerLeavingDate,
           containerArrivalDate: shippingOrder.containerArrivalDate,
-          shipName: shippingOrder.shipName
+          shipName: shippingOrder.shipName,
+          transportDriver: deliveryOrder.transportDriver.name,
+          transportVehicle: deliveryOrder.transportVehicle.name
         },
         inventoryInfos: releaseGood.orderInventories.map((productINV: OrderInventory) => {
           const inventory: Inventory = productINV.inventory
