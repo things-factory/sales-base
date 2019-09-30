@@ -32,7 +32,7 @@ export class ClaimDetail {
   @Column()
   refNo: String
 
-  @Column('float')
+  @Column()
   amount: number
 
   @CreateDateColumn()

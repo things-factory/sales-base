@@ -101,7 +101,7 @@ export class OrderProduct {
   @Column()
   unit: string
 
-  @Column('float')
+  @Column()
   weight: number
 
   @Column()
@@ -122,7 +122,7 @@ export class OrderProduct {
   })
   actualPalletQty: number
 
-  @Column('float')
+  @Column()
   totalWeight: number
 
   @Column({
