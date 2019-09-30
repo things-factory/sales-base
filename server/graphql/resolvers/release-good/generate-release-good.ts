@@ -56,9 +56,9 @@ export const generateReleaseGood = {
 
       // 2. Create release good inventory
       orderInventories = await Promise.all(
-        orderInventories.map(async (inventory: OrderInventory) => {
+        orderInventories.map(async (orderInventory: OrderInventory) => {
           return {
-            ...inventory,
+            ...orderInventory,
             domain: context.state.domain,
             bizplace: context.state.mainBizplace,
             name: OrderNoGenerator.orderInventory(),
@@ -66,7 +66,7 @@ export const generateReleaseGood = {
               where: {
                 domain: context.state.domain,
                 bizplace: context.state.mainBizplace,
-                name: inventory.name
+                name: orderInventory.inventory.name
               }
             }),
             releaseGood: createdReleaseGood,
