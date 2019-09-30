@@ -22,7 +22,7 @@ export class Vas {
   @Column()
   currency: string
 
-  @Column('decimal')
+  @Column('float')
   defaultPrice: number
 
   @CreateDateColumn()
