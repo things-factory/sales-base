@@ -1,7 +1,7 @@
 import { Bizplace } from '@things-factory/biz-base'
-import { getRepository, In } from 'typeorm'
-import { DeliveryOrder, ReleaseGood, ShippingOrder, OrderInventory } from '../../../entities'
 import { Inventory } from '@things-factory/warehouse-base'
+import { getRepository, In } from 'typeorm'
+import { DeliveryOrder, OrderInventory, ReleaseGood, ShippingOrder } from '../../../entities'
 
 export const releaseGoodDetailResolver = {
   async releaseGoodDetail(_: any, { name }, context: any) {
@@ -32,98 +32,31 @@ export const releaseGoodDetailResolver = {
     const shippingOrder: ShippingOrder = releaseGood.shippingOrder
     const deliveryOrder: DeliveryOrder = releaseGood.deliveryOrder
 
-    if (shippingOrder && !deliveryOrder) {
-      return {
-        ...releaseGood,
-        releaseGoodInfo: {
-          containerNo: shippingOrder.containerNo,
-          containerLeavingDate: shippingOrder.containerLeavingDate,
-          containerArrivalDate: shippingOrder.containerArrivalDate,
-          shipName: shippingOrder.shipName,
-          transportDriver: deliveryOrder.transportDriver.name,
-          transportVehicle: deliveryOrder.transportVehicle.name
-        },
-        inventoryInfos: releaseGood.orderInventories.map((productINV: OrderInventory) => {
-          const inventory: Inventory = productINV.inventory
-          return {
-            name: productINV.name,
-            batchId: inventory.batchId,
-            product: inventory.product,
-            packingType: inventory.packingType,
-            inventoryName: inventory.name,
-            location: inventory.location,
-            qty: inventory.qty,
-            releaseQty: productINV.releaseQty
-          }
-        })
-      }
-    } else if (shippingOrder && deliveryOrder) {
-      return {
-        ...releaseGood,
-        releaseGoodInfo: {
-          containerNo: shippingOrder.containerNo,
-          containerLeavingDate: shippingOrder.containerLeavingDate,
-          containerArrivalDate: shippingOrder.containerArrivalDate,
-          shipName: shippingOrder.shipName,
-          deliveryDateTime: deliveryOrder.deliveryDateTime,
-          transportDriver: deliveryOrder.transportDriver.name,
-          transportVehicle: deliveryOrder.transportVehicle.name,
-          telNo: deliveryOrder.telNo
-        },
-        inventoryInfos: releaseGood.orderInventories.map(productINV => {
-          const inventory = productINV.inventory
-          return {
-            name: productINV.name,
-            batchId: inventory.batchId,
-            product: inventory.product,
-            packingType: inventory.packingType,
-            inventoryName: inventory.name,
-            location: inventory.location,
-            qty: inventory.qty,
-            releaseQty: productINV.releaseQty
-          }
-        })
-      }
-    } else if (!shippingOrder && deliveryOrder) {
-      return {
-        ...releaseGood,
-        releaseGoodInfo: {
-          deliveryDateTime: deliveryOrder.deliveryDateTime,
-          telNo: deliveryOrder.telNo,
-          transportDriver: deliveryOrder.transportDriver.name,
-          transportVehicle: deliveryOrder.transportVehicle.name
-        },
-        inventoryInfos: releaseGood.orderInventories.map(productINV => {
-          const inventory = productINV.inventory
-          return {
-            name: productINV.name,
-            batchId: inventory.batchId,
-            product: inventory.product,
-            packingType: inventory.packingType,
-            inventoryName: inventory.name,
-            location: inventory.location,
-            qty: inventory.qty,
-            releaseQty: productINV.releaseQty
-          }
-        })
-      }
-    } else if (!shippingOrder && !deliveryOrder) {
-      return {
-        ...releaseGood,
-        inventoryInfos: releaseGood.orderInventories.map(productINV => {
-          const inventory = productINV.inventory
-          return {
-            name: productINV.name,
-            batchId: inventory.batchId,
-            product: inventory.product,
-            packingType: inventory.packingType,
-            inventoryName: inventory.name,
-            location: inventory.location,
-            qty: inventory.qty,
-            releaseQty: productINV.releaseQty
-          }
-        })
-      }
+    return {
+      ...releaseGood,
+      releaseGoodInfo: {
+        containerNo: (shippingOrder && shippingOrder.containerNo) || '',
+        containerLeavingDate: (shippingOrder && shippingOrder.containerLeavingDate) || '',
+        containerArrivalDate: (shippingOrder && shippingOrder.containerArrivalDate) || '',
+        shipName: (shippingOrder && shippingOrder.shipName) || '',
+        transportDriver: (deliveryOrder && deliveryOrder.transportDriver.name) || '',
+        transportVehicle: (deliveryOrder && deliveryOrder.transportVehicle.name) || '',
+        deliveryDateTime: (deliveryOrder && deliveryOrder.deliveryDateTime) || '',
+        telNo: (deliveryOrder && deliveryOrder.telNo) || ''
+      },
+      inventoryInfos: releaseGood.orderInventories.map((orderInv: OrderInventory) => {
+        const inventory: Inventory = orderInv.inventory
+        return {
+          name: orderInv.name,
+          batchId: inventory.batchId,
+          product: inventory.product,
+          packingType: inventory.packingType,
+          inventoryName: inventory.name,
+          location: inventory.location,
+          qty: inventory.qty,
+          releaseQty: orderInv.releaseQty
+        }
+      })
     }
   }
 }
