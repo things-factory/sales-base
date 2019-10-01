@@ -20,6 +20,7 @@ export const Mutation = `
 
   generateArrivalNotice (
     arrivalNotice: GenerateArrivalNotice!
+    collectionOrder: CollectionOrderPatch
   ): ArrivalNotice
 
   editArrivalNotice (

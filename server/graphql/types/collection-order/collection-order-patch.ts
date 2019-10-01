@@ -10,6 +10,7 @@ export const CollectionOrderPatch = gql`
     orderProducts: [ObjectRef]
     orderVass: [ObjectRef]
     collectionDateTime: String
+    collectionDate: String
     transportVehicle: ObjectRef
     transportDriver: ObjectRef
     telNo: String

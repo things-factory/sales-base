@@ -10,7 +10,8 @@ export const NewCollectionOrder = gql`
     orderProducts: [NewOrderProduct]
     orderVass: [NewOrderVas]
     telNo: String
-    collectionDateTime: String!
+    collectionDateTime: String
+    collectionDate: String: String!
     loadType: String
     status: String!
   }

@@ -32,16 +32,25 @@ export class CollectionOrder {
   @Column()
   name: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   from: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   to: string
 
   @Column({
     nullable: true
   })
   collectionDateTime: Date
+
+  @Column({
+    nullable: true
+  })
+  collectionDate: string
 
   @OneToMany(type => OrderProduct, orderProduct => orderProduct.collectionOrder)
   orderProducts: OrderProduct[]
