@@ -11,11 +11,8 @@ export const ArrivalNotice = gql`
     ownTransport: Boolean
     eta: String
     etaDate: String
-    collectionDateTime: String
     from: String
     to: String
-    truckNo: String
-    loadType: String
     status: String
     remark: String
     orderProducts: [OrderProduct]

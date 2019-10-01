@@ -77,11 +77,6 @@ export class ArrivalNotice {
   })
   truckNo: string
 
-  @Column({
-    nullable: true
-  })
-  loadType: string
-
   @Column()
   status: string
 
