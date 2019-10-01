@@ -1,49 +1,54 @@
 import { getManager, getRepository } from 'typeorm'
-import { ArrivalNotice, OrderProduct, CollectionOrder } from '../../../entities'
-import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../constants'
+import { ArrivalNotice, OrderProduct, CollectionOrder, OrderVas } from '../../../entities'
+import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
 
 export const rejectArrivalNotice = {
   async rejectArrivalNotice(_: any, { name, patch }, context: any) {
     return await getManager().transaction(async () => {
       try {
-        const arrivalNotice: ArrivalNotice = await getRepository(ArrivalNotice).findOne({
-          where: { domain: context.state.domain, name },
-          relations: ['orderProducts', 'collectionOrder']
+        const foundArrivalNotice: ArrivalNotice = await getRepository(ArrivalNotice).findOne({
+          where: { domain: context.state.domain, name, status: ORDER_STATUS.PENDING_RECEIVE },
+          relations: ['orderProducts', 'orderVass', 'collectionOrder']
         })
 
-        if (!arrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
+        if (!foundArrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
         if (!patch.remark) throw new Error('Remark is not exist.')
-        if (arrivalNotice.status !== ORDER_STATUS.PENDING_RECEIVE) throw new Error(`Status is not receivable.`)
 
-        // 1. Update status of order products (PENDING_RECEIVE => READY_TO_COLLECT)
-        arrivalNotice.orderProducts.forEach(async (orderProduct: OrderProduct) => {
-          await getRepository(OrderProduct).update(
-            { domain: context.state.domain, name: orderProduct.name },
-            { ...orderProduct, status: ORDER_PRODUCT_STATUS.REJECTED, updater: context.state.user }
-          )
+        let foundOPs: OrderProduct[] = foundArrivalNotice.orderProducts
+        let foundOVs: OrderVas[] = foundArrivalNotice.orderVass
+        const foundCO: CollectionOrder = foundArrivalNotice.collectionOrder
+
+        // 1. Update status of order products (PENDING_RECEIVE => REJECTED)
+        foundOPs = foundOPs.map((op: OrderProduct) => {
+          return {
+            ...op,
+            status: ORDER_PRODUCT_STATUS.REJECTED,
+            updater: context.state.user
+          }
         })
+        await getRepository(OrderProduct).save(foundOPs)
 
-        if (arrivalNotice.collectionOrder) {
-          // 2. 1) if it's yes update status of collection order
-          const collectionOrder: CollectionOrder = await getRepository(CollectionOrder).findOne({
-            where: { domain: context.state.domain, name: arrivalNotice.collectionOrder.name }
+        // 2. Update status of order vass if it exists (PENDING_RECEIVE => REJECTED)
+        if (foundOVs && foundOVs.length) {
+          foundOVs = foundOVs.map((ov: OrderVas) => {
+            return {
+              ...ov,
+              status: ORDER_VAS_STATUS.REJECTED,
+              updater: context.state.user
+            }
           })
+          await getRepository(OrderVas).save(foundOVs)
+        }
 
+        // 3. If there's collection order, update status of collection order (PENDING_RECEIVE => REJECTED)
+        if (foundCO)
           await getRepository(CollectionOrder).save({
-            ...collectionOrder,
+            ...foundCO,
             status: ORDER_STATUS.REJECTED,
             updater: context.state.user
           })
-        }
 
-        await getRepository(ArrivalNotice).save({
-          ...arrivalNotice,
-          ...patch,
-          status: ORDER_STATUS.REJECTED,
-          updater: context.state.user
-        })
-
-        return arrivalNotice
+        return foundArrivalNotice
       } catch (e) {
         throw e
       }
