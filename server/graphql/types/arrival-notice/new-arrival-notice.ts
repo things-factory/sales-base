@@ -7,6 +7,7 @@ export const NewArrivalNotice = gql`
     containerNo: String
     ownTransport: Boolean!
     eta: String
+    etaDate: String
     collectionDateTime: String
     from: String
     to: String

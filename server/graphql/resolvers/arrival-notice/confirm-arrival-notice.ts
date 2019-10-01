@@ -29,7 +29,6 @@ export const confirmArrivalNotice = {
           name: OrderNoGenerator.collectionOrder(),
           domain: context.state.domain,
           bizplace: context.state.bizplaces[0],
-          collectionDateTime: foundArrivalNotice.collectionDateTime,
           from: foundArrivalNotice.from,
           to: foundArrivalNotice.to,
           loadType: foundArrivalNotice.loadType,

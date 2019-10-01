@@ -60,7 +60,7 @@ export class ArrivalNotice {
   @Column({
     nullable: true
   })
-  collectionDateTime: Date
+  etaDate: String
 
   @Column({
     nullable: true
