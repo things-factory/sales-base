@@ -8,6 +8,8 @@ import { CollectionOrder } from './collection-order'
 import { DeliveryOrder } from './delivery-order'
 import { ReleaseGood } from './release-good'
 import { Vas } from './vas'
+import { VasOrder } from './vas-order'
+import { Inventory } from '@things-factory/warehouse-base'
 
 @Entity('order_vass')
 @Index('ix_order-vas_0', (orderVas: OrderVas) => [orderVas.domain, orderVas.name], {
@@ -60,10 +62,21 @@ export class OrderVas {
   @ManyToOne(type => ShippingOrder)
   shippingOrder: ShippingOrder
 
+  @ManyToOne(type => VasOrder)
+  vasOrder: VasOrder
+
   @ManyToOne(type => Vas, {
     nullable: false
   })
   vas: Vas
+
+  @ManyToOne(type => Inventory)
+  inventory: Inventory
+
+  @Column({
+    nullable: true
+  })
+  type: string
 
   @Column()
   remark: string

@@ -17,6 +17,7 @@ import * as ReleaseGood from './release-good'
 import * as Vas from './vas'
 import * as Claim from './claim'
 import * as ClaimDetail from './claim-detail'
+import * as VasOrder from './vas-order'
 
 export const queries = [
   Quotation.Query,
@@ -36,7 +37,8 @@ export const queries = [
   ReleaseGood.Query,
   Claim.Query,
   ClaimDetail.Query,
-  OrderInventory.Query
+  OrderInventory.Query,
+  VasOrder.Query
 ]
 
 export const mutations = [
@@ -57,7 +59,8 @@ export const mutations = [
   ReleaseGood.Mutation,
   Claim.Mutation,
   ClaimDetail.Mutation,
-  OrderInventory.Mutation
+  OrderInventory.Mutation,
+  VasOrder.Mutation
 ]
 
 export const types = [

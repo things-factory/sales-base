@@ -47,7 +47,6 @@ export const releaseGoodDetailResolver = {
       inventoryInfos: releaseGood.orderInventories.map((orderInv: OrderInventory) => {
         const inventory: Inventory = orderInv.inventory
         return {
-          name: orderInv.name,
           batchId: inventory.batchId,
           product: inventory.product,
           packingType: inventory.packingType,

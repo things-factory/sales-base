@@ -43,6 +43,12 @@ export class OrderNoGenerator {
     return uuid()
   }
 
+  static vasOrder() {
+    const currentDate = new Date()
+    return `VO-${currentDate.getFullYear()}${currentDate.getMonth() +
+      1}${currentDate.getDate()}${currentDate.getHours()}${currentDate.getMinutes()}${currentDate.getSeconds()}${currentDate.getMilliseconds()}`
+  }
+
   static orderVas() {
     return `OV-${uuid()}`
   }
