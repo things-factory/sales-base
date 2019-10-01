@@ -37,7 +37,7 @@ export const editDeliveryOrder = {
             return {
               ...product,
               domain: context.state.domain,
-              name: OrderNoGenerator.orderProduct(foundDeliveryOrder.name, product.batchId, product.seq),
+              name: OrderNoGenerator.orderProduct(),
               product: await getRepository(Product).findOne(product.product.id),
               deliveryOrder: updatedDeliveryOrder,
               status: ORDER_PRODUCT_STATUS.PENDING,
@@ -54,7 +54,7 @@ export const editDeliveryOrder = {
             return {
               ...vas,
               domain: context.state.domain,
-              name: OrderNoGenerator.orderVas(foundDeliveryOrder.name, vas.batchId, vas.vas.name),
+              name: OrderNoGenerator.orderVas(),
               vas: await getRepository(Vas).findOne(vas.vas.id),
               deliveryOrder: updatedDeliveryOrder,
               status: ORDER_VAS_STATUS.PENDING,

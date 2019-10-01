@@ -27,7 +27,7 @@ export const generateDeliveryOrder = {
           return {
             ...product,
             domain: context.state.domain,
-            name: OrderNoGenerator.orderProduct(createdDeliveryOrder.name, product.batchId, product.seq),
+            name: OrderNoGenerator.orderProduct(),
             product: await getRepository(Product).findOne(product.product.id),
             deliveryOrder: createdDeliveryOrder,
             bizplace: context.state.mainBizplace,
@@ -45,7 +45,7 @@ export const generateDeliveryOrder = {
           return {
             ...vas,
             domain: context.state.domain,
-            name: OrderNoGenerator.orderVas(createdDeliveryOrder.name, vas.batchId, vas.vas.name),
+            name: OrderNoGenerator.orderVas(),
             vas: await getRepository(Vas).findOne(vas.vas.id),
             deliveryOrder: createdDeliveryOrder,
             bizplace: context.state.mainBizplace,

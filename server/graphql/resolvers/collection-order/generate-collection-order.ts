@@ -27,7 +27,7 @@ export const generateCollectionOrder = {
           return {
             ...product,
             domain: context.state.domain,
-            name: OrderNoGenerator.orderProduct(createdCollectionOrder.name, product.batchId, product.seq),
+            name: OrderNoGenerator.orderProduct(),
             product: await getRepository(Product).findOne(product.product.id),
             collectionOrder: createdCollectionOrder,
             bizplace: context.state.mainBizplace,
@@ -45,7 +45,7 @@ export const generateCollectionOrder = {
           return {
             ...vas,
             domain: context.state.domain,
-            name: OrderNoGenerator.orderVas(createdCollectionOrder.name, vas.batchId, vas.vas.name),
+            name: OrderNoGenerator.orderVas(),
             vas: await getRepository(Vas).findOne(vas.vas.id),
             collectionOrder: createdCollectionOrder,
             bizplace: context.state.mainBizplace,

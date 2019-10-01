@@ -7,13 +7,12 @@ import { OrderNoGenerator } from '../../../utils/order-no-generator'
 export const generateArrivalNotice = {
   async generateArrivalNotice(_: any, { arrivalNotice, collectionOrder }, context: any) {
     return await getManager().transaction(async () => {
-      const newArrivalNotice: ArrivalNotice = arrivalNotice.arrivalNotice
-      let products: OrderProduct[] = arrivalNotice.products
-      let vass: OrderVas[] = arrivalNotice.vass
+      let orderProducts: OrderProduct[] = arrivalNotice.orderProducts
+      let orderVass: OrderVas[] = arrivalNotice.orderVass
 
       // 1. Create collection order
       if (collectionOrder) {
-        newArrivalNotice.collectionOrder = await getRepository(CollectionOrder).save({
+        arrivalNotice.collectionOrder = await getRepository(CollectionOrder).save({
           ...collectionOrder,
           domain: context.state.domain,
           bizplace: context.state.mainBizplace,
@@ -25,7 +24,7 @@ export const generateArrivalNotice = {
 
       // 2. Create arrival notice
       const createdArrivalNotice: ArrivalNotice = await getRepository(ArrivalNotice).save({
-        ...newArrivalNotice,
+        ...arrivalNotice,
         name: OrderNoGenerator.arrivalNotice(),
         domain: context.state.domain,
         bizplace: context.state.mainBizplace,
@@ -35,13 +34,13 @@ export const generateArrivalNotice = {
       })
 
       // 3. Create arrival notice product
-      products = await Promise.all(
-        products.map(async (product: OrderProduct) => {
+      orderProducts = await Promise.all(
+        orderProducts.map(async (op: OrderProduct) => {
           return {
-            ...product,
+            ...op,
             domain: context.state.domain,
-            name: OrderNoGenerator.orderProduct(createdArrivalNotice.name, product.batchId, product.seq),
-            product: await getRepository(Product).findOne(product.product.id),
+            name: OrderNoGenerator.orderProduct(),
+            product: await getRepository(Product).findOne({ domain: context.state.domain, id: op.product.id }),
             arrivalNotice: createdArrivalNotice,
             bizplace: context.state.mainBizplace,
             status: ORDER_PRODUCT_STATUS.PENDING,
@@ -50,16 +49,16 @@ export const generateArrivalNotice = {
           }
         })
       )
-      await getRepository(OrderProduct).save(products)
+      await getRepository(OrderProduct).save(orderProducts)
 
       // 4. Create arrival notice vas
-      vass = await Promise.all(
-        vass.map(async (vas: OrderVas) => {
+      orderVass = await Promise.all(
+        orderVass.map(async (ov: OrderVas) => {
           return {
-            ...vas,
+            ...ov,
             domain: context.state.domain,
-            name: OrderNoGenerator.orderVas(createdArrivalNotice.name, vas.batchId, vas.vas.name),
-            vas: await getRepository(Vas).findOne(vas.vas.id),
+            name: OrderNoGenerator.orderVas(),
+            vas: await getRepository(Vas).findOne({ domain: context.state.domain, id: ov.vas.id }),
             arrivalNotice: createdArrivalNotice,
             bizplace: context.state.mainBizplace,
             status: ORDER_VAS_STATUS.PENDING,
@@ -68,7 +67,7 @@ export const generateArrivalNotice = {
           }
         })
       )
-      await getRepository(OrderVas).save(vass)
+      await getRepository(OrderVas).save(orderVass)
 
       return createdArrivalNotice
     })

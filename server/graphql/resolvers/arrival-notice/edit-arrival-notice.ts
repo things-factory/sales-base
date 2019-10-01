@@ -37,7 +37,7 @@ export const editArrivalNotice = {
             return {
               ...product,
               domain: context.state.domain,
-              name: OrderNoGenerator.orderProduct(foundArrivalNotice.name, product.batchId, product.seq),
+              name: OrderNoGenerator.orderProduct(),
               product: await getRepository(Product).findOne(product.product.id),
               arrivalNotice: updatedArrivalNotice,
               bizplace: context.state.mainBizplace,
@@ -55,7 +55,7 @@ export const editArrivalNotice = {
             return {
               ...vas,
               domain: context.state.domain,
-              name: OrderNoGenerator.orderVas(foundArrivalNotice.name, vas.batchId, vas.vas.name),
+              name: OrderNoGenerator.orderVas(),
               vas: await getRepository(Vas).findOne(vas.vas.id),
               arrivalNotice: updatedArrivalNotice,
               bizplace: context.state.mainBizplace,

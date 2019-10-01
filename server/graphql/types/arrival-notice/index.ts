@@ -1,7 +1,6 @@
 import { ArrivalNotice } from './arrival-notice'
 import { ArrivalNoticeList } from './arrival-notice-list'
 import { ArrivalNoticePatch } from './arrival-notice-patch'
-import { GenerateArrivalNotice } from './generate-arrival-notice'
 import { NewArrivalNotice } from './new-arrival-notice'
 
 export const Mutation = `
@@ -19,13 +18,13 @@ export const Mutation = `
   ): Boolean
 
   generateArrivalNotice (
-    arrivalNotice: GenerateArrivalNotice!
-    collectionOrder: CollectionOrderPatch
+    arrivalNotice: NewArrivalNotice!
+    collectionOrder: NewCollectionOrder
   ): ArrivalNotice
 
   editArrivalNotice (
     name: String!
-    arrivalNotice: GenerateArrivalNotice!
+    arrivalNotice: NewArrivalNotice!
   ): ArrivalNotice
 
   confirmArrivalNotice (
@@ -52,4 +51,4 @@ export const Query = `
   arrivalNoticeRequests(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ArrivalNoticeList
 `
 
-export const Types = [ArrivalNotice, NewArrivalNotice, ArrivalNoticePatch, ArrivalNoticeList, GenerateArrivalNotice]
+export const Types = [ArrivalNotice, NewArrivalNotice, ArrivalNoticePatch, ArrivalNoticeList]

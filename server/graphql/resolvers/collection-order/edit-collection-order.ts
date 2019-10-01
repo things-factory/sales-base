@@ -37,7 +37,7 @@ export const editCollectionOrder = {
             return {
               ...product,
               domain: context.state.domain,
-              name: OrderNoGenerator.orderProduct(foundCollectionOrder.name, product.batchId, product.seq),
+              name: OrderNoGenerator.orderProduct(),
               product: await getRepository(Product).findOne(product.product.id),
               collectionOrder: updatedCollectionOrder,
               status: ORDER_PRODUCT_STATUS.PENDING,
@@ -54,7 +54,7 @@ export const editCollectionOrder = {
             return {
               ...vas,
               domain: context.state.domain,
-              name: OrderNoGenerator.orderVas(foundCollectionOrder.name, vas.batchId, vas.vas.name),
+              name: OrderNoGenerator.orderVas(),
               vas: await getRepository(Vas).findOne(vas.vas.id),
               collectionOrder: updatedCollectionOrder,
               status: ORDER_VAS_STATUS.PENDING,

@@ -31,8 +31,8 @@ export class OrderNoGenerator {
       1}${currentDate.getDate()}${currentDate.getHours()}${currentDate.getMinutes()}${currentDate.getSeconds()}${currentDate.getMilliseconds()}`
   }
 
-  static orderProduct(orderName: String, productBatchId: String, productSeq: Number) {
-    return `${orderName}-${productBatchId}-${productSeq}`
+  static orderProduct() {
+    return `OP-${uuid()}`
   }
 
   static orderInventory() {
@@ -43,7 +43,7 @@ export class OrderNoGenerator {
     return uuid()
   }
 
-  static orderVas(orderName: String, batchId: String, vasName: String) {
-    return `${orderName}-${batchId}-${vasName}`
+  static orderVas() {
+    return `OV-${uuid()}`
   }
 }

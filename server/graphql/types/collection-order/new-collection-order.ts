@@ -4,15 +4,15 @@ export const NewCollectionOrder = gql`
   input NewCollectionOrder {
     name: String
     description: String
-    from: String!
-    to: String!
+    from: String
+    to: String
     truckNo: String
     orderProducts: [NewOrderProduct]
     orderVass: [NewOrderVas]
     telNo: String
     collectionDateTime: String
     collectionDate: String!
-    loadType: String
-    status: String!
+    loadType: String!
+    status: String
   }
 `
