@@ -10,7 +10,15 @@ export const vasOrdersResolver = {
 
     const [items, total] = await getRepository(VasOrder).findAndCount({
       ...convertedParams,
-      relations: ['domain', 'bizplace', 'orderVass', 'creator', 'updater']
+      relations: [
+        'domain',
+        'bizplace',
+        'orderVass',
+        'orderVass.inventory',
+        'orderVass.inventory.product',
+        'creator',
+        'updater'
+      ]
     })
     return { items, total }
   }
