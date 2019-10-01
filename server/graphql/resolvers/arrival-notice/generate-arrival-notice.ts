@@ -1,7 +1,7 @@
 import { Product } from '@things-factory/product-base'
 import { getManager, getRepository } from 'typeorm'
-import { ArrivalNotice, OrderProduct, OrderVas, Vas, CollectionOrder } from '../../../entities'
-import { ORDER_PRODUCT_STATUS, ORDER_VAS_STATUS, ORDER_STATUS } from '../../../constants'
+import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_TYPES, ORDER_VAS_STATUS } from '../../../constants'
+import { ArrivalNotice, CollectionOrder, OrderProduct, OrderVas, Vas } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const generateArrivalNotice = {
@@ -44,6 +44,7 @@ export const generateArrivalNotice = {
             product: await getRepository(Product).findOne({ domain: context.state.domain, id: op.product.id }),
             arrivalNotice: createdArrivalNotice,
             bizplace: context.state.mainBizplace,
+            type: ORDER_TYPES.ARRIVAL_NOTICE,
             status: ORDER_PRODUCT_STATUS.PENDING,
             creator: context.state.user,
             updater: context.state.user
@@ -62,6 +63,7 @@ export const generateArrivalNotice = {
             vas: await getRepository(Vas).findOne({ domain: context.state.domain, id: ov.vas.id }),
             arrivalNotice: createdArrivalNotice,
             bizplace: context.state.mainBizplace,
+            type: ORDER_TYPES.ARRIVAL_NOTICE,
             status: ORDER_VAS_STATUS.PENDING,
             creator: context.state.user,
             updater: context.state.user
