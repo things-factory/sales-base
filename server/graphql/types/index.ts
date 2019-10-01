@@ -85,5 +85,6 @@ export const types = [
   ...ReleaseGood.Types,
   ...Claim.Types,
   ...ClaimDetail.Types,
-  ...OrderInventory.Types
+  ...OrderInventory.Types,
+  ...VasOrder.Types
 ]
