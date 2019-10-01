@@ -13,6 +13,7 @@ export const ArrivalNotice = gql`
     etaDate: String
     from: String
     to: String
+    truckNo: String
     status: String
     remark: String
     orderProducts: [OrderProduct]
