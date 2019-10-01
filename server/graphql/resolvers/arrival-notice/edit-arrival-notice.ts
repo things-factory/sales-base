@@ -10,7 +10,7 @@ export const editArrivalNotice = {
       let newOrderProducts: OrderProduct[] = arrivalNotice.orderProducts
       let newOrderVass: OrderVas[] = arrivalNotice.orderVass
 
-      const foundArrivalNotice: ArrivalNotice = await getRepository(ArrivalNotice).findOne({
+      let foundArrivalNotice: ArrivalNotice = await getRepository(ArrivalNotice).findOne({
         where: { domain: context.state.domain, name, status: ORDER_STATUS.EDITING },
         relations: ['orderProducts', 'orderVass', 'collectionOrder', 'creator', 'updater']
       })
@@ -30,7 +30,7 @@ export const editArrivalNotice = {
       //    - Delete relation from arrival notice
       //    - Delete collection order
       if (foundCO) {
-        await getRepository(ArrivalNotice).save({ ...foundArrivalNotice, collectionOrder: null })
+        foundArrivalNotice = await getRepository(ArrivalNotice).save({ ...foundArrivalNotice, collectionOrder: null })
         await getRepository(CollectionOrder).delete({ id: foundCO.id })
       }
 
