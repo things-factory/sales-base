@@ -25,6 +25,7 @@ export const Mutation = `
   editArrivalNotice (
     name: String!
     arrivalNotice: NewArrivalNotice!
+    collectionOrder: NewCollectionOrder
   ): ArrivalNotice
 
   confirmArrivalNotice (

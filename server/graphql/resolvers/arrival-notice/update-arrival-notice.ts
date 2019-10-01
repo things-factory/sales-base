@@ -1,5 +1,4 @@
-import { Bizplace } from '@things-factory/biz-base'
-import { getRepository, In } from 'typeorm'
+import { getRepository } from 'typeorm'
 import { ArrivalNotice } from '../../../entities'
 
 export const updateArrivalNotice = {
