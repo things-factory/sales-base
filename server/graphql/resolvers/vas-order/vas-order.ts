@@ -1,5 +1,5 @@
 import { getRepository, In } from 'typeorm'
-import { VasOrder, OrderVas } from '../../../entities'
+import { VasOrder, OrderVas, Vas } from '../../../entities'
 import { Bizplace } from '@things-factory/biz-base'
 import { Inventory } from '@things-factory/warehouse-base'
 export const vasOrderResolver = {
@@ -27,7 +27,9 @@ export const vasOrderResolver = {
       ...vasOrder,
       inventoryDetail: vasOrder.orderVass.map((orderVas: OrderVas) => {
         const inventory: Inventory = orderVas.inventory
+        const vas: Vas = orderVas.vas
         return {
+          vas: vas,
           batchId: inventory.batchId,
           product: inventory.product,
           inventoryName: inventory.name,
