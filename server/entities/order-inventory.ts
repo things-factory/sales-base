@@ -3,7 +3,7 @@ import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
 import { Inventory } from '@things-factory/warehouse-base'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { DeliveryOrder, ReleaseGood, ShippingOrder } from '../entities'
+import { DeliveryOrder, ReleaseGood, ShippingOrder, VasOrder } from '../entities'
 
 @Entity()
 @Index('ix_order-inventory_0', (orderInventory: OrderInventory) => [orderInventory.domain, orderInventory.name], {
@@ -43,7 +43,9 @@ export class OrderInventory {
   @Column()
   name: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   type: string
 
   @Column({

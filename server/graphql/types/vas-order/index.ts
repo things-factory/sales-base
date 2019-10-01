@@ -35,10 +35,6 @@ export const Mutation = `
     name: String!
   ): VasOrder
 
-  receiveVasOrder (
-    name: String!
-  ): VasOrder
-
   checkVasOrder (
     name: String!
   ): VasOrder
@@ -47,11 +43,6 @@ export const Mutation = `
     name: String!
     patch: VasOrderPatch!
   ): VasOrder
-
-  executeVasOrder (
-    name: String!
-  ): VasOrder
-
 `
 
 export const Query = `

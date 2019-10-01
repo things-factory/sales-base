@@ -18,7 +18,7 @@ export const generateVasOrder = {
         updater: context.state.user
       })
 
-      // 3. Create VasOrder vas
+      // 2. Create VasOrder vas
       orderVass = await Promise.all(
         orderVass.map(async (vas: OrderVas) => {
           return {
