@@ -27,7 +27,12 @@ export const editArrivalNotice = {
       await getRepository(OrderVas).delete({ id: In(foundVOs.map(vas => vas.id)) })
 
       // 3. delete collection order if it's exists
-      if (foundCO) await getRepository(CollectionOrder).delete({ id: foundCO.id })
+      //    - Delete relation from arrival notice
+      //    - Delete collection order
+      if (foundCO) {
+        await getRepository(ArrivalNotice).save({ ...foundArrivalNotice, collectionOrder: null })
+        await getRepository(CollectionOrder).delete({ id: foundCO.id })
+      }
 
       // 4. Create collection order
       if (collectionOrder) {
