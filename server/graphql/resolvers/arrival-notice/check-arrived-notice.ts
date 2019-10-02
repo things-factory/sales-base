@@ -1,6 +1,6 @@
 import { getManager, getRepository } from 'typeorm'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
-import { ArrivalNotice, OrderProduct, OrderVas } from '../../../entities'
+import { CollectionOrder, ArrivalNotice, OrderProduct, OrderVas } from '../../../entities'
 
 export const checkArrivedNotice = {
   async checkArrivedNotice(_: any, { name }, context: any) {
@@ -8,14 +8,19 @@ export const checkArrivedNotice = {
       try {
         const foundArrivalNotice: ArrivalNotice = await getRepository(ArrivalNotice).findOne({
           where: { domain: context.state.domain, name, status: ORDER_STATUS.INTRANSIT },
-          relations: ['orderProducts', 'orderVass']
+          relations: ['collectionOrder', 'orderProducts', 'orderVass']
         })
 
         if (!foundArrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
+
+        // 1. Check wheter related collection order is done or not
+        const foundCO: CollectionOrder = foundArrivalNotice.collectionOrder
+        if (foundCO.status !== ORDER_STATUS.DONE) throw new Error(`Collection Order: ${foundCO} is not finished yet.`)
+
         let foundOPs: OrderProduct[] = foundArrivalNotice.orderProducts
         let foundOVs: OrderVas[] = foundArrivalNotice.orderVass
 
-        // 1. Update status of order products (INTRANSIT => ARRIVED)
+        // 2. Update status of order products (INTRANSIT => ARRIVED)
         foundOPs = foundOPs.map((op: OrderProduct) => {
           return {
             ...op,
@@ -25,7 +30,7 @@ export const checkArrivedNotice = {
         })
         await getRepository(OrderProduct).save(foundOPs)
 
-        // 2. Update status of order vass if it exists (INTRANSIT => READY_TO_PROCESS)
+        // 3. Update status of order vass if it exists (INTRANSIT => READY_TO_PROCESS)
         if (foundOVs && foundOVs.length) {
           foundOVs = foundOVs.map((ov: OrderVas) => {
             return {
@@ -37,7 +42,7 @@ export const checkArrivedNotice = {
           await getRepository(OrderVas).save(foundOVs)
         }
 
-        // 3. Update status of arrival notice (INTRANSIT => ARRIVED)
+        // 4. Update status of arrival notice (INTRANSIT => ARRIVED)
         await getRepository(ArrivalNotice).save({
           ...foundArrivalNotice,
           status: ORDER_STATUS.ARRIVED,
