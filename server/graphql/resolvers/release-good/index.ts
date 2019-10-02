@@ -13,6 +13,7 @@ import { releaseGoodsResolver } from './release-goods'
 import { releaseGoodDetailResolver } from './release-good-detail'
 import { updateReleaseGood } from './update-release-good'
 import { deliverReleaseGood } from './deliver-release-good'
+import { rejectReleaseGood } from './reject-release-good'
 
 export const Query = {
   ...releaseGoodsResolver,
@@ -32,5 +33,6 @@ export const Mutation = {
   ...generateReleaseGood,
   ...checkReleaseGood,
   ...executeReleaseGood,
-  ...deliverReleaseGood
+  ...deliverReleaseGood,
+  ...rejectReleaseGood
 }

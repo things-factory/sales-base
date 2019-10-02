@@ -16,6 +16,7 @@ export const ReleaseGoodPatch = gql`
     orderInventories: [ObjectRef]
     orderVass: [ObjectRef]
     status: String
+    remark: String
     description: String
   }
 `
