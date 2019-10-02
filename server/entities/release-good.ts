@@ -64,7 +64,7 @@ export class ReleaseGood {
   productId: string
 
   @Column()
-  shippingOption: Boolean
+  exportOption: Boolean
 
   @OneToOne(type => DeliveryOrder)
   @JoinColumn()
@@ -81,21 +81,10 @@ export class ReleaseGood {
   orderInventories: OrderInventory[]
 
   @Column()
-  from: string
-
-  @Column()
-  to: string
-
-  @Column({
-    nullable: true
-  })
-  loadType: string
-
-  @Column()
   status: string
 
   @Column()
-  releaseDateTime: Date
+  releaseDate: Date
 
   @Column({
     nullable: true

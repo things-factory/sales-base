@@ -9,11 +9,8 @@ export const ReleaseGoodPatch = gql`
     truckNo: String
     inventoryId: String
     productId: String
-    from: String
-    to: String
-    loadType: String
     deliveryOrder: ObjectRef
-    shippingOption: Boolean
+    exportOption: Boolean
     shippingOrder: ObjectRef
     orderInventories: [ObjectRef]
     orderVass: [ObjectRef]

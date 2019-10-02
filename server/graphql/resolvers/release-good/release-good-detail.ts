@@ -39,9 +39,11 @@ export const releaseGoodDetailResolver = {
         containerLeavingDate: (shippingOrder && shippingOrder.containerLeavingDate) || '',
         containerArrivalDate: (shippingOrder && shippingOrder.containerArrivalDate) || '',
         shipName: (shippingOrder && shippingOrder.shipName) || '',
+        to: (deliveryOrder && deliveryOrder.to) || '',
+        deliveryDate: (deliveryOrder && deliveryOrder.deliveryDate) || '',
+        loadType: (deliveryOrder && deliveryOrder.loadType) || '',
         transportDriver: (deliveryOrder && deliveryOrder.transportDriver.name) || '',
         transportVehicle: (deliveryOrder && deliveryOrder.transportVehicle.name) || '',
-        deliveryDateTime: (deliveryOrder && deliveryOrder.deliveryDateTime) || '',
         telNo: (deliveryOrder && deliveryOrder.telNo) || ''
       },
       inventoryInfos: releaseGood.orderInventories.map((orderInv: OrderInventory) => {

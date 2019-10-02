@@ -7,10 +7,7 @@ export const NewShippingOrder = gql`
     containerNo: String!
     containerArrivalDate: String
     containerLeavingDate: String
-    from: String
-    to: String
     status: String!
-    loadType: String
     description: String
   }
 `

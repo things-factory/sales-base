@@ -8,9 +8,6 @@ export const ShippingOrderPatch = gql`
     containerNo: String
     containerArrivalDate: String
     containerLeavingDate: String
-    from: String
-    loadType: String
-    to: String
     remark: String
     status: String
   }

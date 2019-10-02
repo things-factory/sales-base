@@ -43,7 +43,9 @@ export class DeliveryOrder {
   })
   from: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   to: string
 
   @Column({
@@ -60,7 +62,7 @@ export class DeliveryOrder {
   @Column({
     nullable: true
   })
-  deliveryDateTime: Date
+  deliveryDate: Date
 
   @Column({
     comment: 'FCL or LCL'

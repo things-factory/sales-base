@@ -32,10 +32,14 @@ export class ShippingOrder {
   @Column()
   containerLeavingDate: Date
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   from: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   to: string
 
   @Column({
@@ -43,7 +47,9 @@ export class ShippingOrder {
   })
   remark: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   loadType: string
 
   @Column()

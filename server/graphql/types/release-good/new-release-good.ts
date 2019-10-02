@@ -5,15 +5,12 @@ export const NewReleaseGood = gql`
     name: String
     releaseDateTime: String
     collectionOrderNo: String
-    ownTransport: Boolean!
+    ownTransport: Boolean
     truckNo: String
     inventoryId: String
     productId: String
-    from: String
-    to: String
-    loadType: String
     deliveryOrder: ObjectRef
-    shippingOption: Boolean!
+    exportOption: Boolean!
     shippingOrder: ObjectRef
     orderInventories: [NewOrderInventory]
     orderVass: [NewOrderVas]

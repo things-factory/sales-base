@@ -15,28 +15,22 @@ export const generateReleaseGood = {
       let createdDO
       let createdSO
 
-      if (!newReleaseGood.ownTransport) {
+      if (deliveryOrder) {
         createdDO = await getRepository(DeliveryOrder).save({
           name: OrderNoGenerator.deliveryOrder(),
           domain: context.state.domain,
           bizplace: context.state.mainBizplace,
-          from: newReleaseGood.from,
-          to: newReleaseGood.to,
-          loadType: newReleaseGood.loadType,
           ...newDeliveryOrder,
           creator: context.state.user,
           updater: context.state.user
         })
       }
 
-      if (newReleaseGood.shippingOption) {
+      if (shippingOrder) {
         createdSO = await getRepository(ShippingOrder).save({
           name: OrderNoGenerator.shippingOrder(),
           domain: context.state.domain,
           bizplace: context.state.mainBizplace,
-          from: newReleaseGood.from,
-          to: newReleaseGood.to,
-          loadType: newReleaseGood.loadType,
           ...newShippingOrder,
           creator: context.state.user,
           updater: context.state.user
