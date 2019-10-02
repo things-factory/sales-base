@@ -63,6 +63,9 @@ export class ReleaseGood {
   @Column()
   exportOption: Boolean
 
+  @Column()
+  ownTransport: Boolean
+
   @OneToOne(type => DeliveryOrder)
   @JoinColumn()
   deliveryOrder: DeliveryOrder

@@ -1,6 +1,6 @@
 import { Inventory } from '@things-factory/warehouse-base'
 import { getManager, getRepository, In } from 'typeorm'
-import { ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
+import { ORDER_STATUS, ORDER_VAS_STATUS, ORDER_TYPES, ORDER_PRODUCT_STATUS } from '../../../constants'
 import { DeliveryOrder, OrderInventory, OrderVas, ReleaseGood, ShippingOrder, Vas } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
@@ -47,16 +47,14 @@ export const editReleaseGood = {
       // 2. delete order vass
       await getRepository(OrderVas).delete({ id: In(foundOVs.map((ov: OrderVas) => ov.id)) })
 
-      // 3. delete release goods
-      await getRepository(ReleaseGood).delete({ ...foundReleaseGood })
       // 4. delete do if it's exist
       if (foundDeliveryOrder) {
-        foundReleaseGood = await getRepository(DeliveryOrder).save({ ...foundReleaseGood, deliveryOrder: null })
+        foundReleaseGood = await getRepository(ReleaseGood).save({ ...foundReleaseGood, deliveryOrder: null })
         await getRepository(DeliveryOrder).delete({ id: foundDeliveryOrder.id })
       }
       // 5. delete so if it's exist
       if (foundShippingOrder) {
-        foundReleaseGood = await getRepository(DeliveryOrder).save({ ...foundReleaseGood, shippingOrder: null })
+        foundReleaseGood = await getRepository(ReleaseGood).save({ ...foundReleaseGood, shippingOrder: null })
         await getRepository(ShippingOrder).delete({ id: foundShippingOrder.id })
       }
 
@@ -80,6 +78,7 @@ export const editReleaseGood = {
           domain: context.state.domain,
           bizplace: context.state.mainBizplace,
           name: OrderNoGenerator.shippingOrder(),
+          status: ORDER_STATUS.PENDING,
           creator: context.state.user,
           updater: context.state.user
         })
@@ -94,43 +93,48 @@ export const editReleaseGood = {
       })
 
       // 2. Create release good inventory
-      await Promise.all(
-        newOrderInventories.map(async (orderInventory: OrderInventory) => {
-          await getRepository(OrderInventory).save({
-            ...orderInventory,
+      newOrderInventories = await Promise.all(
+        newOrderInventories.map(async (oi: OrderInventory) => {
+          return {
+            ...oi,
             domain: context.state.domain,
-            bizplace: context.state.mainBizplace,
             name: OrderNoGenerator.orderInventory(),
             inventory: await getRepository(Inventory).findOne({
               where: {
                 domain: context.state.domain,
                 bizplace: context.state.mainBizplace,
-                name: orderInventory.inventory.name
+                name: oi.inventory.name
               }
             }),
             releaseGood: updatedReleaseGood,
+            bizplace: context.state.mainBizplace,
+            type: ORDER_TYPES.RELEASE_OF_GOODS,
+            status: ORDER_PRODUCT_STATUS.PENDING,
             creator: context.state.user,
             updater: context.state.user
-          })
+          }
         })
       )
+      await getRepository(OrderInventory).save(newOrderInventories)
 
-      // 3. Create arrival notice vas
-      await Promise.all(
-        newOrderVass.map(async (vas: OrderVas) => {
-          await getRepository(OrderVas).save({
-            ...vas,
+      // 3. Create release goods vas
+      newOrderVass = await Promise.all(
+        newOrderVass.map(async (ov: OrderVas) => {
+          return {
+            ...ov,
             domain: context.state.domain,
-            bizplace: context.state.mainBizplace,
-            name: OrderNoGenerator.releaseVas(),
-            vas: await getRepository(Vas).findOne(vas.vas.id),
+            name: OrderNoGenerator.orderVas(),
+            vas: await getRepository(Vas).findOne({ domain: context.state.domain, id: ov.vas.id }),
             releaseGood: updatedReleaseGood,
+            bizplace: context.state.mainBizplace,
+            type: ORDER_TYPES.RELEASE_OF_GOODS,
             status: ORDER_VAS_STATUS.PENDING,
             creator: context.state.user,
             updater: context.state.user
-          })
+          }
         })
       )
+      await getRepository(OrderVas).save(newOrderVass)
 
       return updatedReleaseGood
     })

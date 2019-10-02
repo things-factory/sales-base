@@ -29,13 +29,21 @@ export const releaseGoodDetailResolver = {
       ]
     })
 
+    const shippingOrder: ShippingOrder = releaseGood.shippingOrder
     const deliveryOrder: DeliveryOrder = releaseGood.deliveryOrder
 
     return {
       ...releaseGood,
       releaseGoodInfo: {
+        containerLeavingDate: (shippingOrder && shippingOrder.containerLeavingDate) || '',
+        containerArrivalDate: (shippingOrder && shippingOrder.containerArrivalDate) || '',
+        shipName: (shippingOrder && shippingOrder.shipName) || '',
+        to: (deliveryOrder && deliveryOrder.to) || '',
+        deliveryDate: (deliveryOrder && deliveryOrder.deliveryDate) || '',
+        loadType: (deliveryOrder && deliveryOrder.loadType) || '',
         transportDriver: (deliveryOrder && deliveryOrder.transportDriver.name) || '',
-        transportVehicle: (deliveryOrder && deliveryOrder.transportVehicle.name) || ''
+        transportVehicle: (deliveryOrder && deliveryOrder.transportVehicle.name) || '',
+        telNo: (deliveryOrder && deliveryOrder.telNo) || ''
       },
       inventoryInfos: releaseGood.orderInventories.map((orderInv: OrderInventory) => {
         const inventory: Inventory = orderInv.inventory
@@ -43,7 +51,7 @@ export const releaseGoodDetailResolver = {
           batchId: inventory.batchId,
           product: inventory.product,
           packingType: inventory.packingType,
-          inventoryName: inventory.name,
+          name: inventory.name,
           location: inventory.location,
           qty: inventory.qty,
           releaseQty: orderInv.releaseQty
