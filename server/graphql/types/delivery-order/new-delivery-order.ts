@@ -9,7 +9,7 @@ export const NewDeliveryOrder = gql`
     orderProducts: [NewOrderProduct]
     orderVass: [NewOrderVas]
     deliveryDate: String
-    deliveryDateTime: Date
+    deliveryDateTime: String
     telNo: String
     loadType: String
     status: String!

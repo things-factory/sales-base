@@ -4,7 +4,7 @@ export const ReleaseGoodPatch = gql`
   input ReleaseGoodPatch {
     name: String
     releaseDate: String
-    releaseDateTime: Date
+    releaseDateTime: String
     collectionOrderNo: String
     ownTransport: Boolean
     truckNo: String

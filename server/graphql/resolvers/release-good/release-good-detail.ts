@@ -29,22 +29,13 @@ export const releaseGoodDetailResolver = {
       ]
     })
 
-    const shippingOrder: ShippingOrder = releaseGood.shippingOrder
     const deliveryOrder: DeliveryOrder = releaseGood.deliveryOrder
 
     return {
       ...releaseGood,
       releaseGoodInfo: {
-        containerNo: (shippingOrder && shippingOrder.containerNo) || '',
-        containerLeavingDate: (shippingOrder && shippingOrder.containerLeavingDate) || '',
-        containerArrivalDate: (shippingOrder && shippingOrder.containerArrivalDate) || '',
-        shipName: (shippingOrder && shippingOrder.shipName) || '',
-        to: (deliveryOrder && deliveryOrder.to) || '',
-        deliveryDate: (deliveryOrder && deliveryOrder.deliveryDate) || '',
-        loadType: (deliveryOrder && deliveryOrder.loadType) || '',
         transportDriver: (deliveryOrder && deliveryOrder.transportDriver.name) || '',
-        transportVehicle: (deliveryOrder && deliveryOrder.transportVehicle.name) || '',
-        telNo: (deliveryOrder && deliveryOrder.telNo) || ''
+        transportVehicle: (deliveryOrder && deliveryOrder.transportVehicle.name) || ''
       },
       inventoryInfos: releaseGood.orderInventories.map((orderInv: OrderInventory) => {
         const inventory: Inventory = orderInv.inventory

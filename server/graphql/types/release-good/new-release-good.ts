@@ -4,7 +4,7 @@ export const NewReleaseGood = gql`
   input NewReleaseGood {
     name: String
     releaseDate: String
-    releaseDateTime: Date
+    releaseDateTime: String
     collectionOrderNo: String
     ownTransport: Boolean
     truckNo: String
