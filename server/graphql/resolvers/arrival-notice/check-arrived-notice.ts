@@ -15,7 +15,8 @@ export const checkArrivedNotice = {
 
         // 1. Check wheter related collection order is done or not
         const foundCO: CollectionOrder = foundArrivalNotice.collectionOrder
-        if (foundCO.status !== ORDER_STATUS.DONE) throw new Error(`Collection Order: ${foundCO} is not finished yet.`)
+        if (foundCO && foundCO.status !== ORDER_STATUS.DONE)
+          throw new Error(`Collection Order: ${foundCO} is not finished yet.`)
 
         let foundOPs: OrderProduct[] = foundArrivalNotice.orderProducts
         let foundOVs: OrderVas[] = foundArrivalNotice.orderVass
@@ -30,12 +31,12 @@ export const checkArrivedNotice = {
         })
         await getRepository(OrderProduct).save(foundOPs)
 
-        // 3. Update status of order vass if it exists (INTRANSIT => READY_TO_PROCESS)
+        // 3. Update status of order vass if it exists (INTRANSIT => ARRIVED)
         if (foundOVs && foundOVs.length) {
           foundOVs = foundOVs.map((ov: OrderVas) => {
             return {
               ...ov,
-              status: ORDER_VAS_STATUS.READY_TO_PROCESS,
+              status: ORDER_VAS_STATUS.ARRIVED,
               updater: context.state.user
             }
           })
