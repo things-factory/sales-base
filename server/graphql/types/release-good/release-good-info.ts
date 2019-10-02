@@ -5,8 +5,11 @@ export const ReleaseGoodInfo = gql`
     containerNo: String
     containerLeavingDate: String
     containerArrivalDate: String
+    containerLeavingDateTime: Date
+    containerArrivalDateTime: Date
     shipName: String
     deliveryDate: String
+    deliveryDateTime: Date
     to: String
     loadType: String
     telNo: String

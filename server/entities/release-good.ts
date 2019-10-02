@@ -45,9 +45,6 @@ export class ReleaseGood {
   })
   description: string
 
-  @Column()
-  ownTransport: Boolean
-
   @Column({
     nullable: true
   })
@@ -83,8 +80,15 @@ export class ReleaseGood {
   @Column()
   status: string
 
-  @Column()
-  releaseDate: Date
+  @Column({
+    nullable: true
+  })
+  releaseDateTime: Date
+
+  @Column({
+    nullable: true
+  })
+  releaseDate: string
 
   @Column({
     nullable: true

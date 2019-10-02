@@ -3,7 +3,8 @@ import { gql } from 'apollo-server-koa'
 export const ReleaseGoodPatch = gql`
   input ReleaseGoodPatch {
     name: String
-    releaseDateTime: String
+    releaseDate: String
+    releaseDateTime: Date
     collectionOrderNo: String
     ownTransport: Boolean
     truckNo: String

@@ -6,7 +6,8 @@ export const ReleaseGoodDetail = gql`
     name: String
     domain: Domain
     bizplace: Bizplace
-    releaseDateTime: String
+    releaseDate: String
+    releaseDateTime: Date
     collectionOrderNo: String
     ownTransport: Boolean
     truckNo: String

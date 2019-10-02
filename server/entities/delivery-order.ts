@@ -62,7 +62,12 @@ export class DeliveryOrder {
   @Column({
     nullable: true
   })
-  deliveryDate: Date
+  deliveryDate: string
+
+  @Column({
+    nullable: true
+  })
+  deliveryDateTime: Date
 
   @Column({
     comment: 'FCL or LCL'

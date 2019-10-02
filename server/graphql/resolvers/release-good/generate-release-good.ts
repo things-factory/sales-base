@@ -1,6 +1,6 @@
 import { Inventory } from '@things-factory/warehouse-base'
 import { getManager, getRepository } from 'typeorm'
-import { ORDER_PRODUCT_STATUS, ORDER_VAS_STATUS } from '../../../constants'
+import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
 import { DeliveryOrder, OrderInventory, OrderVas, ReleaseGood, ShippingOrder, Vas } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
@@ -21,6 +21,7 @@ export const generateReleaseGood = {
           domain: context.state.domain,
           bizplace: context.state.mainBizplace,
           ...newDeliveryOrder,
+          status: ORDER_STATUS.PENDING,
           creator: context.state.user,
           updater: context.state.user
         })
@@ -32,6 +33,7 @@ export const generateReleaseGood = {
           domain: context.state.domain,
           bizplace: context.state.mainBizplace,
           ...newShippingOrder,
+          status: ORDER_STATUS.PENDING,
           creator: context.state.user,
           updater: context.state.user
         })
@@ -44,6 +46,7 @@ export const generateReleaseGood = {
         ...newReleaseGood,
         deliveryOrder: createdDO ? createdDO : null,
         shippingOrder: createdSO ? createdSO : null,
+        status: ORDER_STATUS.PENDING,
         creator: context.state.user,
         updater: context.state.user
       })

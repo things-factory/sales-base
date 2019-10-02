@@ -26,11 +26,25 @@ export class ShippingOrder {
   @Column()
   containerNo: string
 
-  @Column()
-  containerArrivalDate: Date
+  @Column({
+    nullable: true
+  })
+  containerArrivalDate: string
 
-  @Column()
-  containerLeavingDate: Date
+  @Column({
+    nullable: true
+  })
+  containerArrivalDateTime: Date
+
+  @Column({
+    nullable: true
+  })
+  containerLeavingDate: string
+
+  @Column({
+    nullable: true
+  })
+  containerLeavingDateTime: Date
 
   @Column({
     nullable: true
