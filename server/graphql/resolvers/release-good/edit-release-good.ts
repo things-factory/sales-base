@@ -42,10 +42,16 @@ export const editReleaseGood = {
       })
 
       // 1. delete order products
-      await getRepository(OrderInventory).delete({ id: In(foundOIs.map((oi: OrderInventory) => oi.id)) })
+      const inventoryIds = foundOIs.map((oi: OrderInventory) => oi.id)
+      if (inventoryIds.length) {
+        await getRepository(OrderInventory).delete({ id: In(inventoryIds) })
+      }
 
       // 2. delete order vass
-      await getRepository(OrderVas).delete({ id: In(foundOVs.map((ov: OrderVas) => ov.id)) })
+      const vasIds = foundOVs.map((vas: OrderVas) => vas.id)
+      if (vasIds.length) {
+        await getRepository(OrderVas).delete({ id: In(vasIds) })
+      }
 
       // 4. delete do if it's exist
       if (foundDeliveryOrder) {

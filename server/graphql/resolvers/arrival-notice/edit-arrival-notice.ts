@@ -18,13 +18,19 @@ export const editArrivalNotice = {
       if (!foundArrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
       const foundCO: CollectionOrder = foundArrivalNotice.collectionOrder
       const foundOPs: OrderProduct[] = foundArrivalNotice.orderProducts
-      const foundVOs: OrderVas[] = foundArrivalNotice.orderVass
+      const foundOVs: OrderVas[] = foundArrivalNotice.orderVass
 
       // 1. delete order products
-      await getRepository(OrderProduct).delete({ id: In(foundOPs.map(product => product.id)) })
+      const productIds = foundOPs.map((product: OrderProduct) => product.id)
+      if (productIds.length) {
+        await getRepository(OrderProduct).delete({ id: In(productIds) })
+      }
 
       // 2. delete order vass
-      await getRepository(OrderVas).delete({ id: In(foundVOs.map(vas => vas.id)) })
+      const vasIds = foundOVs.map((vas: OrderVas) => vas.id)
+      if (vasIds.length) {
+        await getRepository(OrderVas).delete({ id: In(vasIds) })
+      }
 
       // 3. delete collection order if it's exists
       //    - Delete relation from arrival notice
