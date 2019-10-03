@@ -9,8 +9,7 @@ export const CollectionOrder = gql`
     from: String
     to: String
     truckNo: String
-    orderProducts: [OrderProduct]
-    orderVass: [OrderVas]
+    refNo: String
     transportVehicle: TransportVehicle
     transportDriver: TransportDriver
     collectionDateTime: String

@@ -64,7 +64,6 @@ export const editReleaseGood = {
           ...deliveryOrder,
           domain: context.state.domain,
           bizplace: context.state.mainBizplace,
-          name: OrderNoGenerator.deliveryOrder(),
           status: ORDER_STATUS.PENDING,
           creator: context.state.user,
           updater: context.state.user

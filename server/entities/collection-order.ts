@@ -1,19 +1,8 @@
 import { User } from '@things-factory/auth-base'
 import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from 'typeorm'
-import { OrderProduct } from './order-product'
-import { OrderVas } from './order-vas'
-import { TransportVehicle, TransportDriver } from '@things-factory/transport-base'
+import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
+import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 @Entity()
 @Index('ix_collection-order_0', (collectionOrder: CollectionOrder) => [collectionOrder.domain, collectionOrder.name], {
@@ -52,16 +41,15 @@ export class CollectionOrder {
   })
   collectionDate: string
 
-  @OneToMany(type => OrderProduct, orderProduct => orderProduct.collectionOrder)
-  orderProducts: OrderProduct[]
-
-  @OneToMany(type => OrderVas, orderVas => orderVas.collectionOrder)
-  orderVass: OrderVas[]
-
   @Column({
     comment: 'FCL or LCL'
   })
   loadType: string
+
+  @Column({
+    nullable: true
+  })
+  refNo: string
 
   @Column({
     nullable: true

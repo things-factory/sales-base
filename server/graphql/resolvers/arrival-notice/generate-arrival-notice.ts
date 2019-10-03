@@ -16,7 +16,6 @@ export const generateArrivalNotice = {
           ...collectionOrder,
           domain: context.state.domain,
           bizplace: context.state.mainBizplace,
-          name: OrderNoGenerator.collectionOrder(),
           status: ORDER_STATUS.PENDING,
           creator: context.state.user,
           updater: context.state.user

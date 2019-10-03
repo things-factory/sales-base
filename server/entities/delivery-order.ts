@@ -32,12 +32,6 @@ export class DeliveryOrder {
   @Column()
   name: string
 
-  @OneToMany(type => OrderProduct, orderProduct => orderProduct.deliveryOrder)
-  orderProducts: OrderProduct[]
-
-  @OneToMany(type => OrderVas, orderVas => orderVas.deliveryOrder)
-  orderVass: OrderVas[]
-
   @Column({
     nullable: true
   })
@@ -78,6 +72,11 @@ export class DeliveryOrder {
     nullable: true
   })
   telNo: string
+
+  @Column({
+    nullable: true
+  })
+  refNo: string
 
   @Column({
     nullable: true

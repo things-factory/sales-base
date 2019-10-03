@@ -6,7 +6,7 @@ export const confirmCollectionOrder = {
   async confirmCollectionOrder(_: any, { name }, context: any) {
     const foundCollectionOrder: CollectionOrder = await getRepository(CollectionOrder).findOne({
       where: { domain: context.state.domain, name },
-      relations: ['orderProducts', 'orderProducts.product', 'orderVass', 'orderVass.vas', 'creator', 'updater']
+      relations: ['creator', 'updater']
     })
 
     return await getManager().transaction(async () => {

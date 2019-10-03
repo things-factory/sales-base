@@ -6,7 +6,7 @@ export const confirmDeliveryOrder = {
   async confirmDeliveryOrder(_: any, { name }, context: any) {
     const foundDeliveryOrder: DeliveryOrder = await getRepository(DeliveryOrder).findOne({
       where: { domain: context.state.domain, name },
-      relations: ['orderProducts', 'orderProducts.product', 'orderVass', 'orderVass.vas', 'creator', 'updater']
+      relations: ['creator', 'updater']
     })
 
     return await getManager().transaction(async () => {
@@ -14,7 +14,7 @@ export const confirmDeliveryOrder = {
       if (!foundDeliveryOrder) throw new Error(`Delivery Order doesn't exists.`)
       if (foundDeliveryOrder.status !== ORDER_STATUS.PENDING) throw new Error('Not confirmable status.')
 
-      // Collection Order Status change (PENDING => PENDING_RECEIVE)
+      // delivery Order Status change (PENDING => PENDING_RECEIVE)
       deliveryOrder = await getRepository(DeliveryOrder).save({
         ...foundDeliveryOrder,
         status: ORDER_STATUS.PENDING_RECEIVE,

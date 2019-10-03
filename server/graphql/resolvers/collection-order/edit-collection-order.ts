@@ -1,14 +1,12 @@
-import { Product } from '@things-factory/product-base'
-import { getManager, getRepository, In } from 'typeorm'
-import { CollectionOrder, OrderProduct, OrderVas, Vas } from '../../../entities'
-import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
-import { OrderNoGenerator } from '../../../utils/order-no-generator'
+import { getManager, getRepository } from 'typeorm'
+import { ORDER_STATUS } from '../../../constants'
+import { CollectionOrder } from '../../../entities'
 
 export const editCollectionOrder = {
   async editCollectionOrder(_: any, { name, collectionOrder }, context: any) {
     const foundCollectionOrder: CollectionOrder = await getRepository(CollectionOrder).findOne({
       where: { domain: context.state.domain, name },
-      relations: ['orderProducts', 'orderVass', 'creator', 'updater']
+      relations: ['creator', 'updater']
     })
 
     try {
@@ -16,54 +14,12 @@ export const editCollectionOrder = {
       if (foundCollectionOrder.status !== ORDER_STATUS.EDITING) throw new Error('Not editable status.')
 
       return await getManager().transaction(async () => {
-        // 1. delete order products
-        const orderProductIds = foundCollectionOrder.orderProducts.map(product => product.id)
-        await getRepository(OrderProduct).delete({ id: In(orderProductIds) })
-
-        // 2. delete order vass
-        const orderVasIds = foundCollectionOrder.orderVass.map(vas => vas.id)
-        await getRepository(OrderVas).delete({ id: In(orderVasIds) })
-
-        // 3. update collection order
+        // 1. update collection order
         const updatedCollectionOrder: CollectionOrder = await getRepository(CollectionOrder).save({
           ...foundCollectionOrder,
           ...collectionOrder.collectionOrder,
           updater: context.state.user
         })
-
-        // 4. create order products
-        const products = await Promise.all(
-          collectionOrder.products.map(async (product: OrderProduct) => {
-            return {
-              ...product,
-              domain: context.state.domain,
-              name: OrderNoGenerator.orderProduct(),
-              product: await getRepository(Product).findOne(product.product.id),
-              collectionOrder: updatedCollectionOrder,
-              status: ORDER_PRODUCT_STATUS.PENDING,
-              creator: context.state.user,
-              updater: context.state.user
-            }
-          })
-        )
-        await getRepository(OrderProduct).save(products)
-
-        // 5. create order vas
-        const vass = await Promise.all(
-          collectionOrder.vass.map(async (vas: OrderVas) => {
-            return {
-              ...vas,
-              domain: context.state.domain,
-              name: OrderNoGenerator.orderVas(),
-              vas: await getRepository(Vas).findOne(vas.vas.id),
-              collectionOrder: updatedCollectionOrder,
-              status: ORDER_VAS_STATUS.PENDING,
-              creator: context.state.user,
-              updater: context.state.user
-            }
-          })
-        )
-        await getRepository(OrderVas).save(vass)
 
         return updatedCollectionOrder
       })

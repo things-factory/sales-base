@@ -10,18 +10,7 @@ export const collectionOrderResolver = {
         name,
         bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id))
       },
-      relations: [
-        'domain',
-        'bizplace',
-        'transportDriver',
-        'transportVehicle',
-        'orderProducts',
-        'orderProducts.product',
-        'orderVass',
-        'orderVass.vas',
-        'creator',
-        'updater'
-      ]
+      relations: ['domain', 'bizplace', 'transportDriver', 'transportVehicle', 'creator', 'updater']
     })
   }
 }

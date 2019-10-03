@@ -10,10 +10,9 @@ export const DeliveryOrder = gql`
     truckNo: String
     from: String
     to: String
+    refNo: String
     deliveryDate: String
     deliveryDateTime: String
-    orderProducts: [OrderProduct]
-    orderVass: [OrderVas]
     transportVehicle: TransportVehicle
     transportDriver: TransportDriver
     telNo: String

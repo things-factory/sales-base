@@ -10,19 +10,11 @@ export const dispatchCollectionOrder = {
       try {
         const collectionOrder: CollectionOrder = await getRepository(CollectionOrder).findOne({
           where: { domain: context.state.domain, name },
-          relations: ['orderProducts', 'transportDriver', 'transportVehicle']
+          relations: ['transportDriver', 'transportVehicle']
         })
 
         if (!collectionOrder) throw new Error(`Collection order doesn't exists.`)
         if (collectionOrder.status !== ORDER_STATUS.READY_TO_DISPATCH) throw new Error(`Status is not receivable.`)
-
-        // 1. Update status of order products (READY_TO_COLLECT => INTRANSIT) & status of collection order  (READY_TO_DISPATCH => COLLECTING)
-        collectionOrder.orderProducts.forEach(async (orderProduct: OrderProduct) => {
-          await getRepository(OrderProduct).update(
-            { domain: context.state.domain, name: orderProduct.name },
-            { ...orderProduct, status: ORDER_PRODUCT_STATUS.INTRANSIT, updater: context.state.user }
-          )
-        })
 
         if (patch && patch.transportVehicle && patch.transportVehicle.name) {
           collectionOrder.transportVehicle = await getRepository(TransportVehicle).findOne({

@@ -17,10 +17,9 @@ export const generateReleaseGood = {
 
       if (deliveryOrder) {
         createdDO = await getRepository(DeliveryOrder).save({
-          name: OrderNoGenerator.deliveryOrder(),
+          ...newDeliveryOrder,
           domain: context.state.domain,
           bizplace: context.state.mainBizplace,
-          ...newDeliveryOrder,
           status: ORDER_STATUS.PENDING,
           creator: context.state.user,
           updater: context.state.user
@@ -29,10 +28,10 @@ export const generateReleaseGood = {
 
       if (shippingOrder) {
         createdSO = await getRepository(ShippingOrder).save({
+          ...newShippingOrder,
           name: OrderNoGenerator.shippingOrder(),
           domain: context.state.domain,
           bizplace: context.state.mainBizplace,
-          ...newShippingOrder,
           status: ORDER_STATUS.PENDING,
           creator: context.state.user,
           updater: context.state.user
@@ -40,10 +39,10 @@ export const generateReleaseGood = {
       }
 
       const createdReleaseGood: ReleaseGood = await getRepository(ReleaseGood).save({
+        ...newReleaseGood,
         name: OrderNoGenerator.releaseGood(),
         domain: context.state.domain,
         bizplace: context.state.mainBizplace,
-        ...newReleaseGood,
         deliveryOrder: createdDO ? createdDO : null,
         shippingOrder: createdSO ? createdSO : null,
         status: ORDER_STATUS.PENDING,
