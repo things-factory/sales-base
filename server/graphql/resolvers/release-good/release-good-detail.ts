@@ -22,8 +22,6 @@ export const releaseGoodDetailResolver = {
         'orderVass',
         'orderVass.vas',
         'deliveryOrder',
-        'deliveryOrder.transportVehicle',
-        'deliveryOrder.transportDriver',
         'creator',
         'updater'
       ]
@@ -41,8 +39,6 @@ export const releaseGoodDetailResolver = {
         to: (deliveryOrder && deliveryOrder.to) || '',
         deliveryDate: (deliveryOrder && deliveryOrder.deliveryDate) || '',
         loadType: (deliveryOrder && deliveryOrder.loadType) || '',
-        transportDriver: (deliveryOrder && deliveryOrder.transportDriver.name) || '',
-        transportVehicle: (deliveryOrder && deliveryOrder.transportVehicle.name) || '',
         telNo: (deliveryOrder && deliveryOrder.telNo) || ''
       },
       inventoryInfos: releaseGood.orderInventories.map((orderInv: OrderInventory) => {

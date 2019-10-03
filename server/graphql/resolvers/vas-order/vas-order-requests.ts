@@ -10,9 +10,9 @@ export const vasOrderRequestsResolver = {
     if (!convertListParams.where || !convertListParams.where.status) {
       convertedParams.where.status = In([
         ORDER_STATUS.PENDING_RECEIVE,
-        ORDER_STATUS.INPROCESS,
+        ORDER_STATUS.READY_TO_EXECUTE,
         ORDER_STATUS.DONE,
-        ORDER_STATUS.PROCESSING,
+        ORDER_STATUS.EXECUTING,
         ORDER_STATUS.REJECTED
       ])
     }
