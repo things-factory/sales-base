@@ -12,6 +12,7 @@ export const OrderVas = gql`
     deliveryOrder: DeliveryOrder
     releaseGood: ReleaseGood
     shippingOrder: ShippingOrder
+    inventory: Inventory
     vas: Vas
     remark: String
     description: String

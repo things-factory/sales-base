@@ -27,12 +27,12 @@ export const vasOrderResolver = {
       ...vasOrder,
       inventoryDetail: vasOrder.orderVass.map((orderVas: OrderVas) => {
         const inventory: Inventory = orderVas.inventory
-        const vas: Vas = orderVas.vas
         return {
-          vas: vas,
+          ...orderVas,
+          inventoryId: inventory.id,
           batchId: inventory.batchId,
           product: inventory.product,
-          inventoryName: inventory.name,
+          name: inventory.name,
           location: inventory.location
         }
       })

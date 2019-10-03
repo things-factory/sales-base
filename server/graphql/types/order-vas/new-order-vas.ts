@@ -9,6 +9,7 @@ export const NewOrderVas = gql`
     deliveryOrder: ObjectRef
     releaseGood: ObjectRef
     shippingOrder: ObjectRef
+    inventory: ObjectRef
     vas: ObjectRef
     remark: String
     description: String

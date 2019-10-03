@@ -13,5 +13,6 @@ export const VasOrder = gql`
     creator: User
     updatedAt: String
     createdAt: String
+    inventoryDetail: [InventoryDetail]
   }
 `
