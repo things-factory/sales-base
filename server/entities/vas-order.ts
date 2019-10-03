@@ -36,6 +36,11 @@ export class VasOrder {
   @OneToMany(type => OrderVas, orderVas => orderVas.vasOrder)
   orderVass: OrderVas[]
 
+  @Column({
+    nullable: true
+  })
+  remark: String
+
   @Column()
   status: string
 

@@ -9,6 +9,7 @@ export const VasOrder = gql`
     description: String
     orderVass: [OrderVas]
     status: String
+    remark: String
     updater: User
     creator: User
     updatedAt: String

@@ -6,5 +6,6 @@ export const VasOrderPatch = gql`
     description: String
     orderVass: [ObjectRef]
     status: String
+    remark: String
   }
 `
