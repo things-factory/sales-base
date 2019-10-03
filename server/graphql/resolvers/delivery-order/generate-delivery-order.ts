@@ -5,11 +5,9 @@ import { DeliveryOrder } from '../../../entities'
 export const generateDeliveryOrder = {
   async generateDeliveryOrder(_: any, { deliveryOrder }, context: any) {
     return await getManager().transaction(async () => {
-      const newDeliveryOrder = deliveryOrder.deliveryOrder
-
       // 1. Create delivery order
       const createdDeliveryOrder: DeliveryOrder = await getRepository(DeliveryOrder).save({
-        ...newDeliveryOrder,
+        ...deliveryOrder,
         domain: context.state.domain,
         bizplace: context.state.mainBizplace,
         status: ORDER_STATUS.PENDING,

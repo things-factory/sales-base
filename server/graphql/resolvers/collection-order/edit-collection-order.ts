@@ -17,7 +17,8 @@ export const editCollectionOrder = {
         // 1. update collection order
         const updatedCollectionOrder: CollectionOrder = await getRepository(CollectionOrder).save({
           ...foundCollectionOrder,
-          ...collectionOrder.collectionOrder,
+          ...collectionOrder,
+          status: ORDER_STATUS.PENDING,
           updater: context.state.user
         })
 

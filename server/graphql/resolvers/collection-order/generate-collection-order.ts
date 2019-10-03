@@ -5,11 +5,9 @@ import { CollectionOrder } from '../../../entities'
 export const generateCollectionOrder = {
   async generateCollectionOrder(_: any, { collectionOrder }, context: any) {
     return await getManager().transaction(async () => {
-      const newCollectionOrder = collectionOrder.collectionOrder
-
       // 1. Create collection order
       const createdCollectionOrder: CollectionOrder = await getRepository(CollectionOrder).save({
-        ...newCollectionOrder,
+        ...collectionOrder,
         domain: context.state.domain,
         bizplace: context.state.mainBizplace,
         status: ORDER_STATUS.PENDING,
