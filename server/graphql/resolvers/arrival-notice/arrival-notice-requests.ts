@@ -1,6 +1,6 @@
 import { Bizplace } from '@things-factory/biz-base'
 import { convertListParams, ListParam } from '@things-factory/shell'
-import { getRepository, In } from 'typeorm'
+import { getRepository, In, Equal, Not } from 'typeorm'
 import { ORDER_STATUS } from '../../../constants'
 import { ArrivalNotice } from '../../../entities'
 
@@ -9,13 +9,7 @@ export const arrivalNoticeRequestsResolver = {
     const convertedParams = convertListParams(params)
 
     if (!convertedParams.where || !convertedParams.where.status) {
-      convertedParams.where.status = In([
-        ORDER_STATUS.PENDING_RECEIVE,
-        ORDER_STATUS.INTRANSIT,
-        ORDER_STATUS.ARRIVED,
-        ORDER_STATUS.PROCESSING,
-        ORDER_STATUS.REJECTED
-      ])
+      convertedParams.where.status = Not(Equal(ORDER_STATUS.PENDING))
     }
     convertedParams.bizplace = In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id))
 
