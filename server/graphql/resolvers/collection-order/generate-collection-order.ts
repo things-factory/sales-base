@@ -1,9 +1,10 @@
 import { getManager, getRepository } from 'typeorm'
 import { ORDER_STATUS } from '../../../constants'
 import { CollectionOrder } from '../../../entities'
+import { schema } from '@things-factory/attachment-base'
 
 export const generateCollectionOrder = {
-  async generateCollectionOrder(_: any, { collectionOrder }, context: any) {
+  async generateCollectionOrder(_: any, { collectionOrder, attachments }, context: any) {
     return await getManager().transaction(async () => {
       // 1. Create collection order
       const createdCollectionOrder: CollectionOrder = await getRepository(CollectionOrder).save({
@@ -14,6 +15,14 @@ export const generateCollectionOrder = {
         creator: context.state.user,
         updater: context.state.user
       })
+
+      // 2. Create attachment
+      if (!attachments) return createdCollectionOrder
+
+      attachments = attachments.map(attachment => {
+        return { refBy: createdCollectionOrder.id, file: attachment, category: 'ORDER' }
+      })
+      await schema.resolvers.mutations[0].createAttachments(_, { attachments }, context)
 
       return createdCollectionOrder
     })

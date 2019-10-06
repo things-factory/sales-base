@@ -15,6 +15,7 @@ export const CollectionOrder = gql`
     collectionDateTime: String
     collectionDate: String
     loadType: String
+    attachments: [Attachment]
     remark: String
     telNo: String
     status: String

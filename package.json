@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/sales-base",
-  "version": "0.2.251",
+  "version": "0.2.252",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -23,6 +23,7 @@
     "migration:revert": "node ./node_modules/typeorm/cli.js migration:revert"
   },
   "dependencies": {
+    "@things-factory/attachment-base": "*",
     "@things-factory/auth-base": "*",
     "@things-factory/biz-base": "*",
     "@things-factory/product-base": "*",

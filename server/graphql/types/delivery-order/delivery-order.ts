@@ -15,6 +15,7 @@ export const DeliveryOrder = gql`
     deliveryDateTime: String
     transportVehicle: TransportVehicle
     transportDriver: TransportDriver
+    attachments: [Attachment]
     telNo: String
     remark: String
     status: String

@@ -9,18 +9,7 @@ export const claimOrderDetailResolver = {
         domain: context.state.domain,
         name: params.filters[0].value
       },
-      relations: [
-        'domain',
-        'bizplace',
-        'orderProducts',
-        'orderProducts.product',
-        'orderVass',
-        'orderVass.vas',
-        'transportDriver',
-        'transportVehicle',
-        'creator',
-        'updater'
-      ]
+      relations: ['domain', 'bizplace', 'transportDriver', 'transportVehicle', 'creator', 'updater']
     })
 
     let collectionOrder = await getRepository(CollectionOrder).findOne({
@@ -28,18 +17,7 @@ export const claimOrderDetailResolver = {
         domain: context.state.domain,
         name: params.filters[0].value
       },
-      relations: [
-        'domain',
-        'bizplace',
-        'orderProducts',
-        'orderProducts.product',
-        'orderVass',
-        'orderVass.vas',
-        'transportDriver',
-        'transportVehicle',
-        'creator',
-        'updater'
-      ]
+      relations: ['domain', 'bizplace', 'transportDriver', 'transportVehicle', 'creator', 'updater']
     })
     // var x = await getRepository(Claim).findOne({
     //   where: {

@@ -1,10 +1,11 @@
 import { Bizplace } from '@things-factory/biz-base'
+import { Attachment } from '@things-factory/attachment-base'
 import { getRepository, In } from 'typeorm'
 import { CollectionOrder } from '../../../entities'
 
 export const collectionOrderResolver = {
   async collectionOrder(_: any, { name }, context: any) {
-    return await getRepository(CollectionOrder).findOne({
+    const foundCO = await getRepository(CollectionOrder).findOne({
       where: {
         domain: context.state.domain,
         name,
@@ -12,5 +13,14 @@ export const collectionOrderResolver = {
       },
       relations: ['domain', 'bizplace', 'transportDriver', 'transportVehicle', 'creator', 'updater']
     })
+
+    const foundAttachments = await getRepository(Attachment).find({
+      where: {
+        domain: context.state.domain,
+        refBy: foundCO.id
+      }
+    })
+
+    return { ...foundCO, attachments: foundAttachments }
   }
 }
