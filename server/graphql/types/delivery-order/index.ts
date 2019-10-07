@@ -16,15 +16,9 @@ export const Mutation = `
 
   deleteDeliveryOrder (
     name: String!
-  ): DeliveryOrder
+  ): Boolean
 
   generateDeliveryOrder (
-    deliveryOrder: GenerateDeliveryOrder!
-    attachments: [Upload]
-  ): DeliveryOrder
-
-  editDeliveryOrder (
-    name: String!
     deliveryOrder: GenerateDeliveryOrder!
     attachments: [Upload]
   ): DeliveryOrder
