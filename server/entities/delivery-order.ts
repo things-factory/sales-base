@@ -64,7 +64,7 @@ export class DeliveryOrder {
   deliveryDateTime: Date
 
   @Column('float', {
-    comment: 'FCL or LCL'
+    nullable: true
   })
   loadWeight: Number
 

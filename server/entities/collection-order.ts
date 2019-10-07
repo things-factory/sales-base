@@ -42,7 +42,7 @@ export class CollectionOrder {
   collectionDate: string
 
   @Column('float', {
-    comment: 'FCL or LCL'
+    nullable: true
   })
   loadWeight: Number
 
