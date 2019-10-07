@@ -4,6 +4,7 @@ import { getManager, getRepository, In } from 'typeorm'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_TYPES, ORDER_VAS_STATUS } from '../../../constants'
 import { ArrivalNotice, CollectionOrder, OrderProduct, OrderVas, Vas } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
+import { priceListResolver } from '../price-list/price-list'
 
 export const editArrivalNotice = {
   async editArrivalNotice(_: any, { name, arrivalNotice, collectionOrder, attachment }, context: any) {
@@ -39,10 +40,6 @@ export const editArrivalNotice = {
       //    - Delete collection order
       if (foundCO) {
         foundArrivalNotice = await getRepository(ArrivalNotice).save({ ...foundArrivalNotice, collectionOrder: null })
-        const foundAttachment: Attachment = await getRepository(Attachment).findOne({
-          where: { domain: context.state.domain, refBy: foundCO.id }
-        })
-        await deleteAttachment(_, { id: foundAttachment.id }, context)
         await getRepository(CollectionOrder).delete({ id: foundCO.id })
       }
 
@@ -57,15 +54,30 @@ export const editArrivalNotice = {
           updater: context.state.user
         })
 
-        if (!attachment) throw new Error(`There's no attachment for collection order`)
+        if (attachment) {
+          // create new attachment
+          // 1) delete previous attachment
+          const previousAttachment: Attachment = await getRepository(Attachment).findOne({
+            where: { domain: context.state.domain, refBy: foundCO.id }
+          })
+          if (previousAttachment) await deleteAttachment(_, { id: previousAttachment.id }, context)
 
-        attachment = {
-          refBy: arrivalNotice.collectionOrder.id,
-          file: attachment,
-          category: 'ORDER'
+          // 2) create new attachment
+          const newAttachment = {
+            refBy: arrivalNotice.collectionOrder.id,
+            file: attachment,
+            category: 'ORDER'
+          }
+
+          await createAttachment(_, { attachment: newAttachment }, context)
+        } else {
+          // update previous attachment
+          const previousAttachment: Attachment = await getRepository(Attachment).findOne({
+            where: { domain: context.state.domain, refBy: foundCO.id }
+          })
+          if (previousAttachment)
+            await getRepository(Attachment).save({ ...previousAttachment, refBy: arrivalNotice.collectionOrder.id })
         }
-
-        await createAttachment(_, { attachment }, context)
       }
 
       // 5. update arrival notice
