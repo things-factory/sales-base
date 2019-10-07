@@ -5,10 +5,12 @@ export const DeliveryOrderPatch = gql`
     id: String
     name: String
     truckNo: String
-    loadType: String
     from: String
     to: String
     refNo: String
+    loadWeight: Float
+    urgency: Boolean
+    cargoType: String
     deliveryDate: String
     deliveryDateTime: String
     transportVehicle: ObjectRef

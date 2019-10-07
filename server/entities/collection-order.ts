@@ -41,10 +41,20 @@ export class CollectionOrder {
   })
   collectionDate: string
 
-  @Column({
+  @Column('float', {
     comment: 'FCL or LCL'
   })
-  loadType: string
+  loadWeight: Number
+
+  @Column({
+    nullable: true
+  })
+  cargoType: string
+
+  @Column({
+    nullable: true
+  })
+  urgency: Boolean
 
   @Column({
     nullable: true

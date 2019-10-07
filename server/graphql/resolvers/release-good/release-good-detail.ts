@@ -38,7 +38,7 @@ export const releaseGoodDetailResolver = {
         shipName: (shippingOrder && shippingOrder.shipName) || '',
         to: (deliveryOrder && deliveryOrder.to) || '',
         deliveryDate: (deliveryOrder && deliveryOrder.deliveryDate) || '',
-        loadType: (deliveryOrder && deliveryOrder.loadType) || '',
+        loadWeight: (deliveryOrder && deliveryOrder.loadWeight) || '',
         telNo: (deliveryOrder && deliveryOrder.telNo) || ''
       },
       inventoryInfos: releaseGood.orderInventories.map((orderInv: OrderInventory) => {

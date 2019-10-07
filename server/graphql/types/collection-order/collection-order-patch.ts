@@ -8,6 +8,9 @@ export const CollectionOrderPatch = gql`
     from: String
     to: String
     refNo: String
+    loadWeight: Float
+    urgency: Boolean
+    cargoType: String
     collectionDateTime: String
     collectionDate: String
     transportVehicle: ObjectRef
@@ -15,7 +18,6 @@ export const CollectionOrderPatch = gql`
     telNo: String
     remark: String
     truckNo: String
-    loadType: String
     status: String
   }
 `

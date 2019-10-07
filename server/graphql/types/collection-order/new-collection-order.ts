@@ -9,9 +9,11 @@ export const NewCollectionOrder = gql`
     truckNo: String
     refNo: String
     telNo: String
+    loadWeight: Float
+    urgency: Boolean
+    cargoType: String
     collectionDateTime: String
     collectionDate: String!
-    loadType: String!
     status: String
   }
 `

@@ -10,7 +10,9 @@ export const NewDeliveryOrder = gql`
     deliveryDate: String
     deliveryDateTime: String
     telNo: String
-    loadType: String
+    loadWeight: Float
+    urgency: Boolean
+    cargoType: String
     status: String!
     description: String
   }

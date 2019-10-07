@@ -14,7 +14,9 @@ export const CollectionOrder = gql`
     transportDriver: TransportDriver
     collectionDateTime: String
     collectionDate: String
-    loadType: String
+    loadWeight: Float
+    urgency: Boolean
+    cargoType: String
     attachments: [Attachment]
     remark: String
     telNo: String
