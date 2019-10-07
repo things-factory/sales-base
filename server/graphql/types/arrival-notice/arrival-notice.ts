@@ -19,6 +19,7 @@ export const ArrivalNotice = gql`
     orderProducts: [OrderProduct]
     orderVass: [OrderVas]
     collectionOrder: CollectionOrder
+    attachment: Attachment
     deliveryOrderNo: String
     creator: User
     updater: User

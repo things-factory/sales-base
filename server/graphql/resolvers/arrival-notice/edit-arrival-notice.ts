@@ -1,3 +1,4 @@
+import { Attachment, createAttachment, deleteAttachment } from '@things-factory/attachment-base'
 import { Product } from '@things-factory/product-base'
 import { getManager, getRepository, In } from 'typeorm'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_TYPES, ORDER_VAS_STATUS } from '../../../constants'
@@ -5,7 +6,7 @@ import { ArrivalNotice, CollectionOrder, OrderProduct, OrderVas, Vas } from '../
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const editArrivalNotice = {
-  async editArrivalNotice(_: any, { name, arrivalNotice, collectionOrder }, context: any) {
+  async editArrivalNotice(_: any, { name, arrivalNotice, collectionOrder, attachment }, context: any) {
     return await getManager().transaction(async () => {
       let newOrderProducts: OrderProduct[] = arrivalNotice.orderProducts
       let newOrderVass: OrderVas[] = arrivalNotice.orderVass
@@ -34,9 +35,14 @@ export const editArrivalNotice = {
 
       // 3. delete collection order if it's exists
       //    - Delete relation from arrival notice
+      //    - Delete attachment for collection order
       //    - Delete collection order
       if (foundCO) {
         foundArrivalNotice = await getRepository(ArrivalNotice).save({ ...foundArrivalNotice, collectionOrder: null })
+        const foundAttachment: Attachment = await getRepository(Attachment).findOne({
+          where: { domain: context.state.domain, refBy: foundCO.id }
+        })
+        await deleteAttachment(_, { id: foundAttachment.id }, context)
         await getRepository(CollectionOrder).delete({ id: foundCO.id })
       }
 
@@ -50,6 +56,16 @@ export const editArrivalNotice = {
           creator: context.state.user,
           updater: context.state.user
         })
+
+        if (!attachment) throw new Error(`There's no attachment for collection order`)
+
+        attachment = {
+          refBy: arrivalNotice.collectionOrder.id,
+          file: attachment,
+          category: 'ORDER'
+        }
+
+        await createAttachment(_, { attachment }, context)
       }
 
       // 5. update arrival notice
