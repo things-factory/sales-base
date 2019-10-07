@@ -26,6 +26,7 @@ export const Mutation = `
   editCollectionOrder (
     name: String!
     collectionOrder: GenerateCollectionOrder!
+    attachments: [Upload]
   ): CollectionOrder
 
   confirmCollectionOrder (

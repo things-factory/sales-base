@@ -76,7 +76,7 @@ export class DeliveryOrder {
   @Column({
     nullable: true
   })
-  otherCargoType: string
+  otherCargo: string
 
   @Column({
     nullable: true

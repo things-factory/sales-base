@@ -26,6 +26,7 @@ export const Mutation = `
   editDeliveryOrder (
     name: String!
     deliveryOrder: GenerateDeliveryOrder!
+    attachments: [Upload]
   ): DeliveryOrder
 
   confirmDeliveryOrder (

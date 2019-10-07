@@ -13,7 +13,7 @@ export const NewDeliveryOrder = gql`
     loadWeight: Float
     urgency: Boolean
     cargoType: String
-    otherCargoType: String
+    otherCargo: String
     status: String!
     description: String
   }

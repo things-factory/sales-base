@@ -54,7 +54,7 @@ export class CollectionOrder {
   @Column({
     nullable: true
   })
-  otherCargoType: string
+  otherCargo: string
 
   @Column({
     nullable: true
