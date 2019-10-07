@@ -8,11 +8,11 @@ export const deleteCollectionOrder = {
       where: { domain: context.state.domain, name }
     })
     if (foundCO) {
-      await getRepository(CollectionOrder).delete({ domain: context.state.domain, name })
       const previousAttachment: Attachment = await getRepository(Attachment).findOne({
         where: { domain: context.state.domain, refBy: foundCO.id }
       })
       if (previousAttachment) await deleteAttachment(_, { id: previousAttachment.id }, context)
+      await getRepository(CollectionOrder).delete({ domain: context.state.domain, name })
     }
     return true
   }
