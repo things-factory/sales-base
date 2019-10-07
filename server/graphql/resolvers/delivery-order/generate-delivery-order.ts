@@ -1,7 +1,7 @@
 import { getManager, getRepository } from 'typeorm'
 import { ORDER_STATUS } from '../../../constants'
 import { DeliveryOrder } from '../../../entities'
-import { schema } from '@things-factory/attachment-base'
+import { createAttachments } from '@things-factory/attachment-base'
 
 export const generateDeliveryOrder = {
   async generateDeliveryOrder(_: any, { deliveryOrder, attachments }, context: any) {
@@ -22,7 +22,7 @@ export const generateDeliveryOrder = {
       attachments = attachments.map(attachment => {
         return { refBy: createdDeliveryOrder.id, file: attachment, category: 'ORDER' }
       })
-      await schema.resolvers.mutations[0].createAttachments(_, { attachments }, context)
+      await createAttachments(_, { attachments }, context)
 
       return createdDeliveryOrder
     })
