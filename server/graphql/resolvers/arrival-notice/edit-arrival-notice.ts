@@ -41,6 +41,12 @@ export const editArrivalNotice = {
       if (foundCO) {
         foundArrivalNotice = await getRepository(ArrivalNotice).save({ ...foundArrivalNotice, collectionOrder: null })
         await getRepository(CollectionOrder).delete({ id: foundCO.id })
+        if (!collectionOrder) {
+          const foundAttachment: Attachment = await getRepository(Attachment).findOne({
+            where: { domain: context.state.domain, refBy: foundCO.id }
+          })
+          await deleteAttachment(_, { id: foundAttachment.id }, context)
+        }
       }
 
       // 4. Create collection order
