@@ -54,6 +54,11 @@ export class CollectionOrder {
   @Column({
     nullable: true
   })
+  otherCargoType: string
+
+  @Column({
+    nullable: true
+  })
   urgency: Boolean
 
   @Column({

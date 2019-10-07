@@ -76,6 +76,11 @@ export class DeliveryOrder {
   @Column({
     nullable: true
   })
+  otherCargoType: string
+
+  @Column({
+    nullable: true
+  })
   urgency: Boolean
 
   @Column({
