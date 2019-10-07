@@ -1,3 +1,4 @@
+import { Attachment, createAttachments } from '@things-factory/attachment-base'
 import { Product } from '@things-factory/product-base'
 import { getManager, getRepository } from 'typeorm'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_TYPES, ORDER_VAS_STATUS } from '../../../constants'
@@ -5,7 +6,7 @@ import { ArrivalNotice, CollectionOrder, OrderProduct, OrderVas, Vas } from '../
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const generateArrivalNotice = {
-  async generateArrivalNotice(_: any, { arrivalNotice, collectionOrder }, context: any) {
+  async generateArrivalNotice(_: any, { arrivalNotice, collectionOrder, attachments }, context: any) {
     return await getManager().transaction(async () => {
       let orderProducts: OrderProduct[] = arrivalNotice.orderProducts
       let orderVass: OrderVas[] = arrivalNotice.orderVass
@@ -20,6 +21,14 @@ export const generateArrivalNotice = {
           creator: context.state.user,
           updater: context.state.user
         })
+
+        if (!attachments) throw new Error(`There's no attachment for collection order`)
+
+        attachments = attachments.map((attachment: Attachment) => {
+          return { refBy: arrivalNotice.collectionOrder.id, file: attachment, category: 'ORDER' }
+        })
+
+        await createAttachments(_, { attachments }, context)
       }
 
       // 2. Create arrival notice

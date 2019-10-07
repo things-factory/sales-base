@@ -20,6 +20,7 @@ export const Mutation = `
   generateArrivalNotice (
     arrivalNotice: NewArrivalNotice!
     collectionOrder: NewCollectionOrder
+    attachments: [Upload]
   ): ArrivalNotice
 
   editArrivalNotice (
