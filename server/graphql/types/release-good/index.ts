@@ -34,10 +34,6 @@ export const Mutation = `
     name: String!
   ): ReleaseGood
 
-  receiveReleaseGood (
-    name: String!
-  ): ReleaseGood
-
   checkReleaseGood (
     name: String!
   ): ReleaseGood

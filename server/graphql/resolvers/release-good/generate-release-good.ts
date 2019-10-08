@@ -7,50 +7,29 @@ import { OrderNoGenerator } from '../../../utils/order-no-generator'
 export const generateReleaseGood = {
   async generateReleaseGood(_: any, { releaseGood, shippingOrder, deliveryOrder }, context: any) {
     return await getManager().transaction(async () => {
-      const newReleaseGood = releaseGood
-      const newShippingOrder = shippingOrder
-      const newDeliveryOrder = deliveryOrder
-      let orderInventories = releaseGood.orderInventories
-      let orderVass = releaseGood.orderVass
-      let createdDO
-      let createdSO
-
-      if (deliveryOrder) {
-        createdDO = await getRepository(DeliveryOrder).save({
-          ...newDeliveryOrder,
-          domain: context.state.domain,
-          bizplace: context.state.mainBizplace,
-          status: ORDER_STATUS.PENDING,
-          creator: context.state.user,
-          updater: context.state.user
+      let orderInventories: OrderInventory[] = releaseGood.orderInventories
+      let orderVass: OrderVas[] = releaseGood.orderVass
+      if (shippingOrder) {
+        releaseGood.shippingOrder = await getRepository(ShippingOrder).findOne({
+          where: { domain: context.state.domain, bizplace: context.state.mainBizplace }
         })
       }
-
-      if (shippingOrder) {
-        createdSO = await getRepository(ShippingOrder).save({
-          ...newShippingOrder,
-          name: OrderNoGenerator.shippingOrder(),
-          domain: context.state.domain,
-          bizplace: context.state.mainBizplace,
-          status: ORDER_STATUS.PENDING,
-          creator: context.state.user,
-          updater: context.state.user
+      if (deliveryOrder) {
+        releaseGood.deliveryOrder = await getRepository(DeliveryOrder).findOne({
+          where: { domain: context.state.domain, bizplace: context.state.mainBizplace }
         })
       }
 
       const createdReleaseGood: ReleaseGood = await getRepository(ReleaseGood).save({
-        ...newReleaseGood,
+        ...releaseGood,
         name: OrderNoGenerator.releaseGood(),
         domain: context.state.domain,
         bizplace: context.state.mainBizplace,
-        deliveryOrder: createdDO ? createdDO : null,
-        shippingOrder: createdSO ? createdSO : null,
         status: ORDER_STATUS.PENDING,
         creator: context.state.user,
         updater: context.state.user
       })
 
-      // 2. Create release good inventory
       orderInventories = await Promise.all(
         orderInventories.map(async (orderInventory: OrderInventory) => {
           return {
@@ -74,23 +53,24 @@ export const generateReleaseGood = {
       )
       await getRepository(OrderInventory).save(orderInventories)
 
-      // 3. Create arrival notice vas
-      orderVass = await Promise.all(
-        orderVass.map(async (vas: OrderVas) => {
-          return {
-            ...vas,
-            domain: context.state.domain,
-            bizplace: context.state.mainBizplace,
-            name: OrderNoGenerator.releaseVas(),
-            vas: await getRepository(Vas).findOne(vas.vas.id),
-            releaseGood: createdReleaseGood,
-            status: ORDER_VAS_STATUS.PENDING,
-            creator: context.state.user,
-            updater: context.state.user
-          }
-        })
-      )
-      await getRepository(OrderVas).save(orderVass)
+      if (orderVass && orderVass.length) {
+        orderVass = await Promise.all(
+          orderVass.map(async (orderVas: OrderVas) => {
+            return {
+              ...orderVas,
+              domain: context.state.domain,
+              bizplace: context.state.mainBizplace,
+              name: OrderNoGenerator.releaseVas(),
+              vas: await getRepository(Vas).findOne(orderVas.vas.id),
+              releaseGood: createdReleaseGood,
+              status: ORDER_VAS_STATUS.PENDING,
+              creator: context.state.user,
+              updater: context.state.user
+            }
+          })
+        )
+        await getRepository(OrderVas).save(orderVass)
+      }
 
       return createdReleaseGood
     })
