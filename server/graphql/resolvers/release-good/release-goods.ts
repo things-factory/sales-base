@@ -10,16 +10,7 @@ export const releaseGoodsResolver = {
 
     const [items, total] = await getRepository(ReleaseGood).findAndCount({
       ...convertedParams,
-      relations: [
-        'domain',
-        'bizplace',
-        'shippingOrder',
-        'deliveryOrder',
-        'orderInventories',
-        'orderVass',
-        'creator',
-        'updater'
-      ]
+      relations: ['domain', 'bizplace', 'shippingOrder', 'orderInventories', 'orderVass', 'creator', 'updater']
     })
     return { items, total }
   }

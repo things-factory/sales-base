@@ -8,12 +8,14 @@ export const rejectReleaseGood = {
       try {
         const releaseGood: ReleaseGood = await getRepository(ReleaseGood).findOne({
           where: { domain: context.state.domain, name },
-          relations: ['orderInventories', 'deliveryOrder', 'shippingOrder']
+          relations: ['orderInventories', 'deliveryOrders', 'shippingOrder']
         })
 
         if (!releaseGood) throw new Error(`Release good doesn't exists.`)
         if (!patch.remark) throw new Error('Remark is not exist.')
         if (releaseGood.status !== ORDER_STATUS.PENDING_RECEIVE) throw new Error(`Status is not receivable.`)
+
+        let foundDOs: DeliveryOrder[] = releaseGood.deliveryOrders
 
         // 1. Update status of order products (PENDING_RECEIVE => READY_TO_COLLECT)
         releaseGood.orderInventories.forEach(async (orderInventory: OrderInventory) => {
@@ -23,17 +25,16 @@ export const rejectReleaseGood = {
           )
         })
 
-        if (releaseGood.deliveryOrder) {
-          // 2. 1) if it's yes update status of collection order
-          const deliveryOrder: DeliveryOrder = await getRepository(DeliveryOrder).findOne({
-            where: { domain: context.state.domain, name: releaseGood.deliveryOrder.name }
+        // 3. If there's collection order, update status of collection order (PENDING_RECEIVE => REJECTED)
+        if (foundDOs) {
+          foundDOs = foundDOs.map((dos: DeliveryOrder) => {
+            return {
+              ...dos,
+              status: ORDER_STATUS.REJECTED,
+              updater: context.state.user
+            }
           })
-
-          await getRepository(DeliveryOrder).save({
-            ...deliveryOrder,
-            status: ORDER_STATUS.REJECTED,
-            updater: context.state.user
-          })
+          await getRepository(DeliveryOrder).save(foundDOs)
         }
 
         if (releaseGood.shippingOrder) {

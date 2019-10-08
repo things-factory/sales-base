@@ -1,6 +1,6 @@
 import { getManager, getRepository } from 'typeorm'
-import { ReleaseGood, ShippingOrder, DeliveryOrder, OrderInventory, OrderVas } from '../../../entities'
-import { ORDER_STATUS, ORDER_PRODUCT_STATUS, ORDER_VAS_STATUS } from '../../../constants'
+import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
+import { OrderInventory, OrderVas, ReleaseGood } from '../../../entities'
 
 export const confirmReleaseGood = {
   async confirmReleaseGood(_: any, { name }, context: any) {

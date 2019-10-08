@@ -1,16 +1,16 @@
-import { getRepository, In } from 'typeorm'
-import { ReleaseGood, DeliveryOrder, OrderInventory, OrderVas } from '../../../entities'
 import { Attachment, deleteAttachment } from '@things-factory/attachment-base'
+import { getRepository, In } from 'typeorm'
+import { DeliveryOrder, OrderInventory, OrderVas, ReleaseGood } from '../../../entities'
 
 export const deleteReleaseGood = {
   async deleteReleaseGood(_: any, { name }, context: any) {
     let foundReleaseOrder: ReleaseGood = await getRepository(ReleaseGood).findOne({
       where: { domain: context.state.domain, name },
-      relations: ['orderInventories', 'orderVass', 'deliveryOrder', 'creator', 'updater']
+      relations: ['orderInventories', 'orderVass', 'deliveryOrders', 'creator', 'updater']
     })
 
     if (!foundReleaseOrder) throw new Error(`Arrival notice doesn't exists.`)
-    const foundDO: DeliveryOrder = foundReleaseOrder.deliveryOrder
+    const foundDOs: DeliveryOrder[] = foundReleaseOrder.deliveryOrders
     const foundOIs: OrderInventory[] = foundReleaseOrder.orderInventories
     const foundOVs: OrderVas[] = foundReleaseOrder.orderVass
 
@@ -27,15 +27,17 @@ export const deleteReleaseGood = {
     }
 
     // 3. if there is DO, delete DO
-    if (foundDO) {
-      foundReleaseOrder = await getRepository(ReleaseGood).save({ ...foundReleaseOrder, deliveryOrder: null })
-      await getRepository(DeliveryOrder).delete({ id: foundDO.id })
+    if (foundDOs) {
+      const doIds = foundDOs.map((dos: DeliveryOrder) => dos.id)
+      if (doIds.length) {
+        await getRepository(DeliveryOrder).delete({ id: In(doIds) })
 
-      // 4. if there is DO, delete attachment
-      const foundAttachment: Attachment = await getRepository(Attachment).findOne({
-        where: { domain: context.state.domain, refBy: foundDO.id }
-      })
-      await deleteAttachment(_, { id: foundAttachment.id }, context)
+        // 4. if there is DO, delete attachment
+        const foundAttachment: Attachment = await getRepository(Attachment).findOne({
+          where: { domain: context.state.domain, refBy: In(doIds) }
+        })
+        await deleteAttachment(_, { id: foundAttachment.id }, context)
+      }
     }
 
     await getRepository(ReleaseGood).delete({ domain: context.state.domain, name })

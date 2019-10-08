@@ -16,9 +16,7 @@ export const rejectArrivalNotice = {
 
         let foundOPs: OrderProduct[] = foundArrivalNotice.orderProducts
         let foundOVs: OrderVas[] = foundArrivalNotice.orderVass
-        let foundCOs: CollectionOrder[] = await getRepository(CollectionOrder).find({
-          where: { domain: context.state.domain, refNo: foundArrivalNotice.name }
-        })
+        let foundCOs: CollectionOrder[] = foundArrivalNotice.collectionOrders
 
         // 1. Update status of order products (PENDING_RECEIVE => REJECTED)
         foundOPs = foundOPs.map((op: OrderProduct) => {
@@ -43,7 +41,7 @@ export const rejectArrivalNotice = {
         }
 
         // 3. If there's collection order, update status of collection order (PENDING_RECEIVE => REJECTED)
-        if (foundCOs)
+        if (foundCOs) {
           foundCOs = foundCOs.map((co: CollectionOrder) => {
             return {
               ...co,
@@ -51,6 +49,15 @@ export const rejectArrivalNotice = {
               updater: context.state.user
             }
           })
+          await getRepository(CollectionOrder).save(foundCOs)
+        }
+
+        await getRepository(ArrivalNotice).save({
+          ...foundArrivalNotice,
+          ...patch,
+          status: ORDER_STATUS.REJECTED,
+          updater: context.state.user
+        })
 
         return foundArrivalNotice
       } catch (e) {

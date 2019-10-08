@@ -14,9 +14,7 @@ export const checkArrivedNotice = {
         if (!foundArrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
 
         // 1. Check wheter related collection order is done or not
-        const foundCOs: CollectionOrder[] = await getRepository(CollectionOrder).find({
-          where: { domain: context.state.domain, refNo: foundArrivalNotice.name }
-        })
+        const foundCOs: CollectionOrder[] = foundArrivalNotice.collectionOrders
         if (foundCOs && foundCOs.length) {
           foundCOs.map((co: CollectionOrder) => {
             if (co.status !== ORDER_STATUS.DONE) {

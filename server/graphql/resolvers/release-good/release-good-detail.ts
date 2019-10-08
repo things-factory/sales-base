@@ -21,25 +21,19 @@ export const releaseGoodDetailResolver = {
         'orderInventories.inventory.location',
         'orderVass',
         'orderVass.vas',
-        'deliveryOrder',
         'creator',
         'updater'
       ]
     })
 
     const shippingOrder: ShippingOrder = releaseGood.shippingOrder
-    const deliveryOrder: DeliveryOrder = releaseGood.deliveryOrder
 
     return {
       ...releaseGood,
       releaseGoodInfo: {
         containerLeavingDate: (shippingOrder && shippingOrder.containerLeavingDate) || '',
         containerArrivalDate: (shippingOrder && shippingOrder.containerArrivalDate) || '',
-        shipName: (shippingOrder && shippingOrder.shipName) || '',
-        to: (deliveryOrder && deliveryOrder.to) || '',
-        deliveryDate: (deliveryOrder && deliveryOrder.deliveryDate) || '',
-        loadWeight: (deliveryOrder && deliveryOrder.loadWeight) || '',
-        telNo: (deliveryOrder && deliveryOrder.telNo) || ''
+        shipName: (shippingOrder && shippingOrder.shipName) || ''
       },
       inventoryInfos: releaseGood.orderInventories.map((orderInv: OrderInventory) => {
         const inventory: Inventory = orderInv.inventory

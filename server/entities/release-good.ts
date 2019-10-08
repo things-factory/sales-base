@@ -66,9 +66,8 @@ export class ReleaseGood {
   @Column()
   ownTransport: Boolean
 
-  @OneToOne(type => DeliveryOrder)
-  @JoinColumn()
-  deliveryOrder: DeliveryOrder
+  @OneToMany(type => DeliveryOrder, deliveryOrder => deliveryOrder.releaseGood)
+  deliveryOrders: DeliveryOrder[]
 
   @OneToOne(type => ShippingOrder)
   @JoinColumn()

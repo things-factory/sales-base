@@ -1,7 +1,7 @@
 import { Inventory } from '@things-factory/warehouse-base'
 import { getManager, getRepository } from 'typeorm'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
-import { DeliveryOrder, OrderInventory, OrderVas, ReleaseGood, ShippingOrder, Vas } from '../../../entities'
+import { OrderInventory, OrderVas, ReleaseGood, ShippingOrder, Vas } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const generateReleaseGood = {
@@ -11,11 +11,6 @@ export const generateReleaseGood = {
       let orderVass: OrderVas[] = releaseGood.orderVass
       if (shippingOrder) {
         releaseGood.shippingOrder = await getRepository(ShippingOrder).findOne({
-          where: { domain: context.state.domain, bizplace: context.state.mainBizplace }
-        })
-      }
-      if (deliveryOrder) {
-        releaseGood.deliveryOrder = await getRepository(DeliveryOrder).findOne({
           where: { domain: context.state.domain, bizplace: context.state.mainBizplace }
         })
       }

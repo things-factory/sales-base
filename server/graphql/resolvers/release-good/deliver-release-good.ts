@@ -8,11 +8,13 @@ export const deliverReleaseGood = {
       try {
         const releaseGood: ReleaseGood = await getRepository(ReleaseGood).findOne({
           where: { domain: context.state.domain, name },
-          relations: ['orderInventories', 'shippingOrder', 'deliveryOrder']
+          relations: ['orderInventories', 'shippingOrder', 'deliveryOrders']
         })
 
         if (!releaseGood) throw new Error(`Release good doesn't exists.`)
         if (releaseGood.status !== ORDER_STATUS.INPROCESS) throw new Error(`Status is not receivable.`)
+
+        let foundDOs: DeliveryOrder[] = releaseGood.deliveryOrders
 
         // 1. Update status of order products (READY_TO_PICK => PICKING)
         releaseGood.orderInventories.forEach(async (orderInventory: OrderInventory) => {
@@ -36,17 +38,16 @@ export const deliverReleaseGood = {
           })
         }
 
-        //update deliveryOrder
-        if (releaseGood.deliveryOrder) {
-          const deliveryOrder: DeliveryOrder = await getRepository(DeliveryOrder).findOne({
-            where: { domain: context.state.domain, name: releaseGood.deliveryOrder.name }
+        if (foundDOs) {
+          //update deliveryOrder
+          foundDOs = foundDOs.map((dos: DeliveryOrder) => {
+            return {
+              ...dos,
+              status: ORDER_STATUS.DELIVERING,
+              updater: context.state.user
+            }
           })
-
-          await getRepository(DeliveryOrder).save({
-            ...deliveryOrder,
-            status: ORDER_STATUS.DELIVERING,
-            updater: context.state.user
-          })
+          await getRepository(DeliveryOrder).save(foundDOs)
         }
 
         await getRepository(ReleaseGood).save({

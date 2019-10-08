@@ -19,7 +19,6 @@ export const releaseGoodResolver = {
         'orderInventories.inventory.product',
         'orderVass',
         'orderVass.vas',
-        'deliveryOrder',
         'creator',
         'updater'
       ]

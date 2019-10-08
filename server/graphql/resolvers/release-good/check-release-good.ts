@@ -14,7 +14,18 @@ export const checkReleaseGood = {
         if (!releaseGood) throw new Error(`Release good doesn't exists.`)
         if (releaseGood.status !== ORDER_STATUS.INPROCESS) throw new Error(`Status is not receivable.`)
 
-        // 1. Update status of order products
+        // 1. Update Delivery Order status
+        let foundDOs: DeliveryOrder[] = releaseGood.deliveryOrders
+        foundDOs = foundDOs.map((dos: DeliveryOrder) => {
+          return {
+            ...dos,
+            status: ORDER_STATUS.DONE,
+            updater: context.state.user
+          }
+        })
+        await getRepository(DeliveryOrder).save(foundDOs)
+
+        // 2. Update status of order products
         releaseGood.orderInventories.forEach(async (orderInventory: OrderInventory) => {
           await getRepository(OrderInventory).update(
             { id: orderInventory.id },
@@ -28,23 +39,9 @@ export const checkReleaseGood = {
           updater: context.state.user
         })
 
-        // 2. Check whether delivery order is invloved in.
-        if (releaseGood.deliveryOrder) {
-          // 2. 1) if it's yes update status of delivery order
-          const deliveryOrder: DeliveryOrder = await getRepository(DeliveryOrder).findOne({
-            where: { domain: context.state.domain, name: releaseGood.deliveryOrder.name }
-          })
-
-          await getRepository(DeliveryOrder).save({
-            ...deliveryOrder,
-            status: ORDER_STATUS.DONE,
-            updater: context.state.user
-          })
-        }
-
-        // 2. Check whether delivery order is invloved in.
+        // 3. Check whether delivery order is invloved in.
         if (releaseGood.shippingOrder) {
-          // 2. 1) if it's yes update status of delivery order
+          // 4. 1) if it's yes update status of delivery order
           const shippingOrder: ShippingOrder = await getRepository(ShippingOrder).findOne({
             where: { domain: context.state.domain, name: releaseGood.shippingOrder.name }
           })

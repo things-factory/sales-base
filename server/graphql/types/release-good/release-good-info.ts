@@ -8,12 +8,5 @@ export const ReleaseGoodInfo = gql`
     containerLeavingDateTime: String
     containerArrivalDateTime: String
     shipName: String
-    deliveryDate: String
-    deliveryDateTime: String
-    to: String
-    loadType: String
-    telNo: String
-    transportDriver: String
-    transportVehicle: String
   }
 `

@@ -27,7 +27,6 @@ export const Mutation = `
   generateReleaseGood (
     releaseGood: NewReleaseGood
     shippingOrder: ShippingOrderPatch
-    deliveryOrder: DeliveryOrderPatch
   ): ReleaseGood
 
   confirmReleaseGood (
@@ -41,11 +40,6 @@ export const Mutation = `
   rejectReleaseGood (
     name: String!
     patch: ReleaseGoodPatch!
-  ): ReleaseGood
-
-  executeReleaseGood (
-    name: String!
-    deliveryOrderPatch: DeliveryOrderPatch
   ): ReleaseGood
 
   deliverReleaseGood (

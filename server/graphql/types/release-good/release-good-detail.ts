@@ -14,7 +14,7 @@ export const ReleaseGoodDetail = gql`
     remark: String
     inventoryId: String
     productId: String
-    deliveryOrder: DeliveryOrder
+    deliveryOrders: [DeliveryOrder]
     exportOption: Boolean
     shippingOrder: ShippingOrder
     orderInventories: [OrderInventory]

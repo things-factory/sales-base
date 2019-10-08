@@ -1,19 +1,9 @@
 import { User } from '@things-factory/auth-base'
 import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from 'typeorm'
-import { OrderProduct } from './order-product'
-import { OrderVas } from './order-vas'
-import { TransportVehicle, TransportDriver } from '@things-factory/transport-base'
+import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
+import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { ReleaseGood } from './release-good'
 
 @Entity()
 @Index('ix_delivery-order_0', (deliveryOrder: DeliveryOrder) => [deliveryOrder.domain, deliveryOrder.name], {
@@ -46,6 +36,9 @@ export class DeliveryOrder {
     nullable: true
   })
   truckNo: string
+
+  @ManyToOne(type => ReleaseGood)
+  releaseGood: ReleaseGood
 
   @ManyToOne(type => TransportVehicle)
   transportVehicle: TransportVehicle

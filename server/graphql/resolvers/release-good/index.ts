@@ -4,7 +4,6 @@ import { createReleaseGood } from './create-release-good'
 import { deleteReleaseGood } from './delete-release-good'
 import { deleteReleaseGoods } from './delete-release-goods'
 import { deliverReleaseGood } from './deliver-release-good'
-import { executeReleaseGood } from './execute-release-good'
 import { generateReleaseGood } from './generate-release-good'
 import { rejectReleaseGood } from './reject-release-good'
 import { releaseGoodResolver } from './release-good'
@@ -28,7 +27,6 @@ export const Mutation = {
   ...confirmReleaseGood,
   ...generateReleaseGood,
   ...checkReleaseGood,
-  ...executeReleaseGood,
   ...deliverReleaseGood,
   ...rejectReleaseGood
 }
