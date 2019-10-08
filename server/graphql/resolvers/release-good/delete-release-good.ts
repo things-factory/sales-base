@@ -1,18 +1,19 @@
 import { Attachment, deleteAttachment } from '@things-factory/attachment-base'
 import { getRepository, In } from 'typeorm'
-import { DeliveryOrder, OrderInventory, OrderVas, ReleaseGood } from '../../../entities'
+import { DeliveryOrder, OrderInventory, OrderVas, ReleaseGood, ShippingOrder } from '../../../entities'
 
 export const deleteReleaseGood = {
   async deleteReleaseGood(_: any, { name }, context: any) {
     let foundReleaseOrder: ReleaseGood = await getRepository(ReleaseGood).findOne({
       where: { domain: context.state.domain, name },
-      relations: ['orderInventories', 'orderVass', 'deliveryOrders', 'creator', 'updater']
+      relations: ['orderInventories', 'orderVass', 'deliveryOrders', 'shippingOrder', 'creator', 'updater']
     })
 
     if (!foundReleaseOrder) throw new Error(`Arrival notice doesn't exists.`)
     const foundDOs: DeliveryOrder[] = foundReleaseOrder.deliveryOrders
     const foundOIs: OrderInventory[] = foundReleaseOrder.orderInventories
     const foundOVs: OrderVas[] = foundReleaseOrder.orderVass
+    const foundSO: ShippingOrder = foundReleaseOrder.shippingOrder
 
     // 1. delete order inventories
     const inventoryIds = foundOIs.map((oi: OrderInventory) => oi.id)
@@ -38,6 +39,11 @@ export const deleteReleaseGood = {
         })
         await deleteAttachment(_, { id: foundAttachment.id }, context)
       }
+    }
+
+    // 4. if there is SO, delete SO
+    if (foundSO) {
+      await getRepository(ShippingOrder).delete({ domain: context.state.domain, id: foundSO.id })
     }
 
     await getRepository(ReleaseGood).delete({ domain: context.state.domain, name })

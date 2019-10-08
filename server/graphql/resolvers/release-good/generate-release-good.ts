@@ -5,13 +5,19 @@ import { OrderInventory, OrderVas, ReleaseGood, ShippingOrder, Vas } from '../..
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const generateReleaseGood = {
-  async generateReleaseGood(_: any, { releaseGood, shippingOrder, deliveryOrder }, context: any) {
+  async generateReleaseGood(_: any, { releaseGood, shippingOrder }, context: any) {
     return await getManager().transaction(async () => {
       let orderInventories: OrderInventory[] = releaseGood.orderInventories
       let orderVass: OrderVas[] = releaseGood.orderVass
+
       if (shippingOrder) {
-        releaseGood.shippingOrder = await getRepository(ShippingOrder).findOne({
-          where: { domain: context.state.domain, bizplace: context.state.mainBizplace }
+        await getRepository(ShippingOrder).save({
+          ...shippingOrder,
+          domain: context.state.domain,
+          bizplace: context.state.mainBizplace,
+          status: ORDER_STATUS.PENDING,
+          creator: context.state.user,
+          updater: context.state.user
         })
       }
 

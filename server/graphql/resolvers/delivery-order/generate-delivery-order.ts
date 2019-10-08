@@ -1,6 +1,6 @@
 import { getManager, getRepository } from 'typeorm'
 import { ORDER_STATUS } from '../../../constants'
-import { DeliveryOrder } from '../../../entities'
+import { DeliveryOrder, ReleaseGood } from '../../../entities'
 import { createAttachments } from '@things-factory/attachment-base'
 
 export const generateDeliveryOrder = {
@@ -10,6 +10,9 @@ export const generateDeliveryOrder = {
       const createdDeliveryOrder: DeliveryOrder = await getRepository(DeliveryOrder).save({
         ...deliveryOrder,
         domain: context.state.domain,
+        releaseGood: await getRepository(ReleaseGood).findOne({
+          where: { domain: context.state.domain, name: deliveryOrder.refNo }
+        }),
         bizplace: context.state.mainBizplace,
         status: ORDER_STATUS.PENDING,
         creator: context.state.user,
