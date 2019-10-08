@@ -10,6 +10,7 @@ export const CollectionOrder = gql`
     to: String
     truckNo: String
     refNo: String
+    arrivalNotice: ArrivalNotice
     transportVehicle: TransportVehicle
     transportDriver: TransportDriver
     collectionDateTime: String

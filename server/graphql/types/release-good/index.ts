@@ -30,13 +30,6 @@ export const Mutation = `
     deliveryOrder: DeliveryOrderPatch
   ): ReleaseGood
 
-  editReleaseGood (
-    name: String!
-    releaseGood: NewReleaseGood
-    shippingOrder: ShippingOrderPatch
-    deliveryOrder: DeliveryOrderPatch
-  ): ReleaseGood
-
   confirmReleaseGood (
     name: String!
   ): ReleaseGood

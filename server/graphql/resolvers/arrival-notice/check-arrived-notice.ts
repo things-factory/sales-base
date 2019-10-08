@@ -14,9 +14,14 @@ export const checkArrivedNotice = {
         if (!foundArrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
 
         // 1. Check wheter related collection order is done or not
-        const foundCO: CollectionOrder = foundArrivalNotice.collectionOrder
-        if (foundCO && foundCO.status !== ORDER_STATUS.DONE)
-          throw new Error(`Collection Order: ${foundCO} is not finished yet.`)
+        const foundCOs: CollectionOrder[] = foundArrivalNotice.collectionOrders
+        if (foundCOs && foundCOs.length) {
+          foundCOs.map((co: CollectionOrder) => {
+            if (co.status !== ORDER_STATUS.DONE) {
+              throw new Error(`Collection Order: ${co.name} is not finished yet.`)
+            }
+          })
+        }
 
         let foundOPs: OrderProduct[] = foundArrivalNotice.orderProducts
         let foundOVs: OrderVas[] = foundArrivalNotice.orderVass

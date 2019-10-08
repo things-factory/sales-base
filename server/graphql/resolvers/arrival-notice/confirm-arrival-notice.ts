@@ -1,7 +1,6 @@
-import { getManager, getRepository, Collection } from 'typeorm'
+import { getManager, getRepository } from 'typeorm'
+import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
 import { ArrivalNotice, CollectionOrder, OrderProduct, OrderVas } from '../../../entities'
-import { ORDER_STATUS, ORDER_PRODUCT_STATUS, ORDER_VAS_STATUS } from '../../../constants'
-import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const confirmArrivalNotice = {
   async confirmArrivalNotice(_: any, { name }, context: any) {
@@ -9,7 +8,7 @@ export const confirmArrivalNotice = {
       const foundArrivalNotice: ArrivalNotice = await getRepository(ArrivalNotice).findOne({
         where: { domain: context.state.domain, name },
         relations: [
-          'collectionOrder',
+          'collectionOrders',
           'orderProducts',
           'orderProducts.product',
           'orderVass',
@@ -19,7 +18,7 @@ export const confirmArrivalNotice = {
         ]
       })
 
-      const foundCO: CollectionOrder = foundArrivalNotice.collectionOrder
+      let foundCOs: CollectionOrder[] = foundArrivalNotice.collectionOrders
       let foundOPs: OrderProduct[] = foundArrivalNotice.orderProducts
       let foundOVs: OrderVas[] = foundArrivalNotice.orderVass
 
@@ -34,12 +33,12 @@ export const confirmArrivalNotice = {
       })
 
       // 2. Update collection order status
-      if (foundCO)
-        await getRepository(CollectionOrder).save({
-          ...foundCO,
-          status: ORDER_STATUS.PENDING_RECEIVE,
-          updater: context.state.user
+      if (foundCOs) {
+        foundCOs = foundCOs.map((co: CollectionOrder) => {
+          return { ...co, status: ORDER_STATUS.PENDING_RECEIVE, updater: context.state.user }
         })
+        await getRepository(CollectionOrder).save(foundCOs)
+      }
 
       foundOPs = foundOPs.map((op: OrderProduct) => {
         return { ...op, status: ORDER_PRODUCT_STATUS.PENDING_RECEIVE }

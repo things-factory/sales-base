@@ -18,7 +18,7 @@ export const arrivalNoticeResolver = {
         'orderProducts.product',
         'orderVass',
         'orderVass.vas',
-        'collectionOrder',
+        'collectionOrders',
         'creator',
         'updater'
       ]

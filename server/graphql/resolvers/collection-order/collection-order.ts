@@ -11,7 +11,7 @@ export const collectionOrderResolver = {
         name,
         bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id))
       },
-      relations: ['domain', 'bizplace', 'transportDriver', 'transportVehicle', 'creator', 'updater']
+      relations: ['domain', 'bizplace', 'arrivalNotice', 'transportDriver', 'transportVehicle', 'creator', 'updater']
     })
 
     const foundAttachments = await getRepository(Attachment).find({

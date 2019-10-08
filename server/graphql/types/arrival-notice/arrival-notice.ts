@@ -17,7 +17,7 @@ export const ArrivalNotice = gql`
     remark: String
     orderProducts: [OrderProduct]
     orderVass: [OrderVas]
-    collectionOrder: CollectionOrder
+    collectionOrders: [CollectionOrder]
     attachment: Attachment
     deliveryOrderNo: String
     creator: User

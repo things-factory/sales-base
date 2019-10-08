@@ -6,10 +6,8 @@ import {
   CreateDateColumn,
   Entity,
   Index,
-  JoinColumn,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
@@ -55,6 +53,9 @@ export class ArrivalNotice {
   @OneToMany(type => OrderVas, orderVas => orderVas.arrivalNotice)
   orderVass: OrderVas[]
 
+  @OneToMany(type => CollectionOrder, collectionOrder => collectionOrder.arrivalNotice)
+  collectionOrders: CollectionOrder[]
+
   @Column({
     nullable: true
   })
@@ -77,10 +78,6 @@ export class ArrivalNotice {
     nullable: true
   })
   remark: string
-
-  @OneToOne(type => CollectionOrder)
-  @JoinColumn()
-  collectionOrder: CollectionOrder
 
   @Column({
     nullable: true

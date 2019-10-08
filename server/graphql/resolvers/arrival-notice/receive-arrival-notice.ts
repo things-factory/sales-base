@@ -8,14 +8,14 @@ export const receiveArrivalNotice = {
       try {
         const foundArrivalNotice: ArrivalNotice = await getRepository(ArrivalNotice).findOne({
           where: { domain: context.state.domain, name, status: ORDER_STATUS.PENDING_RECEIVE },
-          relations: ['collectionOrder', 'orderProducts', 'orderVass']
+          relations: ['collectionOrders', 'orderProducts', 'orderVass']
         })
 
         if (!foundArrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
 
         let foundOPs: OrderProduct[] = foundArrivalNotice.orderProducts
         let foundOVs: OrderVas[] = foundArrivalNotice.orderVass
-        const foundCO: CollectionOrder = foundArrivalNotice.collectionOrder
+        let foundCOs: CollectionOrder[] = foundArrivalNotice.collectionOrders
 
         // 1. Update status of order products (PENDING_RECEIVE => INTRANSIT)
         foundOPs = foundOPs.map((op: OrderProduct) => {
@@ -40,11 +40,13 @@ export const receiveArrivalNotice = {
         }
 
         // 3. If there's collection order, update status of collection order (PENDING_RECEIVE => READY_TO_DISPATCH)
-        if (foundCO) {
-          await getRepository(CollectionOrder).save({
-            ...foundCO,
-            status: ORDER_STATUS.READY_TO_DISPATCH,
-            updater: context.state.user
+        if (foundCOs) {
+          foundCOs = foundCOs.map((co: CollectionOrder) => {
+            return {
+              ...co,
+              status: ORDER_STATUS.READY_TO_DISPATCH,
+              updater: context.state.user
+            }
           })
         }
 

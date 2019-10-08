@@ -3,6 +3,7 @@ import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
 import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { ArrivalNotice } from './arrival-notice'
 
 @Entity()
 @Index('ix_collection-order_0', (collectionOrder: CollectionOrder) => [collectionOrder.domain, collectionOrder.name], {
@@ -65,6 +66,9 @@ export class CollectionOrder {
     nullable: true
   })
   truckNo: string
+
+  @ManyToOne(type => ArrivalNotice)
+  arrivalNotice: ArrivalNotice
 
   @ManyToOne(type => TransportVehicle)
   transportVehicle: TransportVehicle

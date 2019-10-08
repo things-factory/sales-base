@@ -13,6 +13,7 @@ export const CollectionOrderPatch = gql`
     cargoType: String
     collectionDateTime: String
     collectionDate: String
+    arrivalNotice: ObjectRef
     transportVehicle: ObjectRef
     transportDriver: ObjectRef
     telNo: String

@@ -14,7 +14,6 @@ export const NewArrivalNotice = gql`
     status: String
     orderProducts: [NewOrderProduct]
     orderVass: [NewOrderVas]
-    collectionOrder: ObjectRef
     deliveryOrderNo: String
   }
 `
