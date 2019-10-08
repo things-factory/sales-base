@@ -41,7 +41,7 @@ export const editReleaseGood = {
         }
       })
 
-      // 1. delete order products
+      // 1. delete order inventories
       const inventoryIds = foundOIs.map((oi: OrderInventory) => oi.id)
       if (inventoryIds.length) {
         await getRepository(OrderInventory).delete({ id: In(inventoryIds) })
