@@ -23,13 +23,6 @@ export const Mutation = `
     attachment: Upload
   ): ArrivalNotice
 
-  editArrivalNotice (
-    name: String!
-    arrivalNotice: NewArrivalNotice!
-    collectionOrder: NewCollectionOrder
-    attachment: Upload
-  ): ArrivalNotice
-
   confirmArrivalNotice (
     name: String!
   ): ArrivalNotice
