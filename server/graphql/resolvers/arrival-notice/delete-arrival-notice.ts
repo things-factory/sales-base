@@ -11,9 +11,7 @@ export const deleteArrivalNotice = {
 
     if (!foundArrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
 
-    const foundCOs: CollectionOrder[] = await getRepository(CollectionOrder).find({
-      where: { domain: context.state.domain, refNo: foundArrivalNotice.name }
-    })
+    const foundCOs: CollectionOrder[] = foundArrivalNotice.collectionOrders
     const foundOPs: OrderProduct[] = foundArrivalNotice.orderProducts
     const foundOVs: OrderVas[] = foundArrivalNotice.orderVass
 
@@ -33,7 +31,6 @@ export const deleteArrivalNotice = {
     if (foundCOs) {
       const coIds = foundCOs.map((co: CollectionOrder) => co.id)
       if (coIds.length) {
-        await getRepository(ArrivalNotice).save({ ...foundArrivalNotice, collectionOrder: null })
         await getRepository(CollectionOrder).delete({ id: In(coIds) })
 
         // 4. if there is CO, delete attachment
@@ -45,7 +42,7 @@ export const deleteArrivalNotice = {
     }
 
     // 4. delete GAN
-    await getRepository(ArrivalNotice).delete(name)
+    await getRepository(ArrivalNotice).delete({ domain: context.state.domain, name })
 
     return true
   }

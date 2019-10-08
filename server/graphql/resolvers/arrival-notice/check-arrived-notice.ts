@@ -8,7 +8,7 @@ export const checkArrivedNotice = {
       try {
         const foundArrivalNotice: ArrivalNotice = await getRepository(ArrivalNotice).findOne({
           where: { domain: context.state.domain, name, status: ORDER_STATUS.INTRANSIT },
-          relations: ['collectionOrder', 'orderProducts', 'orderVass']
+          relations: ['collectionOrders', 'orderProducts', 'orderVass']
         })
 
         if (!foundArrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
