@@ -9,7 +9,6 @@ export const GenerateDeliveryOrder = gql`
     loadWeight: Float
     urgency: Boolean
     cargoType: String
-    otherCargo: String
     refNo: String
     deliveryDate: String!
     deliveryDateTime: String

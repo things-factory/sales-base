@@ -9,7 +9,6 @@ export const DeliveryOrder = gql`
     loadWeight: Float
     urgency: Boolean
     cargoType: String
-    otherCargo: String
     truckNo: String
     from: String
     to: String

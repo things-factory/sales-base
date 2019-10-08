@@ -17,7 +17,6 @@ export const CollectionOrder = gql`
     loadWeight: Float
     urgency: Boolean
     cargoType: String
-    otherCargo: String
     attachments: [Attachment]
     remark: String
     telNo: String

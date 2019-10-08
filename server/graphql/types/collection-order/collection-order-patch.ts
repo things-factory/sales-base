@@ -11,7 +11,6 @@ export const CollectionOrderPatch = gql`
     loadWeight: Float
     urgency: Boolean
     cargoType: String
-    otherCargo: String
     collectionDateTime: String
     collectionDate: String
     transportVehicle: ObjectRef

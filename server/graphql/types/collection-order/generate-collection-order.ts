@@ -12,7 +12,6 @@ export const GenerateCollectionOrder = gql`
     loadWeight: Float
     urgency: Boolean
     cargoType: String
-    otherCargo: String
     collectionDateTime: String
     collectionDate: String!
     status: String
