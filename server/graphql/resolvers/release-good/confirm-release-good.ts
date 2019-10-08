@@ -1,27 +1,47 @@
 import { getManager, getRepository } from 'typeorm'
-import { ReleaseGood } from '../../../entities'
-import { ORDER_STATUS } from '../../../constants'
+import { ReleaseGood, ShippingOrder, DeliveryOrder, OrderInventory, OrderVas } from '../../../entities'
+import { ORDER_STATUS, ORDER_PRODUCT_STATUS, ORDER_VAS_STATUS } from '../../../constants'
 
 export const confirmReleaseGood = {
   async confirmReleaseGood(_: any, { name }, context: any) {
-    const foundReleaseGood: ReleaseGood = await getRepository(ReleaseGood).findOne({
-      where: { domain: context.state.domain, name },
-      relations: ['orderInventories', 'orderInventories.inventory', 'orderVass', 'orderVass.vas', 'creator', 'updater']
-    })
-
     return await getManager().transaction(async () => {
-      let releaseGood: ReleaseGood
-      if (!foundReleaseGood) throw new Error(`Release good order doesn't exists.`)
-      if (foundReleaseGood.status !== ORDER_STATUS.PENDING) throw new Error('Not confirmable status.')
+      const foundReleaseGood: ReleaseGood = await getRepository(ReleaseGood).findOne({
+        where: { domain: context.state.domain, name, status: ORDER_STATUS.PENDING },
+        relations: ['orderInventories', 'orderVass']
+      })
 
-      // 1. Release Goods Status change (PENDING => PENDING_RECEIVE)
-      releaseGood = await getRepository(ReleaseGood).save({
+      if (!foundReleaseGood) throw new Error(`Release good order doesn't exists.`)
+      let foundOIs: OrderInventory[] = foundReleaseGood.orderInventories
+      let foundOVs: OrderVas[] = foundReleaseGood.orderVass
+
+      // 1. Update status of order inventories
+      foundOIs = foundOIs.map((orderInventory: OrderInventory) => {
+        return {
+          ...orderInventory,
+          status: ORDER_PRODUCT_STATUS.PENDING_RECEIVE,
+          updater: context.state.user
+        }
+      })
+      await getRepository(OrderInventory).save(foundOIs)
+
+      // 2. Update status of order vass
+      if (foundOVs && foundOVs.length) {
+        foundOVs = foundOVs.map((orderVas: OrderVas) => {
+          return {
+            ...orderVas,
+            status: ORDER_VAS_STATUS.PENDING_RECEIVE,
+            updater: context.state.user
+          }
+        })
+        await getRepository(OrderVas).save(foundOVs)
+      }
+
+      // 3. Release Goods Status change (PENDING => PENDING_RECEIVE)
+      return await getRepository(ReleaseGood).save({
         ...foundReleaseGood,
         status: ORDER_STATUS.PENDING_RECEIVE,
         updater: context.state.user
       })
-
-      return releaseGood
     })
   }
 }
