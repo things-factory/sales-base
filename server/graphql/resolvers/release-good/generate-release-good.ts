@@ -10,17 +10,6 @@ export const generateReleaseGood = {
       let orderInventories: OrderInventory[] = releaseGood.orderInventories
       let orderVass: OrderVas[] = releaseGood.orderVass
 
-      if (shippingOrder) {
-        await getRepository(ShippingOrder).save({
-          ...shippingOrder,
-          domain: context.state.domain,
-          bizplace: context.state.mainBizplace,
-          status: ORDER_STATUS.PENDING,
-          creator: context.state.user,
-          updater: context.state.user
-        })
-      }
-
       const createdReleaseGood: ReleaseGood = await getRepository(ReleaseGood).save({
         ...releaseGood,
         name: OrderNoGenerator.releaseGood(),
@@ -30,6 +19,18 @@ export const generateReleaseGood = {
         creator: context.state.user,
         updater: context.state.user
       })
+
+      if (shippingOrder) {
+        await getRepository(ShippingOrder).save({
+          ...shippingOrder,
+          name: OrderNoGenerator.shippingOrder(),
+          domain: context.state.domain,
+          bizplace: context.state.mainBizplace,
+          status: ORDER_STATUS.PENDING,
+          creator: context.state.user,
+          updater: context.state.user
+        })
+      }
 
       orderInventories = await Promise.all(
         orderInventories.map(async (orderInventory: OrderInventory) => {
