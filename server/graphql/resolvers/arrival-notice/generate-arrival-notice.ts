@@ -1,39 +1,16 @@
-import { createAttachment } from '@things-factory/attachment-base'
 import { Product } from '@things-factory/product-base'
 import { getManager, getRepository } from 'typeorm'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_TYPES, ORDER_VAS_STATUS } from '../../../constants'
-import { ArrivalNotice, CollectionOrder, OrderProduct, OrderVas, Vas } from '../../../entities'
+import { ArrivalNotice, OrderProduct, OrderVas, Vas } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const generateArrivalNotice = {
-  async generateArrivalNotice(_: any, { arrivalNotice, collectionOrder, attachment }, context: any) {
+  async generateArrivalNotice(_: any, { arrivalNotice }, context: any) {
     return await getManager().transaction(async () => {
       let orderProducts: OrderProduct[] = arrivalNotice.orderProducts
       let orderVass: OrderVas[] = arrivalNotice.orderVass
 
-      // 1. Create collection order
-      if (collectionOrder) {
-        arrivalNotice.collectionOrder = await getRepository(CollectionOrder).save({
-          ...collectionOrder,
-          domain: context.state.domain,
-          bizplace: context.state.mainBizplace,
-          status: ORDER_STATUS.PENDING,
-          creator: context.state.user,
-          updater: context.state.user
-        })
-
-        if (!attachment) throw new Error(`There's no attachment for collection order`)
-
-        attachment = {
-          refBy: arrivalNotice.collectionOrder.id,
-          file: attachment,
-          category: 'ORDER'
-        }
-
-        await createAttachment(_, { attachment }, context)
-      }
-
-      // 2. Create arrival notice
+      // 1. Create arrival notice
       const createdArrivalNotice: ArrivalNotice = await getRepository(ArrivalNotice).save({
         ...arrivalNotice,
         name: OrderNoGenerator.arrivalNotice(),
@@ -44,7 +21,7 @@ export const generateArrivalNotice = {
         updater: context.state.user
       })
 
-      // 3. Create arrival notice product
+      // 2. Create arrival notice product
       orderProducts = await Promise.all(
         orderProducts.map(async (op: OrderProduct) => {
           return {
@@ -63,7 +40,7 @@ export const generateArrivalNotice = {
       )
       await getRepository(OrderProduct).save(orderProducts)
 
-      // 4. Create arrival notice vas
+      // 3. Create arrival notice vas
       orderVass = await Promise.all(
         orderVass.map(async (ov: OrderVas) => {
           return {

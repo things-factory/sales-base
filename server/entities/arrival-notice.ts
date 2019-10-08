@@ -46,6 +46,9 @@ export class ArrivalNotice {
   @Column()
   ownTransport: boolean
 
+  @Column()
+  importCargo: boolean
+
   @OneToMany(type => OrderProduct, orderProduct => orderProduct.arrivalNotice)
   orderProducts: OrderProduct[]
 
@@ -61,16 +64,6 @@ export class ArrivalNotice {
     nullable: true
   })
   etaDate: String
-
-  @Column({
-    nullable: true
-  })
-  from: string
-
-  @Column({
-    nullable: true
-  })
-  to: string
 
   @Column({
     nullable: true
