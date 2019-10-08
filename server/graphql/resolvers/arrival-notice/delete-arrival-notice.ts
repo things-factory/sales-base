@@ -10,7 +10,10 @@ export const deleteArrivalNotice = {
     })
 
     if (!foundArrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
-    const foundCOs: CollectionOrder[] = foundArrivalNotice.collectionOrders
+
+    const foundCOs: CollectionOrder[] = await getRepository(CollectionOrder).find({
+      where: { domain: context.state.domain, refNo: foundArrivalNotice.name }
+    })
     const foundOPs: OrderProduct[] = foundArrivalNotice.orderProducts
     const foundOVs: OrderVas[] = foundArrivalNotice.orderVass
 

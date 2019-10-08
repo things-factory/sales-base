@@ -1,6 +1,6 @@
 import { getManager, getRepository } from 'typeorm'
 import { ORDER_STATUS } from '../../../constants'
-import { CollectionOrder } from '../../../entities'
+import { CollectionOrder, ArrivalNotice } from '../../../entities'
 import { createAttachments } from '@things-factory/attachment-base'
 
 export const generateCollectionOrder = {
@@ -11,6 +11,9 @@ export const generateCollectionOrder = {
         ...collectionOrder,
         domain: context.state.domain,
         bizplace: context.state.mainBizplace,
+        arrivalNotice: await getRepository(ArrivalNotice).findOne({
+          where: { domain: context.state.domain, name: collectionOrder.refNo }
+        }),
         status: ORDER_STATUS.PENDING,
         creator: context.state.user,
         updater: context.state.user

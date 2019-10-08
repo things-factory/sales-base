@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/sales-base",
-  "version": "0.2.272",
+  "version": "0.2.273",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,

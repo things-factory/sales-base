@@ -18,7 +18,9 @@ export const confirmArrivalNotice = {
         ]
       })
 
-      let foundCOs: CollectionOrder[] = foundArrivalNotice.collectionOrders
+      let foundCOs: CollectionOrder[] = await getRepository(CollectionOrder).find({
+        where: { domain: context.state.domain, refNo: foundArrivalNotice.name }
+      })
       let foundOPs: OrderProduct[] = foundArrivalNotice.orderProducts
       let foundOVs: OrderVas[] = foundArrivalNotice.orderVass
 

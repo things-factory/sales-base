@@ -16,7 +16,9 @@ export const rejectArrivalNotice = {
 
         let foundOPs: OrderProduct[] = foundArrivalNotice.orderProducts
         let foundOVs: OrderVas[] = foundArrivalNotice.orderVass
-        let foundCOs: CollectionOrder[] = foundArrivalNotice.collectionOrders
+        let foundCOs: CollectionOrder[] = await getRepository(CollectionOrder).find({
+          where: { domain: context.state.domain, refNo: foundArrivalNotice.name }
+        })
 
         // 1. Update status of order products (PENDING_RECEIVE => REJECTED)
         foundOPs = foundOPs.map((op: OrderProduct) => {
