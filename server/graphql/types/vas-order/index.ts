@@ -26,11 +26,6 @@ export const Mutation = `
     vasOrder: NewVasOrder!
   ): VasOrder
 
-  editVasOrder (
-    name: String!
-    vasOrder: NewVasOrder!
-  ): VasOrder
-
   confirmVasOrder (
     name: String!
   ): VasOrder
