@@ -6,8 +6,7 @@ export const claimResolver = {
     const repository = getRepository(Claim)
 
     return await getRepository(Claim).findOne({
-      where: { domain: context.state.domain, name, relations: ['domain', 'creator', 'updater']}
+      where: { domain: context.state.domain, name, relations: ['domain', 'creator', 'updater'] }
     })
   }
 }
-

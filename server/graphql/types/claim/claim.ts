@@ -6,7 +6,12 @@ export const Claim = gql`
     name: String
     domain: Domain
     description: String
+    orderName: String
     billingMode: String
+    transportDriverName: String
+    transportVehicleName: String
+    from: String
+    to: String
     updater: User
     creator: User
     updatedAt: String
