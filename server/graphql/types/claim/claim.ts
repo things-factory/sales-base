@@ -6,6 +6,7 @@ export const Claim = gql`
     name: String
     domain: Domain
     description: String
+    billingMode: String
     updater: User
     creator: User
     updatedAt: String

@@ -34,6 +34,9 @@ export class Claim {
   })
   description: string
 
+  @Column()
+  billingMode: string
+
   @CreateDateColumn()
   createdAt: Date
 
