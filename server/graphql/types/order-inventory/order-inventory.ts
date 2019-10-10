@@ -8,6 +8,7 @@ export const OrderInventory = gql`
     name: String
     description: String
     inventory: Inventory
+    arrivalNotice: ArrivalNotice
     releaseGood: ReleaseGood
     shippingOrder: ShippingOrder
     deliveryOrder: DeliveryOrder
