@@ -28,7 +28,7 @@ export const Mutation = `
 
 export const Query = `
   claims(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ClaimList
-  claim(name: String!): Claim
+  claim(id: String!): Claim
   claimOrderList: [Claim]
   claimOrderDetail(filters: [Filter]): Claim
 `

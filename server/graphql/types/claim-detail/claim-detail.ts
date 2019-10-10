@@ -6,6 +6,8 @@ export const ClaimDetail = gql`
     name: String
     domain: Domain
     description: String
+    refNo: String
+    amount: String
     updater: User
     creator: User
     updatedAt: String

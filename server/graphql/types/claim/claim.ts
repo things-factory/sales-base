@@ -12,6 +12,7 @@ export const Claim = gql`
     transportVehicleName: String
     from: String
     to: String
+    orderDate: String
     updater: User
     creator: User
     updatedAt: String
