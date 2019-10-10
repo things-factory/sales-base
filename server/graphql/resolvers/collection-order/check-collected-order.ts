@@ -3,7 +3,7 @@ import { ORDER_STATUS } from '../../../constants'
 import { CollectionOrder } from '../../../entities'
 
 export const checkCollectedOrder = {
-  async checkCollectedOrder(_: any, { name }, context: any) {
+  async checkCollectedOrder(_: any, { name, patch }, context: any) {
     return await getManager().transaction(async () => {
       try {
         const collectionOrder: CollectionOrder = await getRepository(CollectionOrder).findOne({
@@ -15,6 +15,7 @@ export const checkCollectedOrder = {
 
         await getRepository(CollectionOrder).save({
           ...collectionOrder,
+          ...patch,
           status: ORDER_STATUS.DONE,
           updater: context.state.user
         })
