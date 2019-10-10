@@ -1,12 +1,12 @@
-import { getManager, getRepository } from 'typeorm'
-import { ArrivalNotice, OrderProduct, CollectionOrder, OrderVas } from '../../../entities'
+import { getManager } from 'typeorm'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
+import { ArrivalNotice, CollectionOrder, OrderProduct, OrderVas } from '../../../entities'
 
 export const rejectArrivalNotice = {
   async rejectArrivalNotice(_: any, { name, patch }, context: any) {
-    return await getManager().transaction(async () => {
+    return await getManager().transaction(async trxMgr => {
       try {
-        const foundArrivalNotice: ArrivalNotice = await getRepository(ArrivalNotice).findOne({
+        const foundArrivalNotice: ArrivalNotice = await trxMgr.getRepository(ArrivalNotice).findOne({
           where: { domain: context.state.domain, name, status: ORDER_STATUS.PENDING_RECEIVE },
           relations: ['orderProducts', 'orderVass', 'collectionOrders']
         })
@@ -26,7 +26,7 @@ export const rejectArrivalNotice = {
             updater: context.state.user
           }
         })
-        await getRepository(OrderProduct).save(foundOPs)
+        await trxMgr.getRepository(OrderProduct).save(foundOPs)
 
         // 2. Update status of order vass if it exists (PENDING_RECEIVE => REJECTED)
         if (foundOVs && foundOVs.length) {
@@ -37,7 +37,7 @@ export const rejectArrivalNotice = {
               updater: context.state.user
             }
           })
-          await getRepository(OrderVas).save(foundOVs)
+          await trxMgr.getRepository(OrderVas).save(foundOVs)
         }
 
         // 3. If there's collection order, update status of collection order (PENDING_RECEIVE => REJECTED)
@@ -49,10 +49,10 @@ export const rejectArrivalNotice = {
               updater: context.state.user
             }
           })
-          await getRepository(CollectionOrder).save(foundCOs)
+          await trxMgr.getRepository(CollectionOrder).save(foundCOs)
         }
 
-        await getRepository(ArrivalNotice).save({
+        await trxMgr.getRepository(ArrivalNotice).save({
           ...foundArrivalNotice,
           ...patch,
           status: ORDER_STATUS.REJECTED,
