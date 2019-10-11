@@ -63,7 +63,9 @@ export class OrderProduct {
   })
   description: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   type: string
 
   @ManyToOne(type => ArrivalNotice)
