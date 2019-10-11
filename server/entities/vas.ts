@@ -30,7 +30,7 @@ export class Vas {
   })
   operationGuideType: string
 
-  @Column('text', {
+  @Column({
     nullable: true
   })
   operationGuide: string
