@@ -3,6 +3,7 @@ import { NewVasOrder } from './new-vas-order'
 import { VasOrderPatch } from './vas-order-patch'
 import { VasOrderList } from './vas-order-list'
 import { InventoryDetail } from './inventory-detail'
+import { RelabelResult } from './relabel-result'
 
 export const Mutation = `
   createVasOrder (
@@ -26,6 +27,12 @@ export const Mutation = `
     vasOrder: NewVasOrder!
   ): VasOrder
 
+  relabel (
+    product: ProductPatch!
+    inventory: InventoryPatch!
+    test: Boolean!
+  ): RelabelResult
+
   confirmVasOrder (
     name: String!
   ): VasOrder
@@ -46,4 +53,4 @@ export const Query = `
   vasOrderRequests(filters: [Filter], pagination: Pagination, sortings: [Sorting]): VasOrderList
 `
 
-export const Types = [VasOrder, NewVasOrder, VasOrderPatch, VasOrderList, InventoryDetail]
+export const Types = [VasOrder, NewVasOrder, VasOrderPatch, VasOrderList, InventoryDetail, RelabelResult]
