@@ -6,6 +6,8 @@ export const NewTransportOrderDetail = gql`
     description: String
     collectionOrder: ObjectRef
     deliveryOrder: ObjectRef
+    transportDriver: ObjectRef
+    transportVehicle: ObjectRef
     type: String
   }
 `

@@ -13,6 +13,7 @@ export const claimsResolver = {
         'updater',
         'collectionOrder',
         'collectionOrder.bizplace',
+        'collectionOrder.transportOrderDetails',
         'collectionOrder.transportOrderDetails.transportDriver',
         'collectionOrder.transportOrderDetails.transportVehicle',
         'deliveryOrder',

@@ -7,33 +7,28 @@ export const dispatchDeliveryOrder = {
   async dispatchDeliveryOrder(_: any, { name, orderDetails }, context: any) {
     return await getManager().transaction(async trxMgr => {
       try {
-        const deliveryOrder: DeliveryOrder = await trxMgr.getRepository(DeliveryOrder).findOne({
+        const foundDeliveryOrder: DeliveryOrder = await trxMgr.getRepository(DeliveryOrder).findOne({
           where: { domain: context.state.domain, name }
         })
 
-        if (!deliveryOrder) throw new Error(`Delivery order doesn't exists.`)
-        if (deliveryOrder.status !== ORDER_STATUS.READY_TO_DISPATCH) throw new Error(`Status is not receivable.`)
+        if (!foundDeliveryOrder) throw new Error(`Delivery order doesn't exists.`)
+        if (foundDeliveryOrder.status !== ORDER_STATUS.READY_TO_DISPATCH) throw new Error(`Status is not receivable.`)
 
         // map assigned drivers and vehicles to transportOrderDetail
         const transportOrderDetail = orderDetails.map(async od => {
           return {
+            ...od,
             domain: context.state.domain,
             bizplace: context.state.mainBizplace,
             transportDriver: await trxMgr.getRepository(TransportDriver).findOne({
-              where: {
-                domain: context.state.domain,
-                bizplace: context.state.mainBizplace,
-                name: od.transportDriver.name
-              }
+              domain: context.state.domain,
+              id: od.transportDriver.id
             }),
             transportVehicle: await trxMgr.getRepository(TransportVehicle).findOne({
-              where: {
-                domain: context.state.domain,
-                bizplace: context.state.mainBizplace,
-                name: od.transportVehicle.name
-              }
+              domain: context.state.domain,
+              id: od.transportVehicle.id
             }),
-            deliveryOrder: deliveryOrder,
+            deliveryOrder: foundDeliveryOrder,
             type: ORDER_TYPES.DELIVERY,
             creator: context.state.user,
             updater: context.state.user
@@ -42,12 +37,12 @@ export const dispatchDeliveryOrder = {
         await trxMgr.getRepository(TransportOrderDetail).save(transportOrderDetail)
 
         await trxMgr.getRepository(DeliveryOrder).save({
-          ...deliveryOrder,
+          ...foundDeliveryOrder,
           status: ORDER_STATUS.DELIVERING,
           updater: context.state.user
         })
 
-        return deliveryOrder
+        return foundDeliveryOrder
       } catch (e) {
         throw e
       }
