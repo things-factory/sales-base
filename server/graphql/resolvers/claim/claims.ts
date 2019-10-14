@@ -13,12 +13,12 @@ export const claimsResolver = {
         'updater',
         'collectionOrder',
         'collectionOrder.bizplace',
-        'collectionOrder.transportDriver',
-        'collectionOrder.transportVehicle',
+        'collectionOrder.transportOrderDetails.transportDriver',
+        'collectionOrder.transportOrderDetails.transportVehicle',
         'deliveryOrder',
         'deliveryOrder.bizplace',
-        'deliveryOrder.transportDriver',
-        'deliveryOrder.transportVehicle'
+        'deliveryOrder.transportOrderDetails.transportDriver',
+        'deliveryOrder.transportOrderDetails.transportVehicle'
       ]
     })
 
@@ -27,14 +27,14 @@ export const claimsResolver = {
         item['orderName'] = item.collectionOrder.name
         item['to'] = item.collectionOrder.bizplace.name
         item['from'] = item.collectionOrder.from
-        item['transportDriverName'] = item.collectionOrder.transportDriver.name
-        item['transportVehicleName'] = item.collectionOrder.transportVehicle.name
+        item['transportDriverName'] = item.collectionOrder.transportOrderDetails
+        item['transportVehicleName'] = item.collectionOrder.transportOrderDetails
       } else if (item.deliveryOrder) {
         item['orderName'] = item.deliveryOrder.name
         item['to'] = item.deliveryOrder.to
         item['from'] = item.deliveryOrder.bizplace.name
-        item['transportDriverName'] = item.deliveryOrder.transportDriver.name
-        item['transportVehicleName'] = item.deliveryOrder.transportVehicle.name
+        item['transportDriverName'] = item.deliveryOrder.transportOrderDetails
+        item['transportVehicleName'] = item.deliveryOrder.transportOrderDetails
       }
       return item
     })

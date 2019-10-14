@@ -10,12 +10,12 @@ export const CollectionOrderPatch = gql`
     refNo: String
     loadWeight: Float
     urgency: Boolean
+    looseItem: Boolean
     cargoType: String
     collectionDateTime: String
     collectionDate: String
     arrivalNotice: ObjectRef
-    transportVehicle: ObjectRef
-    transportDriver: ObjectRef
+    transportOrderDetails: [ObjectRef]
     telNo: String
     remark: String
     truckNo: String

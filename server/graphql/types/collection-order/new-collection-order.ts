@@ -12,6 +12,7 @@ export const NewCollectionOrder = gql`
     loadWeight: Float
     urgency: Boolean
     cargoType: String
+    looseItem: Boolean
     arrivalNotice: ObjectRef
     collectionDateTime: String
     collectionDate: String!

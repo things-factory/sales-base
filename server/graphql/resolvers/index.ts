@@ -12,6 +12,7 @@ import * as QuotationItem from './quotation-item'
 import * as QuotationItemOption from './quotation-item-option'
 import * as QuotationPromotion from './quotation-promotion'
 import * as ShippingOrder from './shipping-order'
+import * as TransportOrderDetail from './transport-order-detail'
 import * as ReleaseGood from './release-good'
 import * as Vas from './vas'
 import * as Claim from './claim'
@@ -28,6 +29,7 @@ export const queries = [
   PurchaseOrder.Query,
   DeliveryOrder.Query,
   ShippingOrder.Query,
+  TransportOrderDetail.Query,
   CollectionOrder.Query,
   Vas.Query,
   ArrivalNotice.Query,
@@ -50,6 +52,7 @@ export const mutations = [
   PurchaseOrder.Mutation,
   DeliveryOrder.Mutation,
   ShippingOrder.Mutation,
+  TransportOrderDetail.Mutation,
   CollectionOrder.Mutation,
   Vas.Mutation,
   ArrivalNotice.Mutation,

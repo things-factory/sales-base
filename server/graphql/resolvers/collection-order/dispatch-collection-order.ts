@@ -1,42 +1,47 @@
 import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
-import { getManager, getRepository, In } from 'typeorm'
-import { CollectionOrder, OrderProduct } from '../../../entities'
-import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../constants'
-import { Bizplace } from '@things-factory/biz-base'
+import { getManager, getRepository } from 'typeorm'
+import { ORDER_STATUS, ORDER_TYPES } from '../../../constants'
+import { CollectionOrder, TransportOrderDetail } from '../../../entities'
 
 export const dispatchCollectionOrder = {
-  async dispatchCollectionOrder(_: any, { name, patch }, context: any) {
-    return await getManager().transaction(async () => {
+  async dispatchCollectionOrder(_: any, { name, orderDetails }, context: any) {
+    return await getManager().transaction(async trxMgr => {
       try {
-        const collectionOrder: CollectionOrder = await getRepository(CollectionOrder).findOne({
-          where: { domain: context.state.domain, name },
-          relations: ['transportDriver', 'transportVehicle']
+        const collectionOrder: CollectionOrder = await trxMgr.getRepository(CollectionOrder).findOne({
+          where: { domain: context.state.domain, name }
         })
 
         if (!collectionOrder) throw new Error(`Collection order doesn't exists.`)
         if (collectionOrder.status !== ORDER_STATUS.READY_TO_DISPATCH) throw new Error(`Status is not receivable.`)
 
-        if (patch && patch.transportVehicle && patch.transportVehicle.name) {
-          collectionOrder.transportVehicle = await getRepository(TransportVehicle).findOne({
-            where: {
-              domain: context.state.domain,
-              bizplace: context.state.mainBizplace,
-              name: patch.transportVehicle.name
-            }
-          })
-        }
+        // map assigned drivers and vehicles to transportOrderDetail
+        const transportOrderDetail = orderDetails.map(async od => {
+          return {
+            domain: context.state.domain,
+            bizplace: context.state.mainBizplace,
+            transportDriver: await trxMgr.getRepository(TransportDriver).findOne({
+              where: {
+                domain: context.state.domain,
+                bizplace: context.state.mainBizplace,
+                name: od.transportDriver.name
+              }
+            }),
+            transportVehicle: await trxMgr.getRepository(TransportVehicle).findOne({
+              where: {
+                domain: context.state.domain,
+                bizplace: context.state.mainBizplace,
+                name: od.transportVehicle.name
+              }
+            }),
+            collectionOrder: collectionOrder,
+            type: ORDER_TYPES.COLLECTION,
+            creator: context.state.user,
+            updater: context.state.user
+          }
+        })
+        await trxMgr.getRepository(TransportOrderDetail).save(transportOrderDetail)
 
-        if (patch && patch.transportDriver && patch.transportDriver.name) {
-          collectionOrder.transportDriver = await getRepository(TransportDriver).findOne({
-            where: {
-              domain: context.state.domain,
-              bizplace: context.state.mainBizplace,
-              name: patch.transportDriver.name
-            }
-          })
-        }
-
-        await getRepository(CollectionOrder).save({
+        await trxMgr.getRepository(CollectionOrder).save({
           ...collectionOrder,
           status: ORDER_STATUS.COLLECTING,
           updater: context.state.user
