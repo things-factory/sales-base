@@ -9,6 +9,7 @@ export const NewDeliveryOrder = gql`
     refNo: String
     deliveryDate: String
     deliveryDateTime: String
+    looseItem: Boolean
     telNo: String
     loadWeight: Float
     urgency: Boolean

@@ -1,16 +1,16 @@
-import { getManager, getRepository } from 'typeorm'
-import { ORDER_VAS_STATUS, ORDER_STATUS, ORDER_TYPES } from '../../../constants'
+import { Inventory } from '@things-factory/warehouse-base'
+import { getManager } from 'typeorm'
+import { ORDER_STATUS, ORDER_TYPES, ORDER_VAS_STATUS } from '../../../constants'
 import { OrderVas, Vas, VasOrder } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
-import { Inventory } from '@things-factory/warehouse-base'
 
 export const generateVasOrder = {
   async generateVasOrder(_: any, { vasOrder }, context: any) {
-    return await getManager().transaction(async () => {
+    return await getManager().transaction(async trxMgr => {
       let orderVass: OrderVas[] = vasOrder.orderVass
 
       // 1. Create vas order
-      const createdVasOrder: VasOrder = await getRepository(VasOrder).save({
+      const createdVasOrder: VasOrder = await trxMgr.getRepository(VasOrder).save({
         ...vasOrder,
         name: OrderNoGenerator.vasOrder(),
         domain: context.state.domain,
@@ -27,8 +27,8 @@ export const generateVasOrder = {
             ...ov,
             domain: context.state.domain,
             name: OrderNoGenerator.orderVas(),
-            vas: await getRepository(Vas).findOne({ domain: context.state.domain, id: ov.vas.id }),
-            inventory: await getRepository(Inventory).findOne(ov.inventory.id),
+            vas: await trxMgr.getRepository(Vas).findOne({ domain: context.state.domain, id: ov.vas.id }),
+            inventory: await trxMgr.getRepository(Inventory).findOne(ov.inventory.id),
             vasOrder: createdVasOrder,
             bizplace: context.state.mainBizplace,
             type: ORDER_TYPES.VAS_ORDER,
@@ -38,7 +38,7 @@ export const generateVasOrder = {
           }
         })
       )
-      await getRepository(OrderVas).save(orderVass)
+      await trxMgr.getRepository(OrderVas).save(orderVass)
 
       return createdVasOrder
     })

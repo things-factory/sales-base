@@ -3,8 +3,6 @@ import { Claim } from '../../../entities'
 
 export const claimResolver = {
   async claim(_: any, { id }, context: any) {
-    const repository = getRepository(Claim)
-
     var data = await getRepository(Claim).findOne({
       where: {
         domain: context.state.domain,
@@ -15,12 +13,12 @@ export const claimResolver = {
         'claimDetails',
         'collectionOrder',
         'collectionOrder.bizplace',
-        'collectionOrder.transportDriver',
-        'collectionOrder.transportVehicle',
+        'collectionOrder.transportOrderDetails.transportDriver',
+        'collectionOrder.transportOrderDetails.transportVehicle',
         'deliveryOrder',
         'deliveryOrder.bizplace',
-        'deliveryOrder.transportDriver',
-        'deliveryOrder.transportVehicle',
+        'deliveryOrder.transportOrderDetails.transportDriver',
+        'deliveryOrder.transportOrderDetails.transportVehicle',
         'creator',
         'updater'
       ]
@@ -30,15 +28,15 @@ export const claimResolver = {
       data['orderName'] = data.collectionOrder.name
       data['to'] = data.collectionOrder.bizplace.name
       data['from'] = data.collectionOrder.from
-      data['transportDriverName'] = data.collectionOrder.transportDriver.name
-      data['transportVehicleName'] = data.collectionOrder.transportVehicle.name
+      data['transportDriverName'] = data.collectionOrder.transportOrderDetails
+      data['transportVehicleName'] = data.collectionOrder.transportOrderDetails
       data['orderDate'] = data.collectionOrder.collectionDate
     } else if (data.deliveryOrder) {
       data['orderName'] = data.deliveryOrder.name
       data['to'] = data.deliveryOrder.to
       data['from'] = data.deliveryOrder.bizplace.name
-      data['transportDriverName'] = data.deliveryOrder.transportDriver.name
-      data['transportVehicleName'] = data.deliveryOrder.transportVehicle.name
+      data['transportDriverName'] = data.deliveryOrder.transportOrderDetails
+      data['transportVehicleName'] = data.deliveryOrder.transportOrderDetails
       data['orderDate'] = data.deliveryOrder.deliveryDate
     }
 

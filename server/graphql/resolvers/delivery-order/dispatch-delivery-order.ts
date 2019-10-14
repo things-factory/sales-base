@@ -1,47 +1,48 @@
 import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
-import { getManager, getRepository } from 'typeorm'
-import { ORDER_STATUS } from '../../../constants'
-import { DeliveryOrder } from '../../../entities'
+import { getManager } from 'typeorm'
+import { ORDER_STATUS, ORDER_TYPES } from '../../../constants'
+import { DeliveryOrder, TransportOrderDetail } from '../../../entities'
 
 export const dispatchDeliveryOrder = {
-  async dispatchDeliveryOrder(_: any, { name, patch }, context: any) {
-    return await getManager().transaction(async () => {
+  async dispatchDeliveryOrder(_: any, { name, orderDetails }, context: any) {
+    return await getManager().transaction(async trxMgr => {
       try {
-        const deliveryOrder: DeliveryOrder = await getRepository(DeliveryOrder).findOne({
-          where: { domain: context.state.domain, name },
-          relations: ['transportDriver', 'transportVehicle']
+        const foundDeliveryOrder: DeliveryOrder = await trxMgr.getRepository(DeliveryOrder).findOne({
+          where: { domain: context.state.domain, name }
         })
 
-        if (!deliveryOrder) throw new Error(`Delivery order doesn't exists.`)
-        if (deliveryOrder.status !== ORDER_STATUS.READY_TO_DISPATCH) throw new Error(`Status is not receivable.`)
+        if (!foundDeliveryOrder) throw new Error(`Delivery order doesn't exists.`)
+        if (foundDeliveryOrder.status !== ORDER_STATUS.READY_TO_DISPATCH) throw new Error(`Status is not receivable.`)
 
-        if (patch && patch.transportVehicle && patch.transportVehicle.name) {
-          deliveryOrder.transportVehicle = await getRepository(TransportVehicle).findOne({
-            where: {
+        // map assigned drivers and vehicles to transportOrderDetail
+        const transportOrderDetail = orderDetails.map(async od => {
+          return {
+            ...od,
+            domain: context.state.domain,
+            bizplace: context.state.mainBizplace,
+            transportDriver: await trxMgr.getRepository(TransportDriver).findOne({
               domain: context.state.domain,
-              bizplace: context.state.mainBizplace,
-              name: patch.transportVehicle.name
-            }
-          })
-        }
-
-        if (patch && patch.transportDriver && patch.transportDriver.name) {
-          deliveryOrder.transportDriver = await getRepository(TransportDriver).findOne({
-            where: {
+              id: od.transportDriver.id
+            }),
+            transportVehicle: await trxMgr.getRepository(TransportVehicle).findOne({
               domain: context.state.domain,
-              bizplace: context.state.mainBizplace,
-              name: patch.transportDriver.name
-            }
-          })
-        }
+              id: od.transportVehicle.id
+            }),
+            deliveryOrder: foundDeliveryOrder,
+            type: ORDER_TYPES.DELIVERY,
+            creator: context.state.user,
+            updater: context.state.user
+          }
+        })
+        await trxMgr.getRepository(TransportOrderDetail).save(transportOrderDetail)
 
-        await getRepository(DeliveryOrder).save({
-          ...deliveryOrder,
+        await trxMgr.getRepository(DeliveryOrder).save({
+          ...foundDeliveryOrder,
           status: ORDER_STATUS.DELIVERING,
           updater: context.state.user
         })
 
-        return deliveryOrder
+        return foundDeliveryOrder
       } catch (e) {
         throw e
       }
