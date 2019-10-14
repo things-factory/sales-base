@@ -8,7 +8,7 @@ export const DeliveryOrderPatch = gql`
     from: String
     to: String
     refNo: String
-    loadWeight: Float
+    loadWeight: Int
     urgency: Boolean
     cargoType: String
     deliveryDate: String

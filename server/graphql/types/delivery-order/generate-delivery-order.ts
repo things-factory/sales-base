@@ -6,7 +6,7 @@ export const GenerateDeliveryOrder = gql`
     from: String
     to: String
     truckNo: String
-    loadWeight: Float
+    loadWeight: Int
     urgency: Boolean
     cargoType: String
     refNo: String
