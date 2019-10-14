@@ -9,5 +9,6 @@ export const NewTransportOrderDetail = gql`
     transportDriver: ObjectRef
     transportVehicle: ObjectRef
     type: String
+    assignedLoad: Int
   }
 `

@@ -33,6 +33,9 @@ export class TransportOrderDetail {
   @Column()
   type: string
 
+  @Column('float')
+  assignedLoad: number
+
   @ManyToOne(type => CollectionOrder)
   collectionOrder: CollectionOrder
 

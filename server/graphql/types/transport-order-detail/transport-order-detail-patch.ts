@@ -10,5 +10,6 @@ export const TransportOrderDetailPatch = gql`
     deliveryOrder: ObjectRef
     transportDriver: ObjectRef
     transportVehicle: ObjectRef
+    assignedLoad: Int
   }
 `

@@ -12,6 +12,7 @@ export const TransportOrderDetail = gql`
     deliveryOrder: DeliveryOrder
     transportDriver: TransportDriver
     transportVehicle: TransportVehicle
+    assignedLoad: Int
     updater: User
     creator: User
     updatedAt: String
