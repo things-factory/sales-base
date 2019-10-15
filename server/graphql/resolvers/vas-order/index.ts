@@ -9,7 +9,6 @@ import { deleteVasOrders } from './delete-vas-orders'
 import { generateVasOrder } from './generate-vas-order'
 import { confirmVasOrder } from './confirm-vas-order'
 import { rejectVasOrder } from './reject-vas-order'
-import { relabel } from './relabel'
 
 export const Query = {
   ...vasOrdersResolver,
@@ -24,6 +23,5 @@ export const Mutation = {
   ...deleteVasOrders,
   ...generateVasOrder,
   ...confirmVasOrder,
-  ...rejectVasOrder,
-  ...relabel
+  ...rejectVasOrder
 }

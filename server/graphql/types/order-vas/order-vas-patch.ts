@@ -12,6 +12,7 @@ export const OrderVasPatch = gql`
     shippingOrder: ObjectRef
     inventory: ObjectRef
     vas: ObjectRef
+    operationGuide: String
     remark: String
     description: String
     status: String
