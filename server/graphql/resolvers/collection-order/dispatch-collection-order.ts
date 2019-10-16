@@ -3,13 +3,12 @@ import { getManager, getRepository } from 'typeorm'
 import { ORDER_STATUS, ORDER_TYPES } from '../../../constants'
 import { CollectionOrder, TransportOrderDetail } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils'
-import { collectionOrderRequestsResolver } from './collection-order-requests'
 
 export const dispatchCollectionOrder = {
   async dispatchCollectionOrder(_: any, { collectionOrder }, context: any) {
-    return await getManager().transaction(async () => {
+    return await getManager().transaction(async trxMgr => {
       try {
-        const foundCollectionOrder: CollectionOrder = await getRepository(CollectionOrder).findOne({
+        const foundCollectionOrder: CollectionOrder = await trxMgr.getRepository(CollectionOrder).findOne({
           where: { domain: context.state.domain, name: collectionOrder.name }
         })
 
@@ -23,11 +22,11 @@ export const dispatchCollectionOrder = {
             domain: context.state.domain,
             bizplace: context.state.mainBizplace,
             name: OrderNoGenerator.transportOrderDetail(),
-            transportDriver: await getRepository(TransportDriver).findOne({
+            transportDriver: await trxMgr.getRepository(TransportDriver).findOne({
               domain: context.state.domain,
               id: od.transportDriver.id
             }),
-            transportVehicle: await getRepository(TransportVehicle).findOne({
+            transportVehicle: await trxMgr.getRepository(TransportVehicle).findOne({
               domain: context.state.domain,
               id: od.transportVehicle.id
             }),
@@ -37,9 +36,9 @@ export const dispatchCollectionOrder = {
             updater: context.state.user
           }
         })
-        await getRepository(TransportOrderDetail).save(transportOrderDetail)
+        await trxMgr.getRepository(TransportOrderDetail).save(transportOrderDetail)
 
-        await getRepository(CollectionOrder).save({
+        await trxMgr.getRepository(CollectionOrder).save({
           ...foundCollectionOrder,
           status: ORDER_STATUS.COLLECTING,
           updater: context.state.user
