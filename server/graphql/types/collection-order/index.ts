@@ -37,8 +37,7 @@ export const Mutation = `
   ): CollectionOrder
 
   dispatchCollectionOrder (
-    name: String!
-    orderDetails: TransportOrderDetailPatch
+    collectionOrder: CollectionOrderPatch
   ): CollectionOrder
 
   rejectCollectionOrder (

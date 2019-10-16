@@ -2,29 +2,32 @@ import { TransportDriver, TransportVehicle } from '@things-factory/transport-bas
 import { getManager, getRepository } from 'typeorm'
 import { ORDER_STATUS, ORDER_TYPES } from '../../../constants'
 import { CollectionOrder, TransportOrderDetail } from '../../../entities'
+import { OrderNoGenerator } from 'server/utils'
+import { collectionOrderRequestsResolver } from './collection-order-requests'
 
 export const dispatchCollectionOrder = {
-  async dispatchCollectionOrder(_: any, { name, orderDetails }, context: any) {
-    return await getManager().transaction(async trxMgr => {
+  async dispatchCollectionOrder(_: any, { collectionOrder }, context: any) {
+    return await getManager().transaction(async () => {
       try {
-        const foundCollectionOrder: CollectionOrder = await trxMgr.getRepository(CollectionOrder).findOne({
-          where: { domain: context.state.domain, name }
+        const foundCollectionOrder: CollectionOrder = await getRepository(CollectionOrder).findOne({
+          where: { domain: context.state.domain, name: collectionOrder.name }
         })
 
         if (!foundCollectionOrder) throw new Error(`Collection order doesn't exists.`)
         if (foundCollectionOrder.status !== ORDER_STATUS.READY_TO_DISPATCH) throw new Error(`Status is not receivable.`)
 
         // map assigned drivers and vehicles to transportOrderDetail
-        const transportOrderDetail = orderDetails.map(async od => {
+        const transportOrderDetail = collectionOrder.transportOrderDetails.map(async od => {
           return {
             ...od,
             domain: context.state.domain,
             bizplace: context.state.mainBizplace,
-            transportDriver: await trxMgr.getRepository(TransportDriver).findOne({
+            name: OrderNoGenerator.transportOrderDetail(),
+            transportDriver: await getRepository(TransportDriver).findOne({
               domain: context.state.domain,
               id: od.transportDriver.id
             }),
-            transportVehicle: await trxMgr.getRepository(TransportVehicle).findOne({
+            transportVehicle: await getRepository(TransportVehicle).findOne({
               domain: context.state.domain,
               id: od.transportVehicle.id
             }),
@@ -34,9 +37,9 @@ export const dispatchCollectionOrder = {
             updater: context.state.user
           }
         })
-        await trxMgr.getRepository(TransportOrderDetail).save(transportOrderDetail)
+        await getRepository(TransportOrderDetail).save(transportOrderDetail)
 
-        await trxMgr.getRepository(CollectionOrder).save({
+        await getRepository(CollectionOrder).save({
           ...foundCollectionOrder,
           status: ORDER_STATUS.COLLECTING,
           updater: context.state.user

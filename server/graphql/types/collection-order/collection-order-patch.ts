@@ -15,7 +15,7 @@ export const CollectionOrderPatch = gql`
     collectionDateTime: String
     collectionDate: String
     arrivalNotice: ObjectRef
-    transportOrderDetails: [ObjectRef]
+    transportOrderDetails: [NewTransportOrderDetail]
     telNo: String
     remark: String
     truckNo: String

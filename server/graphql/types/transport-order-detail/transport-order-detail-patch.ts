@@ -2,7 +2,6 @@ import { gql } from 'apollo-server-koa'
 
 export const TransportOrderDetailPatch = gql`
   input TransportOrderDetailPatch {
-    id: String
     name: String
     type: String
     description: String
@@ -10,6 +9,6 @@ export const TransportOrderDetailPatch = gql`
     deliveryOrder: ObjectRef
     transportDriver: ObjectRef
     transportVehicle: ObjectRef
-    assignedLoad: Int
+    assignedLoad: Float
   }
 `

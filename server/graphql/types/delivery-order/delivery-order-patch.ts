@@ -14,7 +14,7 @@ export const DeliveryOrderPatch = gql`
     deliveryDate: String
     deliveryDateTime: String
     looseItem: Boolean
-    transportOrderDetails: [ObjectRef]
+    transportOrderDetails: [NewTransportOrderDetail]
     remark: String
     telNo: String
     status: String
