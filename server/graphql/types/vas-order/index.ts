@@ -1,4 +1,3 @@
-import { InventoryDetail } from './inventory-detail'
 import { NewVasOrder } from './new-vas-order'
 import { VasOrder } from './vas-order'
 import { VasOrderList } from './vas-order-list'
@@ -46,4 +45,4 @@ export const Query = `
   vasOrderRequests(filters: [Filter], pagination: Pagination, sortings: [Sorting]): VasOrderList
 `
 
-export const Types = [VasOrder, NewVasOrder, VasOrderPatch, VasOrderList, InventoryDetail]
+export const Types = [VasOrder, NewVasOrder, VasOrderPatch, VasOrderList]
