@@ -2,7 +2,7 @@ import { TransportDriver, TransportVehicle } from '@things-factory/transport-bas
 import { getManager, getRepository } from 'typeorm'
 import { ORDER_STATUS, ORDER_TYPES } from '../../../constants'
 import { CollectionOrder, TransportOrderDetail } from '../../../entities'
-import { OrderNoGenerator } from 'server/utils'
+import { OrderNoGenerator } from '../../../utils'
 import { collectionOrderRequestsResolver } from './collection-order-requests'
 
 export const dispatchCollectionOrder = {
