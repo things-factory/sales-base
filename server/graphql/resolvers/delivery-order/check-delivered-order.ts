@@ -8,7 +8,7 @@ export const checkDeliveredOrder = {
       try {
         const deliveryOrder: DeliveryOrder = await getRepository(DeliveryOrder).findOne({
           where: { domain: context.state.domain, name },
-          relations: ['transportDriver', 'transportVehicle']
+          relations: ['transportOrderDetails']
         })
 
         if (!deliveryOrder) throw new Error(`Delivery order doesn't exists.`)
