@@ -14,7 +14,7 @@ export const CollectionOrder = gql`
     transportOrderDetails: [TransportOrderDetail]
     collectionDateTime: String
     collectionDate: String
-    loadWeight: Int
+    loadWeight: Float
     urgency: Boolean
     looseItem: Boolean
     cargoType: String

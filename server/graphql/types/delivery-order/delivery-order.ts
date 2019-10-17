@@ -6,7 +6,7 @@ export const DeliveryOrder = gql`
     domain: Domain
     bizplace: Bizplace
     name: String
-    loadWeight: Int
+    loadWeight: Float
     urgency: Boolean
     cargoType: String
     truckNo: String
