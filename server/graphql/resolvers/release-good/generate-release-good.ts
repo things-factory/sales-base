@@ -39,13 +39,7 @@ export const generateReleaseGood = {
             domain: context.state.domain,
             bizplace: context.state.mainBizplace,
             name: OrderNoGenerator.orderInventory(),
-            inventory: await getRepository(Inventory).findOne({
-              where: {
-                domain: context.state.domain,
-                bizplace: context.state.mainBizplace,
-                name: orderInventory.inventory.name
-              }
-            }),
+            inventory: await getRepository(Inventory).findOne(orderInventory.inventory.id),
             releaseGood: createdReleaseGood,
             status: ORDER_PRODUCT_STATUS.PENDING,
             creator: context.state.user,
