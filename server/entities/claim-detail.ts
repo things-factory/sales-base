@@ -6,6 +6,7 @@ import {
   Column,
   OneToMany,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn
 } from 'typeorm'
 import { Domain } from '@things-factory/shell'

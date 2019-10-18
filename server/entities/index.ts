@@ -16,6 +16,7 @@ import { ShippingOrder } from './shipping-order'
 import { Vas } from './vas'
 import { Claim } from './claim'
 import { ClaimDetail } from './claim-detail'
+import { ClaimOrder } from './claim-order'
 import { VasOrder } from './vas-order'
 
 export const entities = [
@@ -37,6 +38,7 @@ export const entities = [
   Vas,
   Claim,
   ClaimDetail,
+  ClaimOrder,
   VasOrder
 ]
 
@@ -59,5 +61,6 @@ export {
   Vas,
   Claim,
   ClaimDetail,
+  ClaimOrder,
   VasOrder
 }

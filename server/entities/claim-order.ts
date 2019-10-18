@@ -13,12 +13,13 @@ import {
 import { Domain } from '@things-factory/shell'
 import { User } from '@things-factory/auth-base'
 
-import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
-import { ClaimDetail } from '.'
+import { Claim } from '.'
+import { CollectionOrder } from '.'
+import { DeliveryOrder } from '.'
 
 @Entity()
-@Index('ix_claim_0', (claim: Claim) => [claim.domain, claim.name], { unique: true })
-export class Claim {
+@Index('ix_claim-order_0', (claimOrder: ClaimOrder) => [claimOrder.domain, claimOrder.id], { unique: true })
+export class ClaimOrder {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
@@ -33,28 +34,22 @@ export class Claim {
   })
   description: string
 
-  @Column()
-  billingMode: string
-
-  @Column()
-  charges: number
-
   @CreateDateColumn()
   createdAt: Date
 
   @UpdateDateColumn()
   updatedAt: Date
 
-  @OneToMany(type => ClaimDetail, claimDetail => claimDetail.claim)
-  claimDetails: ClaimDetail[]
+  @ManyToOne(type => Claim)
+  claim: Claim
 
-  @OneToOne(type => TransportDriver, { nullable: true })
+  @OneToOne(type => CollectionOrder, { nullable: true })
   @JoinColumn()
-  transportDriver: TransportDriver
+  collectionOrder: CollectionOrder
 
-  @OneToOne(type => TransportVehicle, { nullable: true })
+  @OneToOne(type => DeliveryOrder, { nullable: true })
   @JoinColumn()
-  transportVehicle: TransportVehicle
+  deliveryOrder: DeliveryOrder
 
   @ManyToOne(type => User, {
     nullable: true
