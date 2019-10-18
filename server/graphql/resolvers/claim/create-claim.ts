@@ -61,6 +61,7 @@ export const createClaim = {
           }
         })
       )
+
       await transactionalEntityManager.getRepository(ClaimDetail).save(claimDetails)
       //Save All Data//
 

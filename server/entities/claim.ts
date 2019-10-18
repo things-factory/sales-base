@@ -17,7 +17,7 @@ import { TransportDriver, TransportVehicle } from '@things-factory/transport-bas
 import { ClaimDetail } from '.'
 
 @Entity()
-@Index('ix_claim_0', (claim: Claim) => [claim.domain, claim.name], { unique: true })
+@Index('ix_claim_0', (claim: Claim) => [claim.domain, claim.id], { unique: true })
 export class Claim {
   @PrimaryGeneratedColumn('uuid')
   id: string
@@ -33,10 +33,29 @@ export class Claim {
   })
   description: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   billingMode: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
+  from: string
+
+  @Column({
+    nullable: true
+  })
+  to: string
+
+  @Column({
+    nullable: true
+  })
+  remark: string
+
+  @Column({
+    nullable: true
+  })
   charges: number
 
   @CreateDateColumn()

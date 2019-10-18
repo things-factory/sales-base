@@ -30,7 +30,9 @@ export class ClaimDetail {
   })
   description: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   refNo: String
 
   @Column('float')

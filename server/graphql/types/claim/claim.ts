@@ -17,8 +17,6 @@ export const Claim = gql`
     creator: User
     updatedAt: String
     createdAt: String
-    collectionOrder: CollectionOrder
-    deliveryOrder: DeliveryOrder
     claimDetails: [ClaimDetail]
   }
 `
