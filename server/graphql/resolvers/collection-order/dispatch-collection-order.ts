@@ -1,48 +1,55 @@
 import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
-import { getManager, getRepository, In } from 'typeorm'
-import { CollectionOrder, OrderProduct } from '../../../entities'
-import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../constants'
-import { Bizplace } from '@things-factory/biz-base'
+import { getManager, getRepository } from 'typeorm'
+import { ORDER_STATUS, ORDER_TYPES } from '../../../constants'
+import { CollectionOrder, TransportOrderDetail } from '../../../entities'
+import { OrderNoGenerator } from '../../../utils'
 
 export const dispatchCollectionOrder = {
-  async dispatchCollectionOrder(_: any, { name, patch }, context: any) {
-    return await getManager().transaction(async () => {
+  async dispatchCollectionOrder(_: any, { orderInfo }, context: any) {
+    return await getManager().transaction(async trxMgr => {
+      let transportOrderDetails: TransportOrderDetail[] = orderInfo.transportOrderDetails
+
       try {
-        const collectionOrder: CollectionOrder = await getRepository(CollectionOrder).findOne({
-          where: { domain: context.state.domain, name },
-          relations: ['transportDriver', 'transportVehicle']
+        const foundCollectionOrder: CollectionOrder = await trxMgr.getRepository(CollectionOrder).findOne({
+          where: { domain: context.state.domain, name: orderInfo.name }
         })
 
-        if (!collectionOrder) throw new Error(`Collection order doesn't exists.`)
-        if (collectionOrder.status !== ORDER_STATUS.READY_TO_DISPATCH) throw new Error(`Status is not receivable.`)
+        if (!foundCollectionOrder) throw new Error(`Collection order doesn't exists.`)
+        if (foundCollectionOrder.status !== ORDER_STATUS.READY_TO_DISPATCH) throw new Error(`Status is not receivable.`)
 
-        if (patch && patch.transportVehicle && patch.transportVehicle.name) {
-          collectionOrder.transportVehicle = await getRepository(TransportVehicle).findOne({
-            where: {
+        // map assigned drivers and vehicles to transportOrderDetail
+        // 2. Create transportOrderDetails
+        transportOrderDetails = await Promise.all(
+          transportOrderDetails.map(async (tod: TransportOrderDetail) => {
+            return {
+              ...tod,
               domain: context.state.domain,
               bizplace: context.state.mainBizplace,
-              name: patch.transportVehicle.name
+              name: OrderNoGenerator.transportOrderDetail(),
+              transportDriver: await trxMgr.getRepository(TransportDriver).findOne({
+                domain: context.state.domain,
+                id: tod.transportDriver.id
+              }),
+              transportVehicle: await trxMgr.getRepository(TransportVehicle).findOne({
+                domain: context.state.domain,
+                id: tod.transportVehicle.id
+              }),
+              collectionOrder: foundCollectionOrder,
+              type: ORDER_TYPES.DELIVERY,
+              creator: context.state.user,
+              updater: context.state.user
             }
           })
-        }
+        )
+        await trxMgr.getRepository(TransportOrderDetail).save(transportOrderDetails)
 
-        if (patch && patch.transportDriver && patch.transportDriver.name) {
-          collectionOrder.transportDriver = await getRepository(TransportDriver).findOne({
-            where: {
-              domain: context.state.domain,
-              bizplace: context.state.mainBizplace,
-              name: patch.transportDriver.name
-            }
-          })
-        }
-
-        await getRepository(CollectionOrder).save({
-          ...collectionOrder,
+        await trxMgr.getRepository(CollectionOrder).save({
+          ...foundCollectionOrder,
           status: ORDER_STATUS.COLLECTING,
           updater: context.state.user
         })
 
-        return collectionOrder
+        return foundCollectionOrder
       } catch (e) {
         throw e
       }

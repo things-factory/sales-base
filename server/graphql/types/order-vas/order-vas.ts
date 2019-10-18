@@ -14,6 +14,7 @@ export const OrderVas = gql`
     shippingOrder: ShippingOrder
     inventory: Inventory
     vas: Vas
+    operationGuide: String
     remark: String
     description: String
     status: String

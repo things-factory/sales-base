@@ -13,8 +13,8 @@ export const DeliveryOrderPatch = gql`
     cargoType: String
     deliveryDate: String
     deliveryDateTime: String
-    transportVehicle: ObjectRef
-    transportDriver: ObjectRef
+    looseItem: Boolean
+    transportOrderDetails: [NewTransportOrderDetail]
     remark: String
     telNo: String
     status: String

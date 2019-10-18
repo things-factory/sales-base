@@ -70,6 +70,11 @@ export class OrderVas {
   })
   vas: Vas
 
+  @Column('text', {
+    nullable: true
+  })
+  operationGuide: string
+
   @ManyToOne(type => Inventory)
   inventory: Inventory
 

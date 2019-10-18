@@ -1,10 +1,9 @@
-import { getRepository, In } from 'typeorm'
-import { VasOrder, OrderVas, Vas } from '../../../entities'
 import { Bizplace } from '@things-factory/biz-base'
-import { Inventory } from '@things-factory/warehouse-base'
+import { getRepository, In } from 'typeorm'
+import { VasOrder } from '../../../entities'
 export const vasOrderResolver = {
   async vasOrder(_: any, { name }, context: any) {
-    const vasOrder: VasOrder = await getRepository(VasOrder).findOne({
+    return await getRepository(VasOrder).findOne({
       where: {
         domain: context.state.domain,
         name,
@@ -22,20 +21,5 @@ export const vasOrderResolver = {
         'updater'
       ]
     })
-
-    return {
-      ...vasOrder,
-      inventoryDetail: vasOrder.orderVass.map((orderVas: OrderVas) => {
-        const inventory: Inventory = orderVas.inventory
-        return {
-          ...orderVas,
-          inventoryId: inventory.id,
-          batchId: inventory.batchId,
-          product: inventory.product,
-          name: inventory.name,
-          location: inventory.location
-        }
-      })
-    }
   }
 }

@@ -19,8 +19,6 @@ export const Mutation = `
 
   generateArrivalNotice (
     arrivalNotice: NewArrivalNotice!
-    collectionOrder: NewCollectionOrder
-    attachment: Upload
   ): ArrivalNotice
 
   confirmArrivalNotice (

@@ -8,6 +8,8 @@ export const Vas = gql`
     description: String
     defaultPrice: Float
     currency: String
+    operationGuideType: String
+    operationGuide: String
     creator: User
     updater: User
     createdAt: String

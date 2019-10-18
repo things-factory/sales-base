@@ -1,11 +1,11 @@
-import { getManager, getRepository } from 'typeorm'
+import { getManager } from 'typeorm'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
 import { ArrivalNotice, OrderProduct, OrderVas } from '../../../entities'
 
 export const confirmArrivalNotice = {
   async confirmArrivalNotice(_: any, { name }, context: any) {
-    return await getManager().transaction(async () => {
-      const foundArrivalNotice: ArrivalNotice = await getRepository(ArrivalNotice).findOne({
+    return await getManager().transaction(async trxMgr => {
+      const foundArrivalNotice: ArrivalNotice = await trxMgr.getRepository(ArrivalNotice).findOne({
         where: { domain: context.state.domain, name },
         relations: ['orderProducts', 'orderProducts.product', 'orderVass', 'orderVass.vas', 'creator', 'updater']
       })
@@ -17,7 +17,7 @@ export const confirmArrivalNotice = {
       if (foundArrivalNotice.status !== ORDER_STATUS.PENDING) throw new Error('Not confirmable status.')
 
       // 1. GAN Status change (PENDING => PENDING_RECEIVE)
-      const arrivalNotice: ArrivalNotice = await getRepository(ArrivalNotice).save({
+      const arrivalNotice: ArrivalNotice = await trxMgr.getRepository(ArrivalNotice).save({
         ...foundArrivalNotice,
         status: ORDER_STATUS.PENDING_RECEIVE,
         updater: context.state.user
@@ -26,7 +26,7 @@ export const confirmArrivalNotice = {
       foundOPs = foundOPs.map((op: OrderProduct) => {
         return { ...op, status: ORDER_PRODUCT_STATUS.PENDING_RECEIVE }
       })
-      await getRepository(OrderProduct).save(foundOPs)
+      await trxMgr.getRepository(OrderProduct).save(foundOPs)
 
       // 2. Update order vas status if it exists.
       if (foundOVs && foundOVs.length) {
@@ -34,7 +34,7 @@ export const confirmArrivalNotice = {
           return { ...ov, status: ORDER_VAS_STATUS.PENDING_RECEIVE }
         })
 
-        await getRepository(OrderVas).save(foundOVs)
+        await trxMgr.getRepository(OrderVas).save(foundOVs)
       }
       return arrivalNotice
     })

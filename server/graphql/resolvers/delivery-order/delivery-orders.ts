@@ -10,7 +10,7 @@ export const deliveryOrdersResolver = {
 
     const [items, total] = await getRepository(DeliveryOrder).findAndCount({
       ...convertedParams,
-      relations: ['domain', 'bizplace', 'transportDriver', 'transportVehicle', 'creator', 'updater']
+      relations: ['domain', 'bizplace', 'transportOrderDetails', 'creator', 'updater']
     })
 
     return { items, total }

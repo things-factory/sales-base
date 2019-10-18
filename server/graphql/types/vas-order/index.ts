@@ -1,8 +1,7 @@
-import { VasOrder } from './vas-order'
 import { NewVasOrder } from './new-vas-order'
-import { VasOrderPatch } from './vas-order-patch'
+import { VasOrder } from './vas-order'
 import { VasOrderList } from './vas-order-list'
-import { InventoryDetail } from './inventory-detail'
+import { VasOrderPatch } from './vas-order-patch'
 
 export const Mutation = `
   createVasOrder (
@@ -46,4 +45,4 @@ export const Query = `
   vasOrderRequests(filters: [Filter], pagination: Pagination, sortings: [Sorting]): VasOrderList
 `
 
-export const Types = [VasOrder, NewVasOrder, VasOrderPatch, VasOrderList, InventoryDetail]
+export const Types = [VasOrder, NewVasOrder, VasOrderPatch, VasOrderList]

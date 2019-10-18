@@ -23,6 +23,10 @@ export class OrderNoGenerator {
     return `OP-${uuid()}`
   }
 
+  static transportOrderDetail() {
+    return uuid()
+  }
+
   static orderInventory() {
     return uuid()
   }

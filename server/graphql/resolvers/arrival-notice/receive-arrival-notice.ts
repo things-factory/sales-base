@@ -1,12 +1,12 @@
-import { getManager, getRepository } from 'typeorm'
-import { ArrivalNotice, CollectionOrder, OrderProduct, OrderVas } from '../../../entities'
+import { getManager } from 'typeorm'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
+import { ArrivalNotice, CollectionOrder, OrderProduct, OrderVas } from '../../../entities'
 
 export const receiveArrivalNotice = {
   async receiveArrivalNotice(_: any, { name }, context: any) {
-    return await getManager().transaction(async () => {
+    return await getManager().transaction(async trxMgr => {
       try {
-        const foundArrivalNotice: ArrivalNotice = await getRepository(ArrivalNotice).findOne({
+        const foundArrivalNotice: ArrivalNotice = await trxMgr.getRepository(ArrivalNotice).findOne({
           where: { domain: context.state.domain, name, status: ORDER_STATUS.PENDING_RECEIVE },
           relations: ['collectionOrders', 'orderProducts', 'orderVass']
         })
@@ -15,7 +15,7 @@ export const receiveArrivalNotice = {
 
         let foundOPs: OrderProduct[] = foundArrivalNotice.orderProducts
         let foundOVs: OrderVas[] = foundArrivalNotice.orderVass
-        let foundCOs: CollectionOrder[] = await getRepository(CollectionOrder).find({
+        let foundCOs: CollectionOrder[] = await trxMgr.getRepository(CollectionOrder).find({
           where: { domain: context.state.domain, refNo: foundArrivalNotice.name }
         })
 
@@ -27,7 +27,7 @@ export const receiveArrivalNotice = {
             updater: context.state.user
           }
         })
-        await getRepository(OrderProduct).save(foundOPs)
+        await trxMgr.getRepository(OrderProduct).save(foundOPs)
 
         // 2. Update status of order vass if it exists (PENDING_RECEIVE => INTRANSIT)
         if (foundOVs && foundOVs.length) {
@@ -38,7 +38,7 @@ export const receiveArrivalNotice = {
               updater: context.state.user
             }
           })
-          await getRepository(OrderVas).save(foundOVs)
+          await trxMgr.getRepository(OrderVas).save(foundOVs)
         }
 
         // 3. If there's collection order, update status of collection order (PENDING_RECEIVE => READY_TO_DISPATCH)
@@ -53,7 +53,7 @@ export const receiveArrivalNotice = {
         }
 
         // 4. Update status of arrival notice (PENDING_RECEIVE => INTRANSIT)
-        await getRepository(ArrivalNotice).save({
+        await trxMgr.getRepository(ArrivalNotice).save({
           ...foundArrivalNotice,
           status: ORDER_STATUS.INTRANSIT,
           updater: context.state.user

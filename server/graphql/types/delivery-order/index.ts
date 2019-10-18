@@ -37,8 +37,7 @@ export const Mutation = `
   ): DeliveryOrder
 
   dispatchDeliveryOrder (
-    name: String!
-    patch: DeliveryOrderPatch
+    orderInfo: DeliveryOrderPatch
   ): DeliveryOrder
 
   rejectDeliveryOrder (

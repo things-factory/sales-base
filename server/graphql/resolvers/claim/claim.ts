@@ -3,8 +3,6 @@ import { Claim } from '../../../entities'
 
 export const claimResolver = {
   async claim(_: any, { id }, context: any) {
-    const repository = getRepository(Claim)
-
     var data = await getRepository(Claim).findOne({
       where: {
         domain: context.state.domain,
@@ -12,6 +10,7 @@ export const claimResolver = {
       },
       relations: ['domain', 'claimDetails', 'creator', 'updater']
     })
+
     return data
   }
 }

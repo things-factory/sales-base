@@ -25,6 +25,16 @@ export class Vas {
   @Column('float')
   defaultPrice: number
 
+  @Column({
+    nullable: true
+  })
+  operationGuideType: string
+
+  @Column({
+    nullable: true
+  })
+  operationGuide: string
+
   @CreateDateColumn()
   createdAt: Date
 

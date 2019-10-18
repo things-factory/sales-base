@@ -11,12 +11,12 @@ export const CollectionOrder = gql`
     truckNo: String
     refNo: String
     arrivalNotice: ArrivalNotice
-    transportVehicle: TransportVehicle
-    transportDriver: TransportDriver
+    transportOrderDetails: [TransportOrderDetail]
     collectionDateTime: String
     collectionDate: String
     loadWeight: Float
     urgency: Boolean
+    looseItem: Boolean
     cargoType: String
     attachments: [Attachment]
     remark: String
