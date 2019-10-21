@@ -81,7 +81,9 @@ export class OrderVas {
   })
   type: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   remark: string
 
   @Column({
