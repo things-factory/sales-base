@@ -65,9 +65,7 @@ export class OrderVas {
   @ManyToOne(type => VasOrder)
   vasOrder: VasOrder
 
-  @ManyToOne(type => Vas, {
-    nullable: false
-  })
+  @ManyToOne(type => Vas)
   vas: Vas
 
   @Column('text', {
