@@ -19,6 +19,7 @@ import * as Claim from './claim'
 import * as ClaimDetail from './claim-detail'
 import * as ClaimOrder from './claim-order'
 import * as VasOrder from './vas-order'
+import * as GoodsReceivalNote from './goods-receival-note'
 
 export const queries = [
   Quotation.Query,
@@ -41,7 +42,8 @@ export const queries = [
   Claim.Query,
   ClaimDetail.Query,
   ClaimOrder.Query,
-  VasOrder.Query
+  VasOrder.Query,
+  GoodsReceivalNote.Query
 ]
 
 export const mutations = [
@@ -65,5 +67,6 @@ export const mutations = [
   Claim.Mutation,
   ClaimDetail.Mutation,
   ClaimOrder.Mutation,
-  VasOrder.Mutation
+  VasOrder.Mutation,
+  GoodsReceivalNote.Mutation
 ]
