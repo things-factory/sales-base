@@ -7,7 +7,7 @@ export const vasOrderRequestsResolver = {
   async vasOrderRequests(_: any, params: ListParam, context: any) {
     const convertedParams = convertListParams(params)
 
-    if (!convertListParams.where || !convertListParams.where.status) {
+    if (!convertedParams.where || !convertListParams.where.status) {
       convertedParams.where.status = In([
         ORDER_STATUS.PENDING_RECEIVE,
         ORDER_STATUS.READY_TO_EXECUTE,
