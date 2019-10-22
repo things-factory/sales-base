@@ -7,6 +7,12 @@ export class OrderNoGenerator {
       1}${currentDate.getDate()}${currentDate.getHours()}${currentDate.getMinutes()}${currentDate.getSeconds()}${currentDate.getMilliseconds()}`
   }
 
+  static goodsReceiveNote() {
+    const currentDate = new Date()
+    return `GRN-${currentDate.getFullYear()}${currentDate.getMonth() +
+      1}${currentDate.getDate()}${currentDate.getHours()}${currentDate.getMinutes()}${currentDate.getSeconds()}${currentDate.getMilliseconds()}`
+  }
+
   static shippingOrder() {
     const currentDate = new Date()
     return `SO-${currentDate.getFullYear()}${currentDate.getMonth() +
