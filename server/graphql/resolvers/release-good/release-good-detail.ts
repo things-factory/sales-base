@@ -21,6 +21,7 @@ export const releaseGoodDetailResolver = {
         'orderInventories.inventory.location',
         'orderVass',
         'orderVass.vas',
+        'orderVass.inventory',
         'creator',
         'updater'
       ]
