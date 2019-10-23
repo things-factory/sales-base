@@ -7,6 +7,7 @@ export const GoodsReceivalNote = gql`
     domain: Domain
     description: String
     refNo: String
+    bizplace: Bizplace
     arrivalNotice: ArrivalNotice
     updater: User
     creator: User
