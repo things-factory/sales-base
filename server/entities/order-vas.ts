@@ -15,12 +15,8 @@ import { Inventory } from '@things-factory/warehouse-base'
 @Index('ix_order-vas_0', (orderVas: OrderVas) => [orderVas.domain, orderVas.name], {
   unique: true
 })
-@Index('ix_order-vas_1', (orderVas: OrderVas) => [orderVas.arrivalNotice, orderVas.vas, orderVas.batchId], {
-  unique: true
-})
-@Index('ix_order-vas_4', (orderVas: OrderVas) => [orderVas.releaseGood, orderVas.vas, orderVas.batchId], {
-  unique: true
-})
+@Index('ix_order-vas_1', (orderVas: OrderVas) => [orderVas.arrivalNotice, orderVas.vas, orderVas.batchId])
+@Index('ix_order-vas_2', (orderVas: OrderVas) => [orderVas.releaseGood, orderVas.vas, orderVas.batchId])
 export class OrderVas {
   @PrimaryGeneratedColumn('uuid')
   id: string
