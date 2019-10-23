@@ -5,8 +5,6 @@ export const NewOrderVas = gql`
     name: String
     batchId: String
     arrivalNotice: ObjectRef
-    collectionOrder: ObjectRef
-    deliveryOrder: ObjectRef
     releaseGood: ObjectRef
     shippingOrder: ObjectRef
     inventory: ObjectRef

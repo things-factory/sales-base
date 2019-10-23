@@ -18,12 +18,6 @@ import { Inventory } from '@things-factory/warehouse-base'
 @Index('ix_order-vas_1', (orderVas: OrderVas) => [orderVas.arrivalNotice, orderVas.vas, orderVas.batchId], {
   unique: true
 })
-@Index('ix_order-vas_2', (orderVas: OrderVas) => [orderVas.collectionOrder, orderVas.vas, orderVas.batchId], {
-  unique: true
-})
-@Index('ix_order-vas_3', (orderVas: OrderVas) => [orderVas.deliveryOrder, orderVas.vas, orderVas.batchId], {
-  unique: true
-})
 @Index('ix_order-vas_4', (orderVas: OrderVas) => [orderVas.releaseGood, orderVas.vas, orderVas.batchId], {
   unique: true
 })
@@ -49,12 +43,6 @@ export class OrderVas {
 
   @ManyToOne(type => ArrivalNotice)
   arrivalNotice: ArrivalNotice
-
-  @ManyToOne(type => CollectionOrder)
-  collectionOrder: CollectionOrder
-
-  @ManyToOne(type => DeliveryOrder)
-  deliveryOrder: DeliveryOrder
 
   @ManyToOne(type => ReleaseGood)
   releaseGood: ReleaseGood
