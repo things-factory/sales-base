@@ -11,6 +11,7 @@ export const NewOrderVas = gql`
     shippingOrder: ObjectRef
     inventory: ObjectRef
     vas: ObjectRef
+    type: String
     operationGuide: String
     remark: String
     description: String
