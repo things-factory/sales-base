@@ -4,9 +4,9 @@ import { DeliveryOrder, OrderInventory, ReleaseGood, ShippingOrder } from '../..
 
 export const deliverReleaseGood = {
   async deliverReleaseGood(_: any, { name }, context: any) {
-    return await getManager().transaction(async () => {
+    return await getManager().transaction(async trxMgr => {
       try {
-        const releaseGood: ReleaseGood = await getRepository(ReleaseGood).findOne({
+        const releaseGood: ReleaseGood = await trxMgr.getRepository(ReleaseGood).findOne({
           where: { domain: context.state.domain, name },
           relations: ['orderInventories', 'shippingOrder', 'deliveryOrders']
         })
@@ -18,20 +18,22 @@ export const deliverReleaseGood = {
 
         // 1. Update status of order products (READY_TO_PICK => PICKING)
         releaseGood.orderInventories.forEach(async (orderInventory: OrderInventory) => {
-          await getRepository(OrderInventory).update(
-            { domain: context.state.domain, name: orderInventory.name },
-            { ...orderInventory, status: ORDER_PRODUCT_STATUS.DELIVERING, updater: context.state.user }
-          )
+          await trxMgr
+            .getRepository(OrderInventory)
+            .update(
+              { domain: context.state.domain, name: orderInventory.name },
+              { ...orderInventory, status: ORDER_PRODUCT_STATUS.DELIVERING, updater: context.state.user }
+            )
         })
 
         // 3. Check whether shipping order is invloved in.
         if (releaseGood.shippingOrder) {
           // 3. 1) if it's yes update status of shipping order
-          const shippingOrder: ShippingOrder = await getRepository(ShippingOrder).findOne({
+          const shippingOrder: ShippingOrder = await trxMgr.getRepository(ShippingOrder).findOne({
             where: { domain: context.state.domain, name: releaseGood.shippingOrder.name }
           })
 
-          await getRepository(ShippingOrder).save({
+          await trxMgr.getRepository(ShippingOrder).save({
             ...shippingOrder,
             status: ORDER_STATUS.DELIVERING,
             updater: context.state.user
@@ -47,10 +49,10 @@ export const deliverReleaseGood = {
               updater: context.state.user
             }
           })
-          await getRepository(DeliveryOrder).save(foundDOs)
+          await trxMgr.getRepository(DeliveryOrder).save(foundDOs)
         }
 
-        await getRepository(ReleaseGood).save({
+        await trxMgr.getRepository(ReleaseGood).save({
           ...releaseGood,
           status: ORDER_STATUS.DELIVERING,
           updater: context.state.user

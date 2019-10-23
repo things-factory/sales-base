@@ -4,8 +4,8 @@ import { OrderInventory, OrderVas, ReleaseGood } from '../../../entities'
 
 export const confirmReleaseGood = {
   async confirmReleaseGood(_: any, { name }, context: any) {
-    return await getManager().transaction(async () => {
-      const foundReleaseGood: ReleaseGood = await getRepository(ReleaseGood).findOne({
+    return await getManager().transaction(async trxMgr => {
+      const foundReleaseGood: ReleaseGood = await trxMgr.getRepository(ReleaseGood).findOne({
         where: { domain: context.state.domain, name, status: ORDER_STATUS.PENDING },
         relations: ['orderInventories', 'orderVass']
       })
@@ -22,7 +22,7 @@ export const confirmReleaseGood = {
           updater: context.state.user
         }
       })
-      await getRepository(OrderInventory).save(foundOIs)
+      await trxMgr.getRepository(OrderInventory).save(foundOIs)
 
       // 2. Update status of order vass
       if (foundOVs && foundOVs.length) {
@@ -33,11 +33,11 @@ export const confirmReleaseGood = {
             updater: context.state.user
           }
         })
-        await getRepository(OrderVas).save(foundOVs)
+        await trxMgr.getRepository(OrderVas).save(foundOVs)
       }
 
       // 3. Release Goods Status change (PENDING => PENDING_RECEIVE)
-      return await getRepository(ReleaseGood).save({
+      return await trxMgr.getRepository(ReleaseGood).save({
         ...foundReleaseGood,
         status: ORDER_STATUS.PENDING_RECEIVE,
         updater: context.state.user

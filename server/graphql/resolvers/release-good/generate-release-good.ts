@@ -1,16 +1,16 @@
 import { Inventory } from '@things-factory/warehouse-base'
 import { getManager, getRepository } from 'typeorm'
-import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
+import { ORDER_STATUS } from '../../../constants'
 import { OrderInventory, OrderVas, ReleaseGood, ShippingOrder, Vas } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const generateReleaseGood = {
   async generateReleaseGood(_: any, { releaseGood, shippingOrder }, context: any) {
-    return await getManager().transaction(async () => {
+    return await getManager().transaction(async trxMgr => {
       let orderInventories: OrderInventory[] = releaseGood.orderInventories
       let orderVass: OrderVas[] = releaseGood.orderVass
 
-      const createdReleaseGood: ReleaseGood = await getRepository(ReleaseGood).save({
+      const createdReleaseGood: ReleaseGood = await trxMgr.getRepository(ReleaseGood).save({
         ...releaseGood,
         name: OrderNoGenerator.releaseGood(),
         domain: context.state.domain,
@@ -21,7 +21,7 @@ export const generateReleaseGood = {
       })
 
       if (shippingOrder) {
-        await getRepository(ShippingOrder).save({
+        await trxMgr.getRepository(ShippingOrder).save({
           ...shippingOrder,
           name: OrderNoGenerator.shippingOrder(),
           domain: context.state.domain,
@@ -39,15 +39,14 @@ export const generateReleaseGood = {
             domain: context.state.domain,
             bizplace: context.state.mainBizplace,
             name: OrderNoGenerator.orderInventory(),
-            inventory: await getRepository(Inventory).findOne(orderInventory.inventory.id),
+            inventory: await trxMgr.getRepository(Inventory).findOne(orderInventory.inventory.id),
             releaseGood: createdReleaseGood,
-            status: ORDER_PRODUCT_STATUS.PENDING,
             creator: context.state.user,
             updater: context.state.user
           }
         })
       )
-      await getRepository(OrderInventory).save(orderInventories)
+      await trxMgr.getRepository(OrderInventory).save(orderInventories)
 
       if (orderVass && orderVass.length) {
         orderVass = await Promise.all(
@@ -57,15 +56,15 @@ export const generateReleaseGood = {
               domain: context.state.domain,
               bizplace: context.state.mainBizplace,
               name: OrderNoGenerator.releaseVas(),
-              vas: await getRepository(Vas).findOne(orderVas.vas.id),
+              vas: await trxMgr.getRepository(Vas).findOne(orderVas.vas.id),
+              inventory: await trxMgr.getRepository(Inventory).findOne(orderVas.inventory.id),
               releaseGood: createdReleaseGood,
-              status: ORDER_VAS_STATUS.PENDING,
               creator: context.state.user,
               updater: context.state.user
             }
           })
         )
-        await getRepository(OrderVas).save(orderVass)
+        await trxMgr.getRepository(OrderVas).save(orderVass)
       }
 
       return createdReleaseGood

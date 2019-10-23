@@ -1,7 +1,7 @@
 import { Bizplace } from '@things-factory/biz-base'
 import { Inventory } from '@things-factory/warehouse-base'
 import { getRepository, In } from 'typeorm'
-import { DeliveryOrder, OrderInventory, ReleaseGood, ShippingOrder } from '../../../entities'
+import { OrderInventory, ReleaseGood, ShippingOrder } from '../../../entities'
 
 export const releaseGoodDetailResolver = {
   async releaseGoodDetail(_: any, { name }, context: any) {
