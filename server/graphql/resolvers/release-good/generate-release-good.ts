@@ -2,6 +2,7 @@ import { Inventory } from '@things-factory/warehouse-base'
 import { getManager, getRepository } from 'typeorm'
 import { ORDER_STATUS } from '../../../constants'
 import { OrderInventory, OrderVas, ReleaseGood, ShippingOrder, Vas } from '../../../entities'
+import { ORDER_TYPES } from '../../../constants/order'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const generateReleaseGood = {
@@ -58,6 +59,7 @@ export const generateReleaseGood = {
               name: OrderNoGenerator.releaseVas(),
               vas: await trxMgr.getRepository(Vas).findOne(orderVas.vas.id),
               inventory: await trxMgr.getRepository(Inventory).findOne(orderVas.inventory.id),
+              type: ORDER_TYPES.RELEASE_OF_GOODS,
               releaseGood: createdReleaseGood,
               creator: context.state.user,
               updater: context.state.user
