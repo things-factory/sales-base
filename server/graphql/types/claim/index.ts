@@ -29,7 +29,7 @@ export const Mutation = `
 export const Query = `
   claims(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ClaimList
   claim(id: String!): Claim
-  claimOrderList: [Claim]
+  claimOrderList(transportDriver: String, transportVehicle: String): [Claim]
   claimOrderDetail(filters: [Filter]): Claim
 `
 

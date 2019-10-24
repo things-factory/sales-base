@@ -2,32 +2,24 @@ import { Claim } from '../../../entities'
 import { Equal, getRepository, In, IsNull } from 'typeorm'
 
 export const claimOrderListResolver = {
-  async claimOrderList(_: any, params: any, context: any) {
+  async claimOrderList(_: any, { transportDriver, transportVehicle }, context: any) {
     let domainId = context.state.domain.id
-    var arrOrders = await getRepository(Claim).query(`
-      SELECT name AS name, delivery_date_time AS date_time from delivery_orders 
-        WHERE name NOT IN (SELECT name FROM claims) AND 
-        truck_no IS NULL AND
-        domain_id = '${domainId}'
-
-      UNION
-      SELECT name AS name, collection_date_time AS date_time FROM collection_orders 
-        WHERE name NOT IN (SELECT name FROM claims) AND
-        truck_no IS NULL AND
-        domain_id = '${domainId}'
-    `)
-
-    //Combining order date with order number.
-    Object.keys(arrOrders || {}).map(key => {
-      let orderDate = new Date(arrOrders[key].date_time)
-      arrOrders[key].description =
-        (orderDate.getMonth() + 1).toString().padStart(2, '0') +
-        orderDate
-          .getDate()
-          .toString()
-          .padStart(2, '0') +
-        arrOrders[key].name
-    })
+    let arrOrders = []
+    if (transportDriver && transportVehicle && transportDriver !== '' && transportVehicle !== '') {
+      arrOrders = await getRepository(Claim).query(`
+        select delOrd.id, delOrd.name AS name from transport_order_details transportOrd
+          inner join delivery_orders delOrd on delOrd.id = transportord.delivery_order_id and delOrd.domain_id = transportOrd.domain_id
+          where delOrd.name NOT IN (SELECT name FROM claim_orders) AND 
+          truck_no IS NULL AND delOrd.domain_id = '${domainId}' AND
+          transport_driver_id = '${transportDriver}' and transport_vehicle_id = '${transportVehicle}'
+        UNION
+        select colOrd.id, colOrd.name AS name from transport_order_details transportOrd
+          inner join collection_orders colOrd on colOrd.id = transportord.collection_order_id and colOrd.domain_id = transportOrd.domain_id
+          where colOrd.name NOT IN (SELECT name FROM claim_orders) AND 
+          truck_no IS NULL AND colOrd.domain_id = '${domainId}' AND
+          transport_driver_id = '${transportDriver}' and transport_vehicle_id = '${transportVehicle}'  
+      `)
+    }
     return arrOrders
   }
 }

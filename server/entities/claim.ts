@@ -14,6 +14,7 @@ import { Domain } from '@things-factory/shell'
 import { User } from '@things-factory/auth-base'
 
 import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
+import { Bizplace } from '@things-factory/biz-base'
 import { ClaimDetail } from '.'
 
 @Entity()
@@ -67,13 +68,17 @@ export class Claim {
   @OneToMany(type => ClaimDetail, claimDetail => claimDetail.claim)
   claimDetails: ClaimDetail[]
 
-  @OneToOne(type => TransportDriver, { nullable: true })
+  @OneToOne(type => TransportDriver)
   @JoinColumn()
   transportDriver: TransportDriver
 
-  @OneToOne(type => TransportVehicle, { nullable: true })
+  @OneToOne(type => TransportVehicle)
   @JoinColumn()
   transportVehicle: TransportVehicle
+
+  @OneToOne(type => Bizplace, { nullable: true })
+  @JoinColumn()
+  bizplace: Bizplace
 
   @ManyToOne(type => User, {
     nullable: true

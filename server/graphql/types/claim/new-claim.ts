@@ -5,11 +5,12 @@ export const NewClaim = gql`
     description: String
     billingMode: String
     charges: Float
-    transportDriverName: String
-    transportVehicleName: String
+    transportDriver: String
+    transportVehicle: String
     from: String
     to: String
     remark: String
+    bizplace: String
     claimDetails: [NewClaimDetail]
     claimOrders: [NewClaimOrder]
   }
