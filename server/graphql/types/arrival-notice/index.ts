@@ -43,6 +43,7 @@ export const Query = `
   arrivalNotices(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ArrivalNoticeList
   arrivalNotice(name: String!): ArrivalNotice
   arrivalNoticeRequests(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ArrivalNoticeList
+  customerArrivalNotices(bizplace: String!): [ArrivalNotice]
 `
 
 export const Types = [ArrivalNotice, NewArrivalNotice, ArrivalNoticePatch, ArrivalNoticeList]

@@ -9,11 +9,13 @@ import { receiveArrivalNotice } from './receive-arrival-notice'
 import { updateArrivalNotice } from './update-arrival-notice'
 import { checkArrivedNotice } from './check-arrived-notice'
 import { rejectArrivalNotice } from './reject-arrival-notice'
+import { customerArrivalNoticesResolver } from './customer-arrival-notices'
 
 export const Query = {
   ...arrivalNoticesResolver,
   ...arrivalNoticeResolver,
-  ...arrivalNoticeRequestsResolver
+  ...arrivalNoticeRequestsResolver,
+  ...customerArrivalNoticesResolver
 }
 
 export const Mutation = {
