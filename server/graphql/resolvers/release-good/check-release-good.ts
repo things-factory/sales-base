@@ -1,6 +1,6 @@
 import { getManager, getRepository } from 'typeorm'
-import { ReleaseGood, DeliveryOrder, ShippingOrder, OrderInventory } from '../../../entities'
-import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../constants'
+import { ORDER_INVENTORY_STATUS, ORDER_STATUS } from '../../../constants'
+import { DeliveryOrder, OrderInventory, ReleaseGood, ShippingOrder } from '../../../entities'
 
 export const checkReleaseGood = {
   async checkReleaseGood(_: any, { name }, context: any) {
@@ -29,7 +29,7 @@ export const checkReleaseGood = {
         releaseGood.orderInventories.forEach(async (orderInventory: OrderInventory) => {
           await getRepository(OrderInventory).update(
             { id: orderInventory.id },
-            { ...orderInventory, status: ORDER_PRODUCT_STATUS.RELEASED, updater: context.state.user }
+            { ...orderInventory, status: ORDER_INVENTORY_STATUS.RELEASED, updater: context.state.user }
           )
         })
 

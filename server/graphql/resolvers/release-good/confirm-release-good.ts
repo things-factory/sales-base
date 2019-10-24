@@ -1,5 +1,5 @@
-import { getManager, getRepository } from 'typeorm'
-import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
+import { getManager } from 'typeorm'
+import { ORDER_INVENTORY_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
 import { OrderInventory, OrderVas, ReleaseGood } from '../../../entities'
 
 export const confirmReleaseGood = {
@@ -18,7 +18,7 @@ export const confirmReleaseGood = {
       foundOIs = foundOIs.map((orderInventory: OrderInventory) => {
         return {
           ...orderInventory,
-          status: ORDER_PRODUCT_STATUS.PENDING_RECEIVE,
+          status: ORDER_INVENTORY_STATUS.PENDING_RECEIVE,
           updater: context.state.user
         }
       })

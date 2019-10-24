@@ -1,19 +1,18 @@
-import { getManager, getRepository } from 'typeorm'
-import { ORDER_PRODUCT_STATUS, ORDER_VAS_STATUS, ORDER_STATUS } from '../../../constants'
-import { OrderVas, OrderInventory, ReleaseGood, ShippingOrder, DeliveryOrder } from '../../../entities'
+import { getManager } from 'typeorm'
+import { ORDER_INVENTORY_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
+import { DeliveryOrder, OrderInventory, OrderVas, ReleaseGood, ShippingOrder } from '../../../entities'
 
 export const rejectReleaseGood = {
   async rejectReleaseGood(_: any, { name, patch }, context: any) {
     return await getManager().transaction(async trxMgr => {
       try {
         const releaseGood: ReleaseGood = await trxMgr.getRepository(ReleaseGood).findOne({
-          where: { domain: context.state.domain, name },
+          where: { domain: context.state.domain, name, status: ORDER_STATUS.PENDING_RECEIVE },
           relations: ['orderInventories', 'orderVass', 'shippingOrder', 'deliveryOrders']
         })
 
         if (!releaseGood) throw new Error(`Release good doesn't exists.`)
         if (!patch.remark) throw new Error('Remark is not exist.')
-        if (releaseGood.status !== ORDER_STATUS.PENDING_RECEIVE) throw new Error(`Status is not receivable.`)
 
         let foundOIs: OrderInventory[] = releaseGood.orderInventories
         let foundOVs: OrderVas[] = releaseGood.orderVass
@@ -24,7 +23,7 @@ export const rejectReleaseGood = {
           foundOIs = foundOIs.map((oi: OrderInventory) => {
             return {
               ...oi,
-              status: ORDER_PRODUCT_STATUS.REJECTED,
+              status: ORDER_INVENTORY_STATUS.REJECTED,
               updater: context.state.user
             }
           })

@@ -1,5 +1,5 @@
-import { getManager, getRepository } from 'typeorm'
-import { ORDER_PRODUCT_STATUS, ORDER_STATUS } from '../../../constants'
+import { getManager } from 'typeorm'
+import { ORDER_INVENTORY_STATUS, ORDER_STATUS } from '../../../constants'
 import { DeliveryOrder, OrderInventory, ReleaseGood, ShippingOrder } from '../../../entities'
 
 export const deliverReleaseGood = {
@@ -22,7 +22,7 @@ export const deliverReleaseGood = {
             .getRepository(OrderInventory)
             .update(
               { domain: context.state.domain, name: orderInventory.name },
-              { ...orderInventory, status: ORDER_PRODUCT_STATUS.DELIVERING, updater: context.state.user }
+              { ...orderInventory, status: ORDER_INVENTORY_STATUS.DELIVERING, updater: context.state.user }
             )
         })
 

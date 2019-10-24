@@ -6,7 +6,7 @@ export const confirmArrivalNotice = {
   async confirmArrivalNotice(_: any, { name }, context: any) {
     return await getManager().transaction(async trxMgr => {
       const foundArrivalNotice: ArrivalNotice = await trxMgr.getRepository(ArrivalNotice).findOne({
-        where: { domain: context.state.domain, name },
+        where: { domain: context.state.domain, name, status: ORDER_STATUS.PENDING },
         relations: ['orderProducts', 'orderProducts.product', 'orderVass', 'orderVass.vas', 'creator', 'updater']
       })
 
@@ -14,7 +14,6 @@ export const confirmArrivalNotice = {
       let foundOVs: OrderVas[] = foundArrivalNotice.orderVass
 
       if (!foundArrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
-      if (foundArrivalNotice.status !== ORDER_STATUS.PENDING) throw new Error('Not confirmable status.')
 
       // 1. GAN Status change (PENDING => PENDING_RECEIVE)
       const arrivalNotice: ArrivalNotice = await trxMgr.getRepository(ArrivalNotice).save({
