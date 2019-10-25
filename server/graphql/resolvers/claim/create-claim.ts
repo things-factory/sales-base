@@ -7,7 +7,7 @@ export const createClaim = {
   async createClaim(_: any, { claim }, context: any) {
     return await getManager().transaction(async transactionalEntityManager => {
       let arrClaimOrdersName = claim.claimOrders.map(item => {
-        return { name: item.name }
+        return item.name
       })
 
       let newClaimOrders = []

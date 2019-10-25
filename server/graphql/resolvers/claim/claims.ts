@@ -7,7 +7,7 @@ export const claimsResolver = {
     const convertedParams = convertListParams(params)
     let [items, total] = await getRepository(Claim).findAndCount({
       ...convertedParams,
-      relations: ['domain', 'creator', 'updater']
+      relations: ['domain', 'creator', 'updater', 'bizplace', 'transportVehicle', 'transportDriver', 'claimDetails']
     })
 
     return { items, total }
