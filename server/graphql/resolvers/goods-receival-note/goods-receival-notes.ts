@@ -7,7 +7,7 @@ export const goodsReceivalNotesResolver = {
     const convertedParams = convertListParams(params)
     const [items, total] = await getRepository(GoodsReceivalNote).findAndCount({
       ...convertedParams,
-      relations: ['domain', 'creator', 'updater']
+      relations: ['domain', 'bizplace', 'creator', 'updater']
     })
     return { items, total }
   }

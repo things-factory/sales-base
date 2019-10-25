@@ -2,6 +2,7 @@ import { getManager } from 'typeorm'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 import { GoodsReceivalNote } from '../../../entities/goods-receival-note'
 import { ArrivalNotice } from '../../../entities/arrival-notice'
+import { Bizplace } from '@things-factory/biz-base'
 
 export const generateGoodsReceivalNote = {
   async generateGoodsReceivalNote(_: any, { grn }, context: any) {
@@ -11,7 +12,9 @@ export const generateGoodsReceivalNote = {
         ...grn,
         name: OrderNoGenerator.goodsReceiveNote(),
         domain: context.state.domain,
-        bizplace: context.state.mainBizplace,
+        bizplace: await trxMgr.getRepository(Bizplace).findOne({
+          where: { domain: context.state.domain, id: grn.customer }
+        }),
         arrivalNotice: await trxMgr.getRepository(ArrivalNotice).findOne({
           where: { domain: context.state.domain, name: grn.refNo }
         }),

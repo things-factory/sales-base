@@ -5,6 +5,7 @@ export const NewGoodsReceivalNote = gql`
     name: String
     description: String
     refNo: String
+    customer: String
     arrivalNotice: ObjectRef
   }
 `
