@@ -21,7 +21,7 @@ export const generateArrivalNotice = {
             bizplace: context.state.mainBizplace,
             domain: context.state.domain,
             batchId: orderProduct.batchId,
-            product: Not(Equal(orderProduct.product))
+            product: Not(Equal(orderProduct.product.id))
           }
         })
       })
