@@ -15,9 +15,9 @@ export const vasOrderResolver = {
         'orderVass',
         'orderVass.vas',
         'orderVass.inventory',
-        'orderVass.warehouse',
         'orderVass.inventory.product',
         'orderVass.inventory.location',
+        'orderVass.inventory.warehouse',
         'creator',
         'updater'
       ]
