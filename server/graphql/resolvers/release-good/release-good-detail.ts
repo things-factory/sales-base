@@ -45,7 +45,9 @@ export const releaseGoodDetailResolver = {
           name: inventory.name,
           location: inventory.location,
           qty: inventory.qty,
-          releaseQty: orderInv.releaseQty
+          weight: inventory.weight,
+          releaseQty: orderInv.releaseQty,
+          releaseWeight: orderInv.releaseWeight
         }
       })
     }

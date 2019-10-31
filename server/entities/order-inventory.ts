@@ -83,6 +83,9 @@ export class OrderInventory {
   @Column()
   releaseQty: number
 
+  @Column({ nullable: true })
+  releaseWeight: number
+
   @Column()
   seq: number
 

@@ -10,6 +10,7 @@ export const NewOrderInventory = gql`
     inventory: ObjectRef
     seq: Int
     releaseQty: Int
+    releaseWeight: Float
     remark: String
     issue: String
     status: String
