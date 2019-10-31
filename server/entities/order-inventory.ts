@@ -83,7 +83,7 @@ export class OrderInventory {
   @Column()
   releaseQty: number
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'decimal', precision: 2 })
   releaseWeight: number
 
   @Column()
