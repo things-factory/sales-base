@@ -7,7 +7,17 @@ export const orderInventoriesResolver = {
     const convertedParams = convertListParams(params)
     const [items, total] = await getRepository(OrderInventory).findAndCount({
       ...convertedParams,
-      relations: ['domain', 'arrivalNotice', 'releaseGood', 'shippingOrder', 'deliveryOrder', 'creator', 'updater']
+      relations: [
+        'domain',
+        'arrivalNotice',
+        'inventory',
+        'inventory.product',
+        'releaseGood',
+        'shippingOrder',
+        'deliveryOrder',
+        'creator',
+        'updater'
+      ]
     })
     return { items, total }
   }

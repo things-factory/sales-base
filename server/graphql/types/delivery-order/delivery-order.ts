@@ -5,6 +5,7 @@ export const DeliveryOrder = gql`
     id: String
     domain: Domain
     bizplace: Bizplace
+    releaseGood: ReleaseGood
     name: String
     loadWeight: Float
     urgency: Boolean

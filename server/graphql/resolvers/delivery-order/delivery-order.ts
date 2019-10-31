@@ -17,11 +17,11 @@ export const deliveryOrderResolver = {
         'transportOrderDetails',
         'transportOrderDetails.transportDriver',
         'transportOrderDetails.transportVehicle',
+        'releaseGood',
         'creator',
         'updater'
       ]
     })
-
     const foundAttachments = await getRepository(Attachment).find({
       where: {
         domain: context.state.domain,
