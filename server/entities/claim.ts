@@ -59,6 +59,31 @@ export class Claim {
   })
   charges: number
 
+  @Column({
+    nullable: true
+  })
+  drum: number
+
+  @Column({
+    nullable: true
+  })
+  pallet: number
+
+  @Column({
+    nullable: true
+  })
+  carton: number
+
+  @Column({
+    nullable: true
+  })
+  bag: number
+
+  @Column({
+    nullable: true
+  })
+  other: number
+
   @CreateDateColumn()
   createdAt: Date
 
@@ -68,15 +93,15 @@ export class Claim {
   @OneToMany(type => ClaimDetail, claimDetail => claimDetail.claim)
   claimDetails: ClaimDetail[]
 
-  @OneToOne(type => TransportDriver)
+  @ManyToOne(type => TransportDriver)
   @JoinColumn()
   transportDriver: TransportDriver
 
-  @OneToOne(type => TransportVehicle)
+  @ManyToOne(type => TransportVehicle)
   @JoinColumn()
   transportVehicle: TransportVehicle
 
-  @OneToOne(type => Bizplace, { nullable: true })
+  @ManyToOne(type => Bizplace, { nullable: true })
   @JoinColumn()
   bizplace: Bizplace
 
