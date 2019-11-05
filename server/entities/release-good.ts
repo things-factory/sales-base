@@ -87,7 +87,9 @@ export class ReleaseGood {
   })
   releaseDateTime: Date
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   refNo: String
 
   @Column({

@@ -61,7 +61,9 @@ export class ArrivalNotice {
   })
   eta: Date
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   refNo: String
 
   @Column({
