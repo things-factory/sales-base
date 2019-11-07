@@ -22,6 +22,7 @@ export const Claim = gql`
     carton: Float
     bag: Float
     other: Float
+    status: String
     updater: User
     creator: User
     updatedAt: String
