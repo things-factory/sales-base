@@ -43,11 +43,11 @@ export class ClaimOrder {
   @ManyToOne(type => Claim)
   claim: Claim
 
-  @OneToOne(type => CollectionOrder, { nullable: true })
+  @ManyToOne(type => CollectionOrder, { nullable: true })
   @JoinColumn()
   collectionOrder: CollectionOrder
 
-  @OneToOne(type => DeliveryOrder, { nullable: true })
+  @ManyToOne(type => DeliveryOrder, { nullable: true })
   @JoinColumn()
   deliveryOrder: DeliveryOrder
 

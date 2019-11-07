@@ -71,9 +71,9 @@ export const createClaim = {
       })
 
       let claimName =
-        'CLAIM - ' +
+        'CLAIM' +
         year.toString().substr(year.toString().length - 2) +
-        ('0' + month.toString()).substr(('0' + month.toString()).toString().length - 2) +
+        ('0' + month.toString()).substr(('0' + (month + 1).toString()).toString().length - 2) +
         ('0' + date.toString()).substr(('0' + date.toString()).length - 2) +
         '/' +
         ('0000' + (total + 1).toString()).substr(('0000' + (total + 1).toString()).length - 4)
@@ -85,6 +85,7 @@ export const createClaim = {
         bizplace: bizplace,
         transportDriver: transportDriver,
         transportVehicle: transportVehicle,
+        status: 'PENDING',
         domain: context.state.domain,
         creator: context.state.user,
         updater: context.state.user
