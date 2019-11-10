@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-koa'
+import gql from 'graphql-tag'
 export const NewClaim = gql`
   input NewClaim {
     name: String
