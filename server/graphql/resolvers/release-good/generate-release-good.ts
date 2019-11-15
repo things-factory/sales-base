@@ -1,5 +1,5 @@
 import { Inventory } from '@things-factory/warehouse-base'
-import { getManager } from 'typeorm'
+import { getManager, getRepository } from 'typeorm'
 import { ORDER_STATUS } from '../../../constants'
 import { ORDER_INVENTORY_STATUS, ORDER_TYPES, ORDER_VAS_STATUS } from '../../../constants/order'
 import { OrderInventory, OrderVas, ReleaseGood, ShippingOrder, Vas } from '../../../entities'
@@ -35,6 +35,23 @@ export const generateReleaseGood = {
 
       orderInventories = await Promise.all(
         orderInventories.map(async (orderInventory: OrderInventory) => {
+          // 1. Update locked qty and locked weight of inventories
+          const inventory: Inventory = await trxMgr.getRepository(Inventory).findOne(orderInventory.inventory.id)
+          let lockedQty: number = inventory.lockedQty || 0
+          let lockedWeight: number = inventory.lockedWeight || 0
+          const releaseQty: number = orderInventory.releaseQty
+          const releaseWeight: number = orderInventory.releaseWeight
+
+          if (releaseQty > 0) lockedQty = lockedQty + releaseQty
+          if (releaseWeight > 0) lockedWeight = lockedWeight + releaseWeight
+
+          await trxMgr.getRepository(Inventory).save({
+            ...inventory,
+            lockedQty,
+            lockedWeight,
+            updater: context.state.user
+          })
+
           return {
             ...orderInventory,
             domain: context.state.domain,
