@@ -1,5 +1,5 @@
 import { Inventory } from '@things-factory/warehouse-base'
-import { getManager, getRepository } from 'typeorm'
+import { getManager } from 'typeorm'
 import { ORDER_STATUS } from '../../../constants'
 import { ORDER_INVENTORY_STATUS, ORDER_TYPES, ORDER_VAS_STATUS } from '../../../constants/order'
 import { OrderInventory, OrderVas, ReleaseGood, ShippingOrder, Vas } from '../../../entities'
@@ -39,16 +39,13 @@ export const generateReleaseGood = {
           const inventory: Inventory = await trxMgr.getRepository(Inventory).findOne(orderInventory.inventory.id)
           let lockedQty: number = inventory.lockedQty || 0
           let lockedWeight: number = inventory.lockedWeight || 0
-          const releaseQty: number = orderInventory.releaseQty
-          const releaseWeight: number = orderInventory.releaseWeight
-
-          if (releaseQty > 0) lockedQty = lockedQty + releaseQty
-          if (releaseWeight > 0) lockedWeight = lockedWeight + releaseWeight
+          const releaseQty: number = orderInventory.releaseQty || 0
+          const releaseWeight: number = orderInventory.releaseWeight || 0
 
           await trxMgr.getRepository(Inventory).save({
             ...inventory,
-            lockedQty,
-            lockedWeight,
+            lockedQty: lockedQty + releaseQty,
+            lockedWeight: lockedWeight + releaseWeight,
             updater: context.state.user
           })
 

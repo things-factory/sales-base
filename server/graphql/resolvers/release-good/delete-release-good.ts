@@ -32,16 +32,13 @@ export const deleteReleaseGood = {
           const inventory: Inventory = oi.inventory
           let lockedQty: number = inventory.lockedQty || 0
           let lockedWeight: number = inventory.lockedWeight || 0
-          const releaseQty: number = oi.releaseQty
-          const releaseWeight: number = oi.releaseWeight
-
-          if (releaseQty > 0) lockedQty = lockedQty - releaseQty
-          if (releaseWeight > 0) lockedWeight = lockedWeight - releaseWeight
+          const releaseQty: number = oi.releaseQty || 0
+          const releaseWeight: number = oi.releaseWeight || 0
 
           await trxMgr.getRepository(Inventory).save({
             ...inventory,
-            lockedQty,
-            lockedWeight,
+            lockedQty: lockedQty - releaseQty,
+            lockedWeight: lockedWeight - releaseWeight,
             updater: context.state.user
           })
 
