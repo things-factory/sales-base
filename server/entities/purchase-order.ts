@@ -1,5 +1,5 @@
 import { User } from '@things-factory/auth-base'
-import { Customer } from '@things-factory/biz-base'
+import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
 import {
   Column,
@@ -18,7 +18,7 @@ import { Quotation } from './quotation'
 @Index('ix_purchase-order_0', (purchaseOrder: PurchaseOrder) => [
   purchaseOrder.domain,
   purchaseOrder.name,
-  purchaseOrder.customer
+  purchaseOrder.Bizplace
 ])
 export class PurchaseOrder {
   @PrimaryGeneratedColumn('uuid')
@@ -37,8 +37,8 @@ export class PurchaseOrder {
   @JoinColumn()
   quotation: Quotation
 
-  @ManyToOne(type => Customer)
-  customer: Customer
+  @ManyToOne(type => Bizplace)
+  Bizplace: Bizplace
 
   @Column()
   state: string

@@ -1,5 +1,5 @@
 import { User } from '@things-factory/auth-base'
-import { Customer } from '@things-factory/biz-base'
+import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
 import {
   Column,
@@ -15,7 +15,7 @@ import { QuotationItem } from './quotation-item'
 
 @Entity('quotations')
 @Index('ix_quotation_0', (quotation: Quotation) => [quotation.domain, quotation.name])
-@Index('ix_quotation_1', (quotation: Quotation) => [quotation.domain, quotation.customer, quotation.issuedOn])
+@Index('ix_quotation_1', (quotation: Quotation) => [quotation.domain, quotation.Bizplace, quotation.issuedOn])
 export class Quotation {
   @PrimaryGeneratedColumn('uuid')
   id: string
@@ -26,8 +26,8 @@ export class Quotation {
   @Column()
   name: string
 
-  @ManyToOne(type => Customer)
-  customer: Customer
+  @ManyToOne(type => Bizplace)
+  Bizplace: Bizplace
 
   @Column('date')
   issuedOn: Date
@@ -38,7 +38,10 @@ export class Quotation {
   @Column()
   version: string
 
-  @OneToMany(type => QuotationItem, quotationItem => quotationItem.quotation)
+  @OneToMany(
+    type => QuotationItem,
+    quotationItem => quotationItem.quotation
+  )
   items: QuotationItem[]
 
   @Column()

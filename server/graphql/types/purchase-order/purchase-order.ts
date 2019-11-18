@@ -7,7 +7,7 @@ export const PurchaseOrder = gql`
     name: String
     issuedOn: String
     quotation: Quotation
-    customer: Customer
+    customer: Bizplace
     state: String
     description: String
     creator: User

@@ -5,7 +5,7 @@ export const Quotation = gql`
     id: String
     domain: Domain
     name: String
-    customer: Customer
+    customer: Bizplace
     issuedOn: String
     expiresOn: String
     version: String

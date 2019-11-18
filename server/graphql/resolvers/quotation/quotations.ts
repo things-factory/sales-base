@@ -7,7 +7,7 @@ export const quotationsResolver = {
     const queryBuilder = getRepository(Quotation).createQueryBuilder()
     buildQuery(queryBuilder, params, context)
     const [items, total] = await queryBuilder
-      .leftJoinAndSelect('Quotation.customer', 'Customer')
+      .leftJoinAndSelect('Quotation.customer', 'Bizplace')
       .leftJoinAndSelect('Quotation.items', 'Items')
       .leftJoinAndSelect('Quotation.creator', 'Creator')
       .leftJoinAndSelect('Quotation.updater', 'Updater')

@@ -5,7 +5,7 @@ export const Invoice = gql`
     id: String
     domain: Domain
     name: String
-    customer: Customer
+    customer: Bizplace
     issuedOn: String
     paymentDue: String
     version: String
