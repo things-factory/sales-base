@@ -1,18 +1,19 @@
 import { User } from '@things-factory/auth-base'
 import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
+import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
 import {
   Column,
   CreateDateColumn,
   Entity,
   Index,
+  JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
-  OneToMany
+  UpdateDateColumn
 } from 'typeorm'
 import { ArrivalNotice } from './arrival-notice'
-import { TransportOrderDetail } from './transport-order-detail'
 
 @Entity()
 @Index('ix_collection-order_0', (collectionOrder: CollectionOrder) => [collectionOrder.domain, collectionOrder.name], {
@@ -61,6 +62,14 @@ export class CollectionOrder {
   })
   cargoType: string
 
+  @OneToOne(type => TransportDriver)
+  @JoinColumn()
+  transportDriver: TransportDriver
+
+  @OneToOne(type => TransportVehicle)
+  @JoinColumn()
+  transportVehicle: TransportVehicle
+
   @Column({
     nullable: true
   })
@@ -83,9 +92,6 @@ export class CollectionOrder {
 
   @ManyToOne(type => ArrivalNotice)
   arrivalNotice: ArrivalNotice
-
-  @OneToMany(type => TransportOrderDetail, transportOrderDetail => transportOrderDetail.collectionOrder)
-  transportOrderDetails: TransportOrderDetail[]
 
   @Column({
     nullable: true

@@ -1,18 +1,19 @@
 import { User } from '@things-factory/auth-base'
 import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
+import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
 import {
   Column,
   CreateDateColumn,
   Entity,
   Index,
+  JoinColumn,
   ManyToOne,
-  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
 import { ReleaseGood } from './release-good'
-import { TransportOrderDetail } from './transport-order-detail'
 
 @Entity()
 @Index('ix_delivery-order_0', (deliveryOrder: DeliveryOrder) => [deliveryOrder.domain, deliveryOrder.name], {
@@ -49,9 +50,6 @@ export class DeliveryOrder {
   @ManyToOne(type => ReleaseGood)
   releaseGood: ReleaseGood
 
-  @OneToMany(type => TransportOrderDetail, transportOrderDetail => transportOrderDetail.deliveryOrder)
-  transportOrderDetails: TransportOrderDetail[]
-
   @Column()
   looseItem: Boolean
 
@@ -69,6 +67,14 @@ export class DeliveryOrder {
     nullable: true
   })
   loadWeight: Number
+
+  @OneToOne(type => TransportDriver)
+  @JoinColumn()
+  transportDriver: TransportDriver
+
+  @OneToOne(type => TransportVehicle)
+  @JoinColumn()
+  transportVehicle: TransportVehicle
 
   @Column({
     nullable: true
