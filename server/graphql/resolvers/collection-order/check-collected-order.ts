@@ -7,8 +7,7 @@ export const checkCollectedOrder = {
     return await getManager().transaction(async () => {
       try {
         const collectionOrder: CollectionOrder = await getRepository(CollectionOrder).findOne({
-          where: { domain: context.state.domain, name },
-          relations: ['transportOrderDetails']
+          where: { domain: context.state.domain, name }
         })
 
         if (!collectionOrder) throw new Error(`Collection order doesn't exists.`)
