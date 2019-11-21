@@ -10,6 +10,7 @@ export const NewArrivalNotice = gql`
     eta: String
     etaDate: String
     truckNo: String
+    refNo: String
     remark: String
     status: String
     orderProducts: [NewOrderProduct]

@@ -8,7 +8,16 @@ export const claimResolver = {
         domain: context.state.domain,
         id
       },
-      relations: ['domain', 'claimDetails', 'creator', 'updater']
+      relations: [
+        'domain',
+        'claimDetails',
+        'claimOrders',
+        'transportDriver',
+        'transportVehicle',
+        'bizplace',
+        'creator',
+        'updater'
+      ]
     })
 
     return data

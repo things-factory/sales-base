@@ -29,8 +29,16 @@ export class OrderNoGenerator {
     return `OP-${uuid()}`
   }
 
-  static transportOrderDetail() {
-    return uuid()
+  static collectionOrder() {
+    const currentDate = new Date()
+    return `CO-${currentDate.getFullYear()}${currentDate.getMonth() +
+      1}${currentDate.getDate()}${currentDate.getHours()}${currentDate.getMinutes()}${currentDate.getSeconds()}${currentDate.getMilliseconds()}`
+  }
+
+  static deliveryOrder() {
+    const currentDate = new Date()
+    return `DO-${currentDate.getFullYear()}${currentDate.getMonth() +
+      1}${currentDate.getDate()}${currentDate.getHours()}${currentDate.getMinutes()}${currentDate.getSeconds()}${currentDate.getMilliseconds()}`
   }
 
   static orderInventory() {

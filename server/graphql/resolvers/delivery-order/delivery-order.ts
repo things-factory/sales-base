@@ -11,16 +11,7 @@ export const deliveryOrderResolver = {
         name,
         bizplace: In(await getPermittedBizplaceIds(context.state.domain, context.state.user))
       },
-      relations: [
-        'domain',
-        'bizplace',
-        'transportOrderDetails',
-        'transportOrderDetails.transportDriver',
-        'transportOrderDetails.transportVehicle',
-        'releaseGood',
-        'creator',
-        'updater'
-      ]
+      relations: ['domain', 'bizplace', 'transportDriver', 'transportVehicle', 'releaseGood', 'creator', 'updater']
     })
     const foundAttachments = await getRepository(Attachment).find({
       where: {

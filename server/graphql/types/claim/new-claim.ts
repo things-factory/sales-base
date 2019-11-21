@@ -11,6 +11,11 @@ export const NewClaim = gql`
     to: String
     remark: String
     bizplace: String
+    drum: Float
+    pallet: Float
+    carton: Float
+    bag: Float
+    other: Float
     claimDetails: [NewClaimDetail]
     claimOrders: [NewClaimOrder]
   }

@@ -13,7 +13,6 @@ import { QuotationItemOption } from './quotation-item-option'
 import { QuotationPromotion } from './quotation-promotion'
 import { ReleaseGood } from './release-good'
 import { ShippingOrder } from './shipping-order'
-import { TransportOrderDetail } from './transport-order-detail'
 import { Vas } from './vas'
 import { Claim } from './claim'
 import { ClaimDetail } from './claim-detail'
@@ -36,7 +35,6 @@ export const entities = [
   DeliveryOrder,
   CollectionOrder,
   ShippingOrder,
-  TransportOrderDetail,
   ReleaseGood,
   Vas,
   Claim,
@@ -61,7 +59,6 @@ export {
   DeliveryOrder,
   CollectionOrder,
   ShippingOrder,
-  TransportOrderDetail,
   ReleaseGood,
   Vas,
   Claim,

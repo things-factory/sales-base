@@ -37,6 +37,20 @@ export const generateReleaseGood = {
 
       orderInventories = await Promise.all(
         orderInventories.map(async (orderInventory: OrderInventory) => {
+          // 1. Update locked qty and locked weight of inventories
+          const inventory: Inventory = await trxMgr.getRepository(Inventory).findOne(orderInventory.inventory.id)
+          let lockedQty: number = inventory.lockedQty || 0
+          let lockedWeight: number = inventory.lockedWeight || 0
+          const releaseQty: number = orderInventory.releaseQty || 0
+          const releaseWeight: number = orderInventory.releaseWeight || 0
+
+          await trxMgr.getRepository(Inventory).save({
+            ...inventory,
+            lockedQty: lockedQty + releaseQty,
+            lockedWeight: lockedWeight + releaseWeight,
+            updater: context.state.user
+          })
+
           return {
             ...orderInventory,
             domain: context.state.domain,

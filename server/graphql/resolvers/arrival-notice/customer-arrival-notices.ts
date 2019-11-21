@@ -9,7 +9,7 @@ export const customerArrivalNoticesResolver = {
       where: {
         domain: context.state.domain,
         bizplace: params.bizplace,
-        status: ORDER_STATUS.READY_TO_PUTAWAY
+        status: In([ORDER_STATUS.READY_TO_PUTAWAY, ORDER_STATUS.PUTTING_AWAY])
       },
       relations: ['domain', 'bizplace', 'creator', 'updater']
     })

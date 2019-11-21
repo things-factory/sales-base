@@ -28,7 +28,9 @@ export const Mutation = `
 
 export const Query = `
   goodsReceivalNotes(filters: [Filter], pagination: Pagination, sortings: [Sorting]): GoodsReceivalNoteList
+  customerReceivalNotes(filters: [Filter], pagination: Pagination, sortings: [Sorting]): GoodsReceivalNoteList
   goodsReceivalNote(name: String!): GoodsReceivalNote
+
 `
 
 export const Types = [GoodsReceivalNote, NewGoodsReceivalNote, GoodsReceivalNotePatch, GoodsReceivalNoteList]

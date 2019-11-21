@@ -9,7 +9,7 @@ export const Mutation = `
   ): Claim @priviledge(category: "claim", priviledge: "mutation" )
 
   updateClaim (
-    name: String!
+    id: String!
     patch: ClaimPatch!
   ): Claim
 

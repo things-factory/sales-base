@@ -15,7 +15,7 @@ import { User } from '@things-factory/auth-base'
 
 import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
 import { Bizplace } from '@things-factory/biz-base'
-import { ClaimDetail } from '.'
+import { ClaimDetail, ClaimOrder } from '.'
 
 @Entity()
 @Index('ix_claim_0', (claim: Claim) => [claim.domain, claim.id], { unique: true })
@@ -59,6 +59,34 @@ export class Claim {
   })
   charges: number
 
+  @Column({
+    nullable: true
+  })
+  drum: number
+
+  @Column({
+    nullable: true
+  })
+  pallet: number
+
+  @Column({
+    nullable: true
+  })
+  carton: number
+
+  @Column({
+    nullable: true
+  })
+  bag: number
+
+  @Column({
+    nullable: true
+  })
+  other: number
+
+  @Column()
+  status: string
+
   @CreateDateColumn()
   createdAt: Date
 
@@ -68,15 +96,18 @@ export class Claim {
   @OneToMany(type => ClaimDetail, claimDetail => claimDetail.claim)
   claimDetails: ClaimDetail[]
 
-  @OneToOne(type => TransportDriver)
+  @OneToMany(type => ClaimOrder, claimOrder => claimOrder.claim)
+  claimOrders: ClaimOrder[]
+
+  @ManyToOne(type => TransportDriver)
   @JoinColumn()
   transportDriver: TransportDriver
 
-  @OneToOne(type => TransportVehicle)
+  @ManyToOne(type => TransportVehicle)
   @JoinColumn()
   transportVehicle: TransportVehicle
 
-  @OneToOne(type => Bizplace, { nullable: true })
+  @ManyToOne(type => Bizplace, { nullable: true })
   @JoinColumn()
   bizplace: Bizplace
 

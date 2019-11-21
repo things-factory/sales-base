@@ -90,6 +90,11 @@ export class ReleaseGood {
   @Column({
     nullable: true
   })
+  refNo: String
+
+  @Column({
+    nullable: true
+  })
   releaseDate: string
 
   @Column({

@@ -16,7 +16,7 @@ export const NewOrderProduct = gql`
     batchId: String
     packingType: String
     unit: String
-    weight: Int
+    weight: Float
     packQty: Int
     actualPackQty: Int
     palletQty: Int

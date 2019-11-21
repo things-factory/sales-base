@@ -12,6 +12,7 @@ export const ReleaseGoodDetail = gql`
     ownTransport: Boolean
     truckNo: String
     remark: String
+    refNo: String
     inventoryId: String
     productId: String
     deliveryOrders: [DeliveryOrder]

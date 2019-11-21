@@ -64,6 +64,11 @@ export class ArrivalNotice {
   @Column({
     nullable: true
   })
+  refNo: String
+
+  @Column({
+    nullable: true
+  })
   etaDate: String
 
   @Column({
