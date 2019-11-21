@@ -1,15 +1,17 @@
+import { Bizplace, getMyBizplace } from '@things-factory/biz-base'
 import { Product } from '@things-factory/product-base'
-import { getManager, Not, Equal } from 'typeorm'
+import { Inventory } from '@things-factory/warehouse-base'
+import { Equal, getManager, Not } from 'typeorm'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_TYPES, ORDER_VAS_STATUS } from '../../../constants'
 import { ArrivalNotice, OrderProduct, OrderVas, Vas } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
-import { Inventory } from '@things-factory/warehouse-base'
 
 export const generateArrivalNotice = {
   async generateArrivalNotice(_: any, { arrivalNotice }, context: any) {
     return await getManager().transaction(async trxMgr => {
       let orderProducts: OrderProduct[] = arrivalNotice.orderProducts
       let orderVass: OrderVas[] = arrivalNotice.orderVass
+      const myBizplace: Bizplace = await getMyBizplace(context.state.user)
 
       // Validation for duplication of batch id and product pair
       // case 1. batch id is not duplicated => OK
@@ -18,7 +20,7 @@ export const generateArrivalNotice = {
       const duplicatedInventory: Inventory = await trxMgr.getRepository(Inventory).findOne({
         where: orderProducts.map((orderProduct: OrderProduct) => {
           return {
-            bizplace: context.state.mainBizplace,
+            bizplace: myBizplace,
             domain: context.state.domain,
             batchId: orderProduct.batchId,
             product: Not(Equal(orderProduct.product.id))
@@ -33,7 +35,7 @@ export const generateArrivalNotice = {
         ...arrivalNotice,
         name: OrderNoGenerator.arrivalNotice(),
         domain: context.state.domain,
-        bizplace: context.state.mainBizplace,
+        bizplace: myBizplace,
         status: ORDER_STATUS.PENDING,
         creator: context.state.user,
         updater: context.state.user
@@ -48,7 +50,7 @@ export const generateArrivalNotice = {
             name: OrderNoGenerator.orderProduct(),
             product: await trxMgr.getRepository(Product).findOne({ domain: context.state.domain, id: op.product.id }),
             arrivalNotice: createdArrivalNotice,
-            bizplace: context.state.mainBizplace,
+            bizplace: myBizplace,
             status: ORDER_PRODUCT_STATUS.PENDING,
             creator: context.state.user,
             updater: context.state.user
@@ -66,7 +68,7 @@ export const generateArrivalNotice = {
             name: OrderNoGenerator.orderVas(),
             vas: await trxMgr.getRepository(Vas).findOne({ domain: context.state.domain, id: ov.vas.id }),
             arrivalNotice: createdArrivalNotice,
-            bizplace: context.state.mainBizplace,
+            bizplace: myBizplace,
             type: ORDER_TYPES.ARRIVAL_NOTICE,
             status: ORDER_VAS_STATUS.PENDING,
             creator: context.state.user,

@@ -1,3 +1,4 @@
+import { Bizplace, getMyBizplace } from '@things-factory/biz-base'
 import { Inventory } from '@things-factory/warehouse-base'
 import { getManager } from 'typeorm'
 import { ORDER_STATUS } from '../../../constants'
@@ -8,6 +9,7 @@ import { OrderNoGenerator } from '../../../utils/order-no-generator'
 export const generateReleaseGood = {
   async generateReleaseGood(_: any, { releaseGood, shippingOrder }, context: any) {
     return await getManager().transaction(async trxMgr => {
+      const myBizplace: Bizplace = await getMyBizplace(context.state.user)
       let orderInventories: OrderInventory[] = releaseGood.orderInventories
       let orderVass: OrderVas[] = releaseGood.orderVass
 
@@ -15,7 +17,7 @@ export const generateReleaseGood = {
         ...releaseGood,
         name: OrderNoGenerator.releaseGood(),
         domain: context.state.domain,
-        bizplace: context.state.mainBizplace,
+        bizplace: myBizplace,
         status: ORDER_STATUS.PENDING,
         creator: context.state.user,
         updater: context.state.user
@@ -26,7 +28,7 @@ export const generateReleaseGood = {
           ...shippingOrder,
           name: OrderNoGenerator.shippingOrder(),
           domain: context.state.domain,
-          bizplace: context.state.mainBizplace,
+          bizplace: myBizplace,
           status: ORDER_STATUS.PENDING,
           creator: context.state.user,
           updater: context.state.user
@@ -38,7 +40,7 @@ export const generateReleaseGood = {
           return {
             ...orderInventory,
             domain: context.state.domain,
-            bizplace: context.state.mainBizplace,
+            bizplace: myBizplace,
             status: ORDER_INVENTORY_STATUS.PENDING,
             name: OrderNoGenerator.orderInventory(),
             inventory: await trxMgr.getRepository(Inventory).findOne(orderInventory.inventory.id),
@@ -56,7 +58,7 @@ export const generateReleaseGood = {
             return {
               ...orderVas,
               domain: context.state.domain,
-              bizplace: context.state.mainBizplace,
+              bizplace: myBizplace,
               name: OrderNoGenerator.releaseVas(),
               vas: await trxMgr.getRepository(Vas).findOne(orderVas.vas.id),
               inventory: await trxMgr.getRepository(Inventory).findOne(orderVas.inventory.id),

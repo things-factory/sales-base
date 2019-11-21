@@ -1,5 +1,6 @@
+import { Bizplace, getMyBizplace } from '@things-factory/biz-base'
 import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
-import { getManager, getRepository } from 'typeorm'
+import { getManager } from 'typeorm'
 import { ORDER_STATUS, ORDER_TYPES } from '../../../constants'
 import { DeliveryOrder, TransportOrderDetail } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils'
@@ -8,6 +9,7 @@ export const dispatchDeliveryOrder = {
   async dispatchDeliveryOrder(_: any, { orderInfo }, context: any) {
     return await getManager().transaction(async trxMgr => {
       let transportOrderDetails: TransportOrderDetail[] = orderInfo.transportOrderDetails
+      const myBizplace: Bizplace = await getMyBizplace(context.state.user)
 
       try {
         const foundDeliveryOrder: DeliveryOrder = await trxMgr.getRepository(DeliveryOrder).findOne({
@@ -23,7 +25,7 @@ export const dispatchDeliveryOrder = {
             return {
               ...tod,
               domain: context.state.domain,
-              bizplace: context.state.mainBizplace,
+              bizplace: myBizplace,
               name: OrderNoGenerator.transportOrderDetail(),
               transportDriver: await trxMgr.getRepository(TransportDriver).findOne({
                 domain: context.state.domain,
