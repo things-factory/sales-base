@@ -11,7 +11,7 @@ export const arrivalNoticeRequestsResolver = {
     if (!convertedParams.where || !convertedParams.where.status) {
       convertedParams.where.status = Not(In([ORDER_STATUS.PENDING, ORDER_STATUS.EDITING]))
     }
-    convertedParams.bizplace = In(await getPermittedBizplaceIds(context.state.domain, context.state.user))
+    convertedParams.where.bizplace = In(await getPermittedBizplaceIds(context.state.domain, context.state.user))
 
     const [items, total] = await getRepository(ArrivalNotice).findAndCount({
       ...convertedParams,
