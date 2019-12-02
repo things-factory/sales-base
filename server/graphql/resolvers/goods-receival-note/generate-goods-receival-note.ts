@@ -20,10 +20,10 @@ export async function generateGoodsReceivalNote(grn: any, domain: Domain, user: 
     ...grn,
     name: OrderNoGenerator.goodsReceiveNote(),
     domain,
-    bizplace: getRepository(Bizplace).findOne({
+    bizplace: await getRepository(Bizplace).findOne({
       where: { domain, id: grn.customer }
     }),
-    arrivalNotice: getRepository(ArrivalNotice).findOne({
+    arrivalNotice: await getRepository(ArrivalNotice).findOne({
       where: { domain, name: grn.refNo }
     }),
     creator: user,
