@@ -6,6 +6,7 @@ export const NewVas = gql`
     description: String
     defaultPrice: Float!
     currency: String
+    uom: String
     operationGuideType: String
     operationGuide: String
   }

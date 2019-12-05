@@ -7,6 +7,7 @@ export const Vas = gql`
     domain: Domain
     description: String
     defaultPrice: Float
+    uom: String
     currency: String
     operationGuideType: String
     operationGuide: String
