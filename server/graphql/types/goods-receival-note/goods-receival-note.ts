@@ -9,6 +9,7 @@ export const GoodsReceivalNote = gql`
     refNo: String
     bizplace: Bizplace
     arrivalNotice: ArrivalNotice
+    attachments: [Attachment]
     updater: User
     creator: User
     updatedAt: String
