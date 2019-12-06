@@ -25,7 +25,7 @@ export const customerReceivalNotesResolver = {
             refBy: item.id
           }
         })
-
+        item.status = item.status === GRN_STATUS.SUBMITTED ? GRN_STATUS.NEW : GRN_STATUS.OPENED
         return {
           ...item,
           attachments: foundAttachments
