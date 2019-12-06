@@ -1,7 +1,8 @@
 import { ListParam, convertListParams } from '@things-factory/shell'
 import { Attachment } from '@things-factory/attachment-base'
-import { getRepository } from 'typeorm'
+import { getRepository, In } from 'typeorm'
 import { GoodsReceivalNote } from '../../../entities/goods-receival-note'
+import { GRN_STATUS } from '../../../constants'
 
 export const customerReceivalNotesResolver = {
   async customerReceivalNotes(_: any, params: ListParam, context: any) {
@@ -10,7 +11,8 @@ export const customerReceivalNotesResolver = {
       ...convertedParams,
       where: {
         domain: context.state.domain,
-        bizplace: context.state.mainBizplace
+        bizplace: context.state.mainBizplace,
+        status: In([GRN_STATUS.SUBMITTED, GRN_STATUS.RECEIVED])
       },
       relations: ['domain', 'arrivalNotice', 'bizplace', 'creator', 'updater']
     })

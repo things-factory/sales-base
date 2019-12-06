@@ -24,6 +24,14 @@ export const Mutation = `
   deleteGoodsReceivalNotes (
     names: [String]!
   ): Boolean
+
+  submittedGoodsReceivalNote (
+    name: String!
+  ): GoodsReceivalNote
+
+  receivedGoodsReceivalNote (
+    name: String!
+  ): GoodsReceivalNote
 `
 
 export const Query = `

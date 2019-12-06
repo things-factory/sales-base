@@ -5,6 +5,7 @@ import { getManager, getRepository } from 'typeorm'
 import { ArrivalNotice } from '../../../entities/arrival-notice'
 import { GoodsReceivalNote } from '../../../entities/goods-receival-note'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
+import { GRN_STATUS } from '../../../constants'
 
 export const generateGoodsReceivalNoteResolver = {
   async generateGoodsReceivalNote(_: any, { grn }, context: any) {
@@ -26,6 +27,7 @@ export async function generateGoodsReceivalNote(grn: any, domain: Domain, user: 
     arrivalNotice: await getRepository(ArrivalNotice).findOne({
       where: { domain, name: grn.refNo }
     }),
+    status: GRN_STATUS.PENDING_PROCESS,
     creator: user,
     updater: user
   })
