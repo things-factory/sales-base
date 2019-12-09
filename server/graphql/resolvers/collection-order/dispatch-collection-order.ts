@@ -1,11 +1,8 @@
-import {
-  TransportDriver,
-  TransportVehicle
-} from "@things-factory/transport-base";
-import { getManager } from "typeorm";
-import { ORDER_STATUS } from "../../../constants";
-import { CollectionOrder } from "../../../entities";
-import { OrderNoGenerator } from "../../../utils";
+import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
+import { getManager } from 'typeorm'
+import { ORDER_STATUS } from '../../../constants'
+import { CollectionOrder } from '../../../entities'
+import { OrderNoGenerator } from '../../../utils'
 
 export const dispatchCollectionOrder = {
   async dispatchCollectionOrder(_: any, { orderInfo }, context: any) {
@@ -29,12 +26,10 @@ export const dispatchCollectionOrder = {
             domain: context.state.domain,
             id: foundCollectionOrder.transportDriver.id
           }),
-          transportVehicle: await trxMgr
-            .getRepository(TransportVehicle)
-            .findOne({
-              domain: context.state.domain,
-              id: foundCollectionOrder.transportVehicle.id
-            }),
+          transportVehicle: await trxMgr.getRepository(TransportVehicle).findOne({
+            domain: context.state.domain,
+            id: foundCollectionOrder.transportVehicle.id
+          }),
           status: ORDER_STATUS.COLLECTING,
           updater: context.state.user
         });

@@ -6,9 +6,11 @@ export const GoodsReceivalNote = gql`
     name: String
     domain: Domain
     description: String
+    status: String
     refNo: String
     bizplace: Bizplace
     arrivalNotice: ArrivalNotice
+    attachments: [Attachment]
     updater: User
     creator: User
     updatedAt: String

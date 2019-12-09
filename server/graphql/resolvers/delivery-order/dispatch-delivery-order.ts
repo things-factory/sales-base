@@ -1,7 +1,4 @@
-import {
-  TransportDriver,
-  TransportVehicle
-} from "@things-factory/transport-base";
+import { TransportDriver, TransportVehicle } from "@things-factory/transport-base";
 import { getManager } from "typeorm";
 import { ORDER_STATUS } from "../../../constants";
 import { DeliveryOrder } from "../../../entities";
@@ -29,12 +26,10 @@ export const dispatchDeliveryOrder = {
             domain: context.state.domain,
             id: foundDeliveryOrder.transportDriver.id
           }),
-          transportVehicle: await trxMgr
-            .getRepository(TransportVehicle)
-            .findOne({
-              domain: context.state.domain,
-              id: foundDeliveryOrder.transportVehicle.id
-            }),
+          transportVehicle: await trxMgr.getRepository(TransportVehicle).findOne({
+            domain: context.state.domain,
+            id: foundDeliveryOrder.transportVehicle.id
+          }),
 
           status: ORDER_STATUS.DELIVERING,
           updater: context.state.user
