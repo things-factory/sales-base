@@ -1,5 +1,4 @@
 import { Attachment } from '@things-factory/attachment-base'
-import { getMyBizplace } from '@things-factory/biz-base'
 import { convertListParams, ListParam } from '@things-factory/shell'
 import { getRepository, In } from 'typeorm'
 import { GRN_STATUS } from '../../../constants'
@@ -13,7 +12,7 @@ export const customerReceivalNotesResolver = {
       where: {
         ...convertedParams.where,
         domain: context.state.domain,
-        bizplace: await getMyBizplace(context.state.user),
+        bizplace: context.state.mainBizplace,
         status: In([GRN_STATUS.SUBMITTED, GRN_STATUS.RECEIVED])
       },
       relations: ['domain', 'arrivalNotice', 'bizplace', 'creator', 'updater']
