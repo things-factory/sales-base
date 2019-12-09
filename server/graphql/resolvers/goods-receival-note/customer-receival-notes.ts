@@ -11,6 +11,7 @@ export const customerReceivalNotesResolver = {
     let [items, total] = await getRepository(GoodsReceivalNote).findAndCount({
       ...convertedParams,
       where: {
+        ...convertedParams.where,
         domain: context.state.domain,
         bizplace: await getMyBizplace(context.state.user),
         status: In([GRN_STATUS.SUBMITTED, GRN_STATUS.RECEIVED])
