@@ -1,33 +1,67 @@
-import { getManager, getRepository } from 'typeorm'
+import { User } from '@things-factory/auth-base'
+import { Bizplace } from '@things-factory/biz-base'
+import { Domain } from '@things-factory/shell'
+import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
+import { EntityManager, getManager, getRepository, Repository } from 'typeorm'
 import { ORDER_STATUS } from '../../../constants'
 import { DeliveryOrder, ReleaseGood } from '../../../entities'
-import { createAttachments } from '@things-factory/attachment-base'
 
-export const generateDeliveryOrder = {
-  async generateDeliveryOrder(_: any, { deliveryOrder, attachments }, context: any) {
-    return await getManager().transaction(async () => {
-      // 1. Create delivery order
-      const createdDeliveryOrder: DeliveryOrder = await getRepository(DeliveryOrder).save({
-        ...deliveryOrder,
-        domain: context.state.domain,
-        releaseGood: await getRepository(ReleaseGood).findOne({
-          where: { domain: context.state.domain, name: deliveryOrder.refNo }
-        }),
-        bizplace: context.state.mainBizplace,
-        status: ORDER_STATUS.PENDING,
-        creator: context.state.user,
-        updater: context.state.user
-      })
-
-      // 2. Create attachment
-      if (!attachments) return createdDeliveryOrder
-
-      attachments = attachments.map(attachment => {
-        return { refBy: createdDeliveryOrder.id, file: attachment, category: 'ORDER' }
-      })
-      await createAttachments(_, { attachments }, context)
-
-      return createdDeliveryOrder
+export const generateDeliveryOrderResolver = {
+  async generateDeliveryOrder(_: any, { deliveryOrder }, context: any) {
+    return await getManager().transaction(async trxMgr => {
+      return await generateDeliveryOrder(deliveryOrder, context.state.domain, context.state.user, trxMgr)
     })
   }
+}
+
+export async function generateDeliveryOrder(
+  deliveryOrder: any,
+  domain: Domain,
+  user: User,
+  trxMgr?: EntityManager
+): Promise<DeliveryOrder> {
+  /**
+   * 1. Validation for creating DO
+   *    - data existing
+   */
+
+  const deliveryOrderRepo: Repository<DeliveryOrder> = trxMgr
+    ? trxMgr.getRepository(DeliveryOrder)
+    : getRepository(DeliveryOrder)
+  const releaseOrderRepo: Repository<ReleaseGood> = trxMgr
+    ? trxMgr.getRepository(ReleaseGood)
+    : getRepository(ReleaseGood)
+  const transportDriverRepo: Repository<TransportDriver> = trxMgr
+    ? trxMgr.getRepository(TransportDriver)
+    : getRepository(TransportDriver)
+  const transportVehicleRepo: Repository<TransportVehicle> = trxMgr
+    ? trxMgr.getRepository(TransportVehicle)
+    : getRepository(TransportVehicle)
+
+  if (!deliveryOrder) throw new Error(`No data is sent`)
+  const foundRO: ReleaseGood = await releaseOrderRepo.findOne({
+    where: { domain, name: deliveryOrder.releaseGood.name, status: ORDER_STATUS.LOADING },
+    relations: ['bizplace']
+  })
+  const customerBizplace: Bizplace = foundRO.bizplace
+
+  // 1. Create delivery order
+  if (!foundRO) throw new Error('Release Order is not found')
+  const createdDeliveryOrder: DeliveryOrder = await deliveryOrderRepo.save({
+    ...deliveryOrder,
+    domain,
+    releaseGood: foundRO,
+    bizplace: customerBizplace,
+    transportDriver: await transportDriverRepo.findOne({
+      where: { domain, name: deliveryOrder.transportDriver.name }
+    }),
+    transportVehicle: await transportVehicleRepo.findOne({
+      where: { domain, name: deliveryOrder.transportVehicle.name }
+    }),
+    status: ORDER_STATUS.PENDING,
+    creator: user,
+    updater: user
+  })
+
+  return createdDeliveryOrder
 }

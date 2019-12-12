@@ -42,15 +42,12 @@ export class DeliveryOrder {
   })
   to: string
 
-  @Column({
-    nullable: true
-  })
-  truckNo: string
-
   @ManyToOne(type => ReleaseGood)
   releaseGood: ReleaseGood
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   looseItem: Boolean
 
   @Column({
