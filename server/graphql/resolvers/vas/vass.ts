@@ -4,7 +4,7 @@ import { Vas } from '../../../entities'
 
 export const vassResolver = {
   async vass(_: any, params: ListParam, context: any) {
-    const convertedParams = convertListParams(params)
+    const convertedParams = convertListParams(params, context.state.domain.id)
 
     const [items, total] = await getRepository(Vas).findAndCount({
       ...convertedParams,
