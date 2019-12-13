@@ -25,8 +25,9 @@ export const Mutation = `
     names: [String]!
   ): Boolean
 
-  submittedGoodsReceivalNote (
+  submitGoodsReceivalNote (
     name: String!
+    file: Upload
   ): GoodsReceivalNote
 
   receivedGoodsReceivalNote (
