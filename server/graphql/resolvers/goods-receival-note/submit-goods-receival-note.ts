@@ -20,10 +20,11 @@ export const submitGoodsReceivalNote = {
     }
 
     if (!foundAttachment) {
-      await createAttachment(attachment)
+      await createAttachment(_, { attachment }, context)
     } else {
-      await deleteAttachment(foundAttachment.id)
-      await createAttachment(attachment)
+      const id = foundAttachment.id
+      await deleteAttachment(_, { id }, context)
+      await createAttachment(_, { attachment }, context)
     }
 
     return await getRepository(GoodsReceivalNote).save({
