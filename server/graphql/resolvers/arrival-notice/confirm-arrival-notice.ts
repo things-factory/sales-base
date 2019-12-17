@@ -1,3 +1,5 @@
+import { Role } from '@things-factory/auth-base'
+import { sendNotification } from '@things-factory/shell'
 import { getManager } from 'typeorm'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
 import { ArrivalNotice, OrderProduct, OrderVas } from '../../../entities'
@@ -35,6 +37,39 @@ export const confirmArrivalNotice = {
 
         await trxMgr.getRepository(OrderVas).save(foundOVs)
       }
+
+      // notification logics
+      // get Office Admin Users
+      const users: any[] = await trxMgr
+        .getRepository('users_roles')
+        .createQueryBuilder('ur')
+        .select('ur.users_id', 'id')
+        .where(qb => {
+          const subQuery = qb
+            .subQuery()
+            .select('role.id')
+            .from(Role, 'role')
+            .where("role.name = 'Office Admin'")
+            .getQuery()
+          return 'ur.roles_id = ' + subQuery
+        })
+        .getRawMany()
+
+      // send notification to Office Admin Users
+      if (users?.length) {
+        const msg = {
+          title: 'Arrival notice confirmed',
+          message: `Arrival notice ${foundArrivalNotice.id} is confirmed`,
+          url: context.header.referer
+        }
+        users.forEach(user => {
+          sendNotification({
+            receiver: user.id,
+            message: JSON.stringify(msg)
+          })
+        })
+      }
+
       return arrivalNotice
     })
   }
