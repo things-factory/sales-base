@@ -1,6 +1,7 @@
 import { createDeliveryOrder } from './create-delivery-order'
 import { deleteDeliveryOrder } from './delete-delivery-order'
 import { deliveryOrderResolver } from './delivery-order'
+import { generateDeliveryOrderResolver } from './generate-delivery-order'
 import { deliveryOrdersResolver } from './delivery-orders'
 import { deliveryOrderRequestsResolver } from './delivery-order-requests'
 import { updateDeliveryOrder } from './update-delivery-order'
@@ -20,6 +21,7 @@ export const Query = {
 export const Mutation = {
   ...updateDeliveryOrder,
   ...createDeliveryOrder,
+  ...generateDeliveryOrderResolver,
   ...deleteDeliveryOrder,
   ...generateDeliveryOrder,
   ...confirmDeliveryOrder,

@@ -5,7 +5,6 @@ export const NewDeliveryOrder = gql`
     name: String
     from: String
     to: String
-    truckNo: String
     refNo: String
     deliveryDate: String
     deliveryDateTime: String
