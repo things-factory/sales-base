@@ -20,7 +20,7 @@ export const Mutation = `
 
   generateDeliveryOrder (
     deliveryOrder: GenerateDeliveryOrder!
-    attachments: [Upload]
+    releaseGood: ObjectRef
   ): DeliveryOrder
 
   confirmDeliveryOrder (
