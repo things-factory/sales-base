@@ -1,7 +1,9 @@
+import { Bizplace } from '@things-factory/biz-base'
+import { sendNotification } from '@things-factory/shell'
 import { Inventory } from '@things-factory/warehouse-base'
 import { getManager } from 'typeorm'
 import { ORDER_INVENTORY_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
-import { DeliveryOrder, OrderInventory, OrderVas, ReleaseGood, ShippingOrder } from '../../../entities'
+import { OrderInventory, OrderVas, ReleaseGood, ShippingOrder } from '../../../entities'
 
 export const rejectReleaseGood = {
   async rejectReleaseGood(_: any, { name, patch }, context: any) {
@@ -9,7 +11,7 @@ export const rejectReleaseGood = {
       try {
         const releaseGood: ReleaseGood = await trxMgr.getRepository(ReleaseGood).findOne({
           where: { domain: context.state.domain, name, status: ORDER_STATUS.PENDING_RECEIVE },
-          relations: ['orderInventories', 'orderInventories.inventory', 'orderVass', 'shippingOrder', 'deliveryOrders']
+          relations: ['bizplace', 'orderInventories', 'orderInventories.inventory', 'orderVass', 'shippingOrder']
         })
 
         if (!releaseGood) throw new Error(`Release good doesn't exists.`)
@@ -17,7 +19,7 @@ export const rejectReleaseGood = {
 
         let foundOIs: OrderInventory[] = releaseGood.orderInventories
         let foundOVs: OrderVas[] = releaseGood.orderVass
-        let foundDOs: DeliveryOrder[] = releaseGood.deliveryOrders
+        let customerBizplace: Bizplace = releaseGood.bizplace
 
         // 1. Update status of order products (PENDING_RECEIVE => REJECTED)
         if (foundOIs && foundOIs.length) {
@@ -64,17 +66,6 @@ export const rejectReleaseGood = {
           await trxMgr.getRepository(OrderVas).save(foundOVs)
         }
 
-        if (foundDOs) {
-          foundDOs = foundDOs.map((dos: DeliveryOrder) => {
-            return {
-              ...dos,
-              status: ORDER_STATUS.REJECTED,
-              updater: context.state.user
-            }
-          })
-          await trxMgr.getRepository(DeliveryOrder).save(foundDOs)
-        }
-
         if (releaseGood.shippingOrder) {
           // 2. 1) if it's yes update status of collection order
           const shippingOrder: ShippingOrder = await trxMgr.getRepository(ShippingOrder).findOne({
@@ -94,6 +85,38 @@ export const rejectReleaseGood = {
           status: ORDER_STATUS.REJECTED,
           updater: context.state.user
         })
+
+        // notification logics
+        // get Customer by bizplace
+        const users: any[] = await trxMgr
+          .getRepository('bizplaces_users')
+          .createQueryBuilder('bu')
+          .select('bu.users_id', 'id')
+          .where(qb => {
+            const subQuery = qb
+              .subQuery()
+              .select('bizplace.id')
+              .from(Bizplace, 'bizplace')
+              .where('bizplace.name = ' + customerBizplace.name)
+              .getQuery()
+            return 'bu.bizplaces_id = ' + subQuery
+          })
+          .getRawMany()
+
+        // send notification to Customer Users
+        if (users?.length) {
+          const msg = {
+            title: `Latest status for ${releaseGood.name}`,
+            message: `Your RO has been rejected.`,
+            url: context.header.referer
+          }
+          users.forEach(user => {
+            sendNotification({
+              receiver: user.id,
+              message: JSON.stringify(msg)
+            })
+          })
+        }
 
         return releaseGood
       } catch (e) {

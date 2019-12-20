@@ -1,4 +1,5 @@
 import { Role } from '@things-factory/auth-base'
+import { Bizplace } from '@things-factory/biz-base'
 import { sendNotification } from '@things-factory/shell'
 import { getManager } from 'typeorm'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
@@ -9,11 +10,20 @@ export const confirmArrivalNotice = {
     return await getManager().transaction(async trxMgr => {
       const foundArrivalNotice: ArrivalNotice = await trxMgr.getRepository(ArrivalNotice).findOne({
         where: { domain: context.state.domain, name, status: ORDER_STATUS.PENDING },
-        relations: ['orderProducts', 'orderProducts.product', 'orderVass', 'orderVass.vas', 'creator', 'updater']
+        relations: [
+          'bizplace',
+          'orderProducts',
+          'orderProducts.product',
+          'orderVass',
+          'orderVass.vas',
+          'creator',
+          'updater'
+        ]
       })
 
       let foundOPs: OrderProduct[] = foundArrivalNotice.orderProducts
       let foundOVs: OrderVas[] = foundArrivalNotice.orderVass
+      let customerBizplace: Bizplace = foundArrivalNotice.bizplace
 
       if (!foundArrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
 
@@ -58,8 +68,8 @@ export const confirmArrivalNotice = {
       // send notification to Office Admin Users
       if (users?.length) {
         const msg = {
-          title: 'Arrival notice confirmed',
-          message: `Arrival notice ${foundArrivalNotice.id} is confirmed`,
+          title: `New Arrival Notice from ${customerBizplace.name}`,
+          message: `New incoming order, ${foundArrivalNotice.name} is pending for receiving`,
           url: context.header.referer
         }
         users.forEach(user => {

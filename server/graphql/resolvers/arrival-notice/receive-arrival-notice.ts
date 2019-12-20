@@ -1,4 +1,6 @@
 import { getManager } from 'typeorm'
+import { Bizplace } from '@things-factory/biz-base'
+import { sendNotification } from '@things-factory/shell'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
 import { ArrivalNotice, CollectionOrder, OrderProduct, OrderVas } from '../../../entities'
 
@@ -8,13 +10,14 @@ export const receiveArrivalNotice = {
       try {
         const foundArrivalNotice: ArrivalNotice = await trxMgr.getRepository(ArrivalNotice).findOne({
           where: { domain: context.state.domain, name, status: ORDER_STATUS.PENDING_RECEIVE },
-          relations: ['collectionOrders', 'orderProducts', 'orderVass']
+          relations: ['bizplace', 'collectionOrders', 'orderProducts', 'orderVass']
         })
 
         if (!foundArrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
 
         let foundOPs: OrderProduct[] = foundArrivalNotice.orderProducts
         let foundOVs: OrderVas[] = foundArrivalNotice.orderVass
+        let customerBizplace: Bizplace = foundArrivalNotice.bizplace
         let foundCOs: CollectionOrder[] = await trxMgr.getRepository(CollectionOrder).find({
           where: { domain: context.state.domain, refNo: foundArrivalNotice.name }
         })
@@ -49,6 +52,38 @@ export const receiveArrivalNotice = {
               status: ORDER_STATUS.READY_TO_DISPATCH,
               updater: context.state.user
             }
+          })
+        }
+
+        // notification logics
+        // get Customer by bizplace
+        const users: any[] = await trxMgr
+          .getRepository('bizplaces_users')
+          .createQueryBuilder('bu')
+          .select('bu.users_id', 'id')
+          .where(qb => {
+            const subQuery = qb
+              .subQuery()
+              .select('bizplace.id')
+              .from(Bizplace, 'bizplace')
+              .where('bizplace.name = ' + customerBizplace.name)
+              .getQuery()
+            return 'bu.bizplaces_id = ' + subQuery
+          })
+          .getRawMany()
+
+        // send notification to Customer Users
+        if (users?.length) {
+          const msg = {
+            title: `Latest status for ${foundArrivalNotice.name}`,
+            message: `Your GAN has been received and processed by ${context.state.domain}`,
+            url: context.header.referer
+          }
+          users.forEach(user => {
+            sendNotification({
+              receiver: user.id,
+              message: JSON.stringify(msg)
+            })
           })
         }
 
