@@ -1,8 +1,7 @@
 import { Attachment } from '@things-factory/attachment-base'
-import { ArrivalNotice } from '../../../entities/arrival-notice'
-import { ListParam, convertListParams } from '@things-factory/shell'
-import { GRN_STATUS } from '../../../constants'
+import { convertListParams, ListParam } from '@things-factory/shell'
 import { getRepository, In, IsNull } from 'typeorm'
+import { ArrivalNotice } from '../../../entities/arrival-notice'
 import { GoodsReceivalNote } from '../../../entities/goods-receival-note'
 
 export const goodsReceivalNotesResolver = {
