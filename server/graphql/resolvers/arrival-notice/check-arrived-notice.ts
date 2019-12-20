@@ -71,7 +71,7 @@ export const checkArrivedNotice = {
               .from(Bizplace, 'bizplace')
               .where('bizplace.name = ' + customerBizplace.name)
               .getQuery()
-            return 'bu.bizplaces_id = ' + subQuery
+            return 'bu.bizplaces_id IN ' + subQuery
           })
           .getRawMany()
 

@@ -60,7 +60,7 @@ export const confirmReleaseGood = {
             .from(Role, 'role')
             .where("role.name = 'Office Admin'")
             .getQuery()
-          return 'ur.roles_id = ' + subQuery
+          return 'ur.roles_id IN ' + subQuery
         })
         .getRawMany()
 
