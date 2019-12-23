@@ -45,9 +45,9 @@ export const rejectVasOrder = {
               .subQuery()
               .select('bizplace.id')
               .from(Bizplace, 'bizplace')
-              .where('bizplace.name = ' + customerBizplace.name)
+              .where('bizplace.name = :bizplaceName', { bizplaceName: customerBizplace.name })
               .getQuery()
-            return 'bu.bizplaces_id = ' + subQuery
+            return 'bu.bizplace_id = ' + subQuery
           })
           .getRawMany()
 

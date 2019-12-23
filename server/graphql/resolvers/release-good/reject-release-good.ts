@@ -91,15 +91,15 @@ export const rejectReleaseGood = {
         const users: any[] = await trxMgr
           .getRepository('bizplaces_users')
           .createQueryBuilder('bu')
-          .select('bu.users_id', 'id')
+          .select('bu.user_id', 'id')
           .where(qb => {
             const subQuery = qb
               .subQuery()
               .select('bizplace.id')
               .from(Bizplace, 'bizplace')
-              .where('bizplace.name = ' + customerBizplace.name)
+              .where('bizplace.name = :bizplaceName', { bizplaceName: customerBizplace.name })
               .getQuery()
-            return 'bu.bizplaces_id IN ' + subQuery
+            return 'bu.bizplace_id IN ' + subQuery
           })
           .getRawMany()
 
