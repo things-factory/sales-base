@@ -4,7 +4,7 @@ export const DeliveryOrder = gql`
   type DeliveryOrder {
     id: String
     domain: Domain
-    bizplace: Bizplace
+    customerBizplace: Bizplace
     releaseGood: ReleaseGood
     name: String
     loadWeight: Float
@@ -16,6 +16,7 @@ export const DeliveryOrder = gql`
     deliveryDate: String
     deliveryDateTime: String
     looseItem: Boolean
+    targetInventories: [OrderInventory]
     transportDriver: TransportDriver
     transportVehicle: TransportVehicle
     attachments: [Attachment]
