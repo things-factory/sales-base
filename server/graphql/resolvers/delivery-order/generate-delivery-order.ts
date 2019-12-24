@@ -64,10 +64,6 @@ export async function generateDeliveryOrder(
     where: { domain, bizplace: customerBizplace }
   })
 
-  const foundTruck: TransportVehicle = await transportVehicleRepo.findOne({
-    where: { domain, id: transportVehicle.id }
-  })
-
   // 3. Create delivery order
   const createdDeliveryOrder: DeliveryOrder = await deliveryOrderRepo.save({
     domain,
@@ -79,15 +75,11 @@ export async function generateDeliveryOrder(
     transportDriver: await transportDriverRepo.findOne({
       where: { domain, id: transportDriver.id }
     }),
-    transportVehicle: foundTruck,
+    transportVehicle: await transportVehicleRepo.findOne({
+      where: { domain, id: transportVehicle.id }
+    }),
     status: ORDER_STATUS.PENDING,
     creator: user,
-    updater: user
-  })
-
-  await transportDriverRepo.save({
-    ...foundTruck,
-    status: TRUCK_STATUS.ASSIGNED,
     updater: user
   })
 
