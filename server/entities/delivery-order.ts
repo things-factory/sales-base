@@ -2,17 +2,7 @@ import { User } from '@things-factory/auth-base'
 import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
 import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  JoinColumn,
-  ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from 'typeorm'
+import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { ReleaseGood } from './release-good'
 
 @Entity()
@@ -65,12 +55,10 @@ export class DeliveryOrder {
   })
   loadWeight: Number
 
-  @OneToOne(type => TransportDriver)
-  @JoinColumn()
+  @ManyToOne(type => TransportDriver)
   transportDriver: TransportDriver
 
-  @OneToOne(type => TransportVehicle)
-  @JoinColumn()
+  @ManyToOne(type => TransportVehicle)
   transportVehicle: TransportVehicle
 
   @Column({
