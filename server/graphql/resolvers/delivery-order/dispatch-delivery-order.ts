@@ -21,16 +21,6 @@ export const dispatchDeliveryOrder = {
 
         await trxMgr.getRepository(DeliveryOrder).save({
           ...foundDeliveryOrder,
-          name: OrderNoGenerator.deliveryOrder(),
-          transportDriver: await trxMgr.getRepository(TransportDriver).findOne({
-            domain: context.state.domain,
-            id: foundDeliveryOrder.transportDriver.id
-          }),
-          transportVehicle: await trxMgr.getRepository(TransportVehicle).findOne({
-            domain: context.state.domain,
-            id: foundDeliveryOrder.transportVehicle.id
-          }),
-
           status: ORDER_STATUS.DELIVERING,
           updater: context.state.user
         });

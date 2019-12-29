@@ -19,8 +19,11 @@ export const Mutation = `
   ): Boolean
 
   generateDeliveryOrder (
-    deliveryOrder: GenerateDeliveryOrder!
-    attachments: [Upload]
+    transportDriver: ObjectRef!
+    transportVehicle: ObjectRef!
+    customerBizplace: ObjectRef
+    releaseGood: ObjectRef
+    targetInventories: [ObjectRef]
   ): DeliveryOrder
 
   confirmDeliveryOrder (
