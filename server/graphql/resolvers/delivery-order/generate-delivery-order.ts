@@ -55,14 +55,8 @@ export async function generateDeliveryOrder(
   const orderInventoryRepo: Repository<OrderInventory> = trxMgr
     ? trxMgr.getRepository(OrderInventory)
     : getRepository(OrderInventory)
-  const contactPointRepo: Repository<ContactPoint> = trxMgr
-    ? trxMgr.getRepository(ContactPoint)
-    : getRepository(ContactPoint)
 
   if (!transportDriver || !transportVehicle) throw new Error(`Driver and truck information is incomplete`)
-  const customerContact: ContactPoint = await contactPointRepo.findOne({
-    where: { domain, bizplace: customerBizplace }
-  })
 
   // 3. Create delivery order
   const createdDeliveryOrder: DeliveryOrder = await deliveryOrderRepo.save({
