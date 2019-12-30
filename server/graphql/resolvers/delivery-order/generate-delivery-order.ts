@@ -70,8 +70,6 @@ export async function generateDeliveryOrder(
     name: OrderNoGenerator.deliveryOrder(),
     bizplace: customerBizplace,
     releaseGood: releaseGood,
-    to: customerBizplace.address,
-    telNo: customerContact.phone,
     transportDriver: await transportDriverRepo.findOne({
       where: { domain, id: transportDriver.id }
     }),
