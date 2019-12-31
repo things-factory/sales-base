@@ -1,6 +1,5 @@
 import { Attachment } from '@things-factory/attachment-base'
-import { getPermittedBizplaceIds } from '@things-factory/biz-base'
-import { getRepository, In } from 'typeorm'
+import { getRepository } from 'typeorm'
 import { DeliveryOrder } from '../../../entities'
 
 export const deliveryOrderResolver = {
@@ -8,8 +7,7 @@ export const deliveryOrderResolver = {
     const foundDO = await getRepository(DeliveryOrder).findOne({
       where: {
         domain: context.state.domain,
-        name,
-        bizplace: In(await getPermittedBizplaceIds(context.state.domain, context.state.user))
+        name
       },
       relations: ['domain', 'bizplace', 'transportDriver', 'transportVehicle', 'releaseGood', 'creator', 'updater']
     })
