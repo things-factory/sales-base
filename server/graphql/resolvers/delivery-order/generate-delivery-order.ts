@@ -1,11 +1,11 @@
 import { User } from '@things-factory/auth-base'
-import { Bizplace, ContactPoint } from '@things-factory/biz-base'
+import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
-import { TransportDriver, TransportVehicle, TRUCK_STATUS } from '@things-factory/transport-base'
-import { EntityManager, getManager, getRepository, Repository, In } from 'typeorm'
+import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
+import { EntityManager, getManager, getRepository, Repository } from 'typeorm'
 import { ORDER_STATUS } from '../../../constants'
+import { DeliveryOrder, OrderInventory, ReleaseGood } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils'
-import { DeliveryOrder, ReleaseGood, OrderInventory } from '../../../entities'
 
 export const generateDeliveryOrderResolver = {
   async generateDeliveryOrder(
@@ -39,53 +39,46 @@ export async function generateDeliveryOrder(
   trxMgr?: EntityManager
 ): Promise<DeliveryOrder> {
   /**
-   * 1. Validation for creating DO
-   *    - data existing
+   * 1. Validation for creating DO - data existing
    */
+  const deliveryOrderRepo: Repository<DeliveryOrder> =
+    trxMgr?.getRepository(DeliveryOrder) || getRepository(DeliveryOrder)
+  const transportDriverRepo: Repository<TransportDriver> =
+    trxMgr?.getRepository(TransportDriver) || getRepository(TransportDriver)
+  const transportVehicleRepo: Repository<TransportVehicle> =
+    trxMgr?.getRepository(TransportVehicle) || getRepository(TransportVehicle)
+  const orderInventoryRepo: Repository<OrderInventory> =
+    trxMgr?.getRepository(OrderInventory) || getRepository(OrderInventory)
 
-  const deliveryOrderRepo: Repository<DeliveryOrder> = trxMgr
-    ? trxMgr.getRepository(DeliveryOrder)
-    : getRepository(DeliveryOrder)
-  const transportDriverRepo: Repository<TransportDriver> = trxMgr
-    ? trxMgr.getRepository(TransportDriver)
-    : getRepository(TransportDriver)
-  const transportVehicleRepo: Repository<TransportVehicle> = trxMgr
-    ? trxMgr.getRepository(TransportVehicle)
-    : getRepository(TransportVehicle)
-  const orderInventoryRepo: Repository<OrderInventory> = trxMgr
-    ? trxMgr.getRepository(OrderInventory)
-    : getRepository(OrderInventory)
+  if (!transportVehicle?.id) throw new Error(`Truck information is incomplete`)
 
-  if (!transportDriver || !transportVehicle) throw new Error(`Driver and truck information is incomplete`)
-
-  // 3. Create delivery order
-  const createdDeliveryOrder: DeliveryOrder = await deliveryOrderRepo.save({
+  let deliveryOrder: any = {
     domain,
     name: OrderNoGenerator.deliveryOrder(),
     bizplace: customerBizplace,
-    releaseGood: releaseGood,
-    transportDriver: await transportDriverRepo.findOne({
-      where: { domain, id: transportDriver.id }
-    }),
-    transportVehicle: await transportVehicleRepo.findOne({
-      where: { domain, id: transportVehicle.id }
-    }),
+    releaseGood,
+    transportVehicle: await transportVehicleRepo.findOne(transportVehicle.id),
     status: ORDER_STATUS.PENDING,
     creator: user,
     updater: user
-  })
+  }
 
-  // 4. Update delivery order ID of order inventories
-  targetInventories = await Promise.all(
-    targetInventories.map(async (targetInventory: OrderInventory) => {
-      return {
-        ...targetInventory,
-        deliveryOrder: createdDeliveryOrder,
-        updater: user
-      }
+  if (transportDriver?.id) {
+    deliveryOrder.transportDriver = await transportDriverRepo.findOne({
+      where: { domain, id: transportDriver.id }
     })
-  )
+  }
+
+  deliveryOrder = <DeliveryOrder>await deliveryOrderRepo.save(deliveryOrder)
+
+  targetInventories = targetInventories.map((targetInventory: OrderInventory) => {
+    return {
+      ...targetInventory,
+      deliveryOrder,
+      updater: user
+    }
+  })
   await orderInventoryRepo.save(targetInventories)
 
-  return createdDeliveryOrder
+  return deliveryOrder
 }
