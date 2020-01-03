@@ -1,21 +1,22 @@
+import { checkDeliveredOrder } from './check-delivered-order'
+import { confirmDeliveryOrder } from './confirm-delivery-order'
 import { createDeliveryOrder } from './create-delivery-order'
 import { deleteDeliveryOrder } from './delete-delivery-order'
 import { deliveryOrderResolver } from './delivery-order'
-import { generateDeliveryOrderResolver } from './generate-delivery-order'
-import { deliveryOrdersResolver } from './delivery-orders'
+import { deliveryOrderByReleaseGoodResolver } from './delivery-order-by-release-good'
 import { deliveryOrderRequestsResolver } from './delivery-order-requests'
-import { updateDeliveryOrder } from './update-delivery-order'
-import { generateDeliveryOrder } from './generate-delivery-order'
-import { confirmDeliveryOrder } from './confirm-delivery-order'
-import { receiveDeliveryOrder } from './receive-delivery-order'
+import { deliveryOrdersResolver } from './delivery-orders'
 import { dispatchDeliveryOrder } from './dispatch-delivery-order'
-import { checkDeliveredOrder } from './check-delivered-order'
+import { generateDeliveryOrder, generateDeliveryOrderResolver } from './generate-delivery-order'
+import { receiveDeliveryOrder } from './receive-delivery-order'
 import { rejectDeliveryOrder } from './reject-delivery-order'
+import { updateDeliveryOrder } from './update-delivery-order'
 
 export const Query = {
   ...deliveryOrdersResolver,
   ...deliveryOrderResolver,
-  ...deliveryOrderRequestsResolver
+  ...deliveryOrderRequestsResolver,
+  ...deliveryOrderByReleaseGoodResolver
 }
 
 export const Mutation = {
