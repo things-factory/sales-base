@@ -16,7 +16,8 @@ export async function deliveryOrderByReleaseGood(releaseGood: ReleaseGood, trxMg
   const oiRepo: Repository<OrderInventory> = trxMgr?.getRepository(OrderInventory) || getRepository(OrderInventory)
 
   let [items, total] = await doRepo.findAndCount({
-    where: { releaseGood }
+    where: { releaseGood },
+    relations: ['domain', 'bizplace', 'releaseGood', 'transportDriver', 'transportVehicle', 'creator', 'updater']
   })
 
   items = await Promise.all(
@@ -25,17 +26,7 @@ export async function deliveryOrderByReleaseGood(releaseGood: ReleaseGood, trxMg
         ...deliveryOrder,
         targetInventories: await oiRepo.find({
           where: { deliveryOrder },
-          relations: [
-            'domain',
-            'bizplace',
-            'releaseGood',
-            'targetInventories',
-            'transportDriver',
-            'transportVehicle',
-            'attachments',
-            'creator',
-            'updater'
-          ]
+          relations: ['domain', 'bizplace', 'releaseGood', 'inventory']
         })
       }
     })
