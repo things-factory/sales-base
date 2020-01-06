@@ -1,5 +1,5 @@
 import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
-import { getManager, getRepository } from 'typeorm'
+import { getManager } from 'typeorm'
 import { ORDER_STATUS } from '../../../constants'
 import { CollectionOrder } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils'
@@ -8,12 +8,16 @@ export const dispatchCollectionOrder = {
   async dispatchCollectionOrder(_: any, { orderInfo }, context: any) {
     return await getManager().transaction(async trxMgr => {
       try {
-        const foundCollectionOrder: CollectionOrder = await trxMgr.getRepository(CollectionOrder).findOne({
-          where: { domain: context.state.domain, name: orderInfo.name }
-        })
+        const foundCollectionOrder: CollectionOrder = await trxMgr
+          .getRepository(CollectionOrder)
+          .findOne({
+            where: { domain: context.state.domain, name: orderInfo.name }
+          });
 
-        if (!foundCollectionOrder) throw new Error(`Collection order doesn't exists.`)
-        if (foundCollectionOrder.status !== ORDER_STATUS.READY_TO_DISPATCH) throw new Error(`Status is not receivable.`)
+        if (!foundCollectionOrder)
+          throw new Error(`Collection order doesn't exists.`);
+        if (foundCollectionOrder.status !== ORDER_STATUS.READY_TO_DISPATCH)
+          throw new Error(`Status is not receivable.`);
 
         await trxMgr.getRepository(CollectionOrder).save({
           ...foundCollectionOrder,
@@ -28,12 +32,12 @@ export const dispatchCollectionOrder = {
           }),
           status: ORDER_STATUS.COLLECTING,
           updater: context.state.user
-        })
+        });
 
-        return foundCollectionOrder
+        return foundCollectionOrder;
       } catch (e) {
-        throw e
+        throw e;
       }
-    })
+    });
   }
-}
+};

@@ -53,6 +53,7 @@ export const Query = `
   deliveryOrders(filters: [Filter], pagination: Pagination, sortings: [Sorting]): DeliveryOrderList
   deliveryOrder(name: String!): DeliveryOrder
   deliveryOrderRequests(filters: [Filter], pagination: Pagination, sortings: [Sorting]): DeliveryOrderList
+  deliveryOrderByReleaseGood(releaseGoodNo: String!): DeliveryOrderList
 
 `
 

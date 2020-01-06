@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-koa'
+import gql from 'graphql-tag'
 
 export const Vas = gql`
   type Vas {
@@ -7,6 +7,7 @@ export const Vas = gql`
     domain: Domain
     description: String
     defaultPrice: Float
+    uom: String
     currency: String
     operationGuideType: String
     operationGuide: String

@@ -1,11 +1,11 @@
-import { gql } from 'apollo-server-koa'
+import gql from 'graphql-tag'
 
 export const Invoice = gql`
   type Invoice {
     id: String
     domain: Domain
     name: String
-    customer: Customer
+    customer: Bizplace
     issuedOn: String
     paymentDue: String
     version: String

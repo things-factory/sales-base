@@ -8,7 +8,7 @@ export const invoicesResolver = {
     buildQuery(queryBuilder, params, context)
     const [items, total] = await queryBuilder
       .leftJoinAndSelect('Invoice.domain', 'Domain')
-      .leftJoinAndSelect('Invoice.customer', 'Customer')
+      .leftJoinAndSelect('Invoice.customer', 'Bizplace')
       .leftJoinAndSelect('Invoice.purchaseOrder', 'PurchaseOrder')
       .leftJoinAndSelect('Invoice.creator', 'Creator')
       .leftJoinAndSelect('Invoice.updater', 'Updater')

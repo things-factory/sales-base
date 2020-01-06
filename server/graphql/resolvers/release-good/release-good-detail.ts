@@ -1,4 +1,4 @@
-import { Bizplace } from '@things-factory/biz-base'
+import { getPermittedBizplaceIds } from '@things-factory/biz-base'
 import { Inventory } from '@things-factory/warehouse-base'
 import { getRepository, In } from 'typeorm'
 import { OrderInventory, ReleaseGood, ShippingOrder } from '../../../entities'
@@ -9,7 +9,7 @@ export const releaseGoodDetailResolver = {
       where: {
         domain: context.state.domain,
         name,
-        bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id))
+        bizplace: In(await getPermittedBizplaceIds(context.state.domain, context.state.user))
       },
       relations: [
         'domain',

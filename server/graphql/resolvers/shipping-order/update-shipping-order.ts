@@ -1,6 +1,6 @@
+import { getPermittedBizplaceIds } from '@things-factory/biz-base'
 import { getRepository, In } from 'typeorm'
 import { ShippingOrder } from '../../../entities'
-import { Bizplace } from '@things-factory/biz-base'
 
 export const updateShippingOrder = {
   async updateShippingOrder(_: any, { name, patch }, context: any) {
@@ -8,7 +8,7 @@ export const updateShippingOrder = {
       where: {
         domain: context.state.domain,
         name,
-        bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id))
+        bizplace: In(await getPermittedBizplaceIds(context.state.domain, context.state.user))
       }
     })
 

@@ -1,5 +1,5 @@
 import { User } from '@things-factory/auth-base'
-import { Customer } from '@things-factory/biz-base'
+import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
 import {
   Column,
@@ -26,8 +26,8 @@ export class Invoice {
   @Column()
   name: string
 
-  @ManyToOne(type => Customer)
-  customer: Customer
+  @ManyToOne(type => Bizplace)
+  customer: Bizplace
 
   @Column('date')
   issuedOn: Date

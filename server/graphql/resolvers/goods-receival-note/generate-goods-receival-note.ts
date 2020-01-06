@@ -22,7 +22,7 @@ export async function generateGoodsReceivalNote(grn: any, domain: Domain, user: 
     name: OrderNoGenerator.goodsReceiveNote(),
     domain,
     bizplace: await getRepository(Bizplace).findOne({
-      where: { domain, id: grn.customer }
+      where: { id: grn.customer }
     }),
     arrivalNotice: await getRepository(ArrivalNotice).findOne({
       where: { domain, name: grn.refNo }

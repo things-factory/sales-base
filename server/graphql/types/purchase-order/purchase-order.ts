@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-koa'
+import gql from 'graphql-tag'
 
 export const PurchaseOrder = gql`
   type PurchaseOrder {
@@ -7,7 +7,7 @@ export const PurchaseOrder = gql`
     name: String
     issuedOn: String
     quotation: Quotation
-    customer: Customer
+    customer: Bizplace
     state: String
     description: String
     creator: User

@@ -1,3 +1,4 @@
+import { Bizplace, getMyBizplace } from '@things-factory/biz-base'
 import { Inventory } from '@things-factory/warehouse-base'
 import { getManager } from 'typeorm'
 import { ORDER_STATUS, ORDER_TYPES, ORDER_VAS_STATUS } from '../../../constants'
@@ -7,6 +8,7 @@ import { OrderNoGenerator } from '../../../utils/order-no-generator'
 export const generateVasOrder = {
   async generateVasOrder(_: any, { vasOrder }, context: any) {
     return await getManager().transaction(async trxMgr => {
+      const myBizplace: Bizplace = await getMyBizplace(context.state.user)
       let orderVass: OrderVas[] = vasOrder.orderVass
 
       // 1. Create vas order
@@ -14,7 +16,7 @@ export const generateVasOrder = {
         ...vasOrder,
         name: OrderNoGenerator.vasOrder(),
         domain: context.state.domain,
-        bizplace: context.state.mainBizplace,
+        bizplace: myBizplace,
         status: ORDER_STATUS.PENDING,
         creator: context.state.user,
         updater: context.state.user
@@ -30,7 +32,7 @@ export const generateVasOrder = {
             vas: await trxMgr.getRepository(Vas).findOne({ domain: context.state.domain, id: ov.vas.id }),
             inventory: await trxMgr.getRepository(Inventory).findOne(ov.inventory.id),
             vasOrder: createdVasOrder,
-            bizplace: context.state.mainBizplace,
+            bizplace: myBizplace,
             type: ORDER_TYPES.VAS_ORDER,
             status: ORDER_VAS_STATUS.PENDING,
             creator: context.state.user,

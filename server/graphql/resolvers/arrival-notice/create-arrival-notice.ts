@@ -6,7 +6,6 @@ export const createArrivalNotice = {
     return await getRepository(ArrivalNotice).save({
       ...arrivalNotice,
       domain: context.state.domain,
-      bizplace: context.state.bizplaces[0],
       creator: context.state.user,
       updater: context.state.user
     })

@@ -1,10 +1,11 @@
-import { gql } from 'apollo-server-koa'
+import gql from 'graphql-tag'
 
 export const VasPatch = gql`
   input VasPatch {
     id: String
     name: String
     description: String
+    uom: String
     currency: String
     defaultPrice: Float
     operationGuideType: String

@@ -1,11 +1,11 @@
-import { gql } from 'apollo-server-koa'
+import gql from 'graphql-tag'
 
 export const Quotation = gql`
   type Quotation {
     id: String
     domain: Domain
     name: String
-    customer: Customer
+    customer: Bizplace
     issuedOn: String
     expiresOn: String
     version: String

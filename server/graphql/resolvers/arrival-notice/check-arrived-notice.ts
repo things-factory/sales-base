@@ -1,4 +1,6 @@
 import { getManager } from 'typeorm'
+import { Bizplace } from '@things-factory/biz-base'
+import { sendNotification } from '@things-factory/shell'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_VAS_STATUS } from '../../../constants'
 import { ArrivalNotice, CollectionOrder, OrderProduct, OrderVas } from '../../../entities'
 
@@ -8,7 +10,7 @@ export const checkArrivedNotice = {
       try {
         const foundArrivalNotice: ArrivalNotice = await trxMgr.getRepository(ArrivalNotice).findOne({
           where: { domain: context.state.domain, name, status: ORDER_STATUS.INTRANSIT },
-          relations: ['collectionOrders', 'orderProducts', 'orderVass']
+          relations: ['bizplace', 'collectionOrders', 'orderProducts', 'orderVass']
         })
 
         if (!foundArrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
@@ -25,6 +27,7 @@ export const checkArrivedNotice = {
 
         let foundOPs: OrderProduct[] = foundArrivalNotice.orderProducts
         let foundOVs: OrderVas[] = foundArrivalNotice.orderVass
+        let customerBizplace: Bizplace = foundArrivalNotice.bizplace
 
         // 2. Update status of order products (INTRANSIT => ARRIVED)
         foundOPs = foundOPs.map((op: OrderProduct) => {
@@ -54,6 +57,38 @@ export const checkArrivedNotice = {
           status: ORDER_STATUS.ARRIVED,
           updater: context.state.user
         })
+
+        // notification logics
+        // get Customer Users
+        const users: any[] = await trxMgr
+          .getRepository('bizplaces_users')
+          .createQueryBuilder('bu')
+          .select('bu.user_id', 'id')
+          .where(qb => {
+            const subQuery = qb
+              .subQuery()
+              .select('bizplace.id')
+              .from(Bizplace, 'bizplace')
+              .where('bizplace.name = :bizplaceName', { bizplaceName: customerBizplace.name })
+              .getQuery()
+            return 'bu.bizplace_id IN ' + subQuery
+          })
+          .getRawMany()
+
+        // send notification to Customer Users
+        if (users?.length) {
+          const msg = {
+            title: `Latest status for ${foundArrivalNotice.name}`,
+            message: `Your goods has safely arrived at ${context.state.domain}`,
+            url: context.header.referer
+          }
+          users.forEach(user => {
+            sendNotification({
+              receiver: user.id,
+              message: JSON.stringify(msg)
+            })
+          })
+        }
 
         return foundArrivalNotice
       } catch (e) {

@@ -22,6 +22,11 @@ export class Vas {
   @Column()
   currency: string
 
+  @Column({
+    nullable: true
+  })
+  uom: string
+
   @Column('float')
   defaultPrice: number
 

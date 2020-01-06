@@ -1,13 +1,14 @@
 import { Attachment } from '@things-factory/attachment-base'
-import { ArrivalNotice } from '../../../entities/arrival-notice'
-import { ListParam, convertListParams } from '@things-factory/shell'
-import { GRN_STATUS } from '../../../constants'
+import { getPermittedBizplaceIds } from '@things-factory/biz-base'
+import { convertListParams, ListParam } from '@things-factory/shell'
 import { getRepository, In, IsNull } from 'typeorm'
+import { ArrivalNotice } from '../../../entities/arrival-notice'
 import { GoodsReceivalNote } from '../../../entities/goods-receival-note'
 
 export const goodsReceivalNotesResolver = {
   async goodsReceivalNotes(_: any, params: ListParam, context: any) {
     const convertedParams = convertListParams(params)
+    convertedParams.where.bizplace = In(await getPermittedBizplaceIds(context.state.domain, context.state.user))
 
     const arrivalNoticeParam: any = params.filters.find((param: any) => param.name === 'arrivalNoticeNo')
     const arrivalNoticeRefNoParam = params.filters.find(param => param.name === 'arrivalNoticeRefNo')

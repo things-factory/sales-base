@@ -1,10 +1,10 @@
-import { gql } from 'apollo-server-koa'
+import gql from 'graphql-tag'
 
 export const DeliveryOrder = gql`
   type DeliveryOrder {
     id: String
     domain: Domain
-    customerBizplace: Bizplace
+    bizplace: Bizplace
     releaseGood: ReleaseGood
     name: String
     loadWeight: Float

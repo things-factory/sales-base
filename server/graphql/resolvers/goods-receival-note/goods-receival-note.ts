@@ -8,7 +8,7 @@ export const goodsReceivalNoteResolver = {
         domain: context.state.domain,
         name
       },
-      relations: ['bizplace', 'bizplace.company', 'arrivalNotice', 'domain', 'creator', 'updater']
+      relations: ['domain', 'bizplace', 'bizplace.company', 'arrivalNotice', 'creator', 'updater']
     })
   }
 }

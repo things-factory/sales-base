@@ -1,6 +1,5 @@
-import { Bizplace } from '@things-factory/biz-base'
 import { Attachment } from '@things-factory/attachment-base'
-import { getRepository, In } from 'typeorm'
+import { getRepository } from 'typeorm'
 import { DeliveryOrder } from '../../../entities'
 
 export const deliveryOrderResolver = {
@@ -8,8 +7,7 @@ export const deliveryOrderResolver = {
     const foundDO = await getRepository(DeliveryOrder).findOne({
       where: {
         domain: context.state.domain,
-        name,
-        bizplace: In(context.state.bizplaces.map((bizplace: Bizplace) => bizplace.id))
+        name
       },
       relations: ['domain', 'bizplace', 'transportDriver', 'transportVehicle', 'releaseGood', 'creator', 'updater']
     })

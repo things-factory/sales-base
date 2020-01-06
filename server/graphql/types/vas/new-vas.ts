@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-koa'
+import gql from 'graphql-tag'
 
 export const NewVas = gql`
   input NewVas {
@@ -6,6 +6,7 @@ export const NewVas = gql`
     description: String
     defaultPrice: Float!
     currency: String
+    uom: String
     operationGuideType: String
     operationGuide: String
   }
