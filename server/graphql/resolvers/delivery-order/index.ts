@@ -11,6 +11,7 @@ import { generateDeliveryOrder, generateDeliveryOrderResolver } from './generate
 import { receiveDeliveryOrder } from './receive-delivery-order'
 import { rejectDeliveryOrder } from './reject-delivery-order'
 import { updateDeliveryOrder } from './update-delivery-order'
+import { submitGoodsDeliveryNote } from './submit-goods-delivery-note'
 
 export const Query = {
   ...deliveryOrdersResolver,
@@ -29,5 +30,6 @@ export const Mutation = {
   ...receiveDeliveryOrder,
   ...dispatchDeliveryOrder,
   ...checkDeliveredOrder,
-  ...rejectDeliveryOrder
+  ...rejectDeliveryOrder,
+  ...submitGoodsDeliveryNote
 }
