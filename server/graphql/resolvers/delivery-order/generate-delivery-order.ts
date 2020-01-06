@@ -58,7 +58,7 @@ export async function generateDeliveryOrder(
     bizplace: customerBizplace,
     releaseGood,
     transportVehicle: await transportVehicleRepo.findOne(transportVehicle.id),
-    status: ORDER_STATUS.PENDING,
+    status: ORDER_STATUS.READY_TO_DISPATCH,
     creator: user,
     updater: user
   }
