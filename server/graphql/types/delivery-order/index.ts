@@ -47,6 +47,11 @@ export const Mutation = `
     name: String!
     patch: DeliveryOrderPatch!
   ): DeliveryOrder
+
+  submitGoodsDeliveryNote (
+    name: String!
+    file: Upload
+  ): DeliveryOrder
 `
 
 export const Query = `
