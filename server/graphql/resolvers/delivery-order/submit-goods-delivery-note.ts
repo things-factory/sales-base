@@ -1,6 +1,6 @@
 import { getManager } from 'typeorm'
 import { DeliveryOrder } from '../../../entities/delivery-order'
-import { GRN_STATUS } from '../../../constants'
+import { ORDER_STATUS } from '../../../constants'
 import { Attachment, createAttachment, deleteAttachment } from '@things-factory/attachment-base'
 
 export const submitGoodsDeliveryNote = {
@@ -33,7 +33,7 @@ export const submitGoodsDeliveryNote = {
 
       return await trxMgr.getRepository(DeliveryOrder).save({
         ...foundDO,
-        status: GRN_STATUS.SUBMITTED,
+        status: ORDER_STATUS.DONE,
         updater: context.state.user
       })
     })
