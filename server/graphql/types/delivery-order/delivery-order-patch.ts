@@ -16,6 +16,7 @@ export const DeliveryOrderPatch = gql`
     looseItem: Boolean
     transportDriver: ObjectRef
     transportVehicle: ObjectRef
+    driverName: String
     remark: String
     telNo: String
     status: String
