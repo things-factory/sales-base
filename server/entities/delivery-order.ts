@@ -32,6 +32,16 @@ export class DeliveryOrder {
   })
   to: string
 
+  @Column({
+    nullable: true
+  })
+  truckNo: string
+
+  @Column({
+    nullable: true
+  })
+  ownCollection: Boolean
+
   @ManyToOne(type => ReleaseGood)
   releaseGood: ReleaseGood
 
