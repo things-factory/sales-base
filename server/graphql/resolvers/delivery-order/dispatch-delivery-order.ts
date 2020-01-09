@@ -11,27 +11,43 @@ export const dispatchDeliveryOrder = {
           where: { domain: context.state.domain, name: orderInfo.name },
           relations: ['transportVehicle']
         })
+        let foundTruck
 
         if (!foundDeliveryOrder) throw new Error(`Delivery order doesn't exists.`)
         if (foundDeliveryOrder.status !== ORDER_STATUS.READY_TO_DISPATCH) throw new Error(`Status is not receivable.`)
 
-        const truck = foundDeliveryOrder.transportVehicle
-        await trxMgr.getRepository(TransportVehicle).save({
-          ...truck,
-          status: TRUCK_STATUS.IN_USE,
-          updater: context.state.user
-        })
+        if (!foundDeliveryOrder?.ownCollection) {
+          foundTruck = foundDeliveryOrder.transportVehicle
+          await trxMgr.getRepository(TransportVehicle).save({
+            ...foundTruck,
+            status: TRUCK_STATUS.IN_USE,
+            updater: context.state.user
+          })
+        } else {
+          foundTruck = foundDeliveryOrder.truckNo
+        }
 
-        await trxMgr.getRepository(DeliveryOrder).save({
-          ...foundDeliveryOrder,
-          transportDriver: await trxMgr.getRepository(TransportDriver).findOne({
+        if (orderInfo?.driverName) {
+          const foundDriver = await trxMgr.getRepository(TransportDriver).findOne({
             where: { domain: context.state.domain, name: orderInfo.driverName }
-          }),
-          to: orderInfo.to,
-          deliveryDate: orderInfo.deliveryDate,
-          status: ORDER_STATUS.DELIVERING,
-          updater: context.state.user
-        })
+          })
+          await trxMgr.getRepository(DeliveryOrder).save({
+            ...foundDeliveryOrder,
+            transportDriver: foundDriver || null,
+            to: orderInfo.to,
+            deliveryDate: orderInfo.deliveryDate,
+            status: ORDER_STATUS.DELIVERING,
+            updater: context.state.user
+          })
+        } else {
+          await trxMgr.getRepository(DeliveryOrder).save({
+            ...foundDeliveryOrder,
+            to: orderInfo.to,
+            deliveryDate: orderInfo.deliveryDate,
+            status: ORDER_STATUS.DELIVERING,
+            updater: context.state.user
+          })
+        }
 
         return foundDeliveryOrder
       } catch (e) {
