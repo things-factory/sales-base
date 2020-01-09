@@ -11,11 +11,11 @@ export const dispatchDeliveryOrder = {
           where: { domain: context.state.domain, name: orderInfo.name },
           relations: ['transportVehicle']
         })
-        let foundTruck
 
         if (!foundDeliveryOrder) throw new Error(`Delivery order doesn't exists.`)
         if (foundDeliveryOrder.status !== ORDER_STATUS.READY_TO_DISPATCH) throw new Error(`Status is not receivable.`)
 
+        let foundTruck
         if (!foundDeliveryOrder?.ownCollection) {
           foundTruck = foundDeliveryOrder.transportVehicle
           await trxMgr.getRepository(TransportVehicle).save({
