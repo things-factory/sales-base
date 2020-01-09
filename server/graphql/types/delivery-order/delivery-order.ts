@@ -12,6 +12,7 @@ export const DeliveryOrder = gql`
     cargoType: String
     from: String
     truckNo: String
+    truck: String
     ownCollection: Boolean
     to: String
     refNo: String

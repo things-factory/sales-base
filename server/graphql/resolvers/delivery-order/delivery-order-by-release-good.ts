@@ -24,6 +24,7 @@ export async function deliveryOrderByReleaseGood(releaseGood: ReleaseGood, trxMg
     items.map(async (deliveryOrder: DeliveryOrder) => {
       return {
         ...deliveryOrder,
+        truck: deliveryOrder.truckNo || deliveryOrder.transportVehicle.name,
         targetInventories: await oiRepo.find({
           where: { deliveryOrder },
           relations: ['domain', 'bizplace', 'releaseGood', 'inventory']
