@@ -11,12 +11,16 @@ export const deliveryOrderResolver = {
       },
       relations: ['domain', 'bizplace', 'transportDriver', 'transportVehicle', 'releaseGood', 'creator', 'updater']
     })
-    const foundAttachments = await getRepository(Attachment).find({
-      where: {
-        domain: context.state.domain,
-        refBy: foundDO.id
-      }
-    })
+
+    let foundAttachments = []
+    if (foundDO) {
+      foundAttachments = await getRepository(Attachment).find({
+        where: {
+          domain: context.state.domain,
+          refBy: foundDO.id
+        }
+      })
+    }
 
     return { ...foundDO, attachments: foundAttachments }
   }
