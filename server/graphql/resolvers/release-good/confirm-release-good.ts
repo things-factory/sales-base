@@ -59,6 +59,7 @@ export const confirmReleaseGood = {
             .select('role.id')
             .from(Role, 'role')
             .where("role.name = 'Office Admin'")
+            .andWhere('role.domain_id = :domain', { domain: context.state.domain.id })
             .getQuery()
           return 'ur.roles_id IN ' + subQuery
         })

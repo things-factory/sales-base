@@ -11,6 +11,9 @@ export const DeliveryOrder = gql`
     urgency: Boolean
     cargoType: String
     from: String
+    truckNo: String
+    truck: String
+    ownCollection: Boolean
     to: String
     refNo: String
     deliveryDate: String
