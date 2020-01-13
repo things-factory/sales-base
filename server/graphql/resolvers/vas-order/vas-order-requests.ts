@@ -1,6 +1,7 @@
 import { convertListParams, ListParam } from '@things-factory/shell'
 import { ORDER_STATUS } from '../../../constants'
 import { getRepository, In } from 'typeorm'
+import { getPermittedBizplaceIds } from '@things-factory/biz-base'
 import { VasOrder } from '../../../entities'
 
 export const vasOrderRequestsResolver = {
@@ -16,6 +17,7 @@ export const vasOrderRequestsResolver = {
         ORDER_STATUS.REJECTED
       ])
     }
+    convertedParams.where.bizplace = In(await getPermittedBizplaceIds(context.state.domain, context.state.user))
 
     const [items, total] = await getRepository(VasOrder).findAndCount({
       ...convertedParams,
