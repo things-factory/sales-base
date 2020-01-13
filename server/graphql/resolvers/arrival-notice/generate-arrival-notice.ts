@@ -17,18 +17,18 @@ export const generateArrivalNotice = {
       // case 1. batch id is not duplicated => OK
       // case 2. batch id is duplicated and product also same with previous one => OK
       // case 3. batch id is duplicated but product is not same with previous one => Not OK
-      const duplicatedInventory: Inventory = await trxMgr.getRepository(Inventory).findOne({
-        where: orderProducts.map((orderProduct: OrderProduct) => {
-          return {
-            bizplace: myBizplace,
-            domain: context.state.domain,
-            batchId: orderProduct.batchId,
-            product: Not(Equal(orderProduct.product.id))
-          }
-        })
-      })
+      // const duplicatedInventory: Inventory = await trxMgr.getRepository(Inventory).findOne({
+      //   where: orderProducts.map((orderProduct: OrderProduct) => {
+      //     return {
+      //       bizplace: myBizplace,
+      //       domain: context.state.domain,
+      //       batchId: orderProduct.batchId,
+      //       product: Not(Equal(orderProduct.product.id))
+      //     }
+      //   })
+      // })
 
-      if (duplicatedInventory) throw new Error(`Batch id is duplicated. (${duplicatedInventory.batchId})`)
+      // if (duplicatedInventory) throw new Error(`Batch id is duplicated. (${duplicatedInventory.batchId})`)
 
       // 1. Create arrival notice
       const createdArrivalNotice: ArrivalNotice = await trxMgr.getRepository(ArrivalNotice).save({
