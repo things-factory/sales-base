@@ -42,11 +42,12 @@ export async function generateDeliveryOrder(
   const orderInventoryRepo: Repository<OrderInventory> =
     trxMgr?.getRepository(OrderInventory) || getRepository(OrderInventory)
 
-  if (!orderInfo?.truckNo) throw new Error(`Truck information is incomplete`)
-
-  const foundTruck: TransportVehicle = await transportVehicleRepo.findOne({
-    where: { domain, name: orderInfo.truckNo }
-  })
+  let transportVehicle: TransportVehicle = null
+  if (orderInfo?.truckNo) {
+    transportVehicle = await transportVehicleRepo.findOne({
+      where: { domain, name: orderInfo.truckNo }
+    })
+  }
 
   let deliveryOrder: any = {
     domain,
@@ -54,8 +55,7 @@ export async function generateDeliveryOrder(
     bizplace: customerBizplace,
     releaseGood,
     ownCollection: orderInfo.ownCollection,
-    truckNo: orderInfo.truckNo || null,
-    transportVehicle: foundTruck || null,
+    truckNo: orderInfo?.truckNo || null,
     status: ORDER_STATUS.READY_TO_DISPATCH,
     creator: user,
     updater: user
