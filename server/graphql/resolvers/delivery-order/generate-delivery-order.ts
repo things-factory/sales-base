@@ -56,6 +56,7 @@ export async function generateDeliveryOrder(
     releaseGood,
     ownCollection: orderInfo.ownCollection,
     truckNo: orderInfo?.truckNo || null,
+    transportVehicle,
     status: ORDER_STATUS.READY_TO_DISPATCH,
     creator: user,
     updater: user
