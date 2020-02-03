@@ -1,10 +1,9 @@
 import { Bizplace, getMyBizplace } from '@things-factory/biz-base'
-import { Product } from '@things-factory/product-base'
-import { Inventory } from '@things-factory/warehouse-base'
-import { Equal, getManager, Not } from 'typeorm'
-import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_TYPES, ORDER_VAS_STATUS } from '../../../constants'
+import { getManager } from 'typeorm'
+import { ORDER_STATUS, ORDER_TYPES, ORDER_VAS_STATUS } from '../../../constants'
 import { ArrivalNotice, OrderProduct, OrderVas, Vas } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
+import { addArrivalNoticeProducts } from './add-arrival-notice-products'
 
 export const generateArrivalNotice = {
   async generateArrivalNotice(_: any, { arrivalNotice }, context: any) {
@@ -42,22 +41,13 @@ export const generateArrivalNotice = {
       })
 
       // 2. Create arrival notice product
-      orderProducts = await Promise.all(
-        orderProducts.map(async (op: OrderProduct) => {
-          return {
-            ...op,
-            domain: context.state.domain,
-            name: OrderNoGenerator.orderProduct(),
-            product: await trxMgr.getRepository(Product).findOne({ domain: context.state.domain, id: op.product.id }),
-            arrivalNotice: createdArrivalNotice,
-            bizplace: myBizplace,
-            status: ORDER_PRODUCT_STATUS.PENDING,
-            creator: context.state.user,
-            updater: context.state.user
-          }
-        })
+      await addArrivalNoticeProducts(
+        context.state.domain,
+        createdArrivalNotice,
+        orderProducts,
+        context.state.user,
+        trxMgr
       )
-      await trxMgr.getRepository(OrderProduct).save(orderProducts)
 
       // 3. Create arrival notice vas
       orderVass = await Promise.all(
