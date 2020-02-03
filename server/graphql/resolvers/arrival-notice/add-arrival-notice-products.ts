@@ -48,11 +48,12 @@ export async function addArrivalNoticeProducts(
     orderProducts.map(async (op: OrderProduct, idx: number) => {
       return {
         ...op,
+        domain,
+        bizplace: arrivalNotice.bizplace,
         seq: op.seq ? op.seq : seq + idx,
         name: OrderNoGenerator.orderProduct(),
         product: await productRepo.findOne({ domain, id: op.product.id }),
         arrivalNotice,
-        bizplace: arrivalNotice.bizplace,
         status: ORDER_PRODUCT_STATUS.PENDING,
         creator: user,
         updater: user
