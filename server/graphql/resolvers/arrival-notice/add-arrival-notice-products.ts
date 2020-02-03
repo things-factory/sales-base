@@ -54,7 +54,6 @@ export async function addArrivalNoticeProducts(
         name: OrderNoGenerator.orderProduct(),
         product: await productRepo.findOne({ domain, id: op.product.id }),
         arrivalNotice,
-        status: ORDER_PRODUCT_STATUS.PENDING,
         creator: user,
         updater: user
       }

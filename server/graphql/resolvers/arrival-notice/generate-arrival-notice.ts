@@ -1,6 +1,6 @@
 import { Bizplace, getMyBizplace } from '@things-factory/biz-base'
 import { getManager } from 'typeorm'
-import { ORDER_STATUS, ORDER_TYPES, ORDER_VAS_STATUS } from '../../../constants'
+import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_TYPES, ORDER_VAS_STATUS } from '../../../constants'
 import { ArrivalNotice, OrderProduct, OrderVas, Vas } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 import { addArrivalNoticeProducts } from './add-arrival-notice-products'
@@ -44,7 +44,9 @@ export const generateArrivalNotice = {
       await addArrivalNoticeProducts(
         context.state.domain,
         createdArrivalNotice,
-        orderProducts,
+        orderProducts.map((op: OrderProduct) => {
+          return { ...op, status: ORDER_PRODUCT_STATUS.PENDING }
+        }),
         context.state.user,
         trxMgr
       )
