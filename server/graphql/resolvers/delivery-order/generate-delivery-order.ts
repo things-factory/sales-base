@@ -54,7 +54,7 @@ export async function generateDeliveryOrder(
     name: OrderNoGenerator.deliveryOrder(),
     bizplace: customerBizplace,
     releaseGood,
-    ownCollection: orderInfo.ownCollection,
+    ownCollection: releaseGood.ownTransport,
     truckNo: orderInfo?.truckNo || null,
     transportVehicle,
     status: ORDER_STATUS.READY_TO_DISPATCH,
