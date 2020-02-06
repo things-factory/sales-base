@@ -1,7 +1,6 @@
-import { Attachment, deleteAttachment } from '@things-factory/attachment-base'
 import { Inventory } from '@things-factory/warehouse-base'
 import { getManager, In } from 'typeorm'
-import { DeliveryOrder, OrderInventory, OrderVas, ReleaseGood, ShippingOrder } from '../../../entities'
+import { OrderInventory, OrderVas, ReleaseGood, ShippingOrder } from '../../../entities'
 
 export const deleteReleaseGood = {
   async deleteReleaseGood(_: any, { name }, context: any) {
@@ -12,7 +11,6 @@ export const deleteReleaseGood = {
           'orderInventories',
           'orderInventories.inventory',
           'orderVass',
-          'deliveryOrders',
           'shippingOrder',
           'creator',
           'updater'
@@ -20,7 +18,6 @@ export const deleteReleaseGood = {
       })
 
       if (!foundReleaseOrder) throw new Error(`Arrival notice doesn't exists.`)
-      const foundDOs: DeliveryOrder[] = foundReleaseOrder.deliveryOrders
       const foundOIs: OrderInventory[] = foundReleaseOrder.orderInventories
       const foundOVs: OrderVas[] = foundReleaseOrder.orderVass
       const foundSO: ShippingOrder = foundReleaseOrder.shippingOrder
@@ -55,20 +52,6 @@ export const deleteReleaseGood = {
       const vasIds = foundOVs.map((vas: OrderVas) => vas.id)
       if (vasIds.length) {
         await trxMgr.getRepository(OrderVas).delete({ id: In(vasIds) })
-      }
-
-      // 3. if there is DO, delete DO
-      if (foundDOs) {
-        const doIds = foundDOs.map((dos: DeliveryOrder) => dos.id)
-        if (doIds.length) {
-          await trxMgr.getRepository(DeliveryOrder).delete({ id: In(doIds) })
-
-          // 4. if there is DO, delete attachment
-          const foundAttachment: Attachment = await trxMgr.getRepository(Attachment).findOne({
-            where: { domain: context.state.domain, refBy: In(doIds) }
-          })
-          await deleteAttachment(_, { id: foundAttachment.id }, context)
-        }
       }
 
       // 4. if there is SO, delete SO
