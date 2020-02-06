@@ -42,6 +42,12 @@ export const Mutation = `
     ganNo: String!
     orderProducts: [NewOrderProduct]!
   ): Boolean
+
+  proceedExtraProducts (
+    ganNo: String!
+    approvedProducts: [OrderProductPatch]!
+    rejectedProducts: [OrderProductPatch]!
+  )
 `
 
 export const Query = `

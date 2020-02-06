@@ -8,25 +8,27 @@ import { createArrivalNotice } from './create-arrival-notice'
 import { customerArrivalNoticesResolver } from './customer-arrival-notices'
 import { deleteArrivalNotice } from './delete-arrival-notice'
 import { generateArrivalNotice } from './generate-arrival-notice'
+import { proceedExtraProductsResolver } from './proceed-extra-products'
 import { receiveArrivalNotice } from './receive-arrival-notice'
 import { rejectArrivalNotice } from './reject-arrival-notice'
 import { updateArrivalNotice } from './update-arrival-notice'
 
 export const Query = {
-  ...arrivalNoticesResolver,
   ...arrivalNoticeResolver,
   ...arrivalNoticeRequestsResolver,
+  ...arrivalNoticesResolver,
   ...customerArrivalNoticesResolver
 }
 
 export const Mutation = {
-  ...updateArrivalNotice,
+  ...addArrivalNoticeProductsResolver,
+  ...checkArrivedNotice,
+  ...confirmArrivalNotice,
   ...createArrivalNotice,
   ...deleteArrivalNotice,
   ...generateArrivalNotice,
-  ...confirmArrivalNotice,
+  ...proceedExtraProductsResolver,
   ...receiveArrivalNotice,
-  ...checkArrivedNotice,
   ...rejectArrivalNotice,
-  ...addArrivalNoticeProductsResolver
+  ...updateArrivalNotice
 }

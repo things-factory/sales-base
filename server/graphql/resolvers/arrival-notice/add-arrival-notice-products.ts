@@ -1,8 +1,8 @@
 import { User } from '@things-factory/auth-base'
+import { Bizplace } from '@things-factory/biz-base'
 import { Product } from '@things-factory/product-base'
-import { Domain } from '@things-factory/shell'
+import { Domain, sendNotification } from '@things-factory/shell'
 import { EntityManager, getManager, getRepository, Repository } from 'typeorm'
-import { ORDER_PRODUCT_STATUS } from '../../../constants'
 import { ArrivalNotice, OrderProduct } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils'
 
@@ -13,14 +13,41 @@ export const addArrivalNoticeProductsResolver = {
         where: { name: ganNo },
         relations: ['bizplace', 'orderProducts']
       })
+      const customerBizplace: Bizplace = arrivalNotice.bizplace
 
-      return await addArrivalNoticeProducts(
-        context.state.domain,
-        arrivalNotice,
-        orderProducts,
-        context.state.user,
-        trxMgr
-      )
+      await addArrivalNoticeProducts(context.state.domain, arrivalNotice, orderProducts, context.state.user, trxMgr)
+
+      // notification logics
+      // get Customer by bizplace
+      const users: any[] = await trxMgr
+        .getRepository('bizplaces_users')
+        .createQueryBuilder('bu')
+        .select('bu.user_id', 'id')
+        .where(qb => {
+          const subQuery = qb
+            .subQuery()
+            .select('bizplace.id')
+            .from(Bizplace, 'bizplace')
+            .where('bizplace.name = :bizplaceName', { bizplaceName: customerBizplace.name })
+            .getQuery()
+          return 'bu.bizplace_id IN ' + subQuery
+        })
+        .getRawMany()
+
+      // send notification to Customer Users
+      if (users?.length) {
+        const msg = {
+          title: `Extra products are added for ${arrivalNotice.name}`,
+          message: `Please approve extra products.`,
+          url: context.header.referer
+        }
+        users.forEach(user => {
+          sendNotification({
+            receiver: user.id,
+            message: JSON.stringify(msg)
+          })
+        })
+      }
     })
   }
 }
