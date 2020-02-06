@@ -42,12 +42,6 @@ export const Mutation = `
     ganNo: String!
     orderProducts: [NewOrderProduct]!
   ): Boolean
-
-  proceedExtraProducts (
-    ganNo: String!
-    approvedProducts: [ObjectRef]!
-    rejectedProducts: [ObjectRef]!
-  ): Boolean
 `
 
 export const Query = `
