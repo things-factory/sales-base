@@ -12,19 +12,10 @@ export const generateReleaseGood = {
       const myBizplace: Bizplace = await getMyBizplace(context.state.user)
       let orderInventories: OrderInventory[] = releaseGood.orderInventories
       let orderVass: OrderVas[] = releaseGood.orderVass
-
-      const createdReleaseGood: ReleaseGood = await trxMgr.getRepository(ReleaseGood).save({
-        ...releaseGood,
-        name: OrderNoGenerator.releaseGood(),
-        domain: context.state.domain,
-        bizplace: myBizplace,
-        status: ORDER_STATUS.PENDING,
-        creator: context.state.user,
-        updater: context.state.user
-      })
+      let createdSO: ShippingOrder
 
       if (shippingOrder) {
-        await trxMgr.getRepository(ShippingOrder).save({
+        createdSO = await trxMgr.getRepository(ShippingOrder).save({
           ...shippingOrder,
           name: OrderNoGenerator.shippingOrder(),
           domain: context.state.domain,
@@ -34,6 +25,17 @@ export const generateReleaseGood = {
           updater: context.state.user
         })
       }
+
+      const createdReleaseGood: ReleaseGood = await trxMgr.getRepository(ReleaseGood).save({
+        ...releaseGood,
+        name: OrderNoGenerator.releaseGood(),
+        shippingOrder: createdSO,
+        domain: context.state.domain,
+        bizplace: myBizplace,
+        status: ORDER_STATUS.PENDING,
+        creator: context.state.user,
+        updater: context.state.user
+      })
 
       orderInventories = await Promise.all(
         orderInventories.map(async (orderInventory: OrderInventory) => {

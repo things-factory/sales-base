@@ -26,7 +26,7 @@ export const ReleaseGoodDetail = gql`
     creator: User
     updatedAt: String
     createdAt: String
-    releaseGoodInfo: ReleaseGoodInfo
+    shippingOrderInfo: ShippingOrderInfo
     inventoryInfos: [InventoryInfos]
   }
 `

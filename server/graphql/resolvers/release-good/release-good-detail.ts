@@ -31,7 +31,8 @@ export const releaseGoodDetailResolver = {
 
     return {
       ...releaseGood,
-      releaseGoodInfo: {
+      shippingOrderInfo: {
+        containerNo: (shippingOrder && shippingOrder.containerNo) || '',
         containerLeavingDate: (shippingOrder && shippingOrder.containerLeavingDate) || '',
         containerArrivalDate: (shippingOrder && shippingOrder.containerArrivalDate) || '',
         shipName: (shippingOrder && shippingOrder.shipName) || ''

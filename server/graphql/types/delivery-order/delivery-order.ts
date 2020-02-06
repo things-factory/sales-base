@@ -16,6 +16,7 @@ export const DeliveryOrder = gql`
     ownCollection: Boolean
     to: String
     refNo: String
+    otherDriver: String
     deliveryDate: String
     deliveryDateTime: String
     looseItem: Boolean

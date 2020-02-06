@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
-export const ReleaseGoodInfo = gql`
-  type ReleaseGoodInfo {
+export const ShippingOrderInfo = gql`
+  type ShippingOrderInfo {
     containerNo: String
     containerLeavingDate: String
     containerArrivalDate: String

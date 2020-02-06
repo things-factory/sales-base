@@ -94,6 +94,11 @@ export class DeliveryOrder {
   @Column({
     nullable: true
   })
+  otherDriver: string
+
+  @Column({
+    nullable: true
+  })
   remark: string
 
   @Column()

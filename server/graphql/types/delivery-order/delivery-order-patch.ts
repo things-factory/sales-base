@@ -12,6 +12,9 @@ export const DeliveryOrderPatch = gql`
     urgency: Boolean
     ownCollection: Boolean
     cargoType: String
+    otherDriver: String
+    ownDriver: String
+    otherDestination: String
     deliveryDate: String
     deliveryDateTime: String
     looseItem: Boolean

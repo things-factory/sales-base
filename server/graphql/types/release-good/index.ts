@@ -3,7 +3,7 @@ import { NewReleaseGood } from './new-release-good'
 import { ReleaseGoodPatch } from './release-good-patch'
 import { ReleaseGoodList } from './release-good-list'
 import { ReleaseGoodDetail } from './release-good-detail'
-import { ReleaseGoodInfo } from './release-good-info'
+import { ShippingOrderInfo } from './shipping-order-info'
 import { InventoryInfos } from './inventory-infos'
 
 export const Mutation = `
@@ -60,6 +60,6 @@ export const Types = [
   ReleaseGoodPatch,
   ReleaseGoodList,
   ReleaseGoodDetail,
-  ReleaseGoodInfo,
+  ShippingOrderInfo,
   InventoryInfos
 ]
