@@ -45,8 +45,8 @@ export const Mutation = `
 
   proceedExtraProducts (
     ganNo: String!
-    approvedProducts: [OrderProductPatch]!
-    rejectedProducts: [OrderProductPatch]!
+    approvedProducts: [ObjectRef]!
+    rejectedProducts: [ObjectRef]!
   ): Boolean
 `
 
