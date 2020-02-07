@@ -15,6 +15,7 @@ export const GenerateDeliveryOrder = gql`
     deliveryDate: String!
     deliveryDateTime: String
     telNo: String
+    palletQty: String
     status: String
     description: String
   }

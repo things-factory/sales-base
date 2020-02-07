@@ -99,6 +99,11 @@ export class DeliveryOrder {
   @Column({
     nullable: true
   })
+  palletQty: string
+
+  @Column({
+    nullable: true
+  })
   remark: string
 
   @Column()

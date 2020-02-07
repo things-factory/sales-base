@@ -19,6 +19,7 @@ export const DeliveryOrder = gql`
     otherDriver: String
     deliveryDate: String
     deliveryDateTime: String
+    palletQty: String
     looseItem: Boolean
     targetInventories: [OrderInventory]
     transportDriver: TransportDriver
