@@ -37,16 +37,17 @@ export const dispatchDeliveryOrder = {
           transportDriver = await trxMgr.getRepository(TransportDriver).findOne({
             where: { domain: context.state.domain, name: orderInfo.ownDriver }
           })
-          await trxMgr.getRepository(DeliveryOrder).save({
-            ...foundDeliveryOrder,
-            transportDriver,
-            otherDriver: orderInfo?.otherDriver || null,
-            to: destination,
-            deliveryDate: orderInfo.deliveryDate,
-            status: ORDER_STATUS.DELIVERING,
-            updater: context.state.user
-          })
         }
+
+        await trxMgr.getRepository(DeliveryOrder).save({
+          ...foundDeliveryOrder,
+          transportDriver,
+          otherDriver: orderInfo?.otherDriver || null,
+          to: destination,
+          deliveryDate: orderInfo.deliveryDate,
+          status: ORDER_STATUS.DELIVERING,
+          updater: context.state.user
+        })
 
         return foundDeliveryOrder
       } catch (e) {
