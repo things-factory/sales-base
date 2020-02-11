@@ -6,6 +6,7 @@ import { deleteReleaseGoods } from './delete-release-goods'
 import { deliverReleaseGood } from './deliver-release-good'
 import { generateReleaseGood } from './generate-release-good'
 import { rejectReleaseGood } from './reject-release-good'
+import { releasableInventoriesResolver } from './releasable-inventories'
 import { releaseGoodResolver } from './release-good'
 import { releaseGoodDetailResolver } from './release-good-detail'
 import { releaseGoodRequestsResolver } from './release-good-requests'
@@ -16,7 +17,8 @@ export const Query = {
   ...releaseGoodsResolver,
   ...releaseGoodResolver,
   ...releaseGoodRequestsResolver,
-  ...releaseGoodDetailResolver
+  ...releaseGoodDetailResolver,
+  ...releasableInventoriesResolver
 }
 
 export const Mutation = {
