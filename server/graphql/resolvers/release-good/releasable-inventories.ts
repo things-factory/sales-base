@@ -16,7 +16,7 @@ export const releasableInventoriesResolver = {
       `${ARRIVAL_NOTICE_ALIAS}.container_no as containerNo`,
       `${PRODUCT_ALIAS}.id as productId`,
       `${PRODUCT_ALIAS}.name as productName`,
-      `${INV_ALIAS}.packing_type ad packingType`,
+      `${INV_ALIAS}.packing_type as packingType`,
       `(SUM(${INV_ALIAS}.qty) - SUM(${INV_ALIAS}.locked_qty)) as remainQty`,
       `(SUM(${INV_ALIAS}.weight) - SUM(${INV_ALIAS}.locked_weight)) as remainWeight`
     ])
