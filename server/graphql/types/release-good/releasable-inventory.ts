@@ -5,8 +5,8 @@ export const ReleasableInventory = gql`
     batchId: String
     containerNo: String
     packingType: String
-    releaseQty: Int
-    releaseWeight: Float
+    remainQty: Int
+    remainWeight: Float
     product: Product
   }
 `
