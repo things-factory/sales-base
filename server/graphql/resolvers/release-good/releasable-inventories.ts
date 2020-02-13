@@ -1,50 +1,115 @@
-import { buildQuery, ListParam } from '@things-factory/shell'
-import { Inventory, INVENTORY_STATUS } from '@things-factory/warehouse-base'
-import { createQueryBuilder, SelectQueryBuilder } from 'typeorm'
-import { ArrivalNotice } from '../../../entities'
+import { ListParam } from '@things-factory/shell'
+import { Inventory } from '@things-factory/warehouse-base'
+import { getRepository, Repository } from 'typeorm'
+import { Bizplace, getMyBizplace } from '@things-factory/biz-base'
+
+interface IFilter {
+  name: string
+  operator?: string
+  value: any
+}
 
 export const releasableInventoriesResolver = {
   async releasableInventories(_: any, params: ListParam, context: any) {
-    const INV_ALIAS: string = 'INV'
-    const ARRIVAL_NOTICE_ALIAS: string = 'AN'
-    const PRODUCT_ALIAS: string = 'PROD'
+    const myBizplace: Bizplace = await getMyBizplace(context.state.user)
+    const INV_ALIAS = 'INV'
+    const PROD_ALIAS = 'PROD'
+    const GAN_ALIAS = 'GAN'
+    const conditions: IFilter[] = params?.filters
+    let { batchId = null, containerNo = null, product = [], packingType = null } = getConditionValues(conditions)
 
-    const qb: SelectQueryBuilder<Inventory> = createQueryBuilder(Inventory, INV_ALIAS)
-    buildQuery(qb, params, context)
-    qb.select([
-      `${INV_ALIAS}.batch_id as batchId`,
-      `${ARRIVAL_NOTICE_ALIAS}.container_no as containerNo`,
-      `${PRODUCT_ALIAS}.id as productId`,
-      `${PRODUCT_ALIAS}.name as productName`,
-      `${INV_ALIAS}.packing_type as packingType`,
-      `(SUM(${INV_ALIAS}.qty) - SUM(${INV_ALIAS}.locked_qty)) as remainQty`,
-      `(SUM(${INV_ALIAS}.weight) - SUM(${INV_ALIAS}.locked_weight)) as remainWeight`
-    ])
-      .leftJoin(`${INV_ALIAS}.product`, PRODUCT_ALIAS)
-      .leftJoin(
-        ArrivalNotice,
-        ARRIVAL_NOTICE_ALIAS,
-        `CAST(${INV_ALIAS}.ref_order_id as uuid) = ${ARRIVAL_NOTICE_ALIAS}.id`
-      )
-      .where(`${INV_ALIAS}.status = :status`, { status: INVENTORY_STATUS.STORED })
-      .andWhere(`${INV_ALIAS}.qty > 0`)
+    const SELECT: string = `
+      SELECT
+        ${INV_ALIAS}.batch_id,
+        ${INV_ALIAS}.packing_type,
+        (SUM(COALESCE(${INV_ALIAS}.qty, 0)) - SUM(COALESCE(${INV_ALIAS}.locked_qty, 0))) as remain_qty,
+        (SUM(COALESCE(${INV_ALIAS}.weight, 0)) - SUM(COALESCE(${INV_ALIAS}.locked_weight, 0))) as remain_weight,
+        ${PROD_ALIAS}.id as product_id,
+        ${PROD_ALIAS}.name as product_name,
+        ${GAN_ALIAS}.container_no
+    `
+    const FROM: string = `
+      FROM
+        inventories ${INV_ALIAS}
+      LEFT JOIN
+        products ${PROD_ALIAS}
+      ON
+        ${PROD_ALIAS}.id = ${INV_ALIAS}.product_id
+      LEFT JOIN
+        arrival_notices ${GAN_ALIAS}
+      ON
+        ${GAN_ALIAS}.id = CAST(${INV_ALIAS}.ref_order_id as uuid)
+    `
 
-    let items: Inventory[] = await qb.getRawMany()
+    const WHERE: string = `
+      WHERE
+        ${INV_ALIAS}.status = 'STORED'
+        AND ${INV_ALIAS}.qty > 0
+        AND ${INV_ALIAS}.bizplace_id = '${myBizplace.id}'
+        ${batchId ? `AND LOWER(${INV_ALIAS}.batch_id) LIKE '%${batchId.toLowerCase()}%'` : ''}
+        ${packingType ? `AND LOWER(${INV_ALIAS}.packing_type) LIKE '%${packingType.toLowerCase()}%'` : ''}
+        ${containerNo ? `AND LOWER(${GAN_ALIAS}.container_no) LIKE '%${containerNo.toLowerCase()}%'` : ''}
+        ${
+          product?.length > 0 && product[0]
+            ? `AND ${PROD_ALIAS}.id IN (${product.map((id: string) => `'${id}'`).join(', ')})`
+            : product[0] === null
+            ? `AND ${PROD_ALIAS}.id isnull`
+            : ''
+        }
+    `
+
+    // ${product?.length > 0 ? `AND ${PROD_ALIAS}.id IN (${product.map((id: string) => id ? `'${id}'` : null).join(', ')})` : ''}
+    const GROUP_BY: string = `
+      GROUP BY
+      ${INV_ALIAS}.batch_id,
+      ${INV_ALIAS}.packing_type,
+      ${GAN_ALIAS}.container_no,
+      ${PROD_ALIAS}.id
+    `
+
+    const OFFSET_LIMIT: string = `
+        OFFSET ${params.pagination.limit * (params.pagination.page - 1)}
+        LIMIT ${params.pagination.limit}
+    `
+
+    const invRepo: Repository<Inventory> = getRepository(Inventory)
+    let items: Inventory[] = await invRepo.query(`
+      ${SELECT} ${FROM} ${WHERE} ${GROUP_BY} ${OFFSET_LIMIT}
+    `)
     items = items.map((item: Inventory) => {
       return {
-        batchId: item.batchId,
-        containerNo: item.containerNo,
-        packingType: item.packingType,
-        remainQty: item.remainQty,
-        remainWeight: item.remainWeight,
+        batchId: item.batch_id,
+        packingType: item.packing_type,
+        remainQty: item.remain_qty,
+        remainWeight: item.remain_weight,
         product: {
-          id: item.productId,
-          name: item.productName
-        }
+          id: item.product_id,
+          name: item.product_name
+        },
+        containerNo: item.container_no
       }
     })
-    const total: number = await qb.getCount()
 
-    return { items, total }
+    const results: [{ total: number }] = await invRepo.query(`
+      SELECT count(${INV_ALIAS}.id) as total ${FROM} ${WHERE}
+    `)
+
+    return {
+      items,
+      total: Number(results[0].total)
+    }
   }
+}
+
+function getConditionValues(
+  conditions: IFilter[]
+): { batchId?: string; containerNo?: string; product?: string[]; packingType?: string } {
+  return conditions.reduce((condition, cond: IFilter): {} => {
+    condition = {
+      ...condition,
+      [cond.name]: cond.value
+    }
+
+    return condition
+  }, {})
 }
