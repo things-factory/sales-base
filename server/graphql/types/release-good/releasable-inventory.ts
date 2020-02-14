@@ -8,5 +8,6 @@ export const ReleasableInventory = gql`
     remainQty: Int
     remainWeight: Float
     product: Product
+    productName: String
   }
 `
