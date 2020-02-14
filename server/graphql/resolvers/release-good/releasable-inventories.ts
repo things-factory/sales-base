@@ -82,6 +82,7 @@ export const releasableInventoriesResolver = {
         packingType: item.packing_type,
         remainQty: item.remain_qty,
         remainWeight: item.remain_weight,
+        productName: item.product_name,
         product: {
           id: item.product_id,
           name: item.product_name
