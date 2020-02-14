@@ -4,8 +4,7 @@ import { Product } from '@things-factory/product-base'
 import { Domain } from '@things-factory/shell'
 import { Inventory } from '@things-factory/warehouse-base'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { CollectionOrder, DeliveryOrder } from '.'
-import { ArrivalNotice } from './arrival-notice'
+import { ArrivalNotice, CollectionOrder, DeliveryOrder } from '../entities'
 
 @Entity()
 @Index('ix_order-product_0', (orderProduct: OrderProduct) => [orderProduct.domain, orderProduct.name], {

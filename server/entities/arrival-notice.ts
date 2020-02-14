@@ -11,9 +11,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
-import { CollectionOrder } from './collection-order'
-import { OrderProduct } from './order-product'
-import { OrderVas } from './order-vas'
+import { CollectionOrder, OrderProduct, OrderVas } from '../entities'
 
 @Entity()
 @Index('ix_arrival-notice_0', (arrivalNotice: ArrivalNotice) => [arrivalNotice.domain, arrivalNotice.name], {
@@ -47,13 +45,22 @@ export class ArrivalNotice {
   @Column()
   importCargo: boolean
 
-  @OneToMany(type => OrderProduct, orderProduct => orderProduct.arrivalNotice)
+  @OneToMany(
+    type => OrderProduct,
+    orderProduct => orderProduct.arrivalNotice
+  )
   orderProducts: OrderProduct[]
 
-  @OneToMany(type => OrderVas, orderVas => orderVas.arrivalNotice)
+  @OneToMany(
+    type => OrderVas,
+    orderVas => orderVas.arrivalNotice
+  )
   orderVass: OrderVas[]
 
-  @OneToMany(type => CollectionOrder, collectionOrder => collectionOrder.arrivalNotice)
+  @OneToMany(
+    type => CollectionOrder,
+    collectionOrder => collectionOrder.arrivalNotice
+  )
   collectionOrders: CollectionOrder[]
 
   @Column({

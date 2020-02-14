@@ -12,7 +12,7 @@ import {
   UpdateDateColumn,
   JoinColumn
 } from 'typeorm'
-import { ArrivalNotice } from './arrival-notice'
+import { ArrivalNotice } from '../entities'
 
 @Entity()
 @Index(
