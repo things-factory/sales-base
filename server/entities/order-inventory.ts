@@ -3,7 +3,7 @@ import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
 import { Inventory } from '@things-factory/warehouse-base'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { DeliveryOrder, ReleaseGood, ShippingOrder, ArrivalNotice, StockTake } from '../entities'
+import { ArrivalNotice, DeliveryOrder, ReleaseGood, ShippingOrder } from '../entities'
 
 @Entity()
 @Index('ix_order-inventory_0', (orderInventory: OrderInventory) => [orderInventory.domain, orderInventory.name], {
@@ -26,13 +26,6 @@ import { DeliveryOrder, ReleaseGood, ShippingOrder, ArrivalNotice, StockTake } f
 @Index(
   'ix_order-inventory_3',
   (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.deliveryOrder, orderInventory.seq],
-  {
-    unique: true
-  }
-)
-@Index(
-  'ix_order-inventory_3',
-  (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.stockTake, orderInventory.seq],
   {
     unique: true
   }
@@ -86,9 +79,6 @@ export class OrderInventory {
 
   @ManyToOne(type => DeliveryOrder)
   deliveryOrder: DeliveryOrder
-
-  @ManyToOne(type => StockTake)
-  stockTake: StockTake
 
   @Column()
   releaseQty: number
