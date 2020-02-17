@@ -61,7 +61,11 @@ export const releasableInventoriesResolver = {
         ${
           inventory?.length > 0
             ? `
-              AND (${INV_ALIAS}.batch_id, ${PROD_ALIAS}.id) NOT IN (
+              AND (${INV_ALIAS}.batch_id, ${PROD_ALIAS}.id) ${
+                params.filters.find(
+                  (filter: { name: string; operator: string; value: any }) => filter.name === 'inventory'
+                ).operator
+              } (
                 ${inventory
                   .map((inv: { batchId: string; productId: string }) => `('${inv.batchId}', '${inv.productId}')`)
                   .join(', ')}
@@ -69,7 +73,6 @@ export const releasableInventoriesResolver = {
             `
             : ''
         }
-
     `
 
     // ${product?.length > 0 ? `AND ${PROD_ALIAS}.id IN (${product.map((id: string) => id ? `'${id}'` : null).join(', ')})` : ''}
