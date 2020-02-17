@@ -16,7 +16,9 @@ export const releasableInventoriesResolver = {
     const PROD_ALIAS = 'PROD'
     const GAN_ALIAS = 'GAN'
     const conditions: IFilter[] = params?.filters
-    let { batchId = null, containerNo = null, product = [], packingType = null } = getConditionValues(conditions)
+    let { batchId = null, containerNo = null, product = [], packingType = null, inventory = [] } = getConditionValues(
+      conditions
+    )
 
     const SELECT: string = `
       SELECT
@@ -56,6 +58,18 @@ export const releasableInventoriesResolver = {
             ? `AND ${PROD_ALIAS}.id isnull`
             : ''
         }
+        ${
+          inventory?.length > 0
+            ? `
+              AND (${INV_ALIAS}.batch_id, ${PROD_ALIAS}.id) NOT IN (
+                ${inventory
+                  .map((inv: { batchId: string; productId: string }) => `('${inv.batchId}', '${inv.productId}')`)
+                  .join(', ')}
+              )
+            `
+            : ''
+        }
+
     `
 
     // ${product?.length > 0 ? `AND ${PROD_ALIAS}.id IN (${product.map((id: string) => id ? `'${id}'` : null).join(', ')})` : ''}
@@ -92,7 +106,9 @@ export const releasableInventoriesResolver = {
     })
 
     const results: [{ total: number }] = await invRepo.query(`
-      SELECT count(${INV_ALIAS}.id) as total ${FROM} ${WHERE}
+      SELECT max(cnt.cnt) as total FROM (
+        SELECT (ROW_NUMBER() OVER()) as cnt ${FROM} ${WHERE} ${GROUP_BY}
+      ) as cnt
     `)
 
     return {
@@ -104,7 +120,13 @@ export const releasableInventoriesResolver = {
 
 function getConditionValues(
   conditions: IFilter[]
-): { batchId?: string; containerNo?: string; product?: string[]; packingType?: string } {
+): {
+  batchId?: string
+  containerNo?: string
+  product?: string[]
+  packingType?: string
+  inventory?: { batchId: string; productId: string }[]
+} {
   return conditions.reduce((condition, cond: IFilter): {} => {
     condition = {
       ...condition,
