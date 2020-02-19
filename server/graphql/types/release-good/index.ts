@@ -1,10 +1,13 @@
-import { ReleaseGood } from './release-good'
+import { InventoryInfos } from './inventory-infos'
 import { NewReleaseGood } from './new-release-good'
-import { ReleaseGoodPatch } from './release-good-patch'
-import { ReleaseGoodList } from './release-good-list'
+import { ReleasableInventory } from './releasable-inventory'
+import { ReleasableInventoryList } from './releasable-inventory-list'
+import { ReleaseGood } from './release-good'
 import { ReleaseGoodDetail } from './release-good-detail'
 import { ShippingOrderInfo } from './shipping-order-info'
-import { InventoryInfos } from './inventory-infos'
+// import { ReleaseGoodInfo } from './release-good-info'
+import { ReleaseGoodList } from './release-good-list'
+import { ReleaseGoodPatch } from './release-good-patch'
 
 export const Mutation = `
   createReleaseGood (
@@ -52,6 +55,7 @@ export const Query = `
   releaseGood(name: String!): ReleaseGood
   releaseGoodDetail(name: String!): ReleaseGoodDetail
   releaseGoodRequests(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ReleaseGoodList
+  releasableInventories(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ReleasableInventoryList
 `
 
 export const Types = [
@@ -61,5 +65,8 @@ export const Types = [
   ReleaseGoodList,
   ReleaseGoodDetail,
   ShippingOrderInfo,
-  InventoryInfos
+  // ReleaseGoodInfo,
+  InventoryInfos,
+  ReleasableInventory,
+  ReleasableInventoryList
 ]

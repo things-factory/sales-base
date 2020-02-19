@@ -3,7 +3,7 @@ import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
 import { TransportDriver, TransportVehicle } from '@things-factory/transport-base'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { ReleaseGood } from './release-good'
+import { ReleaseGood } from '../entities'
 
 @Entity()
 @Index('ix_delivery-order_0', (deliveryOrder: DeliveryOrder) => [deliveryOrder.domain, deliveryOrder.name], {

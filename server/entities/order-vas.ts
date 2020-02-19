@@ -1,15 +1,9 @@
 import { User } from '@things-factory/auth-base'
 import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
-import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { ShippingOrder } from '.'
-import { ArrivalNotice } from './arrival-notice'
-import { CollectionOrder } from './collection-order'
-import { DeliveryOrder } from './delivery-order'
-import { ReleaseGood } from './release-good'
-import { Vas } from './vas'
-import { VasOrder } from './vas-order'
 import { Inventory } from '@things-factory/warehouse-base'
+import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { ArrivalNotice, ReleaseGood, ShippingOrder, Vas, VasOrder } from '../entities'
 
 @Entity('order_vass')
 @Index('ix_order-vas_0', (orderVas: OrderVas) => [orderVas.domain, orderVas.name], {

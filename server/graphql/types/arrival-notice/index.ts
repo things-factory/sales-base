@@ -37,6 +37,11 @@ export const Mutation = `
     name: String!
     patch: ArrivalNoticePatch!
   ): ArrivalNotice
+
+  addArrivalNoticeProducts (
+    ganNo: String!
+    orderProducts: [NewOrderProduct]!
+  ): Boolean
 `
 
 export const Query = `
