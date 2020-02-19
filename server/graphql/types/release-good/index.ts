@@ -5,7 +5,6 @@ import { ReleasableInventoryList } from './releasable-inventory-list'
 import { ReleaseGood } from './release-good'
 import { ReleaseGoodDetail } from './release-good-detail'
 import { ShippingOrderInfo } from './shipping-order-info'
-// import { ReleaseGoodInfo } from './release-good-info'
 import { ReleaseGoodList } from './release-good-list'
 import { ReleaseGoodPatch } from './release-good-patch'
 
@@ -65,7 +64,6 @@ export const Types = [
   ReleaseGoodList,
   ReleaseGoodDetail,
   ShippingOrderInfo,
-  // ReleaseGoodInfo,
   InventoryInfos,
   ReleasableInventory,
   ReleasableInventoryList
