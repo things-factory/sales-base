@@ -49,7 +49,7 @@ export class OrderInventory {
   @Column({ nullable: true })
   description: string
 
-  @ManyToOne(type => Inventory, { nullable: false })
+  @ManyToOne(type => Inventory, { nullable: true })
   inventory: Inventory
 
   @Column({ nullable: true })

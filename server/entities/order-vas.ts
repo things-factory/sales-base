@@ -54,7 +54,7 @@ export class OrderVas {
   })
   operationGuide: string
 
-  @ManyToOne(type => Inventory)
+  @ManyToOne(type => Inventory, { nullable: true })
   inventory: Inventory
 
   @Column({

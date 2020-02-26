@@ -37,36 +37,20 @@ export const generateReleaseGood = {
         updater: context.state.user
       })
 
-      orderInventories = await Promise.all(
-        orderInventories.map(async (orderInventory: OrderInventory) => {
-          // 1. Update locked qty and locked weight of inventories
-          const inventory: Inventory = await trxMgr.getRepository(Inventory).findOne(orderInventory.inventory.id)
-          let lockedQty: number = inventory.lockedQty || 0
-          let lockedWeight: number = inventory.lockedWeight || 0
-          const releaseQty: number = orderInventory.releaseQty || 0
-          const releaseWeight: number = orderInventory.releaseWeight || 0
-
-          await trxMgr.getRepository(Inventory).save({
-            ...inventory,
-            lockedQty: lockedQty + releaseQty,
-            lockedWeight: lockedWeight + releaseWeight,
-            updater: context.state.user
-          })
-
+      await trxMgr.getRepository(OrderInventory).save(
+        orderInventories.map((ordInv: OrderInventory) => {
           return {
-            ...orderInventory,
+            ...ordInv,
             domain: context.state.domain,
             bizplace: myBizplace,
             status: ORDER_INVENTORY_STATUS.PENDING,
             name: OrderNoGenerator.orderInventory(),
-            inventory: await trxMgr.getRepository(Inventory).findOne(orderInventory.inventory.id),
             releaseGood: createdReleaseGood,
             creator: context.state.user,
             updater: context.state.user
           }
         })
       )
-      await trxMgr.getRepository(OrderInventory).save(orderInventories)
 
       if (orderVass && orderVass.length) {
         orderVass = await Promise.all(
@@ -77,7 +61,6 @@ export const generateReleaseGood = {
               bizplace: myBizplace,
               name: OrderNoGenerator.releaseVas(),
               vas: await trxMgr.getRepository(Vas).findOne(orderVas.vas.id),
-              inventory: await trxMgr.getRepository(Inventory).findOne(orderVas.inventory.id),
               type: ORDER_TYPES.RELEASE_OF_GOODS,
               releaseGood: createdReleaseGood,
               status: ORDER_VAS_STATUS.PENDING,
