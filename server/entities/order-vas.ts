@@ -31,6 +31,9 @@ export class OrderVas {
   @Column()
   batchId: string
 
+  @Column({ nullable: true })
+  productName: string
+
   @ManyToOne(type => ArrivalNotice)
   arrivalNotice: ArrivalNotice
 
