@@ -12,23 +12,17 @@ import { ArrivalNotice, DeliveryOrder, ReleaseGood, ShippingOrder } from '../ent
 @Index(
   'ix_order-inventory_1',
   (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.shippingOrder, orderInventory.seq],
-  {
-    unique: true
-  }
+  { unique: true }
 )
 @Index(
   'ix_order-inventory_2',
   (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.releaseGood, orderInventory.seq],
-  {
-    unique: true
-  }
+  { unique: true }
 )
 @Index(
   'ix_order-inventory_3',
   (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.deliveryOrder, orderInventory.seq],
-  {
-    unique: true
-  }
+  { unique: true }
 )
 export class OrderInventory {
   @PrimaryGeneratedColumn('uuid')
@@ -43,30 +37,26 @@ export class OrderInventory {
   @Column()
   name: string
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   type: string
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   remark: string
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   issue: string
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   description: string
 
-  @ManyToOne(type => Inventory, {
-    nullable: false
-  })
+  @ManyToOne(type => Inventory, { nullable: false })
   inventory: Inventory
+
+  @Column({ nullable: true })
+  productName: string
+
+  @Column({ nullable: true })
+  batchId: string
 
   @ManyToOne(type => ArrivalNotice)
   arrivalNotice: ArrivalNotice
