@@ -75,7 +75,7 @@ async function getAvailableAmount(
       FROM
         order_inventories
       WHERE
-        status != 'TERMINATED'
+        status NOT IN ('TERMINATED', 'REJECTED') 
         AND batch_id NOTNULL
         AND product_name NOTNULL
         AND packing_type NOTNULL

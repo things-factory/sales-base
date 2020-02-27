@@ -23,26 +23,8 @@ export const rejectReleaseGood = {
 
         // 1. Update status of order products (PENDING_RECEIVE => REJECTED)
         if (foundOIs && foundOIs.length) {
-          foundOIs = await Promise.all(
-            foundOIs.map(async (oi: OrderInventory) => {
-              const inventory: Inventory = oi.inventory
-              // 1. Update locked weight and locked qty of source inventories
-              let lockedQty: number = inventory.lockedQty || 0
-              let lockedWeight: number = inventory.lockedWeight || 0
-              const releaseQty: number = oi.releaseQty
-              const releaseWeight: number = oi.releaseWeight
-
-              if (releaseQty > 0) lockedQty = lockedQty - releaseQty
-              if (releaseWeight > 0) lockedWeight = lockedWeight - releaseWeight
-
-              // Update locked qty and locked weight of inventories and return id list of order inventories
-              await trxMgr.getRepository(Inventory).save({
-                ...inventory,
-                lockedQty,
-                lockedWeight,
-                updater: context.state.user
-              })
-
+          await trxMgr.getRepository(OrderInventory).save(
+            foundOIs.map((oi: OrderInventory) => {
               return {
                 ...oi,
                 status: ORDER_INVENTORY_STATUS.REJECTED,
@@ -50,8 +32,6 @@ export const rejectReleaseGood = {
               }
             })
           )
-
-          await trxMgr.getRepository(OrderInventory).save(foundOIs)
         }
 
         // 2. Update status of order vass if it exists (PENDING_RECEIVE => REJECTED)
