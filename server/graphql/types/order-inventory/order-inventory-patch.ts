@@ -11,6 +11,7 @@ export const OrderInventoryPatch = gql`
     inventory: ObjectRef
     productName: String
     batchId: String
+    packingType: String
     seq: Int
     releaseQty: Int
     remark: String

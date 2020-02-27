@@ -10,6 +10,7 @@ export const OrderInventory = gql`
     inventory: Inventory
     productName: String
     batchId: String
+    packingType: String
     arrivalNotice: ArrivalNotice
     releaseGood: ReleaseGood
     shippingOrder: ShippingOrder

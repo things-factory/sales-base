@@ -34,6 +34,9 @@ export class OrderVas {
   @Column({ nullable: true })
   productName: string
 
+  @Column({ nullable: true })
+  packingType: string
+
   @ManyToOne(type => ArrivalNotice)
   arrivalNotice: ArrivalNotice
 

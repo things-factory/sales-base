@@ -58,6 +58,9 @@ export class OrderInventory {
   @Column({ nullable: true })
   batchId: string
 
+  @Column({ nullable: true })
+  packingType: string
+
   @ManyToOne(type => ArrivalNotice)
   arrivalNotice: ArrivalNotice
 
