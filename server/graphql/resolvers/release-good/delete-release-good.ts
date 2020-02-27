@@ -1,4 +1,3 @@
-import { Inventory } from '@things-factory/warehouse-base'
 import { getManager, In } from 'typeorm'
 import { OrderInventory, OrderVas, ReleaseGood, ShippingOrder } from '../../../entities'
 
@@ -23,25 +22,7 @@ export const deleteReleaseGood = {
       const foundSO: ShippingOrder = foundReleaseOrder.shippingOrder
 
       // Update locked qty and locked weight of inventories and return id list of order inventories
-      const inventoryIds: string[] = await Promise.all(
-        foundOIs.map(async (oi: OrderInventory) => {
-          // 1. Update locked weight and locked qty of source inventories
-          const inventory: Inventory = oi.inventory
-          let lockedQty: number = inventory.lockedQty || 0
-          let lockedWeight: number = inventory.lockedWeight || 0
-          const releaseQty: number = oi.releaseQty || 0
-          const releaseWeight: number = oi.releaseWeight || 0
-
-          await trxMgr.getRepository(Inventory).save({
-            ...inventory,
-            lockedQty: lockedQty - releaseQty,
-            lockedWeight: lockedWeight - releaseWeight,
-            updater: context.state.user
-          })
-
-          return oi.id
-        })
-      )
+      const inventoryIds: string[] = foundOIs.map((oi: OrderInventory) => oi.id)
 
       // Delete order inventories by ids
       if (inventoryIds.length) {

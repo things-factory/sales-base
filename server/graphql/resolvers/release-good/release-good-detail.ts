@@ -70,7 +70,8 @@ async function getAvailableAmount(
         SUM(release_qty) as release_qty,
         SUM(release_weight) as release_weight,
         batch_id,
-        product_name
+        product_name,
+        packing_type
       FROM
         order_inventories
       WHERE
@@ -94,7 +95,7 @@ async function getAvailableAmount(
       AND i.packing_type = oi.packing_type
     WHERE
       i.bizplace_id IN (${bizplaceIds.map((id: string) => `'${id}'`).join()})
-      i.status = 'STORED'
+      AND i.status = 'STORED'
       AND i.batch_id = '${batchId}'
       AND p.name = '${productName}'
       AND i.packing_type = '${packingType}'
