@@ -2,7 +2,7 @@ import { getManager } from 'typeorm'
 import { GoodsReceivalNote } from '../../../entities/goods-receival-note'
 import { sendNotification } from '@things-factory/shell'
 import { Bizplace } from '@things-factory/biz-base'
-import { GRN_STATUS } from '../../../constants'
+import { GRN_STATUS, ATTACHMENT_TYPE } from '../../../constants'
 import { Attachment, createAttachment, deleteAttachment } from '@things-factory/attachment-base'
 
 export const submitGoodsReceivalNote = {
@@ -23,7 +23,7 @@ export const submitGoodsReceivalNote = {
       const attachment = {
         refBy: foundGRN.id,
         file: file,
-        category: 'GRN'
+        category: ATTACHMENT_TYPE.SIGNATURE
       }
 
       if (!foundAttachment) {

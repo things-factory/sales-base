@@ -1,0 +1,3 @@
+export const ATTACHMENT_TYPE = {
+  SIGNATURE: 'SIGNATURE'
+}
