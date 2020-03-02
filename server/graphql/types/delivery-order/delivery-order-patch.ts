@@ -11,6 +11,7 @@ export const DeliveryOrderPatch = gql`
     loadWeight: Float
     urgency: Boolean
     ownCollection: Boolean
+    contactPoint: String
     cargoType: String
     otherDriver: String
     ownDriver: String

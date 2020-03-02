@@ -35,6 +35,11 @@ export class DeliveryOrder {
   @Column({
     nullable: true
   })
+  contactPointRefId: string
+
+  @Column({
+    nullable: true
+  })
   truckNo: string
 
   @Column({

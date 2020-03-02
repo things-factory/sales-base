@@ -1,6 +1,7 @@
 import { getManager } from 'typeorm'
 import { ORDER_STATUS } from '../../../constants'
 import { DeliveryOrder } from '../../../entities'
+import { ContactPoint } from '@things-factory/biz-base'
 import { TransportDriver, TransportVehicle, TRUCK_STATUS } from '@things-factory/transport-base'
 
 export const dispatchDeliveryOrder = {
@@ -26,10 +27,15 @@ export const dispatchDeliveryOrder = {
         }
 
         let destination: any = null
-        if (orderInfo?.otherDestination) {
+        let foundContactPoint: ContactPoint = null
+        if (orderInfo?.contactPoint) {
           destination = orderInfo.otherDestination
         } else {
-          destination = orderInfo.to
+          foundContactPoint = await trxMgr.getRepository(ContactPoint).findOne({
+            where: { domain: context.state.domain, id: orderInfo.contactPoint }
+          })
+
+          destination = foundContactPoint.address
         }
 
         let transportDriver: TransportDriver = null
@@ -42,6 +48,7 @@ export const dispatchDeliveryOrder = {
         await trxMgr.getRepository(DeliveryOrder).save({
           ...foundDeliveryOrder,
           transportDriver,
+          contactPointRefId: foundContactPoint.id || null,
           otherDriver: orderInfo?.otherDriver || null,
           to: destination,
           deliveryDate: orderInfo.deliveryDate,
