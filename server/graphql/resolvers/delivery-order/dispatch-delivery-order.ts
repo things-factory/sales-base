@@ -10,7 +10,7 @@ export const dispatchDeliveryOrder = {
       try {
         const foundDeliveryOrder: DeliveryOrder = await trxMgr.getRepository(DeliveryOrder).findOne({
           where: { domain: context.state.domain, name: orderInfo.name },
-          relations: ['transportVehicle']
+          relations: ['transportVehicle', 'bizplace']
         })
 
         if (!foundDeliveryOrder) throw new Error(`Delivery order doesn't exists.`)
@@ -26,16 +26,21 @@ export const dispatchDeliveryOrder = {
           })
         }
 
-        let destination: any = null
-        let foundContactPoint: ContactPoint = null
-        if (orderInfo?.contactPoint) {
-          destination = orderInfo.otherDestination
+        // if there is other destination value, create a new contact point
+        let foundCP: any = {}
+        if (orderInfo?.otherDestination) {
+          foundCP = {
+            domain: context.state.domain,
+            name: orderInfo.contactName,
+            bizplace: foundDeliveryOrder.bizplace,
+            address: orderInfo.otherDestination,
+            creator: context.state.user
+          }
+          foundCP = await trxMgr.getRepository(ContactPoint).save(foundCP)
         } else {
-          foundContactPoint = await trxMgr.getRepository(ContactPoint).findOne({
+          foundCP = await trxMgr.getRepository(ContactPoint).findOne({
             where: { domain: context.state.domain, id: orderInfo.contactPoint }
           })
-
-          destination = foundContactPoint.address
         }
 
         let transportDriver: TransportDriver = null
@@ -48,9 +53,9 @@ export const dispatchDeliveryOrder = {
         await trxMgr.getRepository(DeliveryOrder).save({
           ...foundDeliveryOrder,
           transportDriver,
-          contactPointRefId: foundContactPoint.id || null,
+          contactPointRefId: foundCP.id || null,
           otherDriver: orderInfo?.otherDriver || null,
-          to: destination,
+          to: foundCP.address,
           deliveryDate: orderInfo.deliveryDate,
           status: ORDER_STATUS.DELIVERING,
           updater: context.state.user
