@@ -1,3 +1,4 @@
 export const ATTACHMENT_TYPE = {
-  SIGNATURE: 'SIGNATURE'
+  SIGNATURE: 'SIGNATURE',
+  GRN: 'GRN'
 }

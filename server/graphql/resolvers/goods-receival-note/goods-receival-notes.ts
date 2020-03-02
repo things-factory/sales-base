@@ -4,6 +4,7 @@ import { convertListParams, ListParam } from '@things-factory/shell'
 import { getRepository, In, IsNull } from 'typeorm'
 import { ArrivalNotice } from '../../../entities/arrival-notice'
 import { GoodsReceivalNote } from '../../../entities/goods-receival-note'
+import { ATTACHMENT_TYPE } from '../../../constants'
 
 export const goodsReceivalNotesResolver = {
   async goodsReceivalNotes(_: any, params: ListParam, context: any) {
@@ -36,7 +37,8 @@ export const goodsReceivalNotesResolver = {
         const foundAttachments = await getRepository(Attachment).find({
           where: {
             domain: context.state.domain,
-            refBy: item.id
+            refBy: item.id,
+            category: ATTACHMENT_TYPE.GRN
           }
         })
         return {

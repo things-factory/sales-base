@@ -23,7 +23,7 @@ export const submitGoodsReceivalNote = {
       const attachment = {
         refBy: foundGRN.id,
         file: file,
-        category: ATTACHMENT_TYPE.SIGNATURE
+        category: ATTACHMENT_TYPE.GRN
       }
 
       if (!foundAttachment) {
