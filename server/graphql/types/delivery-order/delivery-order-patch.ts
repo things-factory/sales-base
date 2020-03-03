@@ -16,6 +16,8 @@ export const DeliveryOrderPatch = gql`
     cargoType: String
     otherDriver: String
     ownDriver: String
+    otherTruck: String
+    ownTruck: String
     otherDestination: String
     deliveryDate: String
     deliveryDateTime: String
