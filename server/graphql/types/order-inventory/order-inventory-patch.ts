@@ -13,6 +13,7 @@ export const OrderInventoryPatch = gql`
     batchId: String
     packingType: String
     releaseQty: Int
+    releaseWeight: Float
     remark: String
     issue: String
     status: String
