@@ -11,17 +11,17 @@ import { ArrivalNotice, DeliveryOrder, ReleaseGood, ShippingOrder } from '../ent
 })
 @Index(
   'ix_order-inventory_1',
-  (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.shippingOrder, orderInventory.seq],
+  (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.shippingOrder, orderInventory.inventory],
   { unique: true }
 )
 @Index(
   'ix_order-inventory_2',
-  (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.releaseGood, orderInventory.seq],
+  (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.releaseGood, orderInventory.inventory],
   { unique: true }
 )
 @Index(
   'ix_order-inventory_3',
-  (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.deliveryOrder, orderInventory.seq],
+  (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.deliveryOrder, orderInventory.inventory],
   { unique: true }
 )
 export class OrderInventory {
@@ -78,9 +78,6 @@ export class OrderInventory {
 
   @Column({ nullable: true, type: 'float' })
   releaseWeight: number
-
-  @Column()
-  seq: number
 
   @Column()
   status: string

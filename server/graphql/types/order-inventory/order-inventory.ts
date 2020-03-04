@@ -15,7 +15,6 @@ export const OrderInventory = gql`
     releaseGood: ReleaseGood
     shippingOrder: ShippingOrder
     deliveryOrder: DeliveryOrder
-    seq: Int
     releaseQty: Int
     releaseWeight: Float
     status: String

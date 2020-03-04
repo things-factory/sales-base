@@ -12,7 +12,7 @@ import { ArrivalNotice, CollectionOrder, DeliveryOrder } from '../entities'
 })
 @Index(
   'ix_order-product_1',
-  (orderProduct: OrderProduct) => [orderProduct.bizplace, orderProduct.arrivalNotice, orderProduct.seq],
+  (orderProduct: OrderProduct) => [orderProduct.bizplace, orderProduct.arrivalNotice, orderProduct.product],
   { unique: true }
 )
 export class OrderProduct {
@@ -64,9 +64,6 @@ export class OrderProduct {
     nullable: false
   })
   product: Product
-
-  @Column()
-  seq: number
 
   @Column()
   batchId: string

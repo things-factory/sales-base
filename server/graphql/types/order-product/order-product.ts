@@ -17,7 +17,6 @@ export const OrderProduct = gql`
     currentInventory: Inventory
     toInventory: Inventory
     product: Product
-    seq: Int
     batchId: String
     packingType: String
     unit: String
