@@ -12,7 +12,13 @@ import { ArrivalNotice, CollectionOrder, DeliveryOrder } from '../entities'
 })
 @Index(
   'ix_order-product_1',
-  (orderProduct: OrderProduct) => [orderProduct.bizplace, orderProduct.arrivalNotice, orderProduct.product],
+  (orderProduct: OrderProduct) => [
+    orderProduct.bizplace,
+    orderProduct.arrivalNotice,
+    orderProduct.product,
+    orderProduct.batchId,
+    orderProduct.packingType
+  ],
   { unique: true }
 )
 export class OrderProduct {
