@@ -1,5 +1,6 @@
-import { getPermittedBizplaceIds } from '@things-factory/biz-base'
+import { getPermittedBizplaceIds, Bizplace } from '@things-factory/biz-base'
 import { Inventory } from '@things-factory/warehouse-base'
+import { Product } from '@things-factory/product-base'
 import { getRepository, In, SelectQueryBuilder } from 'typeorm'
 import { OrderInventory, ReleaseGood, ShippingOrder } from '../../../entities'
 
@@ -41,10 +42,12 @@ export const releaseGoodDetailResolver = {
       inventoryInfos: Promise.all(
         releaseGood.orderInventories.map(async (orderInv: OrderInventory) => {
           const { batchId, productName, packingType, releaseQty, releaseWeight } = orderInv
-          const { qty, weight } = await getAvailableAmount(bizplaceIds, batchId, productName, packingType)
+          const { productIdRef } = await getProductId(bizplaceIds, productName)
+          const { qty, weight } = await getAvailableAmount(bizplaceIds, productIdRef, batchId, packingType)
 
           return {
             batchId,
+            productIdRef,
             productName,
             packingType,
             qty,
@@ -58,10 +61,20 @@ export const releaseGoodDetailResolver = {
   }
 }
 
+async function getProductId(bizplaceIds: string[], productName: string): Promise<{ productIdRef: string }> {
+  const foundProduct: Product = await getRepository(Product).findOne({
+    where: { bizplace: In(bizplaceIds), name: productName }
+  })
+
+  const productIdRef = foundProduct.id
+
+  return { productIdRef }
+}
+
 async function getAvailableAmount(
   bizplaceIds: string[],
+  productIdRef: string,
   batchId: string,
-  productName: string,
   packingType: string
 ): Promise<{ qty: number; weight: number }> {
   const [{ qty, weight }] = await getRepository(Inventory).query(`
@@ -80,8 +93,8 @@ async function getAvailableAmount(
         AND product_name NOTNULL
         AND packing_type NOTNULL
       GROUP BY
-        batch_id,
         product_name,
+        batch_id,
         packing_type
     )
     SELECT
@@ -97,7 +110,7 @@ async function getAvailableAmount(
       i.bizplace_id IN (${bizplaceIds.map((id: string) => `'${id}'`).join()})
       AND i.status = 'STORED'
       AND i.batch_id = '${batchId}'
-      AND p.name = '${productName}'
+      AND p.id = '${productIdRef}'
       AND i.packing_type = '${packingType}'
     GROUP BY
       i.batch_id,
