@@ -7,6 +7,8 @@ export const OrderVas = gql`
     bizplace: Bizplace
     name: String
     batchId: String
+    productName: String
+    packingType: String
     arrivalNotice: ArrivalNotice
     releaseGood: ReleaseGood
     shippingOrder: ShippingOrder

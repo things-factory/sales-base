@@ -69,15 +69,12 @@ export async function addArrivalNoticeProducts(
     })
   }
 
-  const seq: number = arrivalNotice.orderProducts.length + 1
-
   orderProducts = await Promise.all(
-    orderProducts.map(async (op: OrderProduct, idx: number) => {
+    orderProducts.map(async (op: OrderProduct) => {
       return {
         ...op,
         domain,
         bizplace: arrivalNotice.bizplace,
-        seq: op.seq ? op.seq : seq + idx,
         name: OrderNoGenerator.orderProduct(),
         product: await productRepo.findOne({ domain, id: op.product.id }),
         arrivalNotice,

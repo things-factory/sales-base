@@ -31,6 +31,12 @@ export class OrderVas {
   @Column()
   batchId: string
 
+  @Column({ nullable: true })
+  productName: string
+
+  @Column({ nullable: true })
+  packingType: string
+
   @ManyToOne(type => ArrivalNotice)
   arrivalNotice: ArrivalNotice
 
@@ -51,7 +57,7 @@ export class OrderVas {
   })
   operationGuide: string
 
-  @ManyToOne(type => Inventory)
+  @ManyToOne(type => Inventory, { nullable: true })
   inventory: Inventory
 
   @Column({

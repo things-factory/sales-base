@@ -8,7 +8,9 @@ export const NewOrderInventory = gql`
     arrivalNotice: ObjectRef
     deliveryOrder: ObjectRef
     inventory: ObjectRef
-    seq: Int
+    productName: String
+    batchId: String
+    packingType: String
     releaseQty: Int
     releaseWeight: Float
     remark: String

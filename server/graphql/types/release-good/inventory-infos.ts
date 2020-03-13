@@ -4,6 +4,8 @@ export const InventoryInfos = gql`
   type InventoryInfos {
     name: String
     batchId: String
+    productIdRef: String
+    productName: String
     product: Product
     packingType: String
     qty: Int
