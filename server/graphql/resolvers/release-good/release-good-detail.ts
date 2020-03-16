@@ -77,7 +77,7 @@ async function getAvailableAmount(
   batchId: string,
   packingType: string
 ): Promise<{ qty: number; weight: number }> {
-  const [{ qty, weight }] = await getRepository(Inventory).query(`
+  const [{ qty = 0, weight = 0 }] = await getRepository(Inventory).query(`
     WITH oi as (
       SELECT
         SUM(release_qty) as release_qty,
