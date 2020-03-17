@@ -29,6 +29,7 @@ export const releaseGoodDetailResolver = {
       ]
     })
 
+    const roBizId: string = releaseGood.bizplace.id
     const shippingOrder: ShippingOrder = releaseGood.shippingOrder
 
     return {
@@ -42,8 +43,8 @@ export const releaseGoodDetailResolver = {
       inventoryInfos: Promise.all(
         releaseGood.orderInventories.map(async (orderInv: OrderInventory) => {
           const { batchId, productName, packingType, releaseQty, releaseWeight } = orderInv
-          const { productIdRef } = await getProductId(bizplaceIds, productName)
-          const { qty, weight } = await getAvailableAmount(bizplaceIds, productIdRef, batchId, packingType)
+          const { productIdRef } = await getProductId(roBizId, productName)
+          const { qty, weight } = await getAvailableAmount(roBizId, productIdRef, batchId, packingType)
 
           return {
             batchId,
@@ -61,9 +62,9 @@ export const releaseGoodDetailResolver = {
   }
 }
 
-async function getProductId(bizplaceIds: string[], productName: string): Promise<{ productIdRef: string }> {
+async function getProductId(roBizId: string, productName: string): Promise<{ productIdRef: string }> {
   const foundProduct: Product = await getRepository(Product).findOne({
-    where: { bizplace: In(bizplaceIds), name: productName }
+    where: { bizplace: roBizId, name: productName }
   })
 
   const productIdRef = foundProduct.id
@@ -72,7 +73,7 @@ async function getProductId(bizplaceIds: string[], productName: string): Promise
 }
 
 async function getAvailableAmount(
-  bizplaceIds: string[],
+  roBizId: string,
   productIdRef: string,
   batchId: string,
   packingType: string
@@ -107,7 +108,7 @@ async function getAvailableAmount(
       AND p.name = oi.product_name
       AND i.packing_type = oi.packing_type
     WHERE
-      i.bizplace_id IN (${bizplaceIds.map((id: string) => `'${id}'`).join()})
+      i.bizplace_id = '${roBizId}'
       AND i.status = 'STORED'
       AND i.batch_id = '${batchId}'
       AND p.id = '${productIdRef}'
