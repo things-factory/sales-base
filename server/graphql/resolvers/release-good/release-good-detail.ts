@@ -89,7 +89,7 @@ async function getAvailableAmount(
       FROM
         order_inventories
       WHERE
-        status IN ('PENDING', 'PENDING_RECEIVE', 'READY_TO_PICK', 'PICKING') 
+        status IN ('PENDING', 'PENDING_RECEIVE', 'READY_TO_PICK', 'PICKING', 'PENDING_SPLIT') 
         AND batch_id NOTNULL
         AND product_name NOTNULL
         AND packing_type NOTNULL
