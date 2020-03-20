@@ -38,32 +38,24 @@ export const generateReleaseGood = {
       })
 
       await trxMgr.getRepository(OrderInventory).save(
-        await Promise.all(
-          orderInventories.map(async (ordInv: OrderInventory) => {
-            let newOrderInv: OrderInventory = {
-              ...ordInv,
-              domain: context.state.domain,
-              bizplace: myBizplace,
-              status: ORDER_INVENTORY_STATUS.PENDING,
-              name: OrderNoGenerator.orderInventory(),
-              releaseGood: createdReleaseGood,
-              creator: context.state.user,
-              updater: context.state.user
-            }
-
-            if (ordInv?.inventory?.id) {
-              newOrderInv.inventory = await trxMgr.getRepository(Inventory).findOne(ordInv.inventory.id)
-            }
-
-            return newOrderInv
-          })
-        )
+        orderInventories.map((ordInv: OrderInventory) => {
+          return {
+            ...ordInv,
+            domain: context.state.domain,
+            bizplace: myBizplace,
+            status: ORDER_INVENTORY_STATUS.PENDING,
+            name: OrderNoGenerator.orderInventory(),
+            releaseGood: createdReleaseGood,
+            creator: context.state.user,
+            updater: context.state.user
+          }
+        })
       )
 
       if (orderVass && orderVass.length) {
         orderVass = await Promise.all(
           orderVass.map(async (orderVas: OrderVas) => {
-            let newOrderVas = {
+            return {
               ...orderVas,
               domain: context.state.domain,
               bizplace: myBizplace,
@@ -75,12 +67,6 @@ export const generateReleaseGood = {
               creator: context.state.user,
               updater: context.state.user
             }
-
-            if (orderVas?.inventory?.id) {
-              newOrderVas.inventory = await trxMgr.getRepository(Inventory).findOne(orderVas.inventory.id)
-            }
-
-            return newOrderVas
           })
         )
         await trxMgr.getRepository(OrderVas).save(orderVass)
