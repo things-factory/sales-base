@@ -42,19 +42,35 @@ export const releaseGoodDetailResolver = {
       },
       inventoryInfos: Promise.all(
         releaseGood.orderInventories.map(async (orderInv: OrderInventory) => {
-          const { batchId, productName, packingType, releaseQty, releaseWeight } = orderInv
-          const { productIdRef } = await getProductId(roBizId, productName)
-          const { qty, weight } = await getAvailableAmount(roBizId, productIdRef, batchId, packingType)
+          if (orderInv?.inventory?.id) {
+            const inventory: Inventory = orderInv.inventory
+            return {
+              batchId: inventory.batchId,
+              productIdRef: inventory.product.id,
+              productName: inventory.product.name,
+              packingType: inventory.packingType,
+              name: inventory.name,
+              location: inventory.location,
+              qty: inventory.qty,
+              weight: inventory.weight,
+              releaseQty: orderInv.releaseQty,
+              releaseWeight: orderInv.releaseWeight
+            }
+          } else {
+            const { batchId, productName, packingType, releaseQty, releaseWeight } = orderInv
+            const { productIdRef } = await getProductId(roBizId, productName)
+            const { qty, weight } = await getAvailableAmount(roBizId, productIdRef, batchId, packingType)
 
-          return {
-            batchId,
-            productIdRef,
-            productName,
-            packingType,
-            qty,
-            weight,
-            releaseQty,
-            releaseWeight
+            return {
+              batchId,
+              productIdRef,
+              productName,
+              packingType,
+              qty,
+              weight,
+              releaseQty,
+              releaseWeight
+            }
           }
         })
       )
