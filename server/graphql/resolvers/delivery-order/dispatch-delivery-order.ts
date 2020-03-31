@@ -15,16 +15,8 @@ export const dispatchDeliveryOrder = {
 
         if (!foundDeliveryOrder) throw new Error(`Delivery order doesn't exists.`)
         if (foundDeliveryOrder.status !== ORDER_STATUS.READY_TO_DISPATCH) throw new Error(`Status is not receivable.`)
-
-        // let foundTruck: any = null
-        // if (!foundDeliveryOrder?.ownCollection) {
-        //   foundTruck = foundDeliveryOrder.transportVehicle
-        //   await trxMgr.getRepository(TransportVehicle).save({
-        //     ...foundTruck,
-        //     status: TRUCK_STATUS.IN_USE,
-        //     updater: context.state.user
-        //   })
-        // }
+        if (foundDeliveryOrder.status === ORDER_STATUS.PENDING_CANCEL)
+          throw new Error('Release order is pending for cancel')
 
         // if there is other destination value, create a new contact point
         let foundCP: any = {}
@@ -50,7 +42,7 @@ export const dispatchDeliveryOrder = {
             where: { domain: context.state.domain, name: orderInfo.ownDriver }
           })
         }
-        
+
         if (orderInfo?.ownTruck) {
           transportVehicle = await trxMgr.getRepository(TransportVehicle).findOne({
             where: { domain: context.state.domain, name: orderInfo.ownTruck }
