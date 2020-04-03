@@ -11,50 +11,70 @@ import { ReleaseGoodPatch } from './release-good-patch'
 export const Mutation = `
   createReleaseGood (
     releaseGood: NewReleaseGood!
-  ): ReleaseGood
+  ): ReleaseGood @priviledge(category: "order_customer", priviledge: "mutation")
 
   updateReleaseGood (
     name: String!
     patch: ReleaseGoodPatch!
-  ): ReleaseGood
+  ): ReleaseGood @priviledge(category: "order_customer", priviledge: "mutation")
 
   deleteReleaseGood (
     name: String!
-  ): Boolean
+  ): Boolean @priviledge(category: "order_customer", priviledge: "mutation")
 
   deleteReleaseGoods (
     names: [String]!
-  ): Boolean
+  ): Boolean @priviledge(category: "order_customer", priviledge: "mutation")
 
   generateReleaseGood (
     releaseGood: NewReleaseGood
     shippingOrder: ShippingOrderPatch
-  ): ReleaseGood
+  ): ReleaseGood @priviledge(category: "order_customer", priviledge: "mutation")
 
   confirmReleaseGood (
     name: String!
-  ): ReleaseGood
+  ): ReleaseGood @priviledge(category: "order_customer", priviledge: "mutation")
 
   checkReleaseGood (
     name: String!
-  ): ReleaseGood
+  ): ReleaseGood @priviledge(category: "order_warehouse", priviledge: "mutation")
 
   rejectReleaseGood (
     name: String!
     patch: ReleaseGoodPatch!
-  ): ReleaseGood
+  ): ReleaseGood @priviledge(category: "order_warehouse", priviledge: "mutation")
 
   deliverReleaseGood (
     name: String!
-  ): ReleaseGood
+  ): ReleaseGood  @priviledge(category: "order_warehouse", priviledge: "mutation")
 `
 
 export const Query = `
-  releaseGoods(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ReleaseGoodList
-  releaseGood(name: String!): ReleaseGood
-  releaseGoodDetail(name: String!): ReleaseGoodDetail
-  releaseGoodRequests(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ReleaseGoodList
-  releasableInventories(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ReleasableInventoryList
+  releaseGoods (
+    filters: [Filter],
+    pagination: Pagination,
+    sortings: [Sorting]
+  ): ReleaseGoodList @priviledge(category: "order_customer", priviledge: "query")
+
+  releaseGood (
+    name: String!
+  ): ReleaseGood @priviledge(category: "order", priviledge: "query")
+
+  releaseGoodDetail (
+    name: String!
+  ): ReleaseGoodDetail @priviledge(category: "order", priviledge: "query")
+
+  releaseGoodRequests (
+    filters: [Filter],
+    pagination: Pagination,
+    sortings: [Sorting]
+  ): ReleaseGoodList @priviledge(category: "order_warehouse", priviledge: "query")
+
+  releasableInventories (
+    filters: [Filter],
+    pagination: Pagination,
+    sortings: [Sorting]
+  ): ReleasableInventoryList @priviledge(category: "order", priviledge: "query")
 `
 
 export const Types = [

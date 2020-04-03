@@ -6,49 +6,59 @@ import { NewArrivalNotice } from './new-arrival-notice'
 export const Mutation = `
   createArrivalNotice (
     arrivalNotice: NewArrivalNotice!
-  ): ArrivalNotice
+  ): ArrivalNotice @priviledge(category: "order_customer", priviledge: "mutation")
 
   updateArrivalNotice (
     name: String!
     patch: ArrivalNoticePatch!
-  ): ArrivalNotice
+  ): ArrivalNotice @priviledge(category: "order", priviledge: "mutation")
 
   deleteArrivalNotice (
     name: String!
-  ): Boolean
+  ): Boolean @priviledge(category: "order_customer", priviledge: "mutation")
 
   generateArrivalNotice (
     arrivalNotice: NewArrivalNotice!
-  ): ArrivalNotice
+  ): ArrivalNotice @priviledge(category: "order_customer", priviledge: "mutation")
 
   confirmArrivalNotice (
     name: String!
-  ): ArrivalNotice
+  ): ArrivalNotice @priviledge(category: "order_customer", priviledge: "mutation")
 
   receiveArrivalNotice (
     name: String!
-  ): ArrivalNotice
+  ): ArrivalNotice @priviledge(category: "order_warehouse", priviledge: "mutation")
 
   checkArrivedNotice (
     name: String!
-  ): ArrivalNotice
+  ): ArrivalNotice @priviledge(category: "order_warehouse", priviledge: "mutation")
 
   rejectArrivalNotice (
     name: String!
     patch: ArrivalNoticePatch!
-  ): ArrivalNotice
+  ): ArrivalNotice @priviledge(category: "order_warehouse", priviledge: "mutation")
 
   addArrivalNoticeProducts (
     ganNo: String!
     orderProducts: [NewOrderProduct]!
-  ): Boolean
+  ): Boolean @priviledge(category: "order_warehouse", priviledge: "mutation")
 `
 
 export const Query = `
-  arrivalNotices(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ArrivalNoticeList
-  arrivalNotice(name: String!): ArrivalNotice
-  arrivalNoticeRequests(filters: [Filter], pagination: Pagination, sortings: [Sorting]): ArrivalNoticeList
-  customerArrivalNotices(bizplace: String!): [ArrivalNotice]
+  arrivalNotices(
+    filters: [Filter],
+    pagination: Pagination,sortings: [Sorting]
+  ): ArrivalNoticeList @priviledge(category: "order_customer", priviledge: "query")
+
+  arrivalNotice(
+    name: String!
+  ): ArrivalNotice @priviledge(category: "order", priviledge: "query")
+
+  arrivalNoticeRequests(
+    filters: [Filter],
+    pagination: Pagination,
+    sortings: [Sorting]
+  ): ArrivalNoticeList @priviledge(category: "order_warehouse", priviledge: "query")
 `
 
 export const Types = [ArrivalNotice, NewArrivalNotice, ArrivalNoticePatch, ArrivalNoticeList]
