@@ -1,4 +1,5 @@
 import { Bizplace, getMyBizplace } from '@things-factory/biz-base'
+import { Product } from '@things-factory/product-base'
 import { getManager } from 'typeorm'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_TYPES, ORDER_VAS_STATUS } from '../../../constants'
 import { ArrivalNotice, OrderProduct, OrderVas, Vas } from '../../../entities'
@@ -7,7 +8,7 @@ import { addArrivalNoticeProducts } from './add-arrival-notice-products'
 
 export const generateArrivalNotice = {
   async generateArrivalNotice(_: any, { arrivalNotice }, context: any) {
-    return await getManager().transaction(async trxMgr => {
+    return await getManager().transaction(async (trxMgr) => {
       let orderProducts: OrderProduct[] = arrivalNotice.orderProducts
       let orderVass: OrderVas[] = arrivalNotice.orderVass
       const myBizplace: Bizplace = await getMyBizplace(context.state.user)
@@ -37,7 +38,7 @@ export const generateArrivalNotice = {
         bizplace: myBizplace,
         status: ORDER_STATUS.PENDING,
         creator: context.state.user,
-        updater: context.state.user
+        updater: context.state.user,
       })
 
       // 2. Create arrival notice product
@@ -54,6 +55,10 @@ export const generateArrivalNotice = {
       // 3. Create arrival notice vas
       orderVass = await Promise.all(
         orderVass.map(async (ov: OrderVas) => {
+          if (ov.targetProduct) {
+            ov.targetProduct = await trxMgr.getRepository(Product).findOne(ov.targetProduct.id)
+          }
+
           return {
             ...ov,
             domain: context.state.domain,
@@ -64,7 +69,7 @@ export const generateArrivalNotice = {
             type: ORDER_TYPES.ARRIVAL_NOTICE,
             status: ORDER_VAS_STATUS.PENDING,
             creator: context.state.user,
-            updater: context.state.user
+            updater: context.state.user,
           }
         })
       )
@@ -72,5 +77,5 @@ export const generateArrivalNotice = {
 
       return createdArrivalNotice
     })
-  }
+  },
 }

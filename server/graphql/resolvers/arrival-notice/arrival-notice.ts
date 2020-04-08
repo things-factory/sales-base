@@ -8,7 +8,7 @@ export const arrivalNoticeResolver = {
       where: {
         domain: context.state.domain,
         name,
-        bizplace: In(await getPermittedBizplaceIds(context.state.domain, context.state.user))
+        bizplace: In(await getPermittedBizplaceIds(context.state.domain, context.state.user)),
       },
       relations: [
         'domain',
@@ -17,9 +17,10 @@ export const arrivalNoticeResolver = {
         'orderProducts.product',
         'orderVass',
         'orderVass.vas',
+        'orderVass.targetProduct',
         'creator',
-        'updater'
-      ]
+        'updater',
+      ],
     })
-  }
+  },
 }

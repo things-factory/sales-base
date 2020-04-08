@@ -12,6 +12,7 @@ export const OrderVas = gql`
     targetProduct: Product
     otherTarget: String
     qty: Int
+    batchId: String
     productName: String
     packingType: String
     arrivalNotice: ArrivalNotice
