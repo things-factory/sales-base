@@ -1,6 +1,6 @@
-import { getPermittedBizplaceIds } from '@things-factory/biz-base'
+import { getPermittedBizplaceIds, Bizplace } from '@things-factory/biz-base'
 import { convertListParams, ListParam } from '@things-factory/shell'
-import { getRepository, In, Not } from 'typeorm'
+import { getRepository, In, Not, IsNull } from 'typeorm'
 import { ORDER_STATUS } from '../../../constants'
 import { ReleaseGood } from '../../../entities'
 
@@ -11,13 +11,29 @@ export const releaseGoodRequestsResolver = {
     if (!convertedParams.where || !convertedParams.where.status) {
       convertedParams.where.status = Not(In([ORDER_STATUS.PENDING, ORDER_STATUS.EDITING]))
     }
-    convertedParams.where.bizplace = In(await getPermittedBizplaceIds(context.state.domain, context.state.user))
+
+    const bizplaceParam = params.filters.find((param) => param.name === 'bizplaceName')
+    if (bizplaceParam) {
+      const foundBizplaces: Bizplace[] = await getRepository(Bizplace).find({
+        where: {
+          ...convertListParams({ filters: [{ ...bizplaceParam, name: 'name' }] }).where,
+          bizplace: In(await getPermittedBizplaceIds(context.state.domain, context.state.user)),
+        },
+      })
+      if (foundBizplaces && foundBizplaces.length) {
+        convertedParams.where.bizplace = In(foundBizplaces.map((foundBizplace: Bizplace) => foundBizplace.id))
+      } else {
+        convertedParams.where.bizplace = IsNull()
+      }
+    } else {
+      convertedParams.where.bizplace = In(await getPermittedBizplaceIds(context.state.domain, context.state.user))
+    }
 
     const [items, total] = await getRepository(ReleaseGood).findAndCount({
       ...convertedParams,
-      relations: ['domain', 'bizplace', 'orderInventories', 'orderVass', 'shippingOrder', 'creator', 'updater']
+      relations: ['domain', 'bizplace', 'orderInventories', 'orderVass', 'shippingOrder', 'creator', 'updater'],
     })
 
     return { items, total }
-  }
+  },
 }
