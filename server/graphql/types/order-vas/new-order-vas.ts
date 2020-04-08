@@ -3,7 +3,12 @@ import gql from 'graphql-tag'
 export const NewOrderVas = gql`
   input NewOrderVas {
     name: String
-    batchId: String
+    set: Int
+    targetType: String
+    targetBatchId: String
+    targetProduct: ObjectRef
+    otherTarget: String
+    qty: Int
     productName: String
     packingType: String
     arrivalNotice: ObjectRef

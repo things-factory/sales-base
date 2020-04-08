@@ -4,7 +4,12 @@ export const OrderVasPatch = gql`
   input OrderVasPatch {
     id: String
     name: String
-    batchId: String
+    set: Int
+    targetType: String
+    targetBatchId: String
+    targetProduct: ObjectRef
+    otherTarget: String
+    qty: Int
     productName: String
     packingType: String
     arrivalNotice: ObjectRef

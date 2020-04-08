@@ -6,7 +6,12 @@ export const OrderVas = gql`
     domain: Domain
     bizplace: Bizplace
     name: String
-    batchId: String
+    set: Int
+    targetType: String
+    targetBatchId: String
+    targetProduct: Product
+    otherTarget: String
+    qty: Int
     productName: String
     packingType: String
     arrivalNotice: ArrivalNotice

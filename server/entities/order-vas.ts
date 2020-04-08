@@ -1,5 +1,6 @@
 import { User } from '@things-factory/auth-base'
 import { Bizplace } from '@things-factory/biz-base'
+import { Product } from '@things-factory/product-base'
 import { Domain } from '@things-factory/shell'
 import { Inventory } from '@things-factory/warehouse-base'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
@@ -7,29 +8,45 @@ import { ArrivalNotice, ReleaseGood, ShippingOrder, Vas, VasOrder } from '../ent
 
 @Entity('order_vass')
 @Index('ix_order-vas_0', (orderVas: OrderVas) => [orderVas.domain, orderVas.name], {
-  unique: true
+  unique: true,
 })
-@Index('ix_order-vas_1', (orderVas: OrderVas) => [orderVas.arrivalNotice, orderVas.vas, orderVas.batchId])
-@Index('ix_order-vas_2', (orderVas: OrderVas) => [orderVas.releaseGood, orderVas.vas, orderVas.batchId])
 export class OrderVas {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @ManyToOne(type => Domain, {
-    nullable: false
+  @ManyToOne((type) => Domain, {
+    nullable: false,
   })
   domain: Domain
 
-  @ManyToOne(type => Bizplace, {
-    nullable: false
+  @ManyToOne((type) => Bizplace, {
+    nullable: false,
   })
   bizplace: Bizplace
 
   @Column()
   name: string
 
-  @Column()
+  @Column({ nullable: true })
   batchId: string
+
+  @Column({ nullable: true })
+  set: number
+
+  @Column({ nullable: true })
+  targetType: string
+
+  @Column({ nullable: true })
+  targetBatchId: string
+
+  @ManyToOne((type) => Product, { nullable: true })
+  targetProduct: Product
+
+  @Column({ nullable: true })
+  otherTarget: string
+
+  @Column({ nullable: true })
+  qty: number
 
   @Column({ nullable: true })
   productName: string
@@ -37,41 +54,39 @@ export class OrderVas {
   @Column({ nullable: true })
   packingType: string
 
-  @ManyToOne(type => ArrivalNotice)
+  @ManyToOne((type) => ArrivalNotice)
   arrivalNotice: ArrivalNotice
 
-  @ManyToOne(type => ReleaseGood)
+  @ManyToOne((type) => ReleaseGood)
   releaseGood: ReleaseGood
 
-  @ManyToOne(type => ShippingOrder)
+  @ManyToOne((type) => ShippingOrder)
   shippingOrder: ShippingOrder
 
-  @ManyToOne(type => VasOrder)
+  @ManyToOne((type) => VasOrder)
   vasOrder: VasOrder
 
-  @ManyToOne(type => Vas)
+  @ManyToOne((type) => Vas)
   vas: Vas
 
-  @Column('text', {
-    nullable: true
-  })
+  @Column('text', { nullable: true })
   operationGuide: string
 
-  @ManyToOne(type => Inventory, { nullable: true })
+  @ManyToOne((type) => Inventory, { nullable: true })
   inventory: Inventory
 
   @Column({
-    nullable: true
+    nullable: true,
   })
   type: string
 
   @Column({
-    nullable: true
+    nullable: true,
   })
   remark: string
 
   @Column({
-    nullable: true
+    nullable: true,
   })
   description: string
 
@@ -84,13 +99,9 @@ export class OrderVas {
   @UpdateDateColumn()
   updatedAt: Date
 
-  @ManyToOne(type => User, {
-    nullable: true
-  })
+  @ManyToOne((type) => User, { nullable: true })
   creator: User
 
-  @ManyToOne(type => User, {
-    nullable: true
-  })
+  @ManyToOne((type) => User, { nullable: true })
   updater: User
 }
