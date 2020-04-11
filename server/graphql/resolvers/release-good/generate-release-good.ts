@@ -52,12 +52,10 @@ export const generateReleaseGood = {
             }
 
             if (ordInv?.inventory?.id) {
-              const foundInv: Inventory = await trxMgr.getRepository(Inventory).findOne({
-                where: { domain: context.state.domain, id: newOrderInv.inventory.id },
-              })
+              newOrderInv.inventory = await trxMgr.getRepository(Inventory).findOne(ordInv.inventory.id)
 
               await trxMgr.getRepository(Inventory).save({
-                ...foundInv,
+                ...newOrderInv.inventory,
                 lockedQty: newOrderInv.releaseQty,
                 lockedWeight: newOrderInv.releaseWeight,
                 updater: context.state.user,
