@@ -1,9 +1,7 @@
-import { checkReleaseGood } from './check-release-good'
 import { confirmReleaseGood } from './confirm-release-good'
 import { createReleaseGood } from './create-release-good'
 import { deleteReleaseGood } from './delete-release-good'
 import { deleteReleaseGoods } from './delete-release-goods'
-import { deliverReleaseGood } from './deliver-release-good'
 import { generateReleaseGood } from './generate-release-good'
 import { rejectReleaseGood } from './reject-release-good'
 import { releasableInventoriesResolver } from './releasable-inventories'
@@ -18,7 +16,7 @@ export const Query = {
   ...releaseGoodResolver,
   ...releaseGoodRequestsResolver,
   ...releaseGoodDetailResolver,
-  ...releasableInventoriesResolver
+  ...releasableInventoriesResolver,
 }
 
 export const Mutation = {
@@ -28,7 +26,5 @@ export const Mutation = {
   ...deleteReleaseGoods,
   ...confirmReleaseGood,
   ...generateReleaseGood,
-  ...checkReleaseGood,
-  ...deliverReleaseGood,
-  ...rejectReleaseGood
+  ...rejectReleaseGood,
 }

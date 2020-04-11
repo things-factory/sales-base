@@ -35,18 +35,10 @@ export const Mutation = `
     name: String!
   ): ReleaseGood @priviledge(category: "order_customer", priviledge: "mutation")
 
-  checkReleaseGood (
-    name: String!
-  ): ReleaseGood @priviledge(category: "order_warehouse", priviledge: "mutation")
-
   rejectReleaseGood (
     name: String!
     patch: ReleaseGoodPatch!
   ): ReleaseGood @priviledge(category: "order_warehouse", priviledge: "mutation")
-
-  deliverReleaseGood (
-    name: String!
-  ): ReleaseGood  @priviledge(category: "order_warehouse", priviledge: "mutation")
 `
 
 export const Query = `
@@ -86,5 +78,5 @@ export const Types = [
   ShippingOrderInfo,
   InventoryInfos,
   ReleasableInventory,
-  ReleasableInventoryList
+  ReleasableInventoryList,
 ]
