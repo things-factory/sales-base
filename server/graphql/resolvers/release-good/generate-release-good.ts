@@ -8,7 +8,7 @@ import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const generateReleaseGood = {
   async generateReleaseGood(_: any, { releaseGood, shippingOrder }, context: any) {
-    return await getManager().transaction(async trxMgr => {
+    return await getManager().transaction(async (trxMgr) => {
       const myBizplace: Bizplace = await getMyBizplace(context.state.user)
       let orderInventories: OrderInventory[] = releaseGood.orderInventories
       let orderVass: OrderVas[] = releaseGood.orderVass
@@ -22,7 +22,7 @@ export const generateReleaseGood = {
           bizplace: myBizplace,
           status: ORDER_STATUS.PENDING,
           creator: context.state.user,
-          updater: context.state.user
+          updater: context.state.user,
         })
       }
 
@@ -34,7 +34,7 @@ export const generateReleaseGood = {
         bizplace: myBizplace,
         status: ORDER_STATUS.PENDING,
         creator: context.state.user,
-        updater: context.state.user
+        updater: context.state.user,
       })
 
       await trxMgr.getRepository(OrderInventory).save(
@@ -48,11 +48,20 @@ export const generateReleaseGood = {
               name: OrderNoGenerator.orderInventory(),
               releaseGood: createdReleaseGood,
               creator: context.state.user,
-              updater: context.state.user
+              updater: context.state.user,
             }
 
             if (ordInv?.inventory?.id) {
-              newOrderInv.inventory = await trxMgr.getRepository(Inventory).findOne(ordInv.inventory.id)
+              const foundInv: Inventory = await trxMgr.getRepository(Inventory).findOne({
+                where: { domain: context.state.domain, id: newOrderInv.inventory.id },
+              })
+
+              await trxMgr.getRepository(Inventory).save({
+                ...foundInv,
+                lockedQty: newOrderInv.releaseQty,
+                lockedWeight: newOrderInv.releaseWeight,
+                updater: context.state.user,
+              })
             }
 
             return newOrderInv
@@ -73,7 +82,7 @@ export const generateReleaseGood = {
               releaseGood: createdReleaseGood,
               status: ORDER_VAS_STATUS.PENDING,
               creator: context.state.user,
-              updater: context.state.user
+              updater: context.state.user,
             }
 
             if (orderVas?.inventory?.id) {
@@ -88,5 +97,5 @@ export const generateReleaseGood = {
 
       return createdReleaseGood
     })
-  }
+  },
 }
