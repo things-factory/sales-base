@@ -1,4 +1,5 @@
 import { Bizplace, getMyBizplace } from '@things-factory/biz-base'
+import { Product } from '@things-factory/product-base'
 import { Inventory } from '@things-factory/warehouse-base'
 import { getManager } from 'typeorm'
 import { ORDER_STATUS } from '../../../constants'
@@ -8,7 +9,7 @@ import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const generateReleaseGood = {
   async generateReleaseGood(_: any, { releaseGood, shippingOrder }, context: any) {
-    return await getManager().transaction(async trxMgr => {
+    return await getManager().transaction(async (trxMgr) => {
       const myBizplace: Bizplace = await getMyBizplace(context.state.user)
       let orderInventories: OrderInventory[] = releaseGood.orderInventories
       let orderVass: OrderVas[] = releaseGood.orderVass
@@ -22,7 +23,7 @@ export const generateReleaseGood = {
           bizplace: myBizplace,
           status: ORDER_STATUS.PENDING,
           creator: context.state.user,
-          updater: context.state.user
+          updater: context.state.user,
         })
       }
 
@@ -34,36 +35,39 @@ export const generateReleaseGood = {
         bizplace: myBizplace,
         status: ORDER_STATUS.PENDING,
         creator: context.state.user,
-        updater: context.state.user
+        updater: context.state.user,
       })
 
-      await trxMgr.getRepository(OrderInventory).save(
-        await Promise.all(
-          orderInventories.map(async (ordInv: OrderInventory) => {
-            let newOrderInv: OrderInventory = {
-              ...ordInv,
-              domain: context.state.domain,
-              bizplace: myBizplace,
-              status: ORDER_INVENTORY_STATUS.PENDING,
-              name: OrderNoGenerator.orderInventory(),
-              releaseGood: createdReleaseGood,
-              creator: context.state.user,
-              updater: context.state.user
-            }
+      orderInventories = await Promise.all(
+        orderInventories.map(async (orderInv: OrderInventory) => {
+          let newOrderInv: OrderInventory = {
+            ...orderInv,
+            domain: context.state.domain,
+            bizplace: myBizplace,
+            status: ORDER_INVENTORY_STATUS.PENDING,
+            name: OrderNoGenerator.orderInventory(),
+            releaseGood: createdReleaseGood,
+            creator: context.state.user,
+            updater: context.state.user,
+          }
 
-            if (ordInv?.inventory?.id) {
-              newOrderInv.inventory = await trxMgr.getRepository(Inventory).findOne(ordInv.inventory.id)
-            }
+          if (orderInv?.inventory?.id) {
+            newOrderInv.inventory = await trxMgr.getRepository(Inventory).findOne(orderInv.inventory.id)
+          }
 
-            return newOrderInv
-          })
-        )
+          return newOrderInv
+        })
       )
+      await trxMgr.getRepository(OrderInventory).save(orderInventories)
 
-      if (orderVass && orderVass.length) {
+      if (orderVass?.length) {
         orderVass = await Promise.all(
-          orderVass.map(async (orderVas: OrderVas) => {
-            let newOrderVas = {
+          orderVass.map(async (orderVas) => {
+            if (orderVas?.targetProduct?.id) {
+              orderVas.targetProduct = await trxMgr.getRepository(Product).findOne(orderVas.targetProduct.id)
+            }
+
+            let newOrderVas: OrderVas = {
               ...orderVas,
               domain: context.state.domain,
               bizplace: myBizplace,
@@ -73,7 +77,7 @@ export const generateReleaseGood = {
               releaseGood: createdReleaseGood,
               status: ORDER_VAS_STATUS.PENDING,
               creator: context.state.user,
-              updater: context.state.user
+              updater: context.state.user,
             }
 
             if (orderVas?.inventory?.id) {
@@ -83,10 +87,11 @@ export const generateReleaseGood = {
             return newOrderVas
           })
         )
+
         await trxMgr.getRepository(OrderVas).save(orderVass)
       }
 
       return createdReleaseGood
     })
-  }
+  },
 }
