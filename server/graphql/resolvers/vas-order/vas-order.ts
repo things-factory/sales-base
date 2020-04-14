@@ -7,7 +7,7 @@ export const vasOrderResolver = {
       where: {
         domain: context.state.domain,
         name,
-        bizplace: In(await getPermittedBizplaceIds(context.state.domain, context.state.user))
+        bizplace: In(await getPermittedBizplaceIds(context.state.domain, context.state.user)),
       },
       relations: [
         'domain',
@@ -18,9 +18,10 @@ export const vasOrderResolver = {
         'orderVass.inventory.product',
         'orderVass.inventory.location',
         'orderVass.inventory.warehouse',
+        'orderVass.targetProduct',
         'creator',
-        'updater'
-      ]
+        'updater',
+      ],
     })
-  }
+  },
 }
