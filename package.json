@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/sales-base",
-  "version": "2.4.6",
+  "version": "2.4.7",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -30,9 +30,6 @@
     "@things-factory/shell": "^2.0.0",
     "@things-factory/transport-base": "^2.0.0",
     "@things-factory/warehouse-base": "^2.4.0"
-  },
-  "resolutions": {
-    "@things-factory/auth-base": "^2.0.2"
   },
   "devDependencies": {}
 }
