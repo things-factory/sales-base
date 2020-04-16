@@ -3,30 +3,18 @@ import { convertListParams, ListParam, buildQuery } from '@things-factory/shell'
 import { getRepository, In, Not, IsNull, SelectQueryBuilder } from 'typeorm'
 import { ORDER_STATUS } from '../../../constants'
 import { ArrivalNotice } from '../../../entities'
-import { CommonCode, CommonCodeDetail } from '@things-factory/code-base'
 
 export const arrivalNoticeRequestsResolver = {
   async arrivalNoticeRequests(_: any, params: ListParam, context: any) {
-    const convertedParams = convertListParams(params)
+    const statusFilter = params.filters.some((e) => e.name === 'status')
 
-    if (!convertedParams.where || !convertedParams.where.status) {
-      convertedParams.where.status = Not(In([ORDER_STATUS.PENDING, ORDER_STATUS.EDITING]))
-    }
-    const bizplaceParam = params.filters.find((param) => param.name === 'bizplaceName')
-    if (bizplaceParam) {
-      const foundBizplaces: Bizplace[] = await getRepository(Bizplace).find({
-        where: {
-          ...convertListParams({ filters: [{ ...bizplaceParam, name: 'name' }] }).where,
-          bizplace: In(await getPermittedBizplaceIds(context.state.domain, context.state.user)),
-        },
+    if (!statusFilter) {
+      params.filters.push({
+        name: 'status',
+        operator: 'notin',
+        value: [ORDER_STATUS.PENDING, ORDER_STATUS.EDITING],
+        relation: false,
       })
-      if (foundBizplaces && foundBizplaces.length) {
-        convertedParams.where.bizplace = In(foundBizplaces.map((foundBizplace: Bizplace) => foundBizplace.id))
-      } else {
-        convertedParams.where.bizplace = IsNull()
-      }
-    } else {
-      convertedParams.where.bizplace = In(await getPermittedBizplaceIds(context.state.domain, context.state.user))
     }
 
     const qb: SelectQueryBuilder<ArrivalNotice> = getRepository(ArrivalNotice).createQueryBuilder('an')
@@ -44,21 +32,19 @@ export const arrivalNoticeRequestsResolver = {
     qb.leftJoinAndSelect('an.bizplace', 'bizplace')
     qb.leftJoinAndSelect('an.creator', 'creator')
     qb.leftJoinAndSelect('an.updater', 'updater')
-    qb.orderBy('rank')
 
-    if (params.sortings?.length !== 0) {
-      const arrChildSortData = ['bizplace']
-      const sort = (params.sortings || []).reduce(
-        (acc, sort) => ({
-          ...acc,
-          [arrChildSortData.indexOf(sort.name) >= 0 ? sort.name + '.name' : 'an.' + sort.name]: sort.desc
-            ? 'DESC'
-            : 'ASC',
-        }),
-        {}
-      )
-      qb.orderBy(sort)
-    }
+    const arrChildSortData = ['bizplace']
+    const sort = (params.sortings || []).reduce(
+      (acc, sort) => ({
+        ...acc,
+        [arrChildSortData.indexOf(sort.name) >= 0 ? sort.name + '.name' : 'an.' + sort.name]: sort.desc
+          ? 'DESC'
+          : 'ASC',
+      }),
+      !params.sortings.some((e) => e.name === 'status') ? { rank: 'ASC' } : {}
+    )
+
+    qb.orderBy(sort)
 
     const [items, total] = await qb.getManyAndCount()
 
