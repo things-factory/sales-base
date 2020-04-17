@@ -62,11 +62,11 @@ export const generateArrivalNotice = {
           return {
             ...ov,
             domain: context.state.domain,
+            bizplace: myBizplace,
             name: OrderNoGenerator.orderVas(),
             vas: await trxMgr.getRepository(Vas).findOne({ domain: context.state.domain, id: ov.vas.id }),
-            arrivalNotice: createdArrivalNotice,
-            bizplace: myBizplace,
             type: ORDER_TYPES.ARRIVAL_NOTICE,
+            arrivalNotice: createdArrivalNotice,
             status: ORDER_VAS_STATUS.PENDING,
             creator: context.state.user,
             updater: context.state.user,

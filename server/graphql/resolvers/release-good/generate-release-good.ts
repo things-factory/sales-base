@@ -1,4 +1,5 @@
 import { Bizplace, getMyBizplace } from '@things-factory/biz-base'
+import { Product } from '@things-factory/product-base'
 import { Inventory } from '@things-factory/warehouse-base'
 import { getManager } from 'typeorm'
 import { ORDER_STATUS } from '../../../constants'
@@ -63,15 +64,18 @@ export const generateReleaseGood = {
               })
             }
 
-            return newOrderInv
-          })
-        )
-      )
+          return newOrderInv
+        })
+      ))
 
-      if (orderVass && orderVass.length) {
+      if (orderVass?.length) {
         orderVass = await Promise.all(
-          orderVass.map(async (orderVas: OrderVas) => {
-            let newOrderVas = {
+          orderVass.map(async (orderVas) => {
+            if (orderVas?.targetProduct?.id) {
+              orderVas.targetProduct = await trxMgr.getRepository(Product).findOne(orderVas.targetProduct.id)
+            }
+
+            let newOrderVas: OrderVas = {
               ...orderVas,
               domain: context.state.domain,
               bizplace: myBizplace,
@@ -91,6 +95,7 @@ export const generateReleaseGood = {
             return newOrderVas
           })
         )
+
         await trxMgr.getRepository(OrderVas).save(orderVass)
       }
 

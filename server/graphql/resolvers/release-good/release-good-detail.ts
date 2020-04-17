@@ -11,7 +11,7 @@ export const releaseGoodDetailResolver = {
       where: {
         domain: context.state.domain,
         name,
-        bizplace: In(bizplaceIds)
+        bizplace: In(bizplaceIds),
       },
       relations: [
         'domain',
@@ -23,10 +23,11 @@ export const releaseGoodDetailResolver = {
         'orderInventories.inventory.location',
         'orderVass',
         'orderVass.vas',
+        'orderVass.targetProduct',
         'orderVass.inventory',
         'creator',
-        'updater'
-      ]
+        'updater',
+      ],
     })
 
     const roBizId: string = releaseGood.bizplace.id
@@ -38,7 +39,7 @@ export const releaseGoodDetailResolver = {
         containerNo: (shippingOrder && shippingOrder.containerNo) || '',
         containerLeavingDate: (shippingOrder && shippingOrder.containerLeavingDate) || '',
         containerArrivalDate: (shippingOrder && shippingOrder.containerArrivalDate) || '',
-        shipName: (shippingOrder && shippingOrder.shipName) || ''
+        shipName: (shippingOrder && shippingOrder.shipName) || '',
       },
       inventoryInfos: Promise.all(
         releaseGood.orderInventories.map(async (orderInv: OrderInventory) => {
@@ -54,7 +55,7 @@ export const releaseGoodDetailResolver = {
               qty: inventory.qty,
               weight: inventory.weight,
               releaseQty: orderInv.releaseQty,
-              releaseWeight: orderInv.releaseWeight
+              releaseWeight: orderInv.releaseWeight,
             }
           } else {
             const { batchId, productName, packingType, releaseQty, releaseWeight } = orderInv
@@ -69,18 +70,18 @@ export const releaseGoodDetailResolver = {
               qty,
               weight,
               releaseQty,
-              releaseWeight
+              releaseWeight,
             }
           }
         })
-      )
+      ),
     }
-  }
+  },
 }
 
 async function getProductId(roBizId: string, productName: string): Promise<{ productIdRef: string }> {
   const foundProduct: Product = await getRepository(Product).findOne({
-    where: { bizplace: roBizId, name: productName }
+    where: { bizplace: roBizId, name: productName },
   })
 
   const productIdRef = foundProduct.id
