@@ -2,6 +2,7 @@ import { ArrivalNotice } from './arrival-notice'
 import { CollectionOrder } from './collection-order'
 import { DeliveryOrder } from './delivery-order'
 import { Invoice } from './invoice'
+import { InventoryCheck } from './inventory-check'
 import { OrderProduct } from './order-product'
 import { OrderInventory } from './order-inventory'
 import { OrderVas } from './order-vas'
@@ -30,6 +31,7 @@ export const entities = [
   QuotationItemOption,
   QuotationPromotion,
   Invoice,
+  InventoryCheck,
   PriceList,
   PurchaseOrder,
   DeliveryOrder,
@@ -54,6 +56,7 @@ export {
   QuotationItemOption,
   QuotationPromotion,
   Invoice,
+  InventoryCheck,
   PriceList,
   PurchaseOrder,
   DeliveryOrder,

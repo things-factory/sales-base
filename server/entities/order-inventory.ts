@@ -4,6 +4,7 @@ import { Domain } from '@things-factory/shell'
 import { Inventory } from '@things-factory/warehouse-base'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { ArrivalNotice, DeliveryOrder, ReleaseGood, ShippingOrder } from '../entities'
+import { InventoryCheck } from './inventory-check'
 
 @Entity()
 @Index('ix_order-inventory_0', (orderInventory: OrderInventory) => [orderInventory.domain, orderInventory.name], {
@@ -11,12 +12,16 @@ import { ArrivalNotice, DeliveryOrder, ReleaseGood, ShippingOrder } from '../ent
 })
 @Index(
   'ix_order-inventory_1',
-  (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.shippingOrder, orderInventory.inventory],
+  (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.releaseGood, orderInventory.inventory],
   { unique: true }
 )
 @Index(
   'ix_order-inventory_2',
-  (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.releaseGood, orderInventory.inventory],
+  (orderInventory: OrderInventory) => [
+    orderInventory.bizplace,
+    orderInventory.inventoryCheck,
+    orderInventory.inventory
+  ],
   { unique: true }
 )
 @Index(
@@ -67,11 +72,20 @@ export class OrderInventory {
   @ManyToOne(type => ReleaseGood)
   releaseGood: ReleaseGood
 
-  @ManyToOne(type => ShippingOrder)
-  shippingOrder: ShippingOrder
+  @ManyToOne(type => InventoryCheck)
+  inventoryCheck: InventoryCheck
 
   @ManyToOne(type => DeliveryOrder)
   deliveryOrder: DeliveryOrder
+
+  @Column()
+  inspectedQty: number
+
+  @Column({ nullable: true, type: 'float' })
+  inspectedWeight: number
+
+  @Column()
+  inspectedLocation: string
 
   @Column()
   releaseQty: number
