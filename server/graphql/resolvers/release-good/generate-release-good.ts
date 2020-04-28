@@ -58,15 +58,20 @@ export const generateReleaseGood = {
 
               await trxMgr.getRepository(Inventory).save({
                 ...foundInv,
-                lockedQty: newOrderInv.releaseQty,
-                lockedWeight: newOrderInv.releaseWeight,
+                lockedQty: Boolean(foundInv.lockedQty)
+                  ? newOrderInv.releaseQty + foundInv.lockedQty
+                  : newOrderInv.releaseQty,
+                lockedWeight: Boolean(foundInv.lockedWeight)
+                  ? newOrderInv.releaseWeight + foundInv.lockedWeight
+                  : newOrderInv.releaseWeight,
                 updater: context.state.user,
               })
             }
 
-          return newOrderInv
-        })
-      ))
+            return newOrderInv
+          })
+        )
+      )
 
       if (orderVass?.length) {
         orderVass = await Promise.all(
