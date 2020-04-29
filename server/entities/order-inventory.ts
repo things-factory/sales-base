@@ -78,13 +78,13 @@ export class OrderInventory {
   @ManyToOne(type => DeliveryOrder)
   deliveryOrder: DeliveryOrder
 
-  @Column()
+  @Column({ nullable: true })
   inspectedQty: number
 
   @Column({ nullable: true, type: 'float' })
   inspectedWeight: number
 
-  @Column()
+  @Column({ nullable: true })
   inspectedLocation: string
 
   @Column()
