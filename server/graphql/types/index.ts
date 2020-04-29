@@ -82,6 +82,7 @@ export const types = [
   ...QuotationItemOption.Types,
   ...QuotationPromotion.Types,
   ...Invoice.Types,
+  ...InventoryCheck.Types,
   ...PriceList.Types,
   ...PurchaseOrder.Types,
   ...DeliveryOrder.Types,
