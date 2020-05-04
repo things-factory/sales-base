@@ -24,13 +24,26 @@ export const rejectReleaseGood = {
         // 1. Update status of order products (PENDING_RECEIVE => REJECTED)
         if (foundOIs && foundOIs.length) {
           await trxMgr.getRepository(OrderInventory).save(
-            foundOIs.map((oi: OrderInventory) => {
-              return {
-                ...oi,
-                status: ORDER_INVENTORY_STATUS.REJECTED,
-                updater: context.state.user
-              }
-            })
+            await Promise.all(
+              foundOIs.map(async (oi: OrderInventory) => {
+                if (oi?.inventory?.id) {
+                  oi.inventory = await trxMgr.getRepository(Inventory).findOne(oi.inventory.id)
+
+                  await trxMgr.getRepository(Inventory).save({
+                    ...oi.inventory,
+                    lockedQty: 0,
+                    lockedWeight: 0,
+                    updater: context.state.user
+                  })
+                }
+
+                return {
+                  ...oi,
+                  status: ORDER_INVENTORY_STATUS.REJECTED,
+                  updater: context.state.user
+                }
+              })
+            )
           )
         }
 
