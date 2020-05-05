@@ -45,28 +45,24 @@ export class ArrivalNotice {
   @Column()
   importCargo: boolean
 
-  @OneToMany(
-    type => OrderProduct,
-    orderProduct => orderProduct.arrivalNotice
-  )
+  @OneToMany(type => OrderProduct, orderProduct => orderProduct.arrivalNotice)
   orderProducts: OrderProduct[]
 
-  @OneToMany(
-    type => OrderVas,
-    orderVas => orderVas.arrivalNotice
-  )
+  @OneToMany(type => OrderVas, orderVas => orderVas.arrivalNotice)
   orderVass: OrderVas[]
 
-  @OneToMany(
-    type => CollectionOrder,
-    collectionOrder => collectionOrder.arrivalNotice
-  )
+  @OneToMany(type => CollectionOrder, collectionOrder => collectionOrder.arrivalNotice)
   collectionOrders: CollectionOrder[]
 
   @Column({
     nullable: true
   })
   eta: Date
+
+  @Column({
+    nullable: true
+  })
+  ata: Date
 
   @Column({
     nullable: true
