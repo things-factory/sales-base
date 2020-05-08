@@ -10,6 +10,7 @@ export const OrderVasPatch = gql`
     targetProduct: ObjectRef
     otherTarget: String
     qty: Int
+    weight: Float
     batchId: String
     productName: String
     packingType: String
