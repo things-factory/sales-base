@@ -8,19 +8,19 @@ import { ArrivalNotice, ReleaseGood, ShippingOrder, Vas, VasOrder } from '../ent
 
 @Entity('order_vass')
 @Index('ix_order-vas_0', (orderVas: OrderVas) => [orderVas.domain, orderVas.name], {
-  unique: true,
+  unique: true
 })
 export class OrderVas {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @ManyToOne((type) => Domain, {
-    nullable: false,
+  @ManyToOne(type => Domain, {
+    nullable: false
   })
   domain: Domain
 
-  @ManyToOne((type) => Bizplace, {
-    nullable: false,
+  @ManyToOne(type => Bizplace, {
+    nullable: false
   })
   bizplace: Bizplace
 
@@ -39,7 +39,7 @@ export class OrderVas {
   @Column({ nullable: true })
   targetBatchId: string
 
-  @ManyToOne((type) => Product, { nullable: true })
+  @ManyToOne(type => Product, { nullable: true })
   targetProduct: Product
 
   @Column({ nullable: true })
@@ -49,44 +49,47 @@ export class OrderVas {
   qty: number
 
   @Column({ nullable: true })
+  weight: number
+
+  @Column({ nullable: true })
   productName: string
 
   @Column({ nullable: true })
   packingType: string
 
-  @ManyToOne((type) => ArrivalNotice)
+  @ManyToOne(type => ArrivalNotice)
   arrivalNotice: ArrivalNotice
 
-  @ManyToOne((type) => ReleaseGood)
+  @ManyToOne(type => ReleaseGood)
   releaseGood: ReleaseGood
 
-  @ManyToOne((type) => ShippingOrder)
+  @ManyToOne(type => ShippingOrder)
   shippingOrder: ShippingOrder
 
-  @ManyToOne((type) => VasOrder)
+  @ManyToOne(type => VasOrder)
   vasOrder: VasOrder
 
-  @ManyToOne((type) => Vas)
+  @ManyToOne(type => Vas)
   vas: Vas
 
   @Column('text', { nullable: true })
   operationGuide: string
 
-  @ManyToOne((type) => Inventory, { nullable: true })
+  @ManyToOne(type => Inventory, { nullable: true })
   inventory: Inventory
 
   @Column({
-    nullable: true,
+    nullable: true
   })
   type: string
 
   @Column({
-    nullable: true,
+    nullable: true
   })
   remark: string
 
   @Column({
-    nullable: true,
+    nullable: true
   })
   description: string
 
@@ -99,9 +102,9 @@ export class OrderVas {
   @UpdateDateColumn()
   updatedAt: Date
 
-  @ManyToOne((type) => User, { nullable: true })
+  @ManyToOne(type => User, { nullable: true })
   creator: User
 
-  @ManyToOne((type) => User, { nullable: true })
+  @ManyToOne(type => User, { nullable: true })
   updater: User
 }
