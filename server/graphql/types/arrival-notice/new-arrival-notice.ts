@@ -9,6 +9,7 @@ export const NewArrivalNotice = gql`
     importCargo: Boolean
     eta: String
     etaDate: String
+    looseItem: Boolean
     truckNo: String
     refNo: String
     remark: String

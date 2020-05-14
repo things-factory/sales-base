@@ -4,6 +4,8 @@ export const NewJobSheet = gql`
   input NewJobSheet {
     name: String!
     description: String
-    bundle: String!
+    containerMtDate: String
+    containerSize: String
+    adviseMtDate: String
   }
 `

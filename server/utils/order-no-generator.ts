@@ -8,6 +8,13 @@ export class OrderNoGenerator {
     }${currentDate.getDate()}${currentDate.getHours()}${currentDate.getMinutes()}${currentDate.getSeconds()}${currentDate.getMilliseconds()}`
   }
 
+  static jobSheet(domainName) {
+    const currentDate = new Date()
+    return `${domainName}-${currentDate.getFullYear()}${
+      currentDate.getMonth() + 1
+    }${currentDate.getDate()}${currentDate.getHours()}${currentDate.getMinutes()}${currentDate.getSeconds()}${currentDate.getMilliseconds()}`
+  }
+
   static goodsReceiveNote() {
     const currentDate = new Date()
     return `GRN-${currentDate.getFullYear()}${

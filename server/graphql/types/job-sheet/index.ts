@@ -1,14 +1,19 @@
 import { JobSheet } from './job-sheet'
 import { NewJobSheet } from './new-job-sheet'
 import { JobSheetPatch } from './job-sheet-patch'
+import { JobSheetList } from './job-sheet-list'
 
 export const Mutation = `
   createJobSheet (
     jobSheet: NewJobSheet!
   ): JobSheet
 
+  generateJobSheet (
+    containerInfo: NewJobSheet
+  ): JobSheet
+
   updateJobSheet (
-    id: String!
+    name: String!
     patch: JobSheetPatch!
   ): JobSheet
 
@@ -22,8 +27,14 @@ export const Mutation = `
 `
 
 export const Query = `
-  jobSheets: [JobSheet]
-  jobSheet(id: String!): JobSheet
+  jobSheets(
+    filters: [Filter],
+    pagination: Pagination,sortings: [Sorting]
+  ): JobSheetList
+
+  jobSheet(
+    name: String!
+  ): JobSheet
 `
 
-export const Types = [JobSheet, NewJobSheet, JobSheetPatch]
+export const Types = [JobSheet, NewJobSheet, JobSheetList, JobSheetPatch]

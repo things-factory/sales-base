@@ -7,6 +7,7 @@ import * as OrderProduct from './order-product'
 import * as OrderVas from './order-vas'
 import * as OrderInventory from './order-inventory'
 import * as InventoryCheck from './inventory-check'
+import * as JobSheet from './job-sheet'
 import * as PriceList from './price-list'
 import * as PurchaseOrder from './purchase-order'
 import * as Quotation from './quotation'
@@ -29,6 +30,7 @@ export const queries = [
   QuotationPromotion.Query,
   Invoice.Query,
   InventoryCheck.Query,
+  JobSheet.Query,
   PriceList.Query,
   PurchaseOrder.Query,
   DeliveryOrder.Query,
@@ -54,6 +56,7 @@ export const mutations = [
   QuotationPromotion.Mutation,
   Invoice.Mutation,
   InventoryCheck.Mutation,
+  JobSheet.Mutation,
   PriceList.Mutation,
   PurchaseOrder.Mutation,
   DeliveryOrder.Mutation,
@@ -83,6 +86,7 @@ export const types = [
   ...QuotationPromotion.Types,
   ...Invoice.Types,
   ...InventoryCheck.Types,
+  ...JobSheet.Types,
   ...PriceList.Types,
   ...PurchaseOrder.Types,
   ...DeliveryOrder.Types,

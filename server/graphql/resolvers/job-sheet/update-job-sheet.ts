@@ -1,15 +1,20 @@
-import { getRepository } from 'typeorm'
+import { getManager } from 'typeorm'
 import { JobSheet } from '../../../entities'
 
 export const updateJobSheet = {
-  async updateJobSheet(_, { id, patch }) {
-    const repository = getRepository(JobSheet)
+  async updateJobSheet(_, { name, patch }, context: any) {
+    return await getManager().transaction(async trxMgr => {
+      const jobSheet = await trxMgr.getRepository(JobSheet).findOne({
+        where: {
+          domain: context.state.domain,
+          name
+        }
+      })
 
-    const jobSheet = await repository.findOne({ id })
-
-    return await repository.save({
-      ...jobSheet,
-      ...patch
+      return await trxMgr.getRepository(JobSheet).save({
+        ...jobSheet,
+        ...patch
+      })
     })
   }
 }

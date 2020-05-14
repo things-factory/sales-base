@@ -8,6 +8,10 @@ export const ArrivalNoticePatch = gql`
     ownTransport: Boolean
     importCargo: Boolean
     eta: String
+    ata: String
+    containerSize: String
+    looseItem: Boolean
+    mtDate: String
     etaDate: String
     truckNo: String
     refNo: String

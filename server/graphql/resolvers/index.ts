@@ -3,6 +3,7 @@ import * as CollectionOrder from './collection-order'
 import * as DeliveryOrder from './delivery-order'
 import * as Invoice from './invoice'
 import * as InventoryCheck from './inventory-check'
+import * as JobSheet from './job-sheet'
 import * as OrderProduct from './order-product'
 import * as OrderInventory from './order-inventory'
 import * as OrderVas from './order-vas'
@@ -28,6 +29,7 @@ export const queries = [
   QuotationPromotion.Query,
   Invoice.Query,
   InventoryCheck.Query,
+  JobSheet.Query,
   PriceList.Query,
   PurchaseOrder.Query,
   DeliveryOrder.Query,
@@ -52,6 +54,7 @@ export const mutations = [
   QuotationItemOption.Mutation,
   QuotationPromotion.Mutation,
   Invoice.Mutation,
+  JobSheet.Mutation,
   InventoryCheck.Mutation,
   PriceList.Mutation,
   PurchaseOrder.Mutation,

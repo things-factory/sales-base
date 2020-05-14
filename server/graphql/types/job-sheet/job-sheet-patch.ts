@@ -4,5 +4,6 @@ export const JobSheetPatch = gql`
   input JobSheetPatch {
     name: String
     description: String
+    containerMtDate: String
   }
 `

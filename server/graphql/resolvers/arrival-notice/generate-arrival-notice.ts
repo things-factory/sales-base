@@ -5,10 +5,11 @@ import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_TYPES, ORDER_VAS_STATUS } fro
 import { ArrivalNotice, OrderProduct, OrderVas, Vas } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 import { addArrivalNoticeProducts } from './add-arrival-notice-products'
+import { generateJobSheet } from '../job-sheet/generate-job-sheet'
 
 export const generateArrivalNotice = {
   async generateArrivalNotice(_: any, { arrivalNotice }, context: any) {
-    return await getManager().transaction(async (trxMgr) => {
+    return await getManager().transaction(async trxMgr => {
       let orderProducts: OrderProduct[] = arrivalNotice.orderProducts
       let orderVass: OrderVas[] = arrivalNotice.orderVass
       const myBizplace: Bizplace = await getMyBizplace(context.state.user)
@@ -38,8 +39,13 @@ export const generateArrivalNotice = {
         bizplace: myBizplace,
         status: ORDER_STATUS.PENDING,
         creator: context.state.user,
-        updater: context.state.user,
+        updater: context.state.user
       })
+
+      const containerInfo: any = {
+        containerMtDate: arrivalNotice.mtDate,
+        containerSize: arrivalNotice.containerSize
+      }
 
       // 2. Create arrival notice product
       await addArrivalNoticeProducts(
@@ -51,6 +57,9 @@ export const generateArrivalNotice = {
         context.state.user,
         trxMgr
       )
+
+      // generate job sheet
+      await generateJobSheet(context.state.domain, context.state.user, containerInfo, trxMgr)
 
       // 3. Create arrival notice vas
       orderVass = await Promise.all(
@@ -69,7 +78,7 @@ export const generateArrivalNotice = {
             arrivalNotice: createdArrivalNotice,
             status: ORDER_VAS_STATUS.PENDING,
             creator: context.state.user,
-            updater: context.state.user,
+            updater: context.state.user
           }
         })
       )
@@ -77,5 +86,5 @@ export const generateArrivalNotice = {
 
       return createdArrivalNotice
     })
-  },
+  }
 }

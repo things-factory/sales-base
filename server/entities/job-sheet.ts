@@ -1,22 +1,11 @@
-import {
-  Entity,
-  Index,
-  Column,
-  CreateDateColumn,
-  JoinColumn,
-  UpdateDateColumn,
-  ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn
-} from 'typeorm'
-import { Domain, DomainBaseEntity } from '@things-factory/shell'
 import { User } from '@things-factory/auth-base'
-import { ArrivalNotice } from '../entities'
 import { Bizplace } from '@things-factory/biz-base'
+import { Domain } from '@things-factory/shell'
+import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
-@Entity('job-sheets')
+@Entity()
 @Index('ix_job-sheet_0', (jobSheet: JobSheet) => [jobSheet.domain, jobSheet.name], { unique: true })
-export class JobSheet extends DomainBaseEntity {
+export class JobSheet {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
@@ -42,10 +31,6 @@ export class JobSheet extends DomainBaseEntity {
 
   @Column()
   containerSize: String
-
-  @OneToOne(type => ArrivalNotice)
-  @JoinColumn()
-  arrivalNotice: ArrivalNotice
 
   @CreateDateColumn()
   createdAt: Date

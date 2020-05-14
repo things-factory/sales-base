@@ -6,12 +6,14 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  JoinColumn,
   ManyToOne,
+  OneToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
-import { CollectionOrder, OrderProduct, OrderVas } from '../entities'
+import { CollectionOrder, OrderProduct, OrderVas, JobSheet } from '../entities'
 
 @Entity()
 @Index('ix_arrival-notice_0', (arrivalNotice: ArrivalNotice) => [arrivalNotice.domain, arrivalNotice.name], {
@@ -53,6 +55,15 @@ export class ArrivalNotice {
 
   @OneToMany(type => CollectionOrder, collectionOrder => collectionOrder.arrivalNotice)
   collectionOrders: CollectionOrder[]
+
+  @OneToOne(type => JobSheet)
+  @JoinColumn()
+  jobSheet: JobSheet
+
+  @Column({
+    nullable: true
+  })
+  looseItem: boolean
 
   @Column({
     nullable: true
