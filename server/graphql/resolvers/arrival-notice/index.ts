@@ -1,4 +1,5 @@
 import { addArrivalNoticeProductsResolver } from './add-arrival-notice-products'
+import { bizplaceArrivalNoticesResolver } from './bizplace-arrival-notices'
 import { arrivalNoticeResolver } from './arrival-notice'
 import { arrivalNoticeRequestsResolver } from './arrival-notice-requests'
 import { arrivalNoticesResolver } from './arrival-notices'
@@ -14,7 +15,8 @@ import { updateArrivalNotice } from './update-arrival-notice'
 export const Query = {
   ...arrivalNoticeResolver,
   ...arrivalNoticeRequestsResolver,
-  ...arrivalNoticesResolver
+  ...arrivalNoticesResolver,
+  ...bizplaceArrivalNoticesResolver
 }
 
 export const Mutation = {

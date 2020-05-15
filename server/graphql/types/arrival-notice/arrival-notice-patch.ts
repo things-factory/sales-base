@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 export const ArrivalNoticePatch = gql`
   input ArrivalNoticePatch {
     name: String
+    bizplace: ObjectRef
     description: String
     containerNo: String
     ownTransport: Boolean
@@ -11,6 +12,8 @@ export const ArrivalNoticePatch = gql`
     ata: String
     containerSize: String
     looseItem: Boolean
+    fromDate: String
+    toDate: String
     mtDate: String
     etaDate: String
     truckNo: String

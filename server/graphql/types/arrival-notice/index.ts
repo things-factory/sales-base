@@ -59,6 +59,8 @@ export const Query = `
     pagination: Pagination,
     sortings: [Sorting]
   ): ArrivalNoticeList @priviledge(category: "order_warehouse", priviledge: "query")
+
+  bizplaceArrivalNotices(arrivalNotice: ArrivalNoticePatch, filters: [Filter], pagination: Pagination, sortings: [Sorting]): ArrivalNoticeList
 `
 
 export const Types = [ArrivalNotice, NewArrivalNotice, ArrivalNoticePatch, ArrivalNoticeList]

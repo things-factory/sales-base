@@ -10,6 +10,7 @@ export const ArrivalNotice = gql`
     containerNo: String
     ownTransport: Boolean
     importCargo: Boolean
+    jobSheetNo: String
     looseItem: Boolean
     ata: String
     eta: String
