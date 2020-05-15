@@ -2,7 +2,7 @@ import { User } from '@things-factory/auth-base'
 import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
 import { EntityManager, getManager, getRepository, Repository } from 'typeorm'
-import { JobSheet } from '../../../entities'
+import { JobSheet, ArrivalNotice } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const generateJobSheetResolver = {
@@ -16,8 +16,8 @@ export const generateJobSheetResolver = {
 export async function generateJobSheet(
   domain: Domain,
   user: User,
-  containerInfo: any,
   myBizplace: Bizplace,
+  containerInfo: any,
   trxMgr?: EntityManager
 ): Promise<JobSheet> {
   const jobSheetRepo: Repository<JobSheet> = trxMgr ? trxMgr.getRepository(JobSheet) : getRepository(JobSheet)

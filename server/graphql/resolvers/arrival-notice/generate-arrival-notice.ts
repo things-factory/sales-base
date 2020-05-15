@@ -2,7 +2,7 @@ import { Bizplace, getMyBizplace } from '@things-factory/biz-base'
 import { Product } from '@things-factory/product-base'
 import { getManager } from 'typeorm'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_TYPES, ORDER_VAS_STATUS } from '../../../constants'
-import { ArrivalNotice, OrderProduct, OrderVas, Vas } from '../../../entities'
+import { ArrivalNotice, OrderProduct, JobSheet, OrderVas, Vas } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 import { addArrivalNoticeProducts } from './add-arrival-notice-products'
 import { generateJobSheet } from '../job-sheet/generate-job-sheet'
@@ -59,7 +59,19 @@ export const generateArrivalNotice = {
       )
 
       // generate job sheet
-      await generateJobSheet(context.state.domain, context.state.user, myBizplace, containerInfo, trxMgr)
+      const generatedJobSheet: JobSheet = await generateJobSheet(
+        context.state.domain,
+        context.state.user,
+        myBizplace,
+        containerInfo,
+        trxMgr
+      )
+
+      await trxMgr.getRepository(ArrivalNotice).save({
+        ...createdArrivalNotice,
+        jobSheet: generatedJobSheet,
+        updater: context.state.user
+      })
 
       // 3. Create arrival notice vas
       orderVass = await Promise.all(
