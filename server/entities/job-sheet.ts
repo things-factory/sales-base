@@ -23,7 +23,9 @@ export class JobSheet {
   })
   description: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   containerMtDate: String
 
   @Column()
