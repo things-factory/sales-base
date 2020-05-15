@@ -43,7 +43,7 @@ export const generateArrivalNotice = {
       })
 
       const containerInfo: any = {
-        containerMtDate: arrivalNotice.mtDate,
+        mtDate: arrivalNotice.adviseMtDate,
         containerSize: arrivalNotice.containerSize
       }
 
@@ -59,7 +59,7 @@ export const generateArrivalNotice = {
       )
 
       // generate job sheet
-      await generateJobSheet(context.state.domain, context.state.user, containerInfo, trxMgr)
+      await generateJobSheet(context.state.domain, context.state.user, myBizplace, containerInfo, trxMgr)
 
       // 3. Create arrival notice vas
       orderVass = await Promise.all(
