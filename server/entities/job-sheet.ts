@@ -28,10 +28,14 @@ export class JobSheet {
   })
   containerMtDate: String
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   adviseMtDate: String
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   containerSize: String
 
   @CreateDateColumn()
