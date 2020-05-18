@@ -24,6 +24,7 @@ export const generateArrivalNotice = {
         context.state.domain,
         context.state.user,
         myBizplace,
+        arrivalNotice.refNo,
         containerInfo,
         trxMgr
       )

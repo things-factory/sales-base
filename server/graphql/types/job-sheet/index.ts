@@ -9,6 +9,7 @@ export const Mutation = `
   ): JobSheet
 
   generateJobSheet (
+    jobNo: String
     containerInfo: NewJobSheet
   ): JobSheet
 

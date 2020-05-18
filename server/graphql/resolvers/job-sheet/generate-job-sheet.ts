@@ -6,9 +6,9 @@ import { JobSheet } from '../../../entities'
 import { OrderNoGenerator } from '../../../utils/order-no-generator'
 
 export const generateJobSheetResolver = {
-  async generateJobSheet(_: any, { myBizplace, containerInfo }, context: any) {
+  async generateJobSheet(_: any, { myBizplace, jobNo, containerInfo }, context: any) {
     return await getManager().transaction(async trxMgr => {
-      return await generateJobSheet(context.state.domain, context.state.user, myBizplace, containerInfo, trxMgr)
+      return await generateJobSheet(context.state.domain, context.state.user, myBizplace, jobNo, containerInfo, trxMgr)
     })
   }
 }
@@ -17,6 +17,7 @@ export async function generateJobSheet(
   domain: Domain,
   user: User,
   myBizplace: Bizplace,
+  jobNo: string,
   containerInfo: any,
   trxMgr?: EntityManager
 ): Promise<JobSheet> {
@@ -24,7 +25,7 @@ export async function generateJobSheet(
 
   // 1. Create job sheet
   const createdJobSheet: JobSheet = await jobSheetRepo.save({
-    name: OrderNoGenerator.jobSheet(domain.name),
+    name: jobNo ? jobNo : OrderNoGenerator.jobSheet(domain.name),
     domain,
     bizplace: myBizplace,
     adviseMtDate: containerInfo.mtDate,
