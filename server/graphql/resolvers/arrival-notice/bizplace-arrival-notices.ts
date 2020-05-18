@@ -33,6 +33,8 @@ export const bizplaceArrivalNoticesResolver = {
       items.map(async (item: ArrivalNotice) => {
         return {
           name: item.name,
+          containerNo: item.containerNo,
+          refNo: item.refNo,
           jobSheetNo: item?.jobSheet ? item.jobSheet.name : '',
           updatedAt: item.updatedAt,
           updater: item.updater
