@@ -14,22 +14,19 @@ export const generateArrivalNotice = {
       let orderVass: OrderVas[] = arrivalNotice.orderVass
       const myBizplace: Bizplace = await getMyBizplace(context.state.user)
 
-      // Validation for duplication of batch id and product pair
-      // case 1. batch id is not duplicated => OK
-      // case 2. batch id is duplicated and product also same with previous one => OK
-      // case 3. batch id is duplicated but product is not same with previous one => Not OK
-      // const duplicatedInventory: Inventory = await trxMgr.getRepository(Inventory).findOne({
-      //   where: orderProducts.map((orderProduct: OrderProduct) => {
-      //     return {
-      //       bizplace: myBizplace,
-      //       domain: context.state.domain,
-      //       batchId: orderProduct.batchId,
-      //       product: Not(Equal(orderProduct.product.id))
-      //     }
-      //   })
-      // })
+      const containerInfo: any = {
+        mtDate: arrivalNotice.adviseMtDate,
+        containerSize: arrivalNotice.containerSize
+      }
 
-      // if (duplicatedInventory) throw new Error(`Batch id is duplicated. (${duplicatedInventory.batchId})`)
+      // generate job sheet
+      const generatedJobSheet: JobSheet = await generateJobSheet(
+        context.state.domain,
+        context.state.user,
+        myBizplace,
+        containerInfo,
+        trxMgr
+      )
 
       // 1. Create arrival notice
       const createdArrivalNotice: ArrivalNotice = await trxMgr.getRepository(ArrivalNotice).save({
@@ -38,14 +35,10 @@ export const generateArrivalNotice = {
         domain: context.state.domain,
         bizplace: myBizplace,
         status: ORDER_STATUS.PENDING,
+        jobSheet: generatedJobSheet,
         creator: context.state.user,
         updater: context.state.user
       })
-
-      const containerInfo: any = {
-        mtDate: arrivalNotice.adviseMtDate,
-        containerSize: arrivalNotice.containerSize
-      }
 
       // 2. Create arrival notice product
       await addArrivalNoticeProducts(
@@ -57,21 +50,6 @@ export const generateArrivalNotice = {
         context.state.user,
         trxMgr
       )
-
-      // generate job sheet
-      const generatedJobSheet: JobSheet = await generateJobSheet(
-        context.state.domain,
-        context.state.user,
-        myBizplace,
-        containerInfo,
-        trxMgr
-      )
-
-      await trxMgr.getRepository(ArrivalNotice).save({
-        ...createdArrivalNotice,
-        jobSheet: generatedJobSheet,
-        updater: context.state.user
-      })
 
       // 3. Create arrival notice vas
       orderVass = await Promise.all(
