@@ -1,7 +1,7 @@
 import { User } from '@things-factory/auth-base'
 import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
-import { Inventory } from '@things-factory/warehouse-base'
+import { Inventory, Location } from '@things-factory/warehouse-base'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { ArrivalNotice, DeliveryOrder, ReleaseGood, ShippingOrder } from '../entities'
 import { InventoryCheck } from './inventory-check'
@@ -84,8 +84,10 @@ export class OrderInventory {
   @Column({ nullable: true, type: 'float' })
   inspectedWeight: number
 
-  @Column({ nullable: true })
-  inspectedLocation: string
+  @ManyToOne(type => Location, {
+    nullable: true
+  })
+  inspectedLocation: Location
 
   @Column()
   releaseQty: number
