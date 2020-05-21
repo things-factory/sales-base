@@ -89,7 +89,7 @@ export class OrderInventory {
   })
   inspectedLocation: Location
 
-  @Column()
+  @Column({ nullable: true })
   releaseQty: number
 
   @Column({ nullable: true, type: 'float' })
