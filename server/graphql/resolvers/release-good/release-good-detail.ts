@@ -1,7 +1,9 @@
-import { getPermittedBizplaceIds, Bizplace } from '@things-factory/biz-base'
-import { Inventory } from '@things-factory/warehouse-base'
+import { getPermittedBizplaceIds } from '@things-factory/biz-base'
+import { Attachment } from '@things-factory/attachment-base'
+import { ATTACHMENT_TYPE } from '../../../constants/attachment-type'
 import { Product } from '@things-factory/product-base'
-import { getRepository, In, SelectQueryBuilder } from 'typeorm'
+import { Inventory } from '@things-factory/warehouse-base'
+import { getRepository, In } from 'typeorm'
 import { OrderInventory, ReleaseGood, ShippingOrder } from '../../../entities'
 
 export const releaseGoodDetailResolver = {
@@ -11,7 +13,7 @@ export const releaseGoodDetailResolver = {
       where: {
         domain: context.state.domain,
         name,
-        bizplace: In(bizplaceIds),
+        bizplace: In(bizplaceIds)
       },
       relations: [
         'domain',
@@ -26,20 +28,28 @@ export const releaseGoodDetailResolver = {
         'orderVass.targetProduct',
         'orderVass.inventory',
         'creator',
-        'updater',
-      ],
+        'updater'
+      ]
     })
 
     const roBizId: string = releaseGood.bizplace.id
     const shippingOrder: ShippingOrder = releaseGood.shippingOrder
+    const foundAttachments = await getRepository(Attachment).find({
+      where: {
+        domain: context.state.domain,
+        refBy: releaseGood.id,
+        category: ATTACHMENT_TYPE.DELIVERY_ORDER
+      }
+    })
 
     return {
       ...releaseGood,
+      attachment: foundAttachments,
       shippingOrderInfo: {
         containerNo: (shippingOrder && shippingOrder.containerNo) || '',
         containerLeavingDate: (shippingOrder && shippingOrder.containerLeavingDate) || '',
         containerArrivalDate: (shippingOrder && shippingOrder.containerArrivalDate) || '',
-        shipName: (shippingOrder && shippingOrder.shipName) || '',
+        shipName: (shippingOrder && shippingOrder.shipName) || ''
       },
       inventoryInfos: Promise.all(
         releaseGood.orderInventories.map(async (orderInv: OrderInventory) => {
@@ -55,7 +65,7 @@ export const releaseGoodDetailResolver = {
               qty: inventory.qty,
               weight: inventory.weight,
               releaseQty: orderInv.releaseQty,
-              releaseWeight: orderInv.releaseWeight,
+              releaseWeight: orderInv.releaseWeight
             }
           } else {
             const { batchId, productName, packingType, releaseQty, releaseWeight } = orderInv
@@ -70,18 +80,18 @@ export const releaseGoodDetailResolver = {
               qty,
               weight,
               releaseQty,
-              releaseWeight,
+              releaseWeight
             }
           }
         })
-      ),
+      )
     }
-  },
+  }
 }
 
 async function getProductId(roBizId: string, productName: string): Promise<{ productIdRef: string }> {
   const foundProduct: Product = await getRepository(Product).findOne({
-    where: { bizplace: roBizId, name: productName },
+    where: { bizplace: roBizId, name: productName }
   })
 
   const productIdRef = foundProduct.id

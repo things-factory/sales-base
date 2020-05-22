@@ -1,5 +1,7 @@
 import { getManager, In } from 'typeorm'
 import { OrderInventory, OrderVas, ReleaseGood, ShippingOrder } from '../../../entities'
+import { Attachment } from '@things-factory/attachment-base'
+import { ATTACHMENT_TYPE } from '../../../constants/attachment-type'
 
 export const deleteReleaseGood = {
   async deleteReleaseGood(_: any, { name }, context: any) {
@@ -21,6 +23,17 @@ export const deleteReleaseGood = {
       const foundOVs: OrderVas[] = foundReleaseOrder.orderVass
       const foundSO: ShippingOrder = foundReleaseOrder.shippingOrder
 
+      let foundAttachment: Attachment
+      if (foundReleaseOrder?.ownTransport) {
+        foundAttachment = await trxMgr.getRepository(Attachment).findOne({
+          where: {
+            domain: context.state.domain,
+            refBy: foundReleaseOrder.id,
+            category: ATTACHMENT_TYPE.DELIVERY_ORDER
+          }
+        })
+      }
+
       // Update locked qty and locked weight of inventories and return id list of order inventories
       const inventoryIds: string[] = foundOIs.map((oi: OrderInventory) => oi.id)
 
@@ -38,6 +51,10 @@ export const deleteReleaseGood = {
       // 4. if there is SO, delete SO
       if (foundSO) {
         await trxMgr.getRepository(ShippingOrder).delete({ domain: context.state.domain, id: foundSO.id })
+      }
+
+      if (foundAttachment) {
+        await trxMgr.getRepository(Attachment).delete({ domain: context.state.domain, id: foundAttachment.id })
       }
 
       await trxMgr.getRepository(ReleaseGood).delete({ domain: context.state.domain, name })

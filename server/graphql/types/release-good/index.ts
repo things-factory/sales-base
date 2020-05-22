@@ -29,6 +29,7 @@ export const Mutation = `
   generateReleaseGood (
     releaseGood: NewReleaseGood
     shippingOrder: ShippingOrderPatch
+    file: Upload
   ): ReleaseGood @priviledge(category: "order_customer", priviledge: "mutation")
 
   confirmReleaseGood (
@@ -78,5 +79,5 @@ export const Types = [
   ShippingOrderInfo,
   InventoryInfos,
   ReleasableInventory,
-  ReleasableInventoryList,
+  ReleasableInventoryList
 ]

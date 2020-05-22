@@ -14,6 +14,7 @@ export const ReleaseGood = gql`
     inventoryId: String
     refNo: String
     productId: String
+    attachments: [Attachment]
     deliveryOrders: [DeliveryOrder]
     exportOption: Boolean
     shippingOrder: ShippingOrder
