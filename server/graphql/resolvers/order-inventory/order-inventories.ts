@@ -13,7 +13,6 @@ export const orderInventoriesResolver = {
         'inventory',
         'inventory.product',
         'releaseGood',
-        'shippingOrder',
         'deliveryOrder',
         'creator',
         'updater'
