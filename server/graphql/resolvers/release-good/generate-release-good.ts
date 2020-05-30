@@ -1,4 +1,4 @@
-import { Attachment, createAttachment, deleteAttachment } from '@things-factory/attachment-base'
+import { Attachment, createAttachments } from '@things-factory/attachment-base'
 import { Bizplace, getMyBizplace } from '@things-factory/biz-base'
 import { Product } from '@things-factory/product-base'
 import { Inventory } from '@things-factory/warehouse-base'
@@ -107,23 +107,14 @@ export const generateReleaseGood = {
       }
 
       if (createdReleaseGood?.ownTransport) {
-        const foundAttachment: Attachment = await trxMgr.getRepository(Attachment).findOne({
-          where: { domain: context.state.domain, refBy: createdReleaseGood.id }
+        const attachments: Attachment[] = file.map(attachment => {
+          return {
+            file: attachment,
+            refBy: createdReleaseGood.id,
+            category: ATTACHMENT_TYPE.DELIVERY_ORDER
+          }
         })
-
-        const attachment = {
-          refBy: createdReleaseGood.id,
-          file: file,
-          category: ATTACHMENT_TYPE.DELIVERY_ORDER
-        }
-
-        if (!foundAttachment) {
-          await createAttachment(_, { attachment }, context)
-        } else {
-          const id = foundAttachment.id
-          await deleteAttachment(_, { id }, context)
-          await createAttachment(_, { attachment }, context)
-        }
+        await createAttachments(_, { attachments }, context)
       }
 
       return createdReleaseGood

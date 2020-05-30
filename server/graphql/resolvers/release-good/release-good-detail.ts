@@ -34,7 +34,7 @@ export const releaseGoodDetailResolver = {
 
     const roBizId: string = releaseGood.bizplace.id
     const shippingOrder: ShippingOrder = releaseGood.shippingOrder
-    const foundAttachments = await getRepository(Attachment).find({
+    const foundAttachments: Attachment[] = await getRepository(Attachment).find({
       where: {
         domain: context.state.domain,
         refBy: releaseGood.id,
