@@ -106,7 +106,7 @@ export const generateReleaseGood = {
         await trxMgr.getRepository(OrderVas).save(orderVass)
       }
 
-      if (createdReleaseGood?.ownTransport) {
+      if (createdReleaseGood?.ownTransport && file) {
         const attachments: Attachment[] = file.map(attachment => {
           return {
             file: attachment,
