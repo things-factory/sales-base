@@ -25,28 +25,19 @@ export const Mutation = `
     names: [String]!
   ): Boolean @priviledge(category: "order_warehouse", priviledge: "mutation")
 
-  submitGoodsReceivalNote (
-    name: String!
-    file: Upload
-  ): GoodsReceivalNote @priviledge(category: "order_warehouse", priviledge: "mutation")
-
   receivedGoodsReceivalNote (
     name: String!
-  ): GoodsReceivalNote @priviledge(category: "order_customer", priviledge: "mutation")
+  ): GoodsReceivalNote
 `
 
 export const Query = `
   goodsReceivalNotes (
     filters: [Filter], pagination: Pagination, sortings: [Sorting]
-  ): GoodsReceivalNoteList @priviledge(category: "order_warehouse", priviledge: "mutation")
-
-  customerReceivalNotes(
-    filters: [Filter], pagination: Pagination, sortings: [Sorting]
-  ): GoodsReceivalNoteList @priviledge(category: "order_customer", priviledge: "query")
+  ): GoodsReceivalNoteList
 
   goodsReceivalNote(
     name: String!
-  ): GoodsReceivalNote @priviledge(category: "order_warehouse", priviledge: "mutation")
+  ): GoodsReceivalNote
 
 `
 
