@@ -27,6 +27,12 @@ export const deleteArrivalNotice = {
         await trxMgr.getRepository(OrderVas).delete({ id: In(vasIds) })
       }
 
+      await trxMgr.getRepository(ArrivalNotice).save({
+        ...foundArrivalNotice,
+        jobSheet: null,
+        updater: context.state.user
+      })
+
       // 3. delete Job Sheet
       await trxMgr.getRepository(JobSheet).delete({ domain: context.state.domain, id: foundJS.id })
 
