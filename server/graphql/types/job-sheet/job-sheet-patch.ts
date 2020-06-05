@@ -5,5 +5,7 @@ export const JobSheetPatch = gql`
     name: String
     description: String
     containerMtDate: String
+    sumPackQty: Int
+    sumPalletQty: Int
   }
 `

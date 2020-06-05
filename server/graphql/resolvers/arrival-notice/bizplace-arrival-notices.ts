@@ -1,7 +1,7 @@
 import { Bizplace } from '@things-factory/biz-base'
 import { convertListParams } from '@things-factory/shell'
-import { Between, getRepository } from 'typeorm'
-import { ArrivalNotice } from '../../../entities'
+import { Between, getRepository, Raw, In } from 'typeorm'
+import { ArrivalNotice, JobSheet } from '../../../entities'
 
 export const bizplaceArrivalNoticesResolver = {
   async bizplaceArrivalNotices(_: any, { arrivalNotice, filters, pagination, sortings }, context: any) {
@@ -13,6 +13,17 @@ export const bizplaceArrivalNoticesResolver = {
 
     const convertedParams = convertListParams({ filters, pagination, sortings })
     let where = { domain: context.state.domain }
+
+    if (arrivalNotice && arrivalNotice.jobSheetNo) {
+      const _jobSheet = await getRepository(JobSheet).findOne({
+        where: {
+          domain: context.state.domain,
+          bizplace: customerBizplace,
+          name: Raw(alias => `LOWER(${alias}) LIKE '${arrivalNotice.jobSheetNo.toLowerCase()}'`)
+        }
+      })
+      where['jobSheet'] = _jobSheet
+    }
 
     where['updatedAt'] = Between(fromDate.toISOString(), toDate.toISOString())
     convertedParams.where = {
@@ -35,7 +46,7 @@ export const bizplaceArrivalNoticesResolver = {
           name: item.name,
           containerNo: item.containerNo,
           refNo: item.refNo,
-          jobSheetNo: item?.jobSheet ? item.jobSheet.name : '',
+          jobSheet: item?.jobSheet ? item.jobSheet : '',
           updatedAt: item.updatedAt,
           updater: item.updater
         } as any

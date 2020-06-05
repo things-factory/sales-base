@@ -38,6 +38,16 @@ export class JobSheet {
   })
   containerSize: String
 
+  @Column({
+    nullable: true
+  })
+  sumPackQty: number
+
+  @Column({
+    nullable: true
+  })
+  sumPalletQty: number
+
   @CreateDateColumn()
   createdAt: Date
 

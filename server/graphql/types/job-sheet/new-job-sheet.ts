@@ -7,5 +7,7 @@ export const NewJobSheet = gql`
     containerMtDate: String
     containerSize: String
     adviseMtDate: String
+    sumPackQty: Int
+    sumPalletQty: Int
   }
 `

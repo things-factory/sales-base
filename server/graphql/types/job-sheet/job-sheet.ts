@@ -9,6 +9,8 @@ export const JobSheet = gql`
     containerMtDate: String
     containerSize: String
     adviseMtDate: String
+    sumPackQty: Int
+    sumPalletQty: Int
     creator: User
     updater: User
     createdAt: String

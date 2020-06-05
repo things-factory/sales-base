@@ -35,6 +35,7 @@ export const generateArrivalNotice = {
         name: OrderNoGenerator.arrivalNotice(),
         domain: context.state.domain,
         bizplace: myBizplace,
+        looseItem: arrivalNotice?.looseItem ? arrivalNotice.looseItem : false,
         status: ORDER_STATUS.PENDING,
         jobSheet: generatedJobSheet,
         creator: context.state.user,
