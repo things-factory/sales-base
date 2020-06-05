@@ -1,18 +1,19 @@
 import { getManager, In } from 'typeorm'
-import { ArrivalNotice, OrderProduct, OrderVas } from '../../../entities'
+import { ArrivalNotice, OrderProduct, OrderVas, JobSheet } from '../../../entities'
 
 export const deleteArrivalNotice = {
   async deleteArrivalNotice(_: any, { name }, context: any) {
     return await getManager().transaction(async trxMgr => {
       let foundArrivalNotice: ArrivalNotice = await trxMgr.getRepository(ArrivalNotice).findOne({
         where: { domain: context.state.domain, name },
-        relations: ['orderProducts', 'orderVass', 'collectionOrders', 'creator', 'updater']
+        relations: ['orderProducts', 'orderVass', 'collectionOrders', 'jobSheet', 'creator', 'updater']
       })
 
       if (!foundArrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
 
       const foundOPs: OrderProduct[] = foundArrivalNotice.orderProducts
       const foundOVs: OrderVas[] = foundArrivalNotice.orderVass
+      const foundJS: JobSheet = foundArrivalNotice.jobSheet
 
       // 1. delete order products
       const productIds = foundOPs.map((product: OrderProduct) => product.id)
@@ -25,6 +26,9 @@ export const deleteArrivalNotice = {
       if (vasIds.length) {
         await trxMgr.getRepository(OrderVas).delete({ id: In(vasIds) })
       }
+
+      // 3. delete Job Sheet
+      await trxMgr.getRepository(JobSheet).delete({ domain: context.state.domain, id: foundJS.id })
 
       // 4. delete GAN
       await trxMgr.getRepository(ArrivalNotice).delete({ domain: context.state.domain, name })

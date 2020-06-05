@@ -41,11 +41,6 @@ export class JobSheet {
   @Column({
     nullable: true
   })
-  sumPackQty: number
-
-  @Column({
-    nullable: true
-  })
   sumPalletQty: number
 
   @CreateDateColumn()
