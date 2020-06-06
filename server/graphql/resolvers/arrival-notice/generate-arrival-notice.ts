@@ -15,7 +15,6 @@ export const generateArrivalNotice = {
       const myBizplace: Bizplace = await getMyBizplace(context.state.user)
 
       const containerInfo: any = {
-        mtDate: arrivalNotice.adviseMtDate,
         containerSize: arrivalNotice.containerSize
       }
 
