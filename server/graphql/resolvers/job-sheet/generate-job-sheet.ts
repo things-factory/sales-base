@@ -23,9 +23,12 @@ export async function generateJobSheet(
 ): Promise<JobSheet> {
   const jobSheetRepo: Repository<JobSheet> = trxMgr?.getRepository(JobSheet) || getRepository(JobSheet)
 
-  const foundJS: JobSheet = await jobSheetRepo.findOne({
-    where: { domain, name: jobNo, bizplace: myBizplace }
-  })
+  let foundJS: JobSheet = null
+  if (jobNo) {
+    foundJS = await jobSheetRepo.findOne({
+      where: { domain, name: jobNo, bizplace: myBizplace }
+    })
+  }
 
   let jobName: any = null
   if (foundJS) {
@@ -36,7 +39,7 @@ export async function generateJobSheet(
 
   // 1. Create job sheet
   const createdJobSheet: JobSheet = await jobSheetRepo.save({
-    name: jobName,
+    name: jobName ? jobName : OrderNoGenerator.jobSheet(domain.name),
     domain,
     bizplace: myBizplace,
     adviseMtDate: containerInfo.mtDate,
