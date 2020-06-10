@@ -1,3 +1,4 @@
+export * from './attachment-type'
 export * from './load-type'
 export * from './order'
-export * from './attachment-type'
+export * from './vas-target-type'
