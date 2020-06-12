@@ -31,8 +31,8 @@ export const rejectReleaseGood = {
 
                   await trxMgr.getRepository(Inventory).save({
                     ...oi.inventory,
-                    lockedQty: 0,
-                    lockedWeight: 0,
+                    lockedQty: oi.inventory.qty - oi.releaseQty,
+                    lockedWeight: oi.inventory.weight - oi.releaseWeight,
                     updater: context.state.user
                   })
                 }
