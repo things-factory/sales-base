@@ -1,4 +1,6 @@
 import { Bizplace, getMyBizplace } from '@things-factory/biz-base'
+import { Attachment, createAttachments } from '@things-factory/attachment-base'
+import { ATTACHMENT_TYPE } from '../../../constants/attachment-type'
 import { Product } from '@things-factory/product-base'
 import { getManager } from 'typeorm'
 import { ORDER_PRODUCT_STATUS, ORDER_STATUS, ORDER_TYPES, ORDER_VAS_STATUS } from '../../../constants'
@@ -8,7 +10,7 @@ import { addArrivalNoticeProducts } from './add-arrival-notice-products'
 import { generateJobSheet } from '../job-sheet/generate-job-sheet'
 
 export const generateArrivalNotice = {
-  async generateArrivalNotice(_: any, { arrivalNotice }, context: any) {
+  async generateArrivalNotice(_: any, { arrivalNotice, file }, context: any) {
     return await getManager().transaction(async trxMgr => {
       let orderProducts: OrderProduct[] = arrivalNotice.orderProducts
       let orderVass: OrderVas[] = arrivalNotice.orderVass
@@ -74,6 +76,17 @@ export const generateArrivalNotice = {
         })
       )
       await trxMgr.getRepository(OrderVas).save(orderVass)
+
+      if (file?.length) {
+        const attachments: Attachment[] = file.map(attachment => {
+          return {
+            file: attachment,
+            refBy: createdArrivalNotice.id,
+            category: ATTACHMENT_TYPE.GAN
+          }
+        })
+        await createAttachments(_, { attachments }, context)
+      }
 
       return createdArrivalNotice
     })
