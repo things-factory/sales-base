@@ -1,5 +1,4 @@
 import { addArrivalNoticeProductsResolver } from './add-arrival-notice-products'
-import { submitAdjustmentForApprovalResolver } from './submit-adjustment-for-approval'
 import { bizplaceArrivalNoticesResolver } from './bizplace-arrival-notices'
 import { arrivalNoticeResolver } from './arrival-notice'
 import { arrivalNoticeRequestsResolver } from './arrival-notice-requests'
@@ -22,7 +21,6 @@ export const Query = {
 
 export const Mutation = {
   ...addArrivalNoticeProductsResolver,
-  ...submitAdjustmentForApprovalResolver,
   ...checkArrivedNotice,
   ...confirmArrivalNotice,
   ...createArrivalNotice,

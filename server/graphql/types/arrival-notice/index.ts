@@ -43,10 +43,6 @@ export const Mutation = `
     ganNo: String!
     orderProducts: [NewOrderProduct]!
   ): Boolean @priviledge(category: "order_warehouse", priviledge: "mutation")
-
-  submitAdjustmentForApproval (
-    name: String!
-  ): Boolean @priviledge(category: "order_warehouse", priviledge: "mutation")
 `
 
 export const Query = `
