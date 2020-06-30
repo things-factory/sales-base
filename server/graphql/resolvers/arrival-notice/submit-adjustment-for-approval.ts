@@ -24,7 +24,7 @@ export const submitAdjustmentForApprovalResolver = {
       if (!foundArrivalNotice) throw new Error(`Arrival notice doesn't exists.`)
 
       // 1. GAN Status change (PENDING => PENDING_RECEIVE)
-      const arrivalNotice: ArrivalNotice = await trxMgr.getRepository(ArrivalNotice).save({
+      await trxMgr.getRepository(ArrivalNotice).save({
         ...foundArrivalNotice,
         status: ORDER_STATUS.PENDING_APPROVAL,
         updater: context.state.user
@@ -61,8 +61,6 @@ export const submitAdjustmentForApprovalResolver = {
           })
         })
       }
-
-      return arrivalNotice
     })
   }
 }
