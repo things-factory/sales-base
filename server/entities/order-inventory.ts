@@ -3,7 +3,7 @@ import { Bizplace } from '@things-factory/biz-base'
 import { Domain } from '@things-factory/shell'
 import { Inventory, Location } from '@things-factory/warehouse-base'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { ArrivalNotice, DeliveryOrder, ReleaseGood, ShippingOrder } from '../entities'
+import { ArrivalNotice, DeliveryOrder, ReleaseGood } from '../entities'
 import { InventoryCheck } from './inventory-check'
 
 @Entity()
@@ -89,7 +89,7 @@ export class OrderInventory {
   })
   inspectedLocation: Location
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'float' })
   releaseQty: number
 
   @Column({ nullable: true, type: 'float' })
