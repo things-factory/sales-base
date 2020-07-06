@@ -18,7 +18,7 @@ export const OrderInventory = gql`
     arrivalNotice: ArrivalNotice
     releaseGood: ReleaseGood
     deliveryOrder: DeliveryOrder
-    releaseQty: Float
+    releaseQty: Int
     releaseWeight: Float
     status: String
     updater: User

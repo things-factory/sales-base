@@ -19,7 +19,6 @@ export const Mutation = `
 
   generateArrivalNotice (
     arrivalNotice: NewArrivalNotice!
-    file: Upload
   ): ArrivalNotice @priviledge(category: "order_customer", priviledge: "mutation")
 
   confirmArrivalNotice (

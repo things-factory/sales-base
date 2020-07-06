@@ -1,6 +1,6 @@
 import { Bizplace } from '@things-factory/biz-base'
 import { convertListParams } from '@things-factory/shell'
-import { Between, getRepository, Raw, Not, IsNull } from 'typeorm'
+import { Between, getRepository, Raw, In } from 'typeorm'
 import { ArrivalNotice, JobSheet } from '../../../entities'
 
 export const bizplaceArrivalNoticesResolver = {
@@ -29,16 +29,12 @@ export const bizplaceArrivalNoticesResolver = {
     convertedParams.where = {
       ...convertedParams.where,
       ...where,
-      jobSheet: Not(IsNull()),
       bizplace: customerBizplace
     }
 
     const result = await getRepository(ArrivalNotice).findAndCount({
       ...convertedParams,
-      relations: ['domain', 'jobSheet', 'bizplace', 'updater'],
-      order: {
-        createdAt: 'DESC'
-      }
+      relations: ['domain', 'jobSheet', 'bizplace', 'updater']
     })
 
     let items = result[0] as any

@@ -1,21 +1,21 @@
-import { getPermittedBizplaceIds } from '@things-factory/biz-base'
-import { buildQuery, ListParam } from '@things-factory/shell'
-import { getRepository, SelectQueryBuilder } from 'typeorm'
+import { getPermittedBizplaceIds, Bizplace } from '@things-factory/biz-base'
+import { convertListParams, ListParam, buildQuery } from '@things-factory/shell'
+import { getRepository, In, Not, IsNull, SelectQueryBuilder } from 'typeorm'
 import { ORDER_STATUS } from '../../../constants'
 import { ArrivalNotice } from '../../../entities'
 
 export const arrivalNoticeRequestsResolver = {
   async arrivalNoticeRequests(_: any, params: ListParam, context: any) {
     try {
-      const statusFilter = params.filters.some(e => e.name === 'status')
-      const bizplaceFilter = params.filters.find(param => param.name === 'bizplaceId')
+      const statusFilter = params.filters.some((e) => e.name === 'status')
+      const bizplaceFilter = params.filters.find((param) => param.name === 'bizplaceId')
 
       if (!statusFilter) {
         params.filters.push({
           name: 'status',
           operator: 'notin',
           value: [ORDER_STATUS.PENDING, ORDER_STATUS.EDITING],
-          relation: false
+          relation: false,
         })
       }
 
@@ -24,13 +24,13 @@ export const arrivalNoticeRequestsResolver = {
           name: 'bizplaceId',
           operator: 'in',
           value: await getPermittedBizplaceIds(context.state.domain, context.state.user),
-          relation: false
+          relation: false,
         })
       }
 
       const qb: SelectQueryBuilder<ArrivalNotice> = getRepository(ArrivalNotice).createQueryBuilder('an')
       buildQuery(qb, params, context)
-      qb.addSelect(subQuery => {
+      qb.addSelect((subQuery) => {
         return subQuery
           .select('COALESCE("ccd".rank, 99999)', 'rank')
           .from('common_code_details', 'ccd')
@@ -50,9 +50,9 @@ export const arrivalNoticeRequestsResolver = {
           ...acc,
           [arrChildSortData.indexOf(sort.name) >= 0 ? sort.name + '.name' : 'an.' + sort.name]: sort.desc
             ? 'DESC'
-            : 'ASC'
+            : 'ASC',
         }),
-        !params.sortings.some(e => e.name === 'status') ? { rank: 'ASC' } : {}
+        !params.sortings.some((e) => e.name === 'status') ? { rank: 'ASC' } : {}
       )
 
       qb.orderBy(sort)
@@ -63,5 +63,5 @@ export const arrivalNoticeRequestsResolver = {
     } catch (error) {
       throw error
     }
-  }
+  },
 }

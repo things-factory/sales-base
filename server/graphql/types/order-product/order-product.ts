@@ -18,7 +18,6 @@ export const OrderProduct = gql`
     toInventory: Inventory
     product: Product
     batchId: String
-    adjustedBatchId: String
     packingType: String
     unit: String
     weight: Float
