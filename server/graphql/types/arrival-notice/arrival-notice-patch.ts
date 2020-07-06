@@ -18,7 +18,7 @@ export const ArrivalNoticePatch = gql`
     etaDate: String
     truckNo: String
     refNo: String
-    jobSheetNo: String
+    jobSheet: ObjectRef
     remark: String
     status: String
     orderProducts: [ObjectRef]

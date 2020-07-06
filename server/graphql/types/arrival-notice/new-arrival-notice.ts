@@ -7,17 +7,18 @@ export const NewArrivalNotice = gql`
     containerNo: String
     ownTransport: Boolean!
     importCargo: Boolean
+    jobSheetNo: String
+    looseItem: Boolean
+    ata: String
     eta: String
     etaDate: String
-    adviseMtDate: String
-    containerSize: String
-    looseItem: Boolean
     truckNo: String
     refNo: String
-    remark: String
     status: String
+    remark: String
     orderProducts: [NewOrderProduct]
     orderVass: [NewOrderVas]
     deliveryOrderNo: String
+    containerSize: String
   }
 `

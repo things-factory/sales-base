@@ -13,6 +13,7 @@ export const NewOrderProduct = gql`
     toInventory: ObjectRef
     product: ObjectRef
     batchId: String
+    adjustedBatchId: String
     packingType: String
     unit: String
     weight: Float
