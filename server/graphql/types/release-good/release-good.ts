@@ -11,9 +11,7 @@ export const ReleaseGood = gql`
     collectionOrderNo: String
     ownTransport: Boolean
     truckNo: String
-    inventoryId: String
     refNo: String
-    productId: String
     attachments: [Attachment]
     deliveryOrders: [DeliveryOrder]
     exportOption: Boolean

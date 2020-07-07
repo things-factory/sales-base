@@ -9,8 +9,6 @@ export const NewReleaseGood = gql`
     ownTransport: Boolean
     truckNo: String
     refNo: String
-    inventoryId: String
-    productId: String
     exportOption: Boolean!
     shippingOrder: ObjectRef
     orderInventories: [NewOrderInventory]

@@ -47,42 +47,23 @@ export class ReleaseGood {
   })
   truckNo: string
 
-  @Column({
-    nullable: true
-  })
-  inventoryId: string
-
-  @Column({
-    nullable: true
-  })
-  productId: string
-
   @Column()
   exportOption: Boolean
 
   @Column()
   ownTransport: Boolean
 
-  @OneToMany(
-    type => DeliveryOrder,
-    deliveryOrder => deliveryOrder.releaseGood
-  )
+  @OneToMany(type => DeliveryOrder, deliveryOrder => deliveryOrder.releaseGood)
   deliveryOrders: DeliveryOrder[]
 
   @OneToOne(type => ShippingOrder)
   @JoinColumn()
   shippingOrder: ShippingOrder
 
-  @OneToMany(
-    type => OrderVas,
-    orderVas => orderVas.releaseGood
-  )
+  @OneToMany(type => OrderVas, orderVas => orderVas.releaseGood)
   orderVass: OrderVas[]
 
-  @OneToMany(
-    type => OrderInventory,
-    orderInventory => orderInventory.releaseGood
-  )
+  @OneToMany(type => OrderInventory, orderInventory => orderInventory.releaseGood)
   orderInventories: OrderInventory[]
 
   @Column()
