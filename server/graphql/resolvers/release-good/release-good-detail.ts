@@ -58,7 +58,7 @@ export const releaseGoodDetailResolver = {
             return {
               batchId: inventory.batchId,
               productIdRef: inventory.product.id,
-              productName: inventory.product.name,
+              productName: `${inventory.product.name} (${inventory.product.description})`,
               packingType: inventory.packingType,
               name: inventory.name,
               location: inventory.location,
