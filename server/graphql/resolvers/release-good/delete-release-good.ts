@@ -1,5 +1,6 @@
 import { getManager, In } from 'typeorm'
 import { OrderInventory, OrderVas, ReleaseGood, ShippingOrder } from '../../../entities'
+import { Inventory } from '@things-factory/warehouse-base'
 import { Attachment } from '@things-factory/attachment-base'
 import { ATTACHMENT_TYPE } from '../../../constants/attachment-type'
 
@@ -39,6 +40,17 @@ export const deleteReleaseGood = {
 
       // Delete order inventories by ids
       if (inventoryIds.length) {
+        let inventories: Inventory[] = foundOIs.map((orderInventory: OrderInventory) => orderInventory.inventory)
+        inventories = inventories.map((inventory: Inventory) => {
+          return {
+            ...inventory,
+            lockedQty: 0,
+            lockedWeight: 0,
+            updater: context.state.user
+          }
+        })
+        await trxMgr.getRepository(Inventory).save(inventories)
+
         await trxMgr.getRepository(OrderInventory).delete({ id: In(inventoryIds) })
       }
 
