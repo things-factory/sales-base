@@ -50,9 +50,6 @@ export const generateReleaseGood = {
               status: ORDER_INVENTORY_STATUS.PENDING,
               name: OrderNoGenerator.orderInventory(),
               releaseGood: createdReleaseGood,
-              product: await trxMgr.getRepository(Product).findOne({
-                where: { ...ordInv.product, domain: context.state.domain, bizplace: myBizplace }
-              }),
               creator: context.state.user,
               updater: context.state.user
             }

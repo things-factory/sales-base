@@ -12,7 +12,7 @@ export const OrderInventoryPatch = gql`
     inspectedQty: Int
     inspectedWeight: Float
     inspectedLocation: ObjectRef
-    product: ObjectRef
+    productName: String
     batchId: String
     packingType: String
     releaseQty: Float

@@ -20,7 +20,6 @@ export const releaseGoodDetailResolver = {
         'bizplace',
         'shippingOrder',
         'orderInventories',
-        'orderInventories.product',
         'orderInventories.inventory',
         'orderInventories.inventory.product',
         'orderInventories.inventory.location',
@@ -69,8 +68,7 @@ export const releaseGoodDetailResolver = {
               releaseWeight: orderInv.releaseWeight
             }
           } else {
-            const { batchId, product, packingType, releaseQty, releaseWeight } = orderInv
-            const productName: string = product.name
+            const { batchId, productName, packingType, releaseQty, releaseWeight } = orderInv
             const { productIdRef } = await getProductId(roBizId, productName)
             const { qty, weight } = await getAvailableAmount(roBizId, productIdRef, batchId, packingType)
 
@@ -110,27 +108,22 @@ async function getAvailableAmount(
   const result: any[] = await getRepository(Inventory).query(`
     WITH oi as (
       SELECT
-        SUM(oi.release_qty) as release_qty,
-        SUM(oi.release_weight) as release_weight,
-        oi.batch_id,
-        p.name as product_name,
-        oi.packing_type
+        SUM(release_qty) as release_qty,
+        SUM(release_weight) as release_weight,
+        batch_id,
+        product_name,
+        packing_type
       FROM
-        order_inventories oi
-      LEFT JOIN
-        products p
-      ON
-        oi.product_id = p.id
+        order_inventories
       WHERE
-        oi.status IN ('PENDING', 'PENDING_RECEIVE', 'READY_TO_PICK', 'PICKING', 'PENDING_SPLIT') 
-        AND oi.batch_id NOTNULL
-        AND oi.product_id NOTNULL
-        AND oi.packing_type NOTNULL
+        status IN ('PENDING', 'PENDING_RECEIVE', 'READY_TO_PICK', 'PICKING', 'PENDING_SPLIT') 
+        AND batch_id NOTNULL
+        AND product_name NOTNULL
+        AND packing_type NOTNULL
       GROUP BY
-        oi.product_id,
-        oi.batch_id,
-        oi.packing_type,
-        p.name
+        product_name,
+        batch_id,
+        packing_type
     )
     SELECT
       SUM(COALESCE(i.qty, 0)) - SUM(COALESCE(i.locked_qty, 0)) - MAX(COALESCE(oi.release_qty, 0)) as "qty",
