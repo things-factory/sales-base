@@ -9,7 +9,7 @@ export const OrderInventory = gql`
     description: String
     inventory: Inventory
     productIdRef: String
-    productName: String
+    product: Product
     batchId: String
     packingType: String
     inspectedQty: Int

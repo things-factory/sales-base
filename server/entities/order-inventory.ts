@@ -1,5 +1,6 @@
 import { User } from '@things-factory/auth-base'
 import { Bizplace } from '@things-factory/biz-base'
+import { Product } from '@things-factory/product-base'
 import { Domain } from '@things-factory/shell'
 import { Inventory, Location } from '@things-factory/warehouse-base'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
@@ -57,8 +58,8 @@ export class OrderInventory {
   @ManyToOne(type => Inventory, { nullable: true })
   inventory: Inventory
 
-  @Column({ nullable: true })
-  productName: string
+  @ManyToOne(type => Product, { nullable: true })
+  product: Product
 
   @Column({ nullable: true })
   batchId: string
