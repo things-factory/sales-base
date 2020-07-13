@@ -1,62 +1,56 @@
-import { Bizplace } from '@things-factory/biz-base'
-import { convertListParams } from '@things-factory/shell'
-import { Between, getRepository, Raw, Not, IsNull } from 'typeorm'
-import { ArrivalNotice, JobSheet } from '../../../entities'
+import { getPermittedBizplaceIds } from '@things-factory/biz-base'
+import { buildQuery, ListParam } from '@things-factory/shell'
+import { getRepository, SelectQueryBuilder } from 'typeorm'
+import { ArrivalNotice } from '../../../entities'
 
 export const bizplaceArrivalNoticesResolver = {
-  async bizplaceArrivalNotices(_: any, { arrivalNotice, filters, pagination, sortings }, context: any) {
-    const customerBizplace: Bizplace = await getRepository(Bizplace).findOne(arrivalNotice.bizplace.id)
+  async bizplaceArrivalNotices(_: any, params: ListParam, context: any) {
+    const bizplaceFilter = params.filters.find(param => param.name === 'bizplaceId')
+    const fromDateFilter = params.filters.find(param => param.name === 'fromDate')
+    const toDateFilter = params.filters.find(param => param.name === 'toDate')
+    const containerNoFilter = params.filters.find(param => param.name === 'containerNo')
+    const jobSheetFilter = params.filters.find(param => param.name === 'jobSheet')
 
-    const fromDate: Date = new Date(arrivalNotice.fromDate)
-    let toDate: Date = new Date(arrivalNotice.toDate)
-    toDate.setDate(toDate.getDate() + 1)
-
-    const convertedParams = convertListParams({ filters, pagination, sortings })
-    let where = { domain: context.state.domain }
-
-    if (arrivalNotice && arrivalNotice.jobSheetNo) {
-      const _jobSheet = await getRepository(JobSheet).findOne({
-        where: {
-          domain: context.state.domain,
-          bizplace: customerBizplace,
-          name: Raw(alias => `LOWER(${alias}) LIKE '${arrivalNotice.jobSheetNo.toLowerCase()}'`)
-        }
+    if (!bizplaceFilter) {
+      params.filters.push({
+        name: 'bizplaceId',
+        operator: 'in',
+        value: await getPermittedBizplaceIds(context.state.domain, context.state.user),
+        relation: false
       })
-      where['jobSheet'] = _jobSheet
     }
 
-    where['updatedAt'] = Between(fromDate.toISOString(), toDate.toISOString())
-    convertedParams.where = {
-      ...convertedParams.where,
-      ...where,
-      jobSheet: Not(IsNull()),
-      bizplace: customerBizplace
+    let fromDateValue: Date = new Date(fromDateFilter.value)
+    let toDateValue: Date = new Date(toDateFilter.value)
+    toDateValue.setDate(toDateValue.getDate() + 1)
+
+    const qb: SelectQueryBuilder<ArrivalNotice> = getRepository(ArrivalNotice).createQueryBuilder('an')
+    buildQuery(qb, params, context)
+    qb.innerJoinAndSelect('an.domain', 'domain')
+    qb.innerJoinAndSelect('an.bizplace', 'bizplace')
+    qb.innerJoinAndSelect('an.jobSheet', 'jobSheet')
+    qb.innerJoinAndSelect('an.creator', 'creator')
+    qb.innerJoinAndSelect('an.updater', 'updater')
+    qb.where('an.domain_id = :domainId', { domainId: context.state.domain.id })
+
+    if (fromDateFilter && toDateFilter) {
+      qb.andWhere('an.updatedAt >= :fromDate', { fromDate: fromDateValue.toISOString() })
+      qb.andWhere('an.updatedAt <= :toDate', { toDate: toDateValue.toISOString() })
     }
 
-    const result = await getRepository(ArrivalNotice).findAndCount({
-      ...convertedParams,
-      relations: ['domain', 'jobSheet', 'bizplace', 'updater'],
-      order: {
-        createdAt: 'DESC'
-      }
-    })
+    if (bizplaceFilter) {
+      qb.andWhere('an.bizplace_id = :bizplaceId', { bizplaceId: bizplaceFilter.value })
+    }
 
-    let items = result[0] as any
-    let total = result[1]
+    if (containerNoFilter) {
+      qb.andWhere('an.container_no ILIKE :containerNo', { containerNo: containerNoFilter.value })
+    }
 
-    items = await Promise.all(
-      items.map(async (item: ArrivalNotice) => {
-        return {
-          name: item.name,
-          containerNo: item.containerNo,
-          refNo: item.refNo,
-          jobSheet: item?.jobSheet ? item.jobSheet : '',
-          updatedAt: item.updatedAt,
-          updater: item.updater
-        } as any
-      })
-    )
+    if (jobSheetFilter) {
+      qb.andWhere('jobSheet.name ILIKE :jobSheetNo', { jobSheetNo: jobSheetFilter.value })
+    }
 
+    const [items, total] = await qb.getManyAndCount()
     return { items, total }
   }
 }
