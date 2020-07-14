@@ -55,7 +55,6 @@ export const checkArrivedNotice = {
         await trxMgr.getRepository(ArrivalNotice).save({
           ...foundArrivalNotice,
           status: ORDER_STATUS.ARRIVED,
-          ata: new Date(),
           updater: context.state.user
         })
 
