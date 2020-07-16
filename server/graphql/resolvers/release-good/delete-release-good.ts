@@ -19,8 +19,8 @@ export const deleteReleaseGood = {
         ]
       })
 
-      if (!foundReleaseOrder) throw new Error(`Arrival notice doesn't exists.`)
-      const foundOIs: OrderInventory[] = foundReleaseOrder.orderInventories
+      if (!foundReleaseOrder) throw new Error(`Release order doesn't exists.`)
+      let foundOIs: OrderInventory[] = foundReleaseOrder.orderInventories
       const foundOVs: OrderVas[] = foundReleaseOrder.orderVass
       const foundSO: ShippingOrder = foundReleaseOrder.shippingOrder
 
@@ -35,12 +35,11 @@ export const deleteReleaseGood = {
         })
       }
 
-      // Update locked qty and locked weight of inventories and return id list of order inventories
-      const inventoryIds: string[] = foundOIs.map((oi: OrderInventory) => oi.id)
+      // check if there is inventory id, if yes means select by pallet, need to remove locked qty and weight
+      let inventories: Inventory[] = foundOIs.map((oi: OrderInventory) => oi.inventory)
 
-      // Delete order inventories by ids
-      if (inventoryIds.length) {
-        let inventories: Inventory[] = foundOIs.map((orderInventory: OrderInventory) => orderInventory.inventory)
+      // Delete inventories by ids
+      if (inventories.some(inv => inv !== null)) {
         inventories = inventories.map((inventory: Inventory) => {
           return {
             ...inventory,
@@ -51,7 +50,9 @@ export const deleteReleaseGood = {
         })
         await trxMgr.getRepository(Inventory).save(inventories)
 
-        await trxMgr.getRepository(OrderInventory).delete({ id: In(inventoryIds) })
+        await trxMgr.getRepository(OrderInventory).delete({ id: In(foundOIs.map((oi: OrderInventory) => oi.id)) })
+      } else {
+        await trxMgr.getRepository(OrderInventory).delete({ id: In(foundOIs.map((oi: OrderInventory) => oi.id)) })
       }
 
       // 2. delete order vass
