@@ -38,14 +38,10 @@ export class OrderProduct {
   @Column()
   name: string
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   description: string
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   type: string
 
   @ManyToOne(type => ArrivalNotice)
@@ -74,9 +70,7 @@ export class OrderProduct {
   @Column()
   batchId: string
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   adjustedBatchId: string
 
   @Column()
@@ -91,34 +85,28 @@ export class OrderProduct {
   @Column()
   packQty: number
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   actualPackQty: number
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   palletQty: number
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   actualPalletQty: number
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   totalWeight: string
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
+  releaseQty: number
+
+  @Column({ nullable: true })
+  releaseWeight: number
+
+  @Column({ nullable: true })
   remark: string
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true })
   issue: string
 
   @Column()
@@ -130,13 +118,9 @@ export class OrderProduct {
   @UpdateDateColumn()
   updatedAt: Date
 
-  @ManyToOne(type => User, {
-    nullable: true
-  })
+  @ManyToOne(type => User, { nullable: true })
   creator: User
 
-  @ManyToOne(type => User, {
-    nullable: true
-  })
+  @ManyToOne(type => User, { nullable: true })
   updater: User
 }

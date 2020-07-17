@@ -7,6 +7,7 @@ export const ArrivalNoticePatch = gql`
     description: String
     containerNo: String
     ownTransport: Boolean
+    crossDocking: Boolean
     importCargo: Boolean
     eta: String
     ata: String

@@ -25,6 +25,8 @@ export const OrderProductPatch = gql`
     palletQty: Int
     actualPalletQty: Int
     totalWeight: String
+    releaseQty: Int
+    releaseWeight: Float
     remark: String
     issue: String
     status: String
