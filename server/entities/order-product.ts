@@ -79,6 +79,11 @@ export class OrderProduct {
   })
   adjustedBatchId: string
 
+  @Column({
+    nullable: true
+  })
+  adjustedPalletQty: number
+
   @Column()
   packingType: string
 

@@ -17,6 +17,7 @@ export const OrderProductPatch = gql`
     product: ObjectRef
     batchId: String
     adjustedBatchId: String
+    adjustedPalletQty: Int
     packingType: String
     unit: String
     weight: Float
