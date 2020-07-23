@@ -8,7 +8,7 @@ import { ShippingOrderInfo } from './shipping-order-info'
 import { ReleaseGoodList } from './release-good-list'
 import { ReleaseGoodPatch } from './release-good-patch'
 
-export const Mutation = `
+export const Mutation = /* GraphQL */ `
   createReleaseGood (
     releaseGood: NewReleaseGood!
   ): ReleaseGood @priviledge(category: "order_customer", priviledge: "mutation")
@@ -42,7 +42,7 @@ export const Mutation = `
   ): ReleaseGood @priviledge(category: "order_warehouse", priviledge: "mutation")
 `
 
-export const Query = `
+export const Query = /* GraphQL */ `
   releaseGoods (
     filters: [Filter],
     pagination: Pagination,

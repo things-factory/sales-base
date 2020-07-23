@@ -7,6 +7,7 @@ export const ReleaseGoodPatch = gql`
     releaseDateTime: String
     collectionOrderNo: String
     ownTransport: Boolean
+    crossDocking: Boolean
     truckNo: String
     inventoryId: String
     productId: String
