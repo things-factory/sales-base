@@ -53,6 +53,9 @@ export class ReleaseGood {
   @Column()
   ownTransport: Boolean
 
+  @Column({ nullable: true })
+  crossDocking: boolean
+
   @OneToMany(type => DeliveryOrder, deliveryOrder => deliveryOrder.releaseGood)
   deliveryOrders: DeliveryOrder[]
 

@@ -8,12 +8,12 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
-  OneToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
-import { CollectionOrder, OrderProduct, OrderVas, JobSheet } from '../entities'
+import { CollectionOrder, JobSheet, OrderProduct, OrderVas } from '../entities'
 
 @Entity()
 @Index('ix_arrival-notice_0', (arrivalNotice: ArrivalNotice) => [arrivalNotice.domain, arrivalNotice.name], {
@@ -43,6 +43,9 @@ export class ArrivalNotice {
 
   @Column()
   ownTransport: boolean
+
+  @Column({ nullable: true })
+  crossDocking: boolean
 
   @Column()
   importCargo: boolean

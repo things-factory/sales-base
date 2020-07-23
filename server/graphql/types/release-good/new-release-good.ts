@@ -7,6 +7,7 @@ export const NewReleaseGood = gql`
     releaseDateTime: String
     collectionOrderNo: String
     ownTransport: Boolean
+    crossDocking: Boolean
     truckNo: String
     refNo: String
     exportOption: Boolean!
