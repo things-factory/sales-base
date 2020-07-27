@@ -116,7 +116,7 @@ async function getAvailableAmount(
         p.name as product_name,
         oi.packing_type
       FROM
-        order_inventories
+        order_inventories oi
       LEFT JOIN
         products p
       ON
