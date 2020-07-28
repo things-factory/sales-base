@@ -62,6 +62,9 @@ export class OrderInventory {
   product: Product
 
   @Column({ nullable: true })
+  productName: string
+
+  @Column({ nullable: true })
   batchId: string
 
   @Column({ nullable: true })
