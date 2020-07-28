@@ -11,6 +11,7 @@ export const ReleaseGood = gql`
     collectionOrderNo: String
     ownTransport: Boolean
     crossDocking: Boolean
+    arrivalNotice: ArrivalNotice
     truckNo: String
     refNo: String
     attachments: [Attachment]

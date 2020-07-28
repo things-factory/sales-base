@@ -3,7 +3,7 @@ import { ArrivalNoticeList } from './arrival-notice-list'
 import { ArrivalNoticePatch } from './arrival-notice-patch'
 import { NewArrivalNotice } from './new-arrival-notice'
 
-export const Mutation = `
+export const Mutation = /* GraphQL */ `
   createArrivalNotice (
     arrivalNotice: NewArrivalNotice!
   ): ArrivalNotice @priviledge(category: "order_customer", priviledge: "mutation")
@@ -45,7 +45,7 @@ export const Mutation = `
   ): Boolean @priviledge(category: "order_warehouse", priviledge: "mutation")
 `
 
-export const Query = `
+export const Query = /* GraphQL */ `
   arrivalNotices(
     filters: [Filter],
     pagination: Pagination,sortings: [Sorting]

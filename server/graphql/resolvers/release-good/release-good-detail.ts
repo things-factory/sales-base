@@ -19,6 +19,7 @@ export const releaseGoodDetailResolver = {
         'domain',
         'bizplace',
         'shippingOrder',
+        'arrivalNotice',
         'orderInventories',
         'orderInventories.product',
         'orderInventories.inventory',

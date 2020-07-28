@@ -13,7 +13,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm'
-import { CollectionOrder, JobSheet, OrderProduct, OrderVas } from '../entities'
+import { CollectionOrder, JobSheet, OrderProduct, OrderVas, ReleaseGood } from '../entities'
 
 @Entity()
 @Index('ix_arrival-notice_0', (arrivalNotice: ArrivalNotice) => [arrivalNotice.domain, arrivalNotice.name], {
@@ -46,6 +46,9 @@ export class ArrivalNotice {
 
   @Column({ nullable: true })
   crossDocking: boolean
+
+  @ManyToOne(type => ReleaseGood, { nullable: true })
+  releaseGood: ReleaseGood
 
   @Column()
   importCargo: boolean
