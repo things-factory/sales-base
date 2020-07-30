@@ -6,10 +6,10 @@ import { bizplaceArrivalNoticesResolver } from './bizplace-arrival-notices'
 import { checkArrivedNotice } from './check-arrived-notice'
 import { confirmArrivalNoticeResolver } from './confirm-arrival-notice'
 import { createArrivalNotice } from './create-arrival-notice'
-import { deleteArrivalNotice } from './delete-arrival-notice'
+import { deleteArrivalNoticeResolver } from './delete-arrival-notice'
 import { generateArrivalNotice } from './generate-arrival-notice'
 import { receiveArrivalNotice } from './receive-arrival-notice'
-import { rejectArrivalNotice } from './reject-arrival-notice'
+import { rejectArrivalNoticeResolver } from './reject-arrival-notice'
 import { updateArrivalNotice } from './update-arrival-notice'
 
 export const Query = {
@@ -24,9 +24,9 @@ export const Mutation = {
   ...checkArrivedNotice,
   ...confirmArrivalNoticeResolver,
   ...createArrivalNotice,
-  ...deleteArrivalNotice,
+  ...deleteArrivalNoticeResolver,
   ...generateArrivalNotice,
   ...receiveArrivalNotice,
-  ...rejectArrivalNotice,
+  ...rejectArrivalNoticeResolver,
   ...updateArrivalNotice
 }
