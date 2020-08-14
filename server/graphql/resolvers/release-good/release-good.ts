@@ -16,6 +16,7 @@ export const releaseGoodResolver = {
         'shippingOrder',
         'arrivalNotice',
         'orderInventories',
+        'orderInventories.product',
         'orderInventories.inventory',
         'orderInventories.inventory.product',
         'orderVass',

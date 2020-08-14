@@ -62,43 +62,30 @@ export const generateReleaseGood = {
         await trxMgr.getRepository(ArrivalNotice).save(crossDockingGAN)
       }
 
-      await trxMgr.getRepository(OrderInventory).save(
-        await Promise.all(
-          orderInventories.map(async (ordInv: OrderInventory) => {
-            let newOrderInv: OrderInventory = {
-              ...ordInv,
-              domain,
-              bizplace,
-              status: ORDER_INVENTORY_STATUS.PENDING,
-              name: OrderNoGenerator.orderInventory(),
-              releaseGood: createdReleaseGood,
-              product: await trxMgr.getRepository(Product).findOne({
-                where: { ...ordInv.product, domain, bizplace }
-              }),
-              creator: user,
-              updater: user
-            }
+      for (let oi of orderInventories) {
+        let newOrderInv: OrderInventory = Object.assign({}, oi)
+        newOrderInv.domain = domain
+        newOrderInv.bizplace = bizplace
+        newOrderInv.status = ORDER_INVENTORY_STATUS.PENDING
+        newOrderInv.name = OrderNoGenerator.orderInventory()
+        newOrderInv.releaseGood = createdReleaseGood
+        newOrderInv.product = await trxMgr.getRepository(Product).findOne(oi.product.id)
+        newOrderInv.creator = user
+        newOrderInv.updater = user
 
-            if (ordInv?.inventory?.id) {
-              newOrderInv.inventory = await trxMgr.getRepository(Inventory).findOne(ordInv.inventory.id)
-              const foundInv: Inventory = newOrderInv.inventory
+        if (newOrderInv.inventory?.id) {
+          const foundInv: Inventory = await trxMgr.getRepository(Inventory).findOne(newOrderInv.inventory.id)
+          newOrderInv.inventory = foundInv
 
-              await trxMgr.getRepository(Inventory).save({
-                ...foundInv,
-                lockedQty: Boolean(foundInv.lockedQty)
-                  ? newOrderInv.releaseQty + foundInv.lockedQty
-                  : newOrderInv.releaseQty,
-                lockedWeight: Boolean(foundInv.lockedWeight)
-                  ? newOrderInv.releaseWeight + foundInv.lockedWeight
-                  : newOrderInv.releaseWeight,
-                updater: user
-              })
-            }
+          foundInv.lockedQty = Number(foundInv.lockedQty) + newOrderInv.releaseQty
+          foundInv.lockedWeight = Number(foundInv.lockedWeight) + newOrderInv.releaseWeight
+          foundInv.updater = user
 
-            return newOrderInv
-          })
-        )
-      )
+          await trxMgr.getRepository(Inventory).save(foundInv)
+        }
+
+        await trxMgr.getRepository(OrderInventory).save(newOrderInv)
+      }
 
       if (orderVass?.length) {
         orderVass = await Promise.all(
