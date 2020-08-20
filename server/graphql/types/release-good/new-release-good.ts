@@ -10,6 +10,8 @@ export const NewReleaseGood = gql`
     crossDocking: Boolean
     truckNo: String
     refNo: String
+    arrivalNotice: ArrivalNoticePatch
+    ganNo: String
     exportOption: Boolean!
     shippingOrder: ObjectRef
     orderInventories: [NewOrderInventory]

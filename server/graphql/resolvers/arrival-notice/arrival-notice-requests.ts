@@ -41,6 +41,7 @@ export const arrivalNoticeRequestsResolver = {
       }, 'rank')
       qb.leftJoinAndSelect('an.domain', 'domain')
       qb.leftJoinAndSelect('an.bizplace', 'bizplace')
+      qb.leftJoinAndSelect('an.releaseGood', 'rg')
       qb.leftJoinAndSelect('an.creator', 'creator')
       qb.leftJoinAndSelect('an.updater', 'updater')
 

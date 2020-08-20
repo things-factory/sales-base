@@ -16,6 +16,7 @@ export const arrivalNoticeResolver = {
         'domain',
         'bizplace',
         'jobSheet',
+        'releaseGood',
         'orderProducts',
         'orderProducts.product',
         'orderVass',
@@ -25,6 +26,8 @@ export const arrivalNoticeResolver = {
         'updater'
       ]
     })
+
+    if (!foundGAN?.id) throw new Error(`Failed to find arrival notice with ${name}`)
 
     const foundAttachments: Attachment[] = await getRepository(Attachment).find({
       where: {

@@ -10,6 +10,7 @@ export const ArrivalNotice = gql`
     containerNo: String
     ownTransport: Boolean
     crossDocking: Boolean
+    releaseGood: ReleaseGood
     importCargo: Boolean
     jobSheetNo: String
     looseItem: Boolean
