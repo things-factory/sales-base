@@ -21,6 +21,7 @@ export const OrderInventory = gql`
     deliveryOrder: DeliveryOrder
     releaseQty: Float
     releaseWeight: Float
+    crossDocking: Boolean
     status: String
     updater: User
     creator: User

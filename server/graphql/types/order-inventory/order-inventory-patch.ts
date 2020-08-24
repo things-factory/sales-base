@@ -19,6 +19,7 @@ export const OrderInventoryPatch = gql`
     releaseWeight: Float
     remark: String
     issue: String
+    crossDocking: Boolean
     status: String
   }
 `
