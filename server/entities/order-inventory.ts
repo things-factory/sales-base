@@ -96,6 +96,9 @@ export class OrderInventory {
   @Column({ nullable: true, type: 'float' })
   releaseWeight: number
 
+  @Column({ nullable: true })
+  crossDocking: boolean
+
   @Column()
   status: string
 
