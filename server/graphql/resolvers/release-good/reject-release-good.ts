@@ -15,9 +15,9 @@ export const rejectReleaseGoodResolver = {
 }
 export async function rejectReleaseGood(
   trxMgr: EntityManager,
+  context: any,
   name: string,
-  remark: string,
-  context: any
+  remark: string
 ): Promise<ReleaseGood> {
   const domain: Domain = context.state.domain
   const user: User = context.state.user
