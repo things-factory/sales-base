@@ -5,7 +5,7 @@ import { TransportVehicle } from '@things-factory/transport-base'
 import { EntityManager, getManager, getRepository, Repository } from 'typeorm'
 import { ORDER_STATUS } from '../../../constants'
 import { DeliveryOrder, OrderInventory, ReleaseGood } from '../../../entities'
-import { OrderNoGenerator } from '../../../utils'
+import { generateId } from '@things-factory/id-rule-base'
 
 export const generateDeliveryOrderResolver = {
   async generateDeliveryOrder(_: any, { orderInfo, customerBizplace, releaseGood, targetInventories }, context: any) {
@@ -49,9 +49,11 @@ export async function generateDeliveryOrder(
     })
   }
 
+  const orderNo: string = await generateId({ domain, type: 'do_number', seed: {} })
+
   let deliveryOrder: any = {
     domain,
-    name: OrderNoGenerator.deliveryOrder(),
+    name: orderNo,
     bizplace: customerBizplace,
     releaseGood,
     ownCollection: releaseGood.ownTransport,

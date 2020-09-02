@@ -5,7 +5,7 @@ import { EntityManager, getManager, getRepository, Repository } from 'typeorm'
 import { GRN_STATUS } from '../../../constants'
 import { ArrivalNotice } from '../../../entities/arrival-notice'
 import { GoodsReceivalNote } from '../../../entities/goods-receival-note'
-import { OrderNoGenerator } from '../../../utils/order-no-generator'
+import { generateId } from '@things-factory/id-rule-base'
 
 export const generateGoodsReceivalNoteResolver = {
   async generateGoodsReceivalNote(_: any, { grn }, context: any) {
@@ -29,10 +29,11 @@ export async function generateGoodsReceivalNote(
 
   const bizplace: Bizplace = await bizplaceRepo.findOne({ where: { id: grn.customer } })
   const arrivalNotice: ArrivalNotice = await ganRepo.findOne({ where: { domain, name: grn.refNo } })
+  const orderNo: string = await generateId({ domain, type: 'grn_number', seed: {} })
 
   return await grnRepo.save({
     ...grn,
-    name: OrderNoGenerator.goodsReceiveNote(),
+    name: orderNo,
     domain,
     bizplace,
     arrivalNotice,
