@@ -28,6 +28,7 @@ export const DeliveryOrder = gql`
     telNo: String
     remark: String
     status: String
+    reusablePallet: String
     description: String
     creator: User
     updater: User

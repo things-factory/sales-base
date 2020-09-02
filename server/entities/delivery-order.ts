@@ -134,4 +134,9 @@ export class DeliveryOrder {
     nullable: true
   })
   updater: User
+
+  @Column({
+    nullable: true
+  })
+  reusablePallet: string
 }

@@ -65,6 +65,7 @@ export const dispatchDeliveryOrder = {
           to: foundCP.address,
           deliveryDate: orderInfo.deliveryDate,
           status: ORDER_STATUS.DELIVERING,
+          reusablePallet: orderInfo.reusablePallet,
           updater: context.state.user
         })
 

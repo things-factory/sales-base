@@ -28,6 +28,7 @@ export const DeliveryOrderPatch = gql`
     remark: String
     telNo: String
     status: String
+    reusablePallet: String
     description: String
   }
 `
