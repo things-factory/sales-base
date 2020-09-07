@@ -8,6 +8,7 @@ export const ArrivalNotice = gql`
     bizplace: Bizplace
     description: String
     containerNo: String
+    container: Boolean
     ownTransport: Boolean
     crossDocking: Boolean
     releaseGood: ReleaseGood

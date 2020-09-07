@@ -5,6 +5,7 @@ export const NewArrivalNotice = gql`
     name: String
     description: String
     containerNo: String
+    container: Boolean
     ownTransport: Boolean!
     crossDocking: Boolean
     importCargo: Boolean

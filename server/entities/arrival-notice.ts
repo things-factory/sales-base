@@ -41,6 +41,11 @@ export class ArrivalNotice {
   })
   containerNo: string
 
+  @Column({
+    nullable: true
+  })
+  container: boolean
+
   @Column()
   ownTransport: boolean
 

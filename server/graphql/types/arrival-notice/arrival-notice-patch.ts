@@ -6,6 +6,7 @@ export const ArrivalNoticePatch = gql`
     bizplace: ObjectRef
     description: String
     containerNo: String
+    container: Boolean
     ownTransport: Boolean
     crossDocking: Boolean
     importCargo: Boolean
