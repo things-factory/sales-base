@@ -44,6 +44,11 @@ export class ArrivalNotice {
   @Column({
     nullable: true
   })
+  containerSize: String
+
+  @Column({
+    nullable: true
+  })
   container: boolean
 
   @Column()

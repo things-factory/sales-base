@@ -31,7 +31,7 @@ export class JobSheet {
   @Column({
     nullable: true
   })
-  adviseMtDate: String
+  adviseMtDate: Date
 
   @Column({
     nullable: true
