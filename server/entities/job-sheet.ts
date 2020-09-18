@@ -29,6 +29,7 @@ export class JobSheet {
   containerMtDate: String
 
   @Column({
+    type: 'timestamptz',
     nullable: true
   })
   adviseMtDate: Date

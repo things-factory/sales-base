@@ -87,6 +87,7 @@ export class ArrivalNotice {
   eta: Date
 
   @Column({
+    type: 'timestamptz',
     nullable: true
   })
   ata: Date
