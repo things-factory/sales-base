@@ -16,6 +16,7 @@ export const OrderInventory = gql`
     inspectedQty: Int
     inspectedWeight: Float
     inspectedLocation: Location
+    inspectedBatchNo: String
     arrivalNotice: ArrivalNotice
     releaseGood: ReleaseGood
     deliveryOrder: DeliveryOrder
