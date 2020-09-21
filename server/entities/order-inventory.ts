@@ -88,6 +88,9 @@ export class OrderInventory {
   @Column({ nullable: true, type: 'float' })
   inspectedWeight: number
 
+  @Column({ nullable: true })
+  inspectedBatchNo: string
+
   @ManyToOne(type => Location, {
     nullable: true
   })
