@@ -3,7 +3,7 @@ import { NewInventoryCheck } from './new-inventory-check'
 import { InventoryCheckPatch } from './inventory-check-patch'
 import { InventoryCheckList } from './inventory-check-list'
 
-export const Mutation = `
+export const Mutation = /* GraphQL */ `
   createInventoryCheck (
     inventoryCheck: NewInventoryCheck!
   ): InventoryCheck
@@ -14,9 +14,8 @@ export const Mutation = `
   ): InventoryCheck
 
   generateCycleCount (
-    orderNo: String!
     executionDate: String!
-    orderType: String!
+    customerId: String!
   ): InventoryCheck
 
   updateMultipleInventoryCheck (
