@@ -28,6 +28,10 @@ export const Mutation = `
   receivedGoodsReceivalNote (
     name: String!
   ): GoodsReceivalNote
+
+  sendGoodsReceivalNote (
+    name: String!
+  ): GoodsReceivalNote
 `
 
 export const Query = `

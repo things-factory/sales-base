@@ -7,6 +7,7 @@ import { deleteGoodsReceivalNote } from './delete-goods-receival-note'
 import { deleteGoodsReceivalNotes } from './delete-goods-receival-notes'
 import { generateGoodsReceivalNoteResolver } from './generate-goods-receival-note'
 import { receivedGoodsReceivalNote } from './received-goods-receival-note'
+import { sendGoodsReceivalNote } from './send-goods-receival-note'
 
 export const Query = {
   ...goodsReceivalNotesResolver,
@@ -19,5 +20,6 @@ export const Mutation = {
   ...deleteGoodsReceivalNote,
   ...deleteGoodsReceivalNotes,
   ...generateGoodsReceivalNoteResolver,
-  ...receivedGoodsReceivalNote
+  ...receivedGoodsReceivalNote,
+  ...sendGoodsReceivalNote
 }

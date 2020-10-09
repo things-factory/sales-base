@@ -37,7 +37,7 @@ export async function generateGoodsReceivalNote(
     domain,
     bizplace,
     arrivalNotice,
-    status: GRN_STATUS.PENDING_PROCESS,
+    status: GRN_STATUS.READY_TO_SEND,
     creator: user,
     updater: user
   })
