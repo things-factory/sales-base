@@ -48,6 +48,11 @@ export class GoodsReceivalNote {
   @Column({
     nullable: true
   })
+  customerStatus: string
+
+  @Column({
+    nullable: true
+  })
   status: string
 
   @CreateDateColumn()

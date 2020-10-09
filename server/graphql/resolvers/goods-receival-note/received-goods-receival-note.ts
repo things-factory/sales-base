@@ -11,6 +11,7 @@ export const receivedGoodsReceivalNote = {
     return await getRepository(GoodsReceivalNote).save({
       ...goodsReceivalNote,
       status: GRN_STATUS.RECEIVED,
+      customerStatus: GRN_STATUS.RECEIVED,
       updater: context.state.user
     })
   }

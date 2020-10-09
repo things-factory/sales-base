@@ -5,6 +5,7 @@ export const GoodsReceivalNotePatch = gql`
     id: String
     name: String
     description: String
+    customerStatus: String
     status: String
     refNo: String
     arrivalNotice: ObjectRef
