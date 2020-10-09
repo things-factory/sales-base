@@ -24,6 +24,7 @@ export const ReleaseGood = gql`
     description: String
     updater: User
     creator: User
+    acceptedBy: User
     updatedAt: String
     createdAt: String
   }

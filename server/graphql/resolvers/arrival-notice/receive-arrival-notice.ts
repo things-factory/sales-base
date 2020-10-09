@@ -91,6 +91,7 @@ export const receiveArrivalNotice = {
         await trxMgr.getRepository(ArrivalNotice).save({
           ...foundArrivalNotice,
           status: ORDER_STATUS.INTRANSIT,
+          acceptedBy: context.state.user,
           updater: context.state.user
         })
 

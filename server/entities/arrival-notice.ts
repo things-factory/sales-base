@@ -134,6 +134,11 @@ export class ArrivalNotice {
   @ManyToOne(type => User, {
     nullable: true
   })
+  acceptedBy: User
+
+  @ManyToOne(type => User, {
+    nullable: true
+  })
   creator: User
 
   @ManyToOne(type => User, {

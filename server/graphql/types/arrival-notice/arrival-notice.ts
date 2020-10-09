@@ -31,6 +31,7 @@ export const ArrivalNotice = gql`
     deliveryOrderNo: String
     creator: User
     updater: User
+    acceptedBy: User
     createdAt: String
     updatedAt: String
   }
