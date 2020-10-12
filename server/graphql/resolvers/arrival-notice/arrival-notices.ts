@@ -10,7 +10,17 @@ export const arrivalNoticesResolver = {
 
     const [items, total] = await getRepository(ArrivalNotice).findAndCount({
       ...convertedParams,
-      relations: ['domain', 'bizplace', 'jobSheet', 'releaseGood', 'orderProducts', 'orderVass', 'creator', 'updater']
+      relations: [
+        'domain',
+        'bizplace',
+        'jobSheet',
+        'releaseGood',
+        'orderProducts',
+        'orderVass',
+        'creator',
+        'updater',
+        'acceptedBy'
+      ]
     })
 
     return { items, total }

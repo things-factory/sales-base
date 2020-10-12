@@ -44,6 +44,7 @@ export const arrivalNoticeRequestsResolver = {
       qb.leftJoinAndSelect('an.releaseGood', 'rg')
       qb.leftJoinAndSelect('an.creator', 'creator')
       qb.leftJoinAndSelect('an.updater', 'updater')
+      qb.leftJoinAndSelect('an.acceptedBy', 'acceptedBy')
 
       const arrChildSortData = ['bizplace']
       const sort = (params.sortings || []).reduce(

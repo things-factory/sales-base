@@ -12,7 +12,7 @@ export const releaseGoodsResolver = {
         value: await getPermittedBizplaceIds(context.state.domain, context.state.user),
         relation: false
       })
-      
+
       const qb: SelectQueryBuilder<ReleaseGood> = getRepository(ReleaseGood).createQueryBuilder('rg')
       buildQuery(qb, params, context)
       qb.addSelect(subQuery => {
@@ -29,6 +29,7 @@ export const releaseGoodsResolver = {
       qb.leftJoinAndSelect('rg.arrivalNotice', 'an')
       qb.leftJoinAndSelect('rg.creator', 'creator')
       qb.leftJoinAndSelect('rg.updater', 'updater')
+      qb.leftJoinAndSelect('rg.acceptedBy', 'acceptedBy')
 
       const arrChildSortData = ['bizplace']
       const sort = (params.sortings || []).reduce(
