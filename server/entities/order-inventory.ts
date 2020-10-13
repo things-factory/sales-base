@@ -83,13 +83,27 @@ export class OrderInventory {
   deliveryOrder: DeliveryOrder
 
   @Column({ nullable: true })
+  originQty: number
+
+  @Column({ nullable: true })
   inspectedQty: number
+
+  @Column({ nullable: true, type: 'float' })
+  originWeight: number
 
   @Column({ nullable: true, type: 'float' })
   inspectedWeight: number
 
   @Column({ nullable: true })
+  originBatchNo: string
+
+  @Column({ nullable: true })
   inspectedBatchNo: string
+
+  @ManyToOne(type => Location, {
+    nullable: true
+  })
+  originLocation: Location
 
   @ManyToOne(type => Location, {
     nullable: true
