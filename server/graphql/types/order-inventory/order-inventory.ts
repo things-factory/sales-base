@@ -13,9 +13,13 @@ export const OrderInventory = gql`
     product: Product
     batchId: String
     packingType: String
+    originQty: Int
     inspectedQty: Int
+    originWeight: Float
     inspectedWeight: Float
+    originLocation: Location
     inspectedLocation: Location
+    originBatchNo: String
     inspectedBatchNo: String
     arrivalNotice: ArrivalNotice
     releaseGood: ReleaseGood
