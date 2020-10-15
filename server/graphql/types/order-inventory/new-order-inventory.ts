@@ -17,5 +17,6 @@ export const NewOrderInventory = gql`
     issue: String
     crossDocking: Boolean
     status: String
+    existingRow: Boolean
   }
 `

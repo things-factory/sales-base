@@ -58,11 +58,14 @@ export const releaseGoodDetailResolver = {
           if (orderInv?.inventory?.id) {
             const inventory: Inventory = orderInv.inventory
             return {
+              id: inventory.id,
+              name: inventory.name,
               batchId: inventory.batchId,
+              palletId: inventory.palletId,
+              product: inventory.product,
               productIdRef: inventory.product.id,
               productName: `${inventory.product.name} (${inventory.product.description})`,
               packingType: inventory.packingType,
-              name: inventory.name,
               location: inventory.location,
               qty: inventory.qty,
               weight: inventory.weight,

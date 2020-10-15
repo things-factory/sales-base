@@ -2,8 +2,10 @@ import gql from 'graphql-tag'
 
 export const InventoryInfos = gql`
   type InventoryInfos {
+    id: String
     name: String
     batchId: String
+    palletId: String
     productIdRef: String
     productName: String
     product: Product
