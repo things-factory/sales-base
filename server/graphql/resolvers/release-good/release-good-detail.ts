@@ -5,6 +5,7 @@ import { Product } from '@things-factory/product-base'
 import { Inventory } from '@things-factory/warehouse-base'
 import { getRepository, In } from 'typeorm'
 import { OrderInventory, ReleaseGood, ShippingOrder } from '../../../entities'
+import { ORDER_INVENTORY_STATUS } from '../../../constants'
 
 export const releaseGoodDetailResolver = {
   async releaseGoodDetail(_: any, { name }, context: any) {
@@ -54,43 +55,83 @@ export const releaseGoodDetailResolver = {
         shipName: (shippingOrder && shippingOrder.shipName) || ''
       },
       inventoryInfos: Promise.all(
-        releaseGood.orderInventories.map(async (orderInv: OrderInventory) => {
-          if (orderInv?.inventory?.id) {
-            const inventory: Inventory = orderInv.inventory
-            return {
-              id: inventory.id,
-              name: inventory.name,
-              batchId: inventory.batchId,
-              palletId: inventory.palletId,
-              product: inventory.product,
-              productIdRef: inventory.product.id,
-              productName: `${inventory.product.name} (${inventory.product.description})`,
-              packingType: inventory.packingType,
-              location: inventory.location,
-              qty: inventory.qty,
-              weight: inventory.weight,
-              releaseQty: orderInv.releaseQty,
-              releaseWeight: orderInv.releaseWeight,
-              status: orderInv.status
-            }
-          } else {
-            const { batchId, product, packingType, releaseQty, releaseWeight } = orderInv
-            const productName: string = product.name
-            const { productIdRef } = await getProductId(roBizId, productName)
-            const { qty, weight } = await getAvailableAmount(roBizId, productIdRef, batchId, packingType)
+        releaseGood.orderInventories
+          .filter((ordInv: OrderInventory) => ordInv.status !== ORDER_INVENTORY_STATUS.CANCELLED)
+          .map(async (orderInv: OrderInventory) => {
+            if (orderInv?.inventory?.id) {
+              const inventory: Inventory = orderInv.inventory
+              return {
+                id: inventory.id,
+                name: inventory.name,
+                batchId: inventory.batchId,
+                palletId: inventory.palletId,
+                product: inventory.product,
+                productIdRef: inventory.product.id,
+                productName: `${inventory.product.name} (${inventory.product.description})`,
+                packingType: inventory.packingType,
+                location: inventory.location,
+                qty: inventory.qty,
+                weight: inventory.weight,
+                releaseQty: orderInv.releaseQty,
+                releaseWeight: orderInv.releaseWeight,
+                status: orderInv.status
+              }
+            } else {
+              const { batchId, product, packingType, releaseQty, releaseWeight } = orderInv
+              const productName: string = product.name
+              const { productIdRef } = await getProductId(roBizId, productName)
+              const { qty, weight } = await getAvailableAmount(roBizId, productIdRef, batchId, packingType)
 
-            return {
-              batchId,
-              productIdRef,
-              productName,
-              packingType,
-              qty,
-              weight,
-              releaseQty,
-              releaseWeight
+              return {
+                batchId,
+                productIdRef,
+                productName,
+                packingType,
+                qty,
+                weight,
+                releaseQty,
+                releaseWeight
+              }
             }
-          }
-        })
+          })
+
+        // releaseGood.orderInventories.map(async (orderInv: OrderInventory) => {
+        //   if (orderInv?.inventory?.id) {
+        //     const inventory: Inventory = orderInv.inventory
+        //     return {
+        //       id: inventory.id,
+        //       name: inventory.name,
+        //       batchId: inventory.batchId,
+        //       palletId: inventory.palletId,
+        //       product: inventory.product,
+        //       productIdRef: inventory.product.id,
+        //       productName: `${inventory.product.name} (${inventory.product.description})`,
+        //       packingType: inventory.packingType,
+        //       location: inventory.location,
+        //       qty: inventory.qty,
+        //       weight: inventory.weight,
+        //       releaseQty: orderInv.releaseQty,
+        //       releaseWeight: orderInv.releaseWeight,
+        //       status: orderInv.status
+        //     }
+        //   } else {
+        //     const { batchId, product, packingType, releaseQty, releaseWeight } = orderInv
+        //     const productName: string = product.name
+        //     const { productIdRef } = await getProductId(roBizId, productName)
+        //     const { qty, weight } = await getAvailableAmount(roBizId, productIdRef, batchId, packingType)
+
+        //     return {
+        //       batchId,
+        //       productIdRef,
+        //       productName,
+        //       packingType,
+        //       qty,
+        //       weight,
+        //       releaseQty,
+        //       releaseWeight
+        //     }
+        //   }
+        // })
       )
     }
   }
