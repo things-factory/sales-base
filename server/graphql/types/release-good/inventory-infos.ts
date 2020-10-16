@@ -16,5 +16,6 @@ export const InventoryInfos = gql`
     releaseWeight: Float
     inventoryName: String
     location: Location
+    status: String
   }
 `

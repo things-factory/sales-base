@@ -70,7 +70,8 @@ export const releaseGoodDetailResolver = {
               qty: inventory.qty,
               weight: inventory.weight,
               releaseQty: orderInv.releaseQty,
-              releaseWeight: orderInv.releaseWeight
+              releaseWeight: orderInv.releaseWeight,
+              status: orderInv.status
             }
           } else {
             const { batchId, product, packingType, releaseQty, releaseWeight } = orderInv
