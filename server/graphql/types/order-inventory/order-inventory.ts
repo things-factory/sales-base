@@ -9,6 +9,7 @@ export const OrderInventory = gql`
     description: String
     inventory: Inventory
     productIdRef: String
+    productId: String
     productName: String
     product: Product
     batchId: String
@@ -23,9 +24,13 @@ export const OrderInventory = gql`
     inspectedBatchNo: String
     arrivalNotice: ArrivalNotice
     releaseGood: ReleaseGood
+    releaseGoodName: String
     deliveryOrder: DeliveryOrder
+    returnOrder: ReturnOrder
     releaseQty: Float
     releaseWeight: Float
+    returnQty: Float
+    returnWeight: Float
     crossDocking: Boolean
     status: String
     updater: User

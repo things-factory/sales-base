@@ -4,7 +4,7 @@ import { Product } from '@things-factory/product-base'
 import { Domain } from '@things-factory/shell'
 import { Inventory, Location } from '@things-factory/warehouse-base'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { ArrivalNotice, DeliveryOrder, ReleaseGood } from '../entities'
+import { ArrivalNotice, DeliveryOrder, ReleaseGood, ReturnOrder } from '../entities'
 import { InventoryCheck } from './inventory-check'
 
 @Entity()
@@ -82,6 +82,9 @@ export class OrderInventory {
   @ManyToOne(type => DeliveryOrder)
   deliveryOrder: DeliveryOrder
 
+  @ManyToOne(type => ReturnOrder)
+  returnOrder: ReturnOrder
+
   @Column({ nullable: true })
   originQty: number
 
@@ -115,6 +118,12 @@ export class OrderInventory {
 
   @Column({ nullable: true, type: 'float' })
   releaseWeight: number
+
+  @Column({ nullable: true, type: 'float' })
+  returnQty: number
+
+  @Column({ nullable: true, type: 'float' })
+  returnWeight: number
 
   @Column({ nullable: true })
   crossDocking: boolean

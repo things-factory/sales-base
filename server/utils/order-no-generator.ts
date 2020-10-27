@@ -50,6 +50,13 @@ export class OrderNoGenerator {
     }${currentDate.getDate()}${currentDate.getHours()}${currentDate.getMinutes()}${currentDate.getSeconds()}${currentDate.getMilliseconds()}`
   }
 
+  static returnOrder() {
+    const currentDate = new Date()
+    return `RTO-${currentDate.getFullYear()}${
+      currentDate.getMonth() + 1
+    }${currentDate.getDate()}${currentDate.getHours()}${currentDate.getMinutes()}${currentDate.getSeconds()}${currentDate.getMilliseconds()}`
+  }
+
   static orderProduct() {
     return `OP-${uuid()}`
   }

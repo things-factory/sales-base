@@ -4,7 +4,7 @@ import { Product } from '@things-factory/product-base'
 import { Domain } from '@things-factory/shell'
 import { Inventory } from '@things-factory/warehouse-base'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { ArrivalNotice, ReleaseGood, ShippingOrder, Vas, VasOrder } from '../entities'
+import { ArrivalNotice, ReleaseGood, ReturnOrder, ShippingOrder, Vas, VasOrder } from '../entities'
 
 @Entity('order_vass')
 @Index('ix_order-vas_0', (orderVas: OrderVas) => [orderVas.domain, orderVas.name], {
@@ -62,6 +62,9 @@ export class OrderVas {
 
   @ManyToOne(type => ReleaseGood)
   releaseGood: ReleaseGood
+
+  @ManyToOne(type => ReturnOrder)
+  returnOrder: ReturnOrder
 
   @ManyToOne(type => ShippingOrder)
   shippingOrder: ShippingOrder
