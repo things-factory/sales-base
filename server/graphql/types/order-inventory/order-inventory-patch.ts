@@ -21,6 +21,8 @@ export const OrderInventoryPatch = gql`
     releaseWeight: Float
     returnQty: Float
     returnWeight: Float
+    actualPackQty: Float
+    actualPalletQty: Float
     remark: String
     issue: String
     crossDocking: Boolean

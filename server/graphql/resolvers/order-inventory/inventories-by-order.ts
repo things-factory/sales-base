@@ -53,6 +53,7 @@ export const inventoriesByOrderResolver = {
     items = items.map((item: OrderInventory) => {
       return {
         ...item,
+        id: item.inventory.id,
         releaseGoodName: item.releaseGood.name,
         productId: item.product.id,
         productName: item.product.name

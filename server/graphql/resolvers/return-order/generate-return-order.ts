@@ -18,6 +18,7 @@ export const generateReturnOrder = {
       const bizplace: Bizplace = await getMyBizplace(user)
       let orderInventories: OrderInventory[] = returnOrder.orderInventories
       let orderVass: OrderVas[] = returnOrder.orderVass
+      let foundInv = Inventory
 
       let newReturnOrder: ReturnOrder = {
         ...returnOrder,
@@ -41,6 +42,11 @@ export const generateReturnOrder = {
         newOrderInv.product = await trxMgr.getRepository(Product).findOne(oi.product.id)
         newOrderInv.creator = user
         newOrderInv.updater = user
+
+        if (newOrderInv.inventory?.id) {
+          foundInv = await trxMgr.getRepository(Inventory).findOne(newOrderInv.inventory.id)
+          newOrderInv.inventory = foundInv
+        }
 
         await trxMgr.getRepository(OrderInventory).save(newOrderInv)
       }

@@ -126,6 +126,12 @@ export class OrderInventory {
   returnWeight: number
 
   @Column({ nullable: true })
+  actualPackQty: number
+
+  @Column({ nullable: true })
+  actualPalletQty: number
+
+  @Column({ nullable: true })
   crossDocking: boolean
 
   @Column()
