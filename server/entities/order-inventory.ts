@@ -30,6 +30,11 @@ import { InventoryCheck } from './inventory-check'
   (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.deliveryOrder, orderInventory.inventory],
   { unique: true }
 )
+@Index(
+  'ix_order-inventory_4',
+  (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.releaseGood, orderInventory.deliveryOrder, orderInventory.inventory],
+  { unique: true }
+)
 export class OrderInventory {
   @PrimaryGeneratedColumn('uuid')
   id: string
