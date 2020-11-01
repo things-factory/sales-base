@@ -56,7 +56,7 @@ export async function generateDeliveryOrder(
     name: orderNo,
     bizplace: customerBizplace,
     releaseGood,
-    ownCollection: releaseGood.ownTransport,
+    ownCollection: orderInfo.ownCollection,
     truckNo: orderInfo?.truckNo || null,
     palletQty: orderInfo?.palletQty || null,
     transportVehicle,
