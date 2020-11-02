@@ -52,15 +52,19 @@ export async function deleteReleaseGood(trxMgr: EntityManager, name: string, con
 
   // Delete order inventories by ids
   if (inventoryIds.length) {
-    let inventories: Inventory[] = foundOIs.map((orderInventory: OrderInventory) => orderInventory.inventory)
-    inventories = inventories.filter(Boolean).map((inventory: Inventory) => {
-      inventory.lockedQty = 0
-      inventory.lockedWeight = 0
-      inventory.updater = user
+    foundOIs.map(async (oi: OrderInventory) => {
+      if (oi?.inventory?.id) {
+        oi.inventory = await trxMgr.getRepository(Inventory).findOne(oi.inventory.id)
 
-      return inventory
+        await trxMgr.getRepository(Inventory).save({
+          ...oi.inventory,
+          lockedQty: oi.inventory.lockedQty - oi.releaseQty,
+          lockedWeight: oi.inventory.lockedWeight - oi.releaseWeight,
+          updater: user
+        })
+      }
+      return oi
     })
-    await trxMgr.getRepository(Inventory).save(inventories)
     await trxMgr.getRepository(OrderInventory).delete({ id: In(inventoryIds) })
   }
 
