@@ -13,11 +13,6 @@ import { InventoryCheck } from './inventory-check'
 })
 @Index(
   'ix_order-inventory_1',
-  (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.releaseGood, orderInventory.inventory],
-  { unique: true }
-)
-@Index(
-  'ix_order-inventory_2',
   (orderInventory: OrderInventory) => [
     orderInventory.bizplace,
     orderInventory.inventoryCheck,
@@ -26,7 +21,7 @@ import { InventoryCheck } from './inventory-check'
   { unique: true }
 )
 @Index(
-  'ix_order-inventory_3',
+  'ix_order-inventory_2',
   (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.deliveryOrder, orderInventory.inventory],
   { unique: true }
 )
