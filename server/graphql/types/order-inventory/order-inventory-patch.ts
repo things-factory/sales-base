@@ -6,6 +6,7 @@ export const OrderInventoryPatch = gql`
     name: String
     description: String
     type: String
+    productName: String
     arrivalNotice: ObjectRef
     deliveryOrder: ObjectRef
     inventory: ObjectRef

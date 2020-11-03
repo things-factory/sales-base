@@ -4,6 +4,7 @@ import { createDeliveryOrder } from './create-delivery-order'
 import { deleteDeliveryOrder } from './delete-delivery-order'
 import { deliveryOrderResolver } from './delivery-order'
 import { deliveryOrderByReleaseGoodResolver } from './delivery-order-by-release-good'
+import { deliveryOrderItemsResolver } from './delivery-order-items'
 import { deliveryOrderRequestsResolver } from './delivery-order-requests'
 import { deliveryOrdersResolver } from './delivery-orders'
 import { dispatchDeliveryOrder } from './dispatch-delivery-order'
@@ -17,7 +18,8 @@ export const Query = {
   ...deliveryOrdersResolver,
   ...deliveryOrderResolver,
   ...deliveryOrderRequestsResolver,
-  ...deliveryOrderByReleaseGoodResolver
+  ...deliveryOrderByReleaseGoodResolver,
+  ...deliveryOrderItemsResolver
 }
 
 export const Mutation = {
