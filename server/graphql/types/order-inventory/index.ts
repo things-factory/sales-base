@@ -25,6 +25,7 @@ export const Mutation = `
 export const Query = `
   orderInventories(filters: [Filter], pagination: Pagination, sortings: [Sorting]): OrderInventoryList
   orderInventory(name: String!): OrderInventory
+  inventoriesByOrder(filters: [Filter], pagination: Pagination, sortings: [Sorting]): OrderInventoryList
 `
 
 export const Types = [OrderInventory, NewOrderInventory, OrderInventoryPatch, OrderInventoryList]

@@ -16,6 +16,7 @@ import * as QuotationItemOption from './quotation-item-option'
 import * as QuotationPromotion from './quotation-promotion'
 import * as ShippingOrder from './shipping-order'
 import * as ReleaseGood from './release-good'
+import * as ReturnOrder from './return-order'
 import * as Vas from './vas'
 import * as Claim from './claim'
 import * as ClaimDetail from './claim-detail'
@@ -41,6 +42,7 @@ export const queries = [
   OrderProduct.Query,
   OrderVas.Query,
   ReleaseGood.Query,
+  ReturnOrder.Query,
   Claim.Query,
   ClaimDetail.Query,
   ClaimOrder.Query,
@@ -67,6 +69,7 @@ export const mutations = [
   OrderProduct.Mutation,
   OrderVas.Mutation,
   ReleaseGood.Mutation,
+  ReturnOrder.Mutation,
   Claim.Mutation,
   ClaimDetail.Mutation,
   ClaimOrder.Mutation,
@@ -97,6 +100,7 @@ export const types = [
   ...OrderProduct.Types,
   ...OrderVas.Types,
   ...ReleaseGood.Types,
+  ...ReturnOrder.Types,
   ...Claim.Types,
   ...ClaimDetail.Types,
   ...ClaimOrder.Types,

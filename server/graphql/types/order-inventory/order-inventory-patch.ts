@@ -9,6 +9,7 @@ export const OrderInventoryPatch = gql`
     productName: String
     arrivalNotice: ObjectRef
     deliveryOrder: ObjectRef
+    returnOrder: ObjectRef
     inventory: ObjectRef
     inspectedQty: Int
     inspectedWeight: Float
@@ -19,6 +20,10 @@ export const OrderInventoryPatch = gql`
     packingType: String
     releaseQty: Float
     releaseWeight: Float
+    returnQty: Float
+    returnWeight: Float
+    actualPackQty: Float
+    actualPalletQty: Float
     remark: String
     issue: String
     crossDocking: Boolean
