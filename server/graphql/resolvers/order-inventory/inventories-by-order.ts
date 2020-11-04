@@ -7,6 +7,8 @@ import { releaseGoodDetailResolver } from '../release-good/release-good-detail'
 export const inventoriesByOrderResolver = {
   async inventoriesByOrder(_: any, params: ListParam, context: any) {
     let permittedBizplaceIds: string[] = await getPermittedBizplaceIds(context.state.domain, context.state.user)
+    let items = []
+    let total = 0
 
     if (!params.filters.find((filter: any) => filter.name === 'bizplace')) {
       params.filters.push({
@@ -35,31 +37,36 @@ export const inventoriesByOrderResolver = {
         value: releaseGood.id,
         relation: true
       })
+
+      const qb: SelectQueryBuilder<OrderInventory> = getRepository(OrderInventory).createQueryBuilder('oi')
+      buildQuery(qb, params, context)
+
+      qb.leftJoinAndSelect('oi.domain', 'domain')
+        .leftJoinAndSelect('oi.bizplace', 'bizplace')
+        .leftJoinAndSelect('oi.product', 'product')
+        .leftJoinAndSelect('oi.inventory', 'inventory')
+        .leftJoinAndSelect('oi.releaseGood', 'releaseGood')
+        .leftJoinAndSelect('oi.creator', 'creator')
+        .leftJoinAndSelect('oi.updater', 'updater')
+
+      let [items, total] = await qb.getManyAndCount()
+
+      items = items.map((item: OrderInventory) => {
+        return {
+          ...item,
+          id: item.inventory.id,
+          releaseGoodName: item.releaseGood.name,
+          productId: item.product.id,
+          productName: item.product.name
+        }
+      })
+
+      return { items, total }
+    } else {
+      let items = []
+      let total = 0
+
+      return { items, total }
     }
-
-    const qb: SelectQueryBuilder<OrderInventory> = getRepository(OrderInventory).createQueryBuilder('oi')
-    buildQuery(qb, params, context)
-
-    qb.leftJoinAndSelect('oi.domain', 'domain')
-      .leftJoinAndSelect('oi.bizplace', 'bizplace')
-      .leftJoinAndSelect('oi.product', 'product')
-      .leftJoinAndSelect('oi.inventory', 'inventory')
-      .leftJoinAndSelect('oi.releaseGood', 'releaseGood')
-      .leftJoinAndSelect('oi.creator', 'creator')
-      .leftJoinAndSelect('oi.updater', 'updater')
-
-    let [items, total] = await qb.getManyAndCount()
-
-    items = items.map((item: OrderInventory) => {
-      return {
-        ...item,
-        id: item.inventory.id,
-        releaseGoodName: item.releaseGood.name,
-        productId: item.product.id,
-        productName: item.product.name
-      }
-    })
-
-    return { items, total }
   }
 }
