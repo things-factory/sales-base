@@ -40,6 +40,7 @@ export const Mutation = `
 
   dispatchDeliveryOrder (
     orderInfo: DeliveryOrderPatch
+    orderItems: [OrderInventoryPatch]
   ): DeliveryOrder
 
   rejectDeliveryOrder (
@@ -58,7 +59,7 @@ export const Query = `
   deliveryOrder(name: String!): DeliveryOrder
   deliveryOrderRequests(filters: [Filter], pagination: Pagination, sortings: [Sorting]): DeliveryOrderList
   deliveryOrderByReleaseGood(releaseGoodNo: String!): DeliveryOrderList
-
+  deliveryOrderItems(name: String!): OrderInventoryList
 `
 
 export const Types = [DeliveryOrder, NewDeliveryOrder, DeliveryOrderPatch, DeliveryOrderList, GenerateDeliveryOrder]

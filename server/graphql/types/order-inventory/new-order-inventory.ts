@@ -7,12 +7,17 @@ export const NewOrderInventory = gql`
     type: String
     arrivalNotice: ObjectRef
     deliveryOrder: ObjectRef
+    returnOrder: ObjectRef
     inventory: ObjectRef
     product: ObjectRef
     batchId: String
     packingType: String
     releaseQty: Float
     releaseWeight: Float
+    returnQty: Float
+    returnWeight: Float
+    actualPackQty: Float
+    actualPalletQty: Float
     remark: String
     issue: String
     crossDocking: Boolean

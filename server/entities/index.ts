@@ -21,6 +21,7 @@ import { ClaimDetail } from './claim-detail'
 import { ClaimOrder } from './claim-order'
 import { VasOrder } from './vas-order'
 import { GoodsReceivalNote } from './goods-receival-note'
+import { ReturnOrder } from './return-order'
 
 export const entities = [
   ArrivalNotice,
@@ -45,7 +46,8 @@ export const entities = [
   ClaimDetail,
   ClaimOrder,
   VasOrder,
-  GoodsReceivalNote
+  GoodsReceivalNote,
+  ReturnOrder
 ]
 
 export {
@@ -71,5 +73,6 @@ export {
   ClaimDetail,
   ClaimOrder,
   VasOrder,
-  GoodsReceivalNote
+  GoodsReceivalNote,
+  ReturnOrder
 }

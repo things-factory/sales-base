@@ -4,7 +4,7 @@ import { Product } from '@things-factory/product-base'
 import { Domain } from '@things-factory/shell'
 import { Inventory, Location } from '@things-factory/warehouse-base'
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { ArrivalNotice, DeliveryOrder, ReleaseGood } from '../entities'
+import { ArrivalNotice, DeliveryOrder, ReleaseGood, ReturnOrder } from '../entities'
 import { InventoryCheck } from './inventory-check'
 
 @Entity()
@@ -13,11 +13,6 @@ import { InventoryCheck } from './inventory-check'
 })
 @Index(
   'ix_order-inventory_1',
-  (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.releaseGood, orderInventory.inventory],
-  { unique: true }
-)
-@Index(
-  'ix_order-inventory_2',
   (orderInventory: OrderInventory) => [
     orderInventory.bizplace,
     orderInventory.inventoryCheck,
@@ -26,8 +21,13 @@ import { InventoryCheck } from './inventory-check'
   { unique: true }
 )
 @Index(
-  'ix_order-inventory_3',
+  'ix_order-inventory_2',
   (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.deliveryOrder, orderInventory.inventory],
+  { unique: true }
+)
+@Index(
+  'ix_order-inventory_4',
+  (orderInventory: OrderInventory) => [orderInventory.bizplace, orderInventory.releaseGood, orderInventory.deliveryOrder, orderInventory.inventory],
   { unique: true }
 )
 export class OrderInventory {
@@ -82,6 +82,9 @@ export class OrderInventory {
   @ManyToOne(type => DeliveryOrder)
   deliveryOrder: DeliveryOrder
 
+  @ManyToOne(type => ReturnOrder)
+  returnOrder: ReturnOrder
+
   @Column({ nullable: true })
   originQty: number
 
@@ -115,6 +118,18 @@ export class OrderInventory {
 
   @Column({ nullable: true, type: 'float' })
   releaseWeight: number
+
+  @Column({ nullable: true, type: 'float' })
+  returnQty: number
+
+  @Column({ nullable: true, type: 'float' })
+  returnWeight: number
+
+  @Column({ nullable: true })
+  actualPackQty: number
+
+  @Column({ nullable: true })
+  actualPalletQty: number
 
   @Column({ nullable: true })
   crossDocking: boolean
