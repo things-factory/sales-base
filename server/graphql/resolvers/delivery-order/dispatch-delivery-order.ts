@@ -52,7 +52,7 @@ export const dispatchDeliveryOrder = {
           foundCP = await trxMgr.getRepository(ContactPoint).save(foundCP)
         } else {
           foundCP = await trxMgr.getRepository(ContactPoint).findOne({
-            where: { domain, name: orderInfo.contactPoint, bizplace: foundDeliveryOrder.bizplace }
+            where: { domain, id: orderInfo.contactPoint, bizplace: foundDeliveryOrder.bizplace }
           })
         }
 
