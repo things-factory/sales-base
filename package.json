@@ -1,6 +1,6 @@
 {
   "name": "@things-factory/sales-base",
-  "version": "2.7.0-uat.4",
+  "version": "2.7.0-uat.5",
   "main": "dist-server/index.js",
   "browser": "client/index.js",
   "things-factory": true,
@@ -27,10 +27,10 @@
     "@things-factory/auth-base": "^2.0.0",
     "@things-factory/biz-base": "^2.2.0",
     "@things-factory/code-base": "^2.0.0",
-    "@things-factory/product-base": "^2.5.0",
+    "@things-factory/product-base": "^2.7.0-uat.0  <2.7.0",
     "@things-factory/shell": "^2.0.0",
     "@things-factory/transport-base": "^2.0.0",
-    "@things-factory/warehouse-base": "^2.7.0"
+    "@things-factory/warehouse-base": "^2.7.0-uat.0  <2.7.0"
   },
   "devDependencies": {}
 }
