@@ -6,6 +6,7 @@ export const VasPatch = gql`
     name: String
     description: String
     uom: String
+    type: String
     currency: String
     defaultPrice: Float
     operationGuideType: String
