@@ -14,8 +14,10 @@ export const NewOrderInventory = gql`
     packingType: String
     releaseQty: Float
     releaseWeight: Float
+    releaseStdUnitValue: Float
     returnQty: Float
     returnWeight: Float
+    returnStdUnitValue: Float
     actualPackQty: Float
     actualPalletQty: Float
     remark: String

@@ -9,6 +9,7 @@ export const CollectionOrderPatch = gql`
     to: String
     refNo: String
     loadWeight: Float
+    loadStdUnitValue: Float
     urgency: Boolean
     looseItem: Boolean
     cargoType: String

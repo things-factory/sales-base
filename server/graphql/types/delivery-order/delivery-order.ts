@@ -8,6 +8,7 @@ export const DeliveryOrder = gql`
     releaseGood: ReleaseGood
     name: String
     loadWeight: Float
+    loadStdUnitValue: Float
     urgency: Boolean
     cargoType: String
     from: String

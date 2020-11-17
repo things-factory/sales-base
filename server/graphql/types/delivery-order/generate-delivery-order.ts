@@ -6,6 +6,7 @@ export const GenerateDeliveryOrder = gql`
     from: String
     to: String
     loadWeight: Float
+    loadStdUnitValue: Float
     urgency: Boolean
     cargoType: String
     ownCollection: Boolean

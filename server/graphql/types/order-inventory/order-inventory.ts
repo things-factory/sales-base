@@ -17,7 +17,9 @@ export const OrderInventory = gql`
     originQty: Int
     inspectedQty: Int
     originWeight: Float
+    originStdUnitValue: Float
     inspectedWeight: Float
+    inspectedStdUnitValue: Float
     originLocation: Location
     inspectedLocation: Location
     remark: String
@@ -32,8 +34,10 @@ export const OrderInventory = gql`
     returnOrder: ReturnOrder
     releaseQty: Float
     releaseWeight: Float
+    releaseStdUnitValue: Float
     returnQty: Float
     returnWeight: Float
+    returnStdUnitValue: Float
     actualPackQty: Float
     actualPalletQty: Float
     crossDocking: Boolean

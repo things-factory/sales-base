@@ -52,6 +52,9 @@ export class OrderVas {
   weight: number
 
   @Column({ nullable: true })
+  stdUnitValue: number
+
+  @Column({ nullable: true })
   productName: string
 
   @Column({ nullable: true })

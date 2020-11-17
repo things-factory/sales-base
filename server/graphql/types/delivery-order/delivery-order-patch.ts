@@ -9,6 +9,7 @@ export const DeliveryOrderPatch = gql`
     to: String
     refNo: String
     loadWeight: Float
+    loadStdUnitValue: Float
     contactName: String
     urgency: Boolean
     ownCollection: Boolean

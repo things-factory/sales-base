@@ -78,7 +78,7 @@ export const generateReleaseGood = {
           newOrderInv.inventory = foundInv
 
           foundInv.lockedQty = Number(foundInv.lockedQty) + newOrderInv.releaseQty
-          foundInv.lockedWeight = Number(foundInv.lockedWeight) + newOrderInv.releaseWeight
+          foundInv.lockedStdUnitValue = Number(foundInv.lockedStdUnitValue) + newOrderInv.releaseStdUnitValue
           foundInv.updater = user
 
           await trxMgr.getRepository(Inventory).save(foundInv)

@@ -36,7 +36,7 @@ export async function deleteReturnOrder(trxMgr: EntityManager, name: string, con
     })
   }
 
-  // Update locked qty and locked weight of inventories and return id list of order inventories
+  // Update locked qty and locked stdUnitValue of inventories and return id list of order inventories
   const inventoryIds: string[] = foundOIs.map((oi: OrderInventory) => oi.id)
 
   // Delete order inventories by ids

@@ -10,6 +10,7 @@ export const NewCollectionOrder = gql`
     refNo: String
     telNo: String
     loadWeight: Float
+    loadStdUnitValue: Float
     urgency: Boolean
     cargoType: String
     looseItem: Boolean

@@ -81,10 +81,16 @@ export class OrderProduct {
   @Column()
   packingType: string
 
-  @Column()
+  @Column({nullable: true})
   unit: string
 
-  @Column('float')
+  @Column({nullable: true})
+  stdUnit: string
+
+  @Column('float', {nullable: true})
+  stdUnitValue: number
+
+  @Column('float', {nullable: true})
   weight: number
 
   @Column()
@@ -100,6 +106,9 @@ export class OrderProduct {
   actualPalletQty: number
 
   @Column({ nullable: true })
+  totalStdUnitValue: string
+
+  @Column({ nullable: true })
   totalWeight: string
 
   @Column({ nullable: true })
@@ -107,6 +116,9 @@ export class OrderProduct {
 
   @Column({ nullable: true })
   releaseWeight: number
+
+  @Column({ nullable: true })
+  releaseStdUnitValue: number
 
   @Column({ nullable: true })
   remark: string

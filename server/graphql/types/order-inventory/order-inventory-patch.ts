@@ -13,6 +13,7 @@ export const OrderInventoryPatch = gql`
     inventory: ObjectRef
     inspectedQty: Int
     inspectedWeight: Float
+    inspectedStdUnitValue: Float
     inspectedLocation: ObjectRef
     inspectedBatchNo: String
     product: ObjectRef
@@ -20,8 +21,10 @@ export const OrderInventoryPatch = gql`
     packingType: String
     releaseQty: Float
     releaseWeight: Float
+    releaseStdUnitValue: Float
     returnQty: Float
     returnWeight: Float
+    returnStdUnitValue: Float
     actualPackQty: Float
     actualPalletQty: Float
     remark: String
