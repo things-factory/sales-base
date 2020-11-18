@@ -172,6 +172,7 @@ async function getAvailableAmount(
         AND oi.batch_id NOTNULL
         AND oi.product_id NOTNULL
         AND oi.packing_type NOTNULL
+        AND oi.inventory_id IS NULL
       GROUP BY
         oi.product_id,
         oi.batch_id,
