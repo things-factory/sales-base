@@ -21,6 +21,7 @@ export const deliveryOrderItemsResolver = {
       const inventory: Inventory = oi.inventory
       const product: Product = inventory.product
       return {
+        inventory: inventory,
         productName: `${product.name} (${product.description})`,
         packingType: inventory.packingType,
         batchId: inventory.batchId,
@@ -40,6 +41,7 @@ export const deliveryOrderItemsResolver = {
       )
       if (!foundItem) {
         foundItem = {
+          inventory: item.inventory,
           productName: item.productName,
           packingType: item.packingType,
           batchId: item.batchId,

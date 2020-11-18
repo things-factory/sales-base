@@ -27,7 +27,7 @@ export const dispatchDeliveryOrder = {
         orderInventories = orderInventories.map((orderInventory: OrderInventory)=> {
           const inventory: Inventory = orderInventory.inventory
           const product: Product = inventory.product
-          const foundItem = orderItems.filter((item: any) => item.productName === `${product.name} (${product.description})`)
+          const foundItem = orderItems.filter((item: any) => item.productName === `${product.name} (${product.description})` && item.inventory.id === inventory.id)
           
           if (foundItem[0].remark !== '') orderInventory.remark = foundItem[0].remark
           return orderInventory
