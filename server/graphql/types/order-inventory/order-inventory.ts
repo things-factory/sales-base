@@ -42,5 +42,6 @@ export const OrderInventory = gql`
     creator: User
     updatedAt: String
     createdAt: String
+    pallet: String
   }
 `

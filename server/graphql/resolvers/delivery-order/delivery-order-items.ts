@@ -3,6 +3,7 @@ import { getRepository } from 'typeorm'
 import { DeliveryOrder, OrderInventory } from '../../../entities'
 import { Product } from '@things-factory/product-base'
 import { Inventory } from '@things-factory/warehouse-base'
+import { inventoryCheckResolver } from '../inventory-check/inventory-check'
 
 export const deliveryOrderItemsResolver = {
   async deliveryOrderItems(_: any, { name }, context: any) {
@@ -41,7 +42,6 @@ export const deliveryOrderItemsResolver = {
       )
       if (!foundItem) {
         foundItem = {
-          inventory: item.inventory,
           productName: item.productName,
           packingType: item.packingType,
           batchId: item.batchId,
@@ -50,7 +50,7 @@ export const deliveryOrderItemsResolver = {
           palletQty: 1,
           remark: item.remark,
           crossDocking: item.crossDocking,
-          pallet: item.pallet
+          pallet: item.pallet,
         }
 
         newItem.push(foundItem)

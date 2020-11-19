@@ -28,5 +28,6 @@ export const OrderInventoryPatch = gql`
     issue: String
     crossDocking: Boolean
     status: String
+    pallet: String
   }
 `

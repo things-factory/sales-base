@@ -21,14 +21,14 @@ export const dispatchDeliveryOrder = {
         let orderInventories: OrderInventory[]
         orderInventories = await trxMgr.getRepository(OrderInventory).find({
           where: { domain, deliveryOrder: foundDeliveryOrder },
-          relations: ['inventory', 'inventory.product']
+          relations: ['inventory', 'inventory.product', 'inventory.reusablePallet']
         })
 
         orderInventories = orderInventories.map((orderInventory: OrderInventory)=> {
           const inventory: Inventory = orderInventory.inventory
           const product: Product = inventory.product
-          const foundItem = orderItems.filter((item: any) => (item.productName === `${product.name} (${product.description})`) && (item.inventory.id === inventory.id))       
-
+          const foundItem = inventory.reusablePallet ? orderItems.filter((item: any) => item.productName === `${product.name} (${product.description})` && item.pallet === inventory.reusablePallet.name) : orderItems.filter((item: any) => item.productName === `${product.name} (${product.description})`)
+          
           if (foundItem[0].remark !== '') orderInventory.remark = foundItem[0].remark
           return orderInventory
         })
