@@ -26,7 +26,7 @@ export const deliveryOrderItemsResolver = {
         packingType: inventory.packingType,
         batchId: inventory.batchId,
         releaseQty: oi.releaseQty,
-        releaseStdUnitValue: oi.releaseStdUnitValue,
+        releaseUomValue: oi.releaseUomValue,
         remark: oi.remark,
         crossDocking: oi.crossDocking,
         pallet: inventory?.reusablePallet && inventory?.reusablePallet?.name ? inventory.reusablePallet.name : ''
@@ -46,7 +46,7 @@ export const deliveryOrderItemsResolver = {
           packingType: item.packingType,
           batchId: item.batchId,
           releaseQty: item.releaseQty,
-          releaseStdUnitValue: item.releaseStdUnitValue,
+          releaseUomValue: item.releaseUomValue,
           palletQty: 1,
           remark: item.remark,
           crossDocking: item.crossDocking,
@@ -67,7 +67,7 @@ export const deliveryOrderItemsResolver = {
               ...ni,
               palletQty: ni.palletQty + 1,
               releaseQty: ni.releaseQty + item.releaseQty,
-              releaseStdUnitValue: ni.releaseStdUnitValue + item.releaseStdUnitValue
+              releaseUomValue: ni.releaseUomValue + item.releaseUomValue
             }
           } else {
             return ni

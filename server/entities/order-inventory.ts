@@ -98,10 +98,10 @@ export class OrderInventory {
   inspectedWeight: number
 
   @Column({ nullable: true, type: 'float' })
-  originStdUnitValue: number
+  originUomValue: number
 
   @Column({ nullable: true, type: 'float' })
-  inspectedStdUnitValue: number
+  inspectedUomValue: number
 
   @Column({ nullable: true })
   originBatchNo: string
@@ -126,7 +126,7 @@ export class OrderInventory {
   releaseWeight: number
 
   @Column({ nullable: true, type: 'float' })
-  releaseStdUnitValue: number
+  releaseUomValue: number
 
   @Column({ nullable: true, type: 'float' })
   returnQty: number
@@ -135,7 +135,7 @@ export class OrderInventory {
   returnWeight: number
 
   @Column({ nullable: true, type: 'float' })
-  returnStdUnitValue: number
+  returnUomValue: number
 
   @Column({ nullable: true })
   actualPackQty: number

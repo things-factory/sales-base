@@ -60,7 +60,7 @@ export class CollectionOrder {
   @Column('float', {
     nullable: true
   })
-  loadStdUnitValue: Number
+  loadUomValue: Number
 
   @Column({
     nullable: true

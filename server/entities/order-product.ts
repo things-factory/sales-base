@@ -85,10 +85,10 @@ export class OrderProduct {
   unit: string
 
   @Column({nullable: true})
-  stdUnit: string
+  uom: string
 
   @Column('float', {nullable: true})
-  stdUnitValue: number
+  uomValue: number
 
   @Column('float', {nullable: true})
   weight: number
@@ -106,7 +106,7 @@ export class OrderProduct {
   actualPalletQty: number
 
   @Column({ nullable: true })
-  totalStdUnitValue: string
+  totalUomValue: string
 
   @Column({ nullable: true })
   totalWeight: string
@@ -118,7 +118,7 @@ export class OrderProduct {
   releaseWeight: number
 
   @Column({ nullable: true })
-  releaseStdUnitValue: number
+  releaseUomValue: number
 
   @Column({ nullable: true })
   remark: string

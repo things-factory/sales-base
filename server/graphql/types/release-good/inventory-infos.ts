@@ -11,15 +11,15 @@ export const InventoryInfos = gql`
     product: Product
     packingType: String
     qty: Int
-    stdUnit: String
+    uom: String
     weight: Float
-    stdUnitValue: Float
+    uomValue: Float
     releaseQty: Float
     releaseWeight: Float
-    releaseStdUnitValue: Float
+    releaseUomValue: Float
     returnQty: Float
     returnWeight: Float
-    returnStdUnitValue: Float
+    returnUomValue: Float
     inventoryName: String
     location: Location
     status: String

@@ -73,7 +73,7 @@ export class DeliveryOrder {
   @Column('float', {
     nullable: true
   })
-  loadStdUnitValue: Number
+  loadUomValue: Number
 
   @ManyToOne(type => TransportDriver)
   transportDriver: TransportDriver

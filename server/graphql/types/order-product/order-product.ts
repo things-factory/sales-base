@@ -22,18 +22,18 @@ export const OrderProduct = gql`
     adjustedPalletQty: Int
     packingType: String
     unit: String
-    stdUnit: String
-    stdUnitValue: Float
+    uom: String
+    uomValue: Float
     weight: Float
     packQty: Int
     actualPackQty: Int
     palletQty: Int
     actualPalletQty: Int
     totalWeight: String
-    totalStdUnitValue: String
+    totalUomValue: String
     releaseQty: Int
     releaseWeight: Float
-    releaseStdUnitValue: Float
+    releaseUomValue: Float
     remark: String
     issue: String
     status: String
