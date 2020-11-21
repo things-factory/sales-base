@@ -57,6 +57,11 @@ export class CollectionOrder {
   })
   loadWeight: Number
 
+  @Column('float', {
+    nullable: true
+  })
+  loadUomValue: Number
+
   @Column({
     nullable: true
   })

@@ -11,6 +11,7 @@ export const NewDeliveryOrder = gql`
     looseItem: Boolean
     telNo: String
     loadWeight: Float
+    loadUomValue: Float
     urgency: Boolean
     cargoType: String
     status: String!

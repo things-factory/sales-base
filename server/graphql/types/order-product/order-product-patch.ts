@@ -19,15 +19,18 @@ export const OrderProductPatch = gql`
     adjustedBatchId: String
     adjustedPalletQty: Int
     packingType: String
-    unit: String
+    uom: String
+    uomValue: Float
     weight: Float
     packQty: Int
     actualPackQty: Int
     palletQty: Int
     actualPalletQty: Int
     totalWeight: String
+    totalUomValue: String
     releaseQty: Int
     releaseWeight: Float
+    releaseUomValue: Float
     remark: String
     issue: String
     status: String

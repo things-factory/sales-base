@@ -70,6 +70,11 @@ export class DeliveryOrder {
   })
   loadWeight: Number
 
+  @Column('float', {
+    nullable: true
+  })
+  loadUomValue: Number
+
   @ManyToOne(type => TransportDriver)
   transportDriver: TransportDriver
 

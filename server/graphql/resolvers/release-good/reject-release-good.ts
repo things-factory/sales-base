@@ -44,8 +44,8 @@ export async function rejectReleaseGood(
 
             await trxMgr.getRepository(Inventory).save({
               ...oi.inventory,
-              lockedQty: oi.inventory.lockedQty - oi.releaseQty,
-              lockedWeight: oi.inventory.lockedWeight - oi.releaseWeight,
+              lockedQty: oi.inventory.qty - oi.releaseQty,
+              lockedUomValue: oi.inventory.uomValue - oi.releaseUomValue,
               updater: user
             })
           }

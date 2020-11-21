@@ -25,7 +25,7 @@ export const releasableInventoriesResolver = {
         ${INV_ALIAS}.batch_id,
         ${INV_ALIAS}.packing_type,
         (SUM(COALESCE(${INV_ALIAS}.qty, 0)) - SUM(COALESCE(${INV_ALIAS}.locked_qty, 0))) as remain_qty,
-        (SUM(COALESCE(${INV_ALIAS}.weight, 0)) - SUM(COALESCE(${INV_ALIAS}.locked_weight, 0))) as remain_weight,
+        (SUM(COALESCE(${INV_ALIAS}.uomValue, 0)) - SUM(COALESCE(${INV_ALIAS}.locked_uom_value, 0))) as remain_uom_value,
         ${PROD_ALIAS}.id as product_id,
         ${PROD_ALIAS}.name as product_name,
         ${GAN_ALIAS}.container_no
@@ -98,7 +98,7 @@ export const releasableInventoriesResolver = {
         batchId: item.batch_id,
         packingType: item.packing_type,
         remainQty: item.remain_qty,
-        remainWeight: item.remain_weight,
+        remainUomValue: item.remain_uom_value,
         productName: item.product_name,
         product: {
           id: item.product_id,

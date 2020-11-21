@@ -47,7 +47,7 @@ export async function deleteReleaseGood(trxMgr: EntityManager, name: string, con
     })
   }
 
-  // Update locked qty and locked weight of inventories and return id list of order inventories
+  // Update locked qty and locked uomValue of inventories and return id list of order inventories
   const inventoryIds: string[] = foundOIs.map((oi: OrderInventory) => oi.id)
 
   // Delete order inventories by ids
@@ -59,7 +59,7 @@ export async function deleteReleaseGood(trxMgr: EntityManager, name: string, con
         await trxMgr.getRepository(Inventory).save({
           ...oi.inventory,
           lockedQty: oi.inventory.lockedQty - oi.releaseQty,
-          lockedWeight: oi.inventory.lockedWeight - oi.releaseWeight,
+          lockedUomValue: oi.inventory.lockedUomValue - oi.releaseUomValue,
           updater: user
         })
       }

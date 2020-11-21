@@ -27,7 +27,7 @@ export const deliveryOrderItemsResolver = {
         packingType: inventory.packingType,
         batchId: inventory.batchId,
         releaseQty: oi.releaseQty,
-        releaseWeight: oi.releaseWeight,
+        releaseUomValue: oi.releaseUomValue,
         remark: oi.remark,
         crossDocking: oi.crossDocking,
         pallet: inventory?.reusablePallet && inventory?.reusablePallet?.name ? inventory.reusablePallet.name : ''
@@ -42,11 +42,12 @@ export const deliveryOrderItemsResolver = {
       )
       if (!foundItem) {
         foundItem = {
+          inventory: item.inventory,
           productName: item.productName,
           packingType: item.packingType,
           batchId: item.batchId,
           releaseQty: item.releaseQty,
-          releaseWeight: item.releaseWeight,
+          releaseUomValue: item.releaseUomValue,
           palletQty: 1,
           remark: item.remark,
           crossDocking: item.crossDocking,
@@ -67,7 +68,7 @@ export const deliveryOrderItemsResolver = {
               ...ni,
               palletQty: ni.palletQty + 1,
               releaseQty: ni.releaseQty + item.releaseQty,
-              releaseWeight: ni.releaseWeight + item.releaseWeight
+              releaseUomValue: ni.releaseUomValue + item.releaseUomValue
             }
           } else {
             return ni

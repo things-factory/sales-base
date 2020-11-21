@@ -62,16 +62,16 @@ export const returnOrderDetailResolver = {
                 packingType: inventory.packingType,
                 location: inventory.location,
                 qty: inventory.qty,
-                weight: inventory.weight,
+                uomValue: inventory.uomValue,
                 returnQty: orderInv.returnQty,
-                returnWeight: orderInv.returnWeight,
+                returnUomValue: orderInv.returnUomValue,
                 status: orderInv.status
               }
             } else {
-              const { batchId, product, packingType, returnQty, returnWeight } = orderInv
+              const { batchId, product, packingType, returnQty, returnUomValue } = orderInv
               const productName: string = product.name
               const { productIdRef } = await getProductId(roBizId, productName)
-              const { qty, weight } = await getAvailableAmount(roBizId, productIdRef, batchId, packingType)
+              const { qty, uomValue } = await getAvailableAmount(roBizId, productIdRef, batchId, packingType)
 
               return {
                 batchId,
@@ -79,9 +79,9 @@ export const returnOrderDetailResolver = {
                 productName,
                 packingType,
                 qty,
-                weight,
+                uomValue,
                 returnQty,
-                returnWeight
+                returnUomValue
               }
             }
           })
@@ -105,12 +105,12 @@ async function getAvailableAmount(
   productIdRef: string,
   batchId: string,
   packingType: string
-): Promise<{ qty: number; weight: number }> {
+): Promise<{ qty: number; uomValue: number }> {
   const result: any[] = await getRepository(Inventory).query(`
     WITH oi as (
       SELECT
         SUM(oi.return_qty) as return_qty,
-        SUM(oi.return_weight) as return_weight,
+        SUM(oi.return_uom_value) as return_uom_value,
         oi.batch_id,
         p.name as product_name,
         oi.packing_type
@@ -133,7 +133,7 @@ async function getAvailableAmount(
     )
     SELECT
       SUM(COALESCE(i.qty, 0)) - SUM(COALESCE(i.locked_qty, 0)) - MAX(COALESCE(oi.return_qty, 0)) as "qty",
-      SUM(COALESCE(i.weight, 0)) - SUM(COALESCE(i.locked_weight, 0)) - MAX(COALESCE(oi.return_weight, 0)) as "weight"
+      SUM(COALESCE(i.uom_value, 0)) - SUM(COALESCE(i.locked_uom_value, 0)) - MAX(COALESCE(oi.return_uom_value, 0)) as "uomValue"
     FROM
       inventories i
       LEFT JOIN products p on i.product_id = p.id
@@ -153,11 +153,11 @@ async function getAvailableAmount(
   `)
 
   let qty: number = 0
-  let weight: number = 0
+  let uomValue: number = 0
   if (result?.length) {
     qty = result[0].qty
-    weight = result[0].weight
+    uomValue = result[0].uomValue
   }
 
-  return { qty, weight }
+  return { qty, uomValue }
 }

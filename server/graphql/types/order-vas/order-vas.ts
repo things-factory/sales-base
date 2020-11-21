@@ -13,6 +13,7 @@ export const OrderVas = gql`
     otherTarget: String
     qty: Int
     weight: Float
+    uomValue: Float
     batchId: String
     productName: String
     packingType: String
