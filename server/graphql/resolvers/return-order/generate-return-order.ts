@@ -39,6 +39,7 @@ export const generateReturnOrder = {
         newOrderInv.status = ORDER_INVENTORY_STATUS.PENDING
         newOrderInv.name = OrderNoGenerator.orderInventory()
         newOrderInv.returnOrder = createdReturnOrder
+        newOrderInv.remark = oi.remark
         newOrderInv.product = await trxMgr.getRepository(Product).findOne(oi.product.id)
         newOrderInv.creator = user
         newOrderInv.updater = user

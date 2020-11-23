@@ -22,6 +22,7 @@ export const InventoryInfos = gql`
     returnUomValue: Float
     inventoryName: String
     location: Location
+    remark: String
     status: String
   }
 `

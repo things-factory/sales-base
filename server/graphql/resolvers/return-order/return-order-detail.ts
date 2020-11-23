@@ -65,6 +65,7 @@ export const returnOrderDetailResolver = {
                 uomValue: inventory.uomValue,
                 returnQty: orderInv.returnQty,
                 returnUomValue: orderInv.returnUomValue,
+                remark: orderInv.remark,
                 status: orderInv.status
               }
             } else {
