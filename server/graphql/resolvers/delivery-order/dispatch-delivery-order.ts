@@ -24,11 +24,17 @@ export const dispatchDeliveryOrder = {
           relations: ['inventory', 'inventory.product', 'inventory.reusablePallet']
         })
 
-        orderInventories = orderInventories.map((orderInventory: OrderInventory)=> {
+        orderInventories = orderInventories.map((orderInventory: OrderInventory) => {
           const inventory: Inventory = orderInventory.inventory
           const product: Product = inventory.product
-          const foundItem = inventory.reusablePallet ? orderItems.filter((item: any) => item.productName === `${product.name} (${product.description})` && item.pallet === inventory.reusablePallet.name) : orderItems.filter((item: any) => item.productName === `${product.name} (${product.description})`)
-          
+          const foundItem = inventory.reusablePallet
+            ? orderItems.filter(
+                (item: any) =>
+                  item.productName === `${product.name} (${product.description})` &&
+                  item.pallet === inventory.reusablePallet.name
+              )
+            : orderItems.filter((item: any) => item.productName === `${product.name} (${product.description})`)
+
           if (foundItem[0].remark !== '') orderInventory.remark = foundItem[0].remark
           return orderInventory
         })
