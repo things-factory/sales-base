@@ -71,6 +71,7 @@ export const releaseGoodDetailResolver = {
                 packingType: inventory.packingType,
                 location: inventory.location,
                 qty: inventory.qty,
+                uom: inventory.uom,
                 uomValue: inventory.uomValue,
                 releaseQty: orderInv.releaseQty,
                 releaseUomValue: orderInv.releaseUomValue,
@@ -80,7 +81,7 @@ export const releaseGoodDetailResolver = {
               const { batchId, product, packingType, releaseQty, releaseUomValue } = orderInv
               const productName: string = product.name
               const { productIdRef } = await getProductId(roBizId, productName)
-              const { qty, uomValue } = await getAvailableAmount(roBizId, productIdRef, batchId, packingType)
+              const { qty, uomValue, uom } = await getAvailableAmount(roBizId, productIdRef, batchId, packingType)
 
               return {
                 batchId,
@@ -88,6 +89,7 @@ export const releaseGoodDetailResolver = {
                 productName,
                 packingType,
                 qty,
+                uom,
                 uomValue,
                 releaseQty,
                 releaseUomValue
@@ -152,7 +154,7 @@ async function getAvailableAmount(
   productIdRef: string,
   batchId: string,
   packingType: string
-): Promise<{ qty: number; uomValue: number }> {
+): Promise<{ qty: number; uomValue: number, uom: string }> {
   const result: any[] = await getRepository(Inventory).query(`
     WITH oi as (
       SELECT
@@ -181,7 +183,8 @@ async function getAvailableAmount(
     )
     SELECT
       SUM(COALESCE(i.qty, 0)) - SUM(COALESCE(i.locked_qty, 0)) - MAX(COALESCE(oi.release_qty, 0)) as "qty",
-      SUM(COALESCE(i.uom_value, 0)) - SUM(COALESCE(i.locked_uom_value, 0)) - MAX(COALESCE(oi.release_uom_value, 0)) as "uom_value"
+      SUM(COALESCE(i.uom_value, 0)) - SUM(COALESCE(i.locked_uom_value, 0)) - MAX(COALESCE(oi.release_uom_value, 0)) as "uom_value",
+      uom
     FROM
       inventories i
       LEFT JOIN products p on i.product_id = p.id
@@ -197,15 +200,18 @@ async function getAvailableAmount(
     GROUP BY
       i.batch_id,
       p.id,
-      i.packing_type
+      i.packing_type,
+      i.uom
   `)
 
   let qty: number = 0
   let uomValue: number = 0
+  let uom: string = ''
   if (result?.length) {
     qty = result[0].qty
     uomValue = result[0].uom_value
+    uom = result[0].uom
   }
 
-  return { qty, uomValue }
+  return { qty, uomValue, uom }
 }

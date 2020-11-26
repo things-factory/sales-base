@@ -57,7 +57,8 @@ export const inventoriesByOrderResolver = {
           id: item.inventory.id,
           releaseGoodName: item.releaseGood.name,
           productId: item.product.id,
-          productName: item.product.name
+          productName: item.product.name,
+          releaseUomValueWithUom: Math.round(item.releaseUomValue).toFixed(2) + ' ' + item.inventory.uom 
         }
       })
 
