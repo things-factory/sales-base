@@ -63,6 +63,7 @@ export const returnOrderDetailResolver = {
                 location: inventory.location,
                 qty: inventory.qty,
                 uomValue: inventory.uomValue,
+                uom: inventory.uom,
                 returnQty: orderInv.returnQty,
                 returnUomValue: orderInv.returnUomValue,
                 remark: orderInv.remark,
@@ -72,7 +73,7 @@ export const returnOrderDetailResolver = {
               const { batchId, product, packingType, returnQty, returnUomValue } = orderInv
               const productName: string = product.name
               const { productIdRef } = await getProductId(roBizId, productName)
-              const { qty, uomValue } = await getAvailableAmount(roBizId, productIdRef, batchId, packingType)
+              const { qty, uomValue, uom } = await getAvailableAmount(roBizId, productIdRef, batchId, packingType)
 
               return {
                 batchId,
@@ -82,7 +83,8 @@ export const returnOrderDetailResolver = {
                 qty,
                 uomValue,
                 returnQty,
-                returnUomValue
+                returnUomValue,
+                uom
               }
             }
           })
@@ -106,7 +108,7 @@ async function getAvailableAmount(
   productIdRef: string,
   batchId: string,
   packingType: string
-): Promise<{ qty: number; uomValue: number }> {
+): Promise<{ qty: number; uomValue: number, uom: string }> {
   const result: any[] = await getRepository(Inventory).query(`
     WITH oi as (
       SELECT
@@ -135,6 +137,7 @@ async function getAvailableAmount(
     SELECT
       SUM(COALESCE(i.qty, 0)) - SUM(COALESCE(i.locked_qty, 0)) - MAX(COALESCE(oi.return_qty, 0)) as "qty",
       SUM(COALESCE(i.uom_value, 0)) - SUM(COALESCE(i.locked_uom_value, 0)) - MAX(COALESCE(oi.return_uom_value, 0)) as "uomValue"
+      uom
     FROM
       inventories i
       LEFT JOIN products p on i.product_id = p.id
@@ -150,15 +153,18 @@ async function getAvailableAmount(
     GROUP BY
       i.batch_id,
       p.id,
-      i.packing_type
+      i.packing_type,
+      i.uom
   `)
 
   let qty: number = 0
   let uomValue: number = 0
+  let uom: string = ''
   if (result?.length) {
     qty = result[0].qty
     uomValue = result[0].uomValue
+    uom = result[0].uom
   }
 
-  return { qty, uomValue }
+  return { qty, uomValue, uom }
 }
